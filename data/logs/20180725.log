@@ -1,0 +1,347 @@
+2018-07-25 10:16:31 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1eEU-_Wj71mId9zuP1n09Z4]]></FromUserName>
+<CreateTime>1532484991</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2018-07-25 10:16:31 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1eEU-_Wj71mId9zuP1n09Z4',
+    'createtime' => '1532484991',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'o_9en1eEU-_Wj71mId9zuP1n09Z4',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1532484991',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+  ),
+)
+
+2018-07-25 10:16:31 response :
+------------
+
+2018-07-25 10:16:40 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1eEU-_Wj71mId9zuP1n09Z4]]></FromUserName>
+<CreateTime>1532485000</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700600</MenuId>
+</xml>
+
+2018-07-25 10:16:40 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1eEU-_Wj71mId9zuP1n09Z4',
+    'createtime' => '1532485000',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700600',
+    'from' => 'o_9en1eEU-_Wj71mId9zuP1n09Z4',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1532485000',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-25 10:16:40 response :
+------------
+
+2018-07-25 12:12:02 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 12:12:18 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 12:12:33 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 12:12:39 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1eEU-_Wj71mId9zuP1n09Z4]]></FromUserName>
+<CreateTime>1532491959</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700600</MenuId>
+</xml>
+
+2018-07-25 12:12:39 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1eEU-_Wj71mId9zuP1n09Z4',
+    'createtime' => '1532491959',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700600',
+    'from' => 'o_9en1eEU-_Wj71mId9zuP1n09Z4',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1532491959',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-25 12:12:39 response :
+------------
+
+2018-07-25 12:13:04 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 12:16:06 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 12:46:07 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 13:16:10 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 13:46:11 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 14:16:13 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+
+2018-07-25 15:16:15 pay :
+------------
+String:
+array (
+  'appid' => 'wx9241805d0941598b',
+  'attach' => '2',
+  'bank_type' => 'CFT',
+  'cash_fee' => '6',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1502311021',
+  'nonce_str' => 'jB91eLtF',
+  'openid' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+  'out_trade_no' => '2018072512115600001362788095',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '112760DC49BDF58A075EF1624612DD51',
+  'time_end' => '20180725121201',
+  'total_fee' => '6',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000128201807259229634294',
+)
+

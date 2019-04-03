@@ -1,0 +1,135 @@
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link data-turbolinks-track="true" href="../addons/weisrc_dish/template//mobile/style1/assets/diandanbao/weixin.css?v=2" media="all" rel="stylesheet">
+</head>
+<style type="text/css">
+	body{
+		background: #f0f0f0;
+	}
+	.df{
+		display: flex;
+	}
+	.aic{
+		align-items: center;
+	}
+	.jcc{
+		justify-content: space-between;
+	}
+	.ml10{
+		margin-left: 10px;
+	}
+	.chongzhi_{
+		width: 100%;
+		padding:0 10px 15px; 
+		margin: 0 auto;
+		text-align: center;
+		background: #FFF;
+	}
+	.cz_tit{
+		font-size: 14px;
+		color: #666;
+		margin-bottom: 10px ;
+		padding: 10px 0;
+		text-align: left;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.cz_btn{
+		width: 50%;
+		margin: 20px auto;
+		background: orange;
+		font-size: 14px;
+	    color: #fff;
+	    border: 0;
+	    border-radius: 5px;
+	    padding: 5px 0;
+	}
+	.ddb-nav-header {
+	    opacity: .95;
+	    top: 0;
+	    width: 100%;
+	    height: 45px;
+	    line-height: 44px;
+	    z-index: 1999;
+	    background-color: #3190e8;
+	    color: #fff;
+	}
+	.cz_you{
+		text-align: right;
+		border: 0;
+		margin-right: 5px;
+	}
+	.hideBox{
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		width: 150px;
+		height: 50px;
+		line-height: 50px;
+		background-color: #000;
+		color: #fff;
+		
+	}
+	.com-btn{
+		background-color: #428bca;
+		color: #fff;
+		padding: 5px 10px;
+		border-radius: 10px;
+	}
+	.mb15{
+		margin-bottom: 15px;
+		padding-bottom: 15px;
+	}
+</style>
+<body>
+	<div class="ddb-nav-header ng-scope" style="background-color: #3190e8;border-bottom: 1px solid #3190e8;">
+        <div class="nav-left-item" onclick="javascript :history.back(-1);"><i class="fa fa-angle-left"></i></div>
+        <div class="header-title ng-binding">会员充值</div>
+    </div>
+	<div class="chongzhi_ ">
+
+		<form id="chongzhi">
+			{if $arr == 1}
+			<div class="cz_tit df jcc" >
+				<span>充值额度：</span>
+				<div>
+					<input id="cz_you" class="cz_you ml10" type="number" name="" value="" placeholder="">
+					<span>{$limit}元</span><br>
+					
+				</div>
+
+			</div>
+			<div class="mb15">
+				<span style="color:red">充值{$limit}元，每笔订单即可享受{$limit_discount}折，有效使用期间：充值后30天内</span>
+			</div>
+				{if $arrs == 1}
+					<div>
+						<a class="btn btn-default btn-sm pay com-btn"  href="{php echo $this->createMobileUrl('mymember',array('op' => 'pay'))}">确认充值</a>
+					</div>
+				{else}
+					<div class="hideBox">您已充值</div>
+					<div>到期日期：{$huiyuan_ka['endtime']}</div>
+				{/if}
+			{/if}
+		</form>
+	</div>
+	<!-- <script type="text/javascript">
+		console.log(3)
+		var cz_you = document.getElementById("cz_you");
+		console.log(2)
+		cz_you.oninput = function(){
+			// body...
+			// console.log(1)
+			if(this.value > {$limit}){
+				this.value = {$limit}
+			}
+		}
+		
+		function confirmorder() {
+        var url = "{php echo $this->createMobileUrl('pay', array('orderid' => $order['id']), true)}";
+        window.location.href = url;
+        console.log(111)
+    }
+	</script> -->
+</body>

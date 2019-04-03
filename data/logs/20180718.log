@@ -1,0 +1,80 @@
+2018-07-18 15:57:22 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1531900641</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700600</MenuId>
+</xml>
+
+2018-07-18 15:57:22 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1531900641',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700600',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1531900641',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-18 15:57:22 response :
+------------
+
+2018-07-18 16:02:03 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1531900923</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700600</MenuId>
+</xml>
+
+2018-07-18 16:02:03 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1531900923',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700600',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1531900923',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-18 16:02:03 response :
+------------
+

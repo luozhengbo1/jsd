@@ -1,0 +1,440 @@
+2018-07-04 17:16:47 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1530695807</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438413748</MenuId>
+</xml>
+
+2018-07-04 17:16:47 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1530695807',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438413748',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530695807',
+    'type' => 'text',
+    'content' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:16:47 response :
+------------
+
+2018-07-04 17:44:12 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1530697452</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438413748</MenuId>
+</xml>
+
+2018-07-04 17:44:12 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1530697452',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438413748',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697452',
+    'type' => 'text',
+    'content' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:44:12 response :
+------------
+
+2018-07-04 17:46:40 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1530697600</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://xcx.gogcun.cn/web/store.php?c=user&a=login&]]></EventKey>
+<MenuId>438413748</MenuId>
+</xml>
+
+2018-07-04 17:46:40 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1530697600',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://xcx.gogcun.cn/web/store.php?c=user&a=login&',
+    'menuid' => '438413748',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697600',
+    'type' => 'text',
+    'content' => 'https://xcx.gogcun.cn/web/store.php?c=user&a=login&',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:46:40 response :
+------------
+
+2018-07-04 17:46:47 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1530697607</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=adminorder]]></EventKey>
+<MenuId>438413748</MenuId>
+</xml>
+
+2018-07-04 17:46:47 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1530697607',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=adminorder',
+    'menuid' => '438413748',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697607',
+    'type' => 'text',
+    'content' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=adminorder',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:46:47 response :
+------------
+
+2018-07-04 17:46:50 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1530697610</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://xcx.gogcun.cn/web/store.php?c=user&a=login&]]></EventKey>
+<MenuId>438413748</MenuId>
+</xml>
+
+2018-07-04 17:46:50 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1530697610',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://xcx.gogcun.cn/web/store.php?c=user&a=login&',
+    'menuid' => '438413748',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697610',
+    'type' => 'text',
+    'content' => 'https://xcx.gogcun.cn/web/store.php?c=user&a=login&',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:46:50 response :
+------------
+
+2018-07-04 17:48:52 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1YblehMu64n_oGQpIOAOV6s]]></FromUserName>
+<CreateTime>1530697732</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://xcx.gogcun.cn/web/store.php?c=user&a=login&]]></EventKey>
+<MenuId>438700546</MenuId>
+</xml>
+
+2018-07-04 17:48:52 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'createtime' => '1530697732',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://xcx.gogcun.cn/web/store.php?c=user&a=login&',
+    'menuid' => '438700546',
+    'from' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697732',
+    'type' => 'text',
+    'content' => 'https://xcx.gogcun.cn/web/store.php?c=user&a=login&',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:48:52 response :
+------------
+
+2018-07-04 17:48:59 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1YblehMu64n_oGQpIOAOV6s]]></FromUserName>
+<CreateTime>1530697739</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=adminorder]]></EventKey>
+<MenuId>438700546</MenuId>
+</xml>
+
+2018-07-04 17:48:59 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'createtime' => '1530697739',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=adminorder',
+    'menuid' => '438700546',
+    'from' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697739',
+    'type' => 'text',
+    'content' => 'https://xcx.gogcun.cn/app/index.php?i=8&c=entry&m=weisrc_dish&do=adminorder',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:48:59 response :
+------------
+
+2018-07-04 17:49:02 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1YblehMu64n_oGQpIOAOV6s]]></FromUserName>
+<CreateTime>1530697742</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700546</MenuId>
+</xml>
+
+2018-07-04 17:49:02 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'createtime' => '1530697742',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700546',
+    'from' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697742',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:49:02 response :
+------------
+
+2018-07-04 17:50:55 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1YblehMu64n_oGQpIOAOV6s]]></FromUserName>
+<CreateTime>1530697854</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700546</MenuId>
+</xml>
+
+2018-07-04 17:50:55 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'createtime' => '1530697854',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700546',
+    'from' => 'o_9en1YblehMu64n_oGQpIOAOV6s',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697854',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:50:55 response :
+------------
+
+2018-07-04 17:52:45 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1530697964</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700600</MenuId>
+</xml>
+
+2018-07-04 17:52:45 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1530697964',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700600',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530697964',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 17:52:45 response :
+------------
+
+2018-07-04 18:12:41 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_87d3aa6f8800]]></ToUserName>
+<FromUserName><![CDATA[o_9en1WHtMOeM_AA32AK-PePmwcc]]></FromUserName>
+<CreateTime>1530699160</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index]]></EventKey>
+<MenuId>438700600</MenuId>
+</xml>
+
+2018-07-04 18:12:41 params :
+------------
+String:
+array (
+  'rule' => -2,
+  'module' => '',
+  'message' => 
+  array (
+    'tousername' => 'gh_87d3aa6f8800',
+    'fromusername' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'createtime' => '1530699160',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'menuid' => '438700600',
+    'from' => 'o_9en1WHtMOeM_AA32AK-PePmwcc',
+    'to' => 'gh_87d3aa6f8800',
+    'time' => '1530699160',
+    'type' => 'text',
+    'content' => 'https://jsd.gogcun.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=index',
+    'redirection' => true,
+    'source' => 'VIEW',
+  ),
+)
+
+2018-07-04 18:12:41 response :
+------------
+
