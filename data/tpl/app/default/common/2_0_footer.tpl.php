@@ -120,5 +120,5 @@
 	
 		<script type="text/javascript" src="<?php  echo $_W['siteroot'];?>app/index.php?i=<?php  echo $_W['uniacid'];?>&c=utility&a=visit&do=showjs&m=<?php  echo $_W['current_module']['name'];?>"></script>
 	
-<script>;</script><script type="text/javascript" src="http://jsd.vgogbuy.cn/app/index.php?i=2&c=utility&a=visit&do=showjs&m=weisrc_dish"></script></body>
+<script>;</script><script type="text/javascript" src="http://jsd.vgogbuy.cn/app/index.php?i=2&c=utility&a=visit&do=showjs&m="></script></body>
 </html>

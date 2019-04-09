@@ -64,6 +64,7 @@ if ($operation == 'display') {
     $coupon_count3 = pdo_fetchcolumn("SELECT COUNT(1) FROM " . tablename($this->table_coupon) . " WHERE type = 3 AND type<>4 AND weid=:weid AND storeid={$storeid} ", array(':weid' => $weid));
 } else if ($operation == 'post') {
     $id = intval($_GPC['id']);
+
     $reply = pdo_fetch("select * from " . tablename($this->table_coupon) . " where id = :id AND weid=:weid
             LIMIT 1", array(':id' => $id, ':weid' => $weid));
 
@@ -111,7 +112,8 @@ if ($operation == 'display') {
             'type' => intval($_GPC['type']),
             'dcredit' => intval($_GPC['dcredit']),
             'attr_type' => 1,
-            // 'goodsids' => $goodsid,
+            //该字段预定优惠券指定特定商品
+//             'goodsids' => $goodsid,
             'gmoney' => floatval($_GPC['gmoney']),
             'dmoney' => floatval($_GPC['dmoney']),
             'starttime' => strtotime($_GPC['datelimit']['start']),
@@ -315,5 +317,5 @@ lasttime DESC,id DESC ", array(':weid' => $weid, ':storeid' => $storeid, ':time'
     }
     $this->message("操作成功！共发放{$rowcount}张优惠券!", '', 0);
 }
-
+//var_dump($goodsids);
 include $this->template('web/coupon');

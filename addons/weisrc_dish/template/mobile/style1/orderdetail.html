@@ -686,16 +686,20 @@
         var url = "{php echo $this->createMobileUrl('cancelorder', array('id' => $order['id']), true)}";
         if (confirm("确认取消吗?")) {
             $.ajax({
-                url: url, type: "post", dataType: "json", timeout: "10000",
+                url: url, type: "post", dataType: "json",
+                timeout: "10000",
                 data: {
                 },
                 success: function (data) {
                     if (data.status == 1) {
-                        location.href='{php echo $this->createMobileUrl('order', array(), true)}';
+                        location.href="{php echo $this->createMobileUrl('order', array(), true)}";
                     } else {
                         alert(data.msg);
                     }
-                },error: function () {
+                },error: function (res,b,c) {
+                    // console.log(res)
+                    // console.log(b)
+                    // console.log(c)
                     alert("网络不稳定，请重新尝试!");
                 }
             });

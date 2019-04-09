@@ -195,6 +195,7 @@ function wechat_build($params, $wechat) {
 			$wOpt['code_url'] = strval($code_url);
 		}
 		ksort($wOpt, SORT_STRING);
+        $string='';
 		foreach($wOpt as $key => $v) {
 			$string .= "{$key}={$v}&";
 		}

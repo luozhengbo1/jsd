@@ -370,7 +370,9 @@ if ($store['is_delivery_time'] == 1) { //特殊时段加价
 if($psnum == 2){//邮递
     $dispatchprice = 0;
 }
-//echo $totalprice;die;
+//echo "<pre>";
+//print_r($storeid);
+//print_r($couponlist);die;
 $share_title = !empty($setting['share_title']) ? str_replace("#username#", $nickname, $setting['share_title']) : "您的朋友{$nickname}邀请您来吃饭";
 $share_desc = !empty($setting['share_desc']) ? str_replace("#username#", $nickname, $setting['share_desc']) : "最新潮玩法，快来试试！";
 $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']) : tomedia("../addons/weisrc_dish/icon.jpg");

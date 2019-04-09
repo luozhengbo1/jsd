@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="<?php  echo $this->cur_mobile_path?>/css/order-new.css?v=8"/>
     <link rel="stylesheet" type="text/css" href="<?php  echo $this->cur_mobile_path?>/css/fakeLoader.css">
     <script src="<?php  echo $this->cur_mobile_path?>/script/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=qen1OGw9ddzoDQrTX35gote2&v=2.0&services=false"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&v=2.0&services=false"></script>
     <link rel="stylesheet" href="<?php  echo $this->cur_mobile_path?>/mvalidate/validate.css" />
     <script type="text/javascript" src="<?php  echo $this->cur_mobile_path?>/mvalidate/jquery-mvalidate.js" ></script>
     <?php  $style_list_base = $setting['style_list_base'];?>
@@ -455,7 +455,7 @@
 							是否按距离收费-<?php  echo $store['is_delivery_distance'];?><br/>
 							距离-<?php  echo $distance;?><br/>
 							配送距离（商家设置）-<?php  echo $delivery_radius;?><br/>
-							配送-<?php  echo $psnum;?><br/>
+							配送-<?php  echo $psnum;?><br/> ==2 邮递
 							选购商品配送方式-<?php  echo $send_way;?><br/>
                             </div> -->
                             <?php  if($mode==1 && $is_tea_money == 1) { ?>
@@ -1120,9 +1120,9 @@ $(document).ready(function(e) {
                     "couponid": couponid
                 },
                 success: function (data) {
-                    console.log(data.gmoney)
+                    console.log(data)
                     var gmoney = data.gmoney;
-                    if(totalM - gmoney >= 0){
+                    if(totalM - gmoney >= 0 ){
                         $('#dprice').val(data.dprice);//优惠金额
                         
                     }else{

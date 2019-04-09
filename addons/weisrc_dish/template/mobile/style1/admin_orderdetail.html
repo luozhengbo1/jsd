@@ -465,7 +465,7 @@
             window.location.href = url;
         }
     }
-
+    //改价请求方法
     function updatepriceorder() {
         remark = $("#remark").val();
         totalprice = parseFloat($("#totalprice").val());
@@ -475,7 +475,6 @@
         console.log(t);
         console.log('aaaa');
         window.scrollTo(0,t);
-
 
         if (confirm(`确定修改总价为${totalprice}元？`)) {
             var url = "{php echo $this->createMobileUrl('setadminorder', array('orderid' => $order['id'], 'status' => 'updateprice'), true)}" + '&totalprice=' + totalprice + '&remark=' + remark;

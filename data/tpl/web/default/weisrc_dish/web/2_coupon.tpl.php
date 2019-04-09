@@ -290,7 +290,7 @@
                                 size="10">
                             <option value="0" <?php  if(count($goodsids)==0) { ?>selected="selected"<?php  } ?>>全部商品</option>
                             <?php  if(is_array($goodslist)) { foreach($goodslist as $row) { ?>
-                            <option value="<?php  echo $row['id'];?>" <?php  if(count($goodsids)>0 && in_array($row['id'], $goodsids)) { ?>
+                            <option value="<?php  echo $row['id'];?>"  <?php  if(count($goodsids)>0 && in_array($row['id'], $goodsids)) { ?>
                                 selected="selected"<?php  } ?>><?php  echo $row['title'];?></option>
                             <?php  } } ?>
                         </select>

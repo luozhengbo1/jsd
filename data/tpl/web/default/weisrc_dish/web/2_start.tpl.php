@@ -72,7 +72,7 @@
                 <div class="ibox-content">
                     <h1 class="no-margins"><?php  if(!empty($online_todayprice)) { ?><?php  echo $online_todayprice;?><?php  } else { ?>0<?php  } ?>元</h1>
 
-                    <div class="stat-percent font-bold text-danger"><?php  if(!empty($online_todayprice)) { ?><?php  echo sprintf('%.2f', $online_todayprice/$online_totalprice);?>%<?php  } else { ?>0.00%<?php  } ?><i
+                    <div class="stat-percent font-bold text-danger"><?php  if(!empty($online_todayprice)) { ?><?php echo $online_totalprice?sprintf('%.2f', $online_todayprice/$online_totalprice):0;?>%<?php  } else { ?>0.00%<?php  } ?><i
                                 class="fa fa-bolt"></i>
                     </div>
                     <small>占总收入</small>

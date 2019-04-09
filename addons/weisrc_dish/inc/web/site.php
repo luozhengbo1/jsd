@@ -5812,7 +5812,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                         $this->doDada($order['weid'], $orderid, $storeid);//新增
                     }
                     pdo_update($this->table_order, $data, array('id' => $orderid));
-
                     $user = $this->getFansByOpenid($order['from_user']);
                     $touser = empty($user['nickname']) ? $user['from_user'] : $user['nickname'];
                     $this->addOrderLog($orderid, $touser, 1, 1, 2);
@@ -5949,7 +5948,9 @@ storeid=".$order['storeid'].") ";
                             }
                         }
                         //门店提醒
-                        $accounts = pdo_fetchall("SELECT * FROM " . tablename($this->table_account) . " WHERE weid = :weid AND storeid=:storeid AND status=2 AND is_notice_order=1 ORDER BY id DESC ", array(':weid' => $this->_weid, ':storeid' => $storeid));
+                        $fileds ='DISTINCT from_user, id, weid, storeid, uid, accountname, password, salt, pwd, mobile, email, username, pay_account, displayorder, dateline, status, role, lastvisit, lastip, areaid, is_admin_order, is_notice_order, is_notice_queue, is_notice_service, is_notice_boss, lat, lng, remark';
+                        $accounts = pdo_fetchall("SELECT {$fileds} FROM " . tablename($this->table_account) . " WHERE weid = :weid AND storeid=:storeid AND status=2 AND is_notice_order=1 ORDER BY id DESC ", array(':weid' => $this->_weid, ':storeid' => $storeid));
+//                        $accounts = pdo_fetchall("SELECT * FROM " . tablename($this->table_account) . " WHERE weid = :weid AND storeid=:storeid AND status=2 AND is_notice_order=1 ORDER BY id DESC ", array(':weid' => $this->_weid, ':storeid' => $storeid));
                         foreach ($accounts as $key => $value) {
                             if (!empty($value['from_user'])) {
                                 $this->sendAdminOrderNotice($orderid, $value['from_user'], $setting);

@@ -1,0 +1,542 @@
+2019-04-09 11:22:10 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554780130</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=adminorder]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-09 11:22:10 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554780130',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=adminorder',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554780130',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=adminorder',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 11:22:10 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-09 11:22:32 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554780152</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=3]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-09 11:22:32 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554780152',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=3',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554780152',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=3',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 11:22:32 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-09 11:22:38 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554780158</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-09 11:22:38 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554780158',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554780158',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 11:22:38 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-09 11:43:14 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554781394</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-09 11:43:14 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554781394',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554781394',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 11:43:14 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-09 11:44:53 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554781493</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-09 11:44:53 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554781493',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554781493',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 11:44:53 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-09 11:45:05 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554781505</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-09 11:45:05 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554781505',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554781505',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 11:45:05 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-09 12:19:44 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD0_0T3gY0XtSpzUeOotkVIuU]]></FromUserName>
+<CreateTime>1554783584</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-09 12:19:49 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD0_0T3gY0XtSpzUeOotkVIuU]]></FromUserName>
+<CreateTime>1554783584</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-09 12:20:37 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD0_0T3gY0XtSpzUeOotkVIuU',
+    'createtime' => '1554783584',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD0_0T3gY0XtSpzUeOotkVIuU',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554783584',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 12:20:37 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD0_0T3gY0XtSpzUeOotkVIuU ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-09 12:20:49 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD0_0T3gY0XtSpzUeOotkVIuU',
+    'createtime' => '1554783584',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD0_0T3gY0XtSpzUeOotkVIuU',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554783584',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-09 12:20:49 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD0_0T3gY0XtSpzUeOotkVIuU ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+

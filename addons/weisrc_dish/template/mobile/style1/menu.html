@@ -1121,9 +1121,9 @@ $(document).ready(function(e) {
                     "couponid": couponid
                 },
                 success: function (data) {
-                    console.log(data.gmoney)
+                    console.log(data)
                     var gmoney = data.gmoney;
-                    if(totalM - gmoney >= 0){
+                    if(totalM - gmoney >= 0 ){
                         $('#dprice').val(data.dprice);//优惠金额
                         
                     }else{

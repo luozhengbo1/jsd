@@ -292,7 +292,7 @@
                                 size="10">
                             <option value="0" {if count($goodsids)==0}selected="selected"{/if}>全部商品</option>
                             {loop $goodslist $row}
-                            <option value="{$row['id']}" {if count($goodsids)>0 && in_array($row['id'], $goodsids)}
+                            <option value="{$row['id']}"  {if count($goodsids)>0 && in_array($row['id'], $goodsids)}
                                 selected="selected"{/if}>{$row['title']}</option>
                             {/loop}
                         </select>

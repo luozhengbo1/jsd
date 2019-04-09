@@ -49,12 +49,11 @@ if(!empty($log) && $log['status'] != '0') {
 	exit('这个订单已经支付成功, 不需要重复支付.');
 }
 $auth = sha1($sl . $log['uniacid'] . $_W['config']['setting']['authkey']);
+
 if($auth != $_GPC['auth']) {
 	exit('参数传输错误.');
 }
-
 $setting = uni_setting($_W['uniacid'], array('payment'));
-
 if (!empty($_GPC['code'])) {
 	$proxy_pay_account = payment_proxy_pay_account();
 	$oauth = $proxy_pay_account->getOauthInfo($_GPC['code']);
@@ -86,7 +85,7 @@ $params = array(
 if (intval($wechat['switch']) == 3 || intval($wechat['switch']) == 2) {
 	$wOpt = wechat_proxy_build($params, $wechat);
 } else {
-	unset($wechat['sub_mch_id']);
+    unset($wechat['sub_mch_id']);
 	$wOpt = wechat_build($params, $wechat);
 }
 //var_dump($log);die;

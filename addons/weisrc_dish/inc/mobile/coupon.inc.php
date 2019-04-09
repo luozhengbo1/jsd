@@ -1,4 +1,5 @@
 <?php
+//优惠券页面渲染
 global $_W, $_GPC;
 $weid = $this->_weid;
 $from_user = $this->_fromuser;

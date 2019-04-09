@@ -146,6 +146,7 @@ if ($operation == 'post') {
         }
 
         //增加
+        $optionids= [];
         if (is_array($_GPC['optiontitle'])) {
             foreach ($_GPC['optiontitle'] as $nid => $val) {
                 $optiontitle = trim($_GPC['optiontitle'][$nid]);
@@ -169,7 +170,10 @@ if ($operation == 'post') {
                 $optionids[] = $did;
             }
         }
-        $optionids = @implode(',', array_unique($optionids));
+        //新增
+        if($optionids){
+            $optionids = implode(',', array_unique($optionids));
+        }
         if (!empty($optionids) ) {
             pdo_query('delete from ' . tablename('weisrc_dish_goods_option') . " where goodsid = :goodsid and id not in ({$optionids})", array(':goodsid' => $id));
         }

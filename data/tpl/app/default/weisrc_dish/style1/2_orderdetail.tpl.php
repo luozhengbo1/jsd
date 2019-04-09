@@ -12,7 +12,8 @@
     <title><?php  echo $setting['title'];?></title>
     <link data-turbolinks-track="true" href="<?php echo RES;?>/mobile/<?php  echo $this->cur_tpl?>/assets/diandanbao/weixin.css?v=1" media="all" rel="stylesheet">
     <script src="<?php  echo $this->cur_mobile_path?>/script/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=qen1OGw9ddzoDQrTX35gote2&v=2.0&services=false"></script>
+<!--    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&v=2.0&services=false"></script>-->
+    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&v=2.0&services=false"></script>
     <style type="text/css">@media screen {
         .smnoscreen {
             display: none
@@ -685,16 +686,20 @@
         var url = "<?php  echo $this->createMobileUrl('cancelorder', array('id' => $order['id']), true)?>";
         if (confirm("确认取消吗?")) {
             $.ajax({
-                url: url, type: "post", dataType: "json", timeout: "10000",
+                url: url, type: "post", dataType: "json",
+                timeout: "10000",
                 data: {
                 },
                 success: function (data) {
                     if (data.status == 1) {
-                        location.href='<?php  echo $this->createMobileUrl('order', array(), true)?>';
+                        location.href="<?php  echo $this->createMobileUrl('order', array(), true)?>";
                     } else {
                         alert(data.msg);
                     }
-                },error: function () {
+                },error: function (res,b,c) {
+                    // console.log(res)
+                    // console.log(b)
+                    // console.log(c)
                     alert("网络不稳定，请重新尝试!");
                 }
             });
@@ -725,5 +730,5 @@
         }
     }
 </script>
-<script>;</script><script type="text/javascript" src="https://jsd.gogcun.cn/app/index.php?i=2&c=utility&a=visit&do=showjs&m=weisrc_dish"></script></body>
+<script>;</script><script type="text/javascript" src="http://jsd.vgogbuy.cn/app/index.php?i=2&c=utility&a=visit&do=showjs&m=weisrc_dish"></script></body>
 </html>
