@@ -630,9 +630,10 @@
                             'page': page
                         },
                         dataType: 'json',
-                        timeout: 3000,
+                        timeout: 30000,
                         context: $('body'),
                         success: function(data){
+                           console.log(data)
                             if (data == '0') {
                                 stop_track = true;
                             } else {
@@ -645,8 +646,11 @@
                                 loading = false;
                             }
                         },
-                        error: function (xhr) {
+                        error: function (xhr,a,b) {
                             alert('加载更多，请重试!');
+                            // console.log(xhr)
+                            // console.log(a)
+                            // console.log(b)
                         }
                     });
 //                }

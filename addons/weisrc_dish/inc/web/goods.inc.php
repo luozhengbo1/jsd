@@ -169,8 +169,8 @@ if ($operation == 'post') {
                 $optionids[] = $did;
             }
         }
-        $optionids = implode(',', array_unique($optionids));
-        if (!empty($optionids)) {
+        $optionids = @implode(',', array_unique($optionids));
+        if (!empty($optionids) ) {
             pdo_query('delete from ' . tablename('weisrc_dish_goods_option') . " where goodsid = :goodsid and id not in ({$optionids})", array(':goodsid' => $id));
         }
 

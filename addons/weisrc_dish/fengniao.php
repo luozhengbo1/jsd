@@ -18,11 +18,26 @@ class fengniao
         $this->SECRET_KEY = $key;
     }
 
+    /**
+     * @param $appId
+     * @param $salt
+     * @param $secretKey
+     * @return string
+     * desrcipt 常规签名
+     */
     function generateSign($appId, $salt, $secretKey) {
         $seed = 'app_id=' . $appId . '&salt=' . $salt . '&secret_key=' . $secretKey;
         return md5(urlencode($seed));
     }
 
+    /**
+     * @param $appId
+     * @param $token
+     * @param $urlencodeData
+     * @param $salt
+     * @return string
+     * 商户签名
+     */
     function generateBusinessSign($appId, $token, $urlencodeData, $salt) {
         $seed = 'app_id=' . $appId . '&access_token=' . $token
             . '&data=' . $urlencodeData . '&salt=' . $salt;
@@ -64,6 +79,10 @@ class fengniao
         echo $this->doPost($url, $requestJson) . PHP_EOL;   //发送请求
     }
 
+    /**
+     * @param $partner_order_code
+     * 订单查询
+     */
     public function queryQrder($partner_order_code)
     {
         $url = $this->API_URL . "/v2/order/query";
@@ -103,6 +122,10 @@ class fengniao
         echo $this->doPost($url, $requestJson) . PHP_EOL;   //发送请求
     }
 
+    /**
+     * @param $data
+     * 取消订单
+     */
     public function cancelQrder($data) {
 
         $url = $this->API_URL . "/v2/order/cancel";

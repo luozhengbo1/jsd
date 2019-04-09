@@ -25,7 +25,8 @@ $we7_system_menu['account'] = array(
 				),
 				'platform_menu' => array(
 					'title' => '自定义菜单',
-					'url' => url('platform/menu/post'),
+                    'url' => url('platform/menu/post'),
+//                    'url' => url('platform/menu/display'),
 					'icon' => 'wi wi-custommenu',
 					'permission_name' => 'platform_menu',
 				),

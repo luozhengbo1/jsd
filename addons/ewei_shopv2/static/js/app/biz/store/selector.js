@@ -1,4 +1,4 @@
-define(['core', 'tpl', 'https://api.map.baidu.com/getscript?v=2.0&ak=ZQiFErjQB7inrGpx27M1GR5w3TxZ64k7&services=&t=20170324173232'], function (core, tpl) {
+define(['core', 'tpl', 'https://api.map.baidu.com/getscript?v=2.0&ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&services=&t=20170324173232'], function (core, tpl) {
     var modal = {};
     modal.init = function () {
         window.HOST_TYPE = "2";

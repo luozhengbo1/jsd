@@ -4,6 +4,11 @@
  * WeEngine is NOT a free software, it under the license terms, visited http://www.we7.cc/ for more details.
  */
 defined('IN_IA') or exit('Access Denied');
+
+/**
+ * Class Pay
+ * 支付日志处理
+ */
 abstract class Pay {
 	public static function create($type = 'wechat') {
 		if($type == 'wechat') {

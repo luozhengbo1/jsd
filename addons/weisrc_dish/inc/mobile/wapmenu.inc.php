@@ -1,4 +1,5 @@
 <?php
+//确认订单页面
 global $_W, $_GPC;
 $weid = $this->_weid;
 $from_user = $this->_fromuser;
@@ -133,7 +134,7 @@ $setting = $this->getSetting();
 $cart = pdo_fetchall("SELECT * FROM " . tablename($this->table_cart) . " a LEFT JOIN " . tablename('weisrc_dish_goods') . " b ON a.goodsid=b.id WHERE
  a.weid=:weid AND a.from_user=:from_user AND a.storeid=:storeid AND total<>0", array(':weid' => $weid, ':from_user' =>
     $from_user, ':storeid' => $storeid));
-
+//打包费用
 $packvalue = 0;
 foreach ($cart as $key => $value) {
     if ($value['status'] == 0) {
@@ -310,10 +311,10 @@ if ($is_auto_address == 0 && $useraddress) { //多收餐地址 算距离
 $dispatchareas_pt =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_distance_pt') . " WHERE weid=:weid and begindistance<'{$distance}' and enddistance>'{$distance}' ORDER BY id ASC", array(':weid' => $weid));
 if(empty($dispatchareas_pt)){
     $dispatchareas_pt = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_distance_pt'). "where weid =:weid and enddistance < '{$distance}' order by enddistance desc ",array(':weid'=>$weid));
-    //var_dump($dispatchareas_pt);
 }
 $psf = $dispatchareas_pt['dispatchprice'];
-//var_dump($psf);exit();delivery_radius
+//var_dump($psf);exit();
+//delivery_radius
 if ($store['is_delivery_distance'] == 1) { //按距离收费
     if($psnum == 2){
         $dispatchprice = 0;
@@ -322,18 +323,20 @@ if ($store['is_delivery_distance'] == 1) { //按距离收费
             $over_radius = 1;
             
         }
+        //阶梯距离价格
         $distanceprice = $this->getdistanceprice($storeid, $distance);
 		//$distanceprice11 = $distanceprice;
 		//sjg 2018-09-09
-		if(empty($distanceprice) || $distanceprice['dispatchprice'] == 0)
-		{
+		if(empty($distanceprice) || $distanceprice['dispatchprice'] == 0) {
 			$dispatchprice = $psf;
-		}
-		else{
+        }else{
+//            var_dump(floatval($distanceprice['dispatchprice']));
+//            var_dump($psf);die;
 			$dispatchprice = floatval($distanceprice['dispatchprice'])-$psf;
-		}
+			#新增如果距离配送费小于商家配送费的时候需要修改
+//            $dispatchprice = ($dispatchprice<0)?0:$dispatchprice;
+        }
     }
-    
     if ($store['not_in_delivery_radius'] == 0) { //只能在距离范围内
         if ($distance > $delivery_radius) {
             $over_radius = 1;
@@ -348,6 +351,7 @@ if ($store['is_delivery_distance'] == 1) { //按距离收费
         //message('!');$this->createMobileUrl('useraddress', array('storeid' => $storeid, 'mode' => $mode, 'op' => 'display')
         //
     }
+
 } else {
 	if($psnum == 2){
 		$dispatchprice = 0;
@@ -366,7 +370,7 @@ if ($store['is_delivery_time'] == 1) { //特殊时段加价
 if($psnum == 2){//邮递
     $dispatchprice = 0;
 }
-
+//echo $totalprice;die;
 $share_title = !empty($setting['share_title']) ? str_replace("#username#", $nickname, $setting['share_title']) : "您的朋友{$nickname}邀请您来吃饭";
 $share_desc = !empty($setting['share_desc']) ? str_replace("#username#", $nickname, $setting['share_desc']) : "最新潮玩法，快来试试！";
 $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']) : tomedia("../addons/weisrc_dish/icon.jpg");

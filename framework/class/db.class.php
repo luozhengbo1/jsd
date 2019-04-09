@@ -6,6 +6,11 @@
 defined('IN_IA') or exit('Access Denied');
 define('PDO_DEBUG', true);
 
+/**
+ * Class DB
+ * 数据库处理类
+ */
+
 class DB {
 	protected $pdo;
 	protected $cfg;

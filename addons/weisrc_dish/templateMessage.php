@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Class templateMessage
+ * 微信模板消息发送
+ */
 class templateMessage
 {
     function __construct()

@@ -67,9 +67,8 @@ function file_tree($path, $include = array()) {
 function mkdirs($path) {
 	if (!is_dir($path)) {
 		mkdirs(dirname($path));
-		mkdir($path);
+		mkdir($path,0777,true);
 	}
-
 	return is_dir($path);
 }
 
@@ -155,7 +154,7 @@ function file_upload($file, $type = 'image', $name = '', $compress = false) {
 
 		$result['path'] = $path . $filename;
 	} else {
-		mkdirs(dirname(ATTACHMENT_ROOT . '/' . $name));
+		mkdirs(dirname(ATTACHMENT_ROOT  . $name));
 		if (!strexists($name, $ext)) {
 			$name .= '.' . $ext;
 		}
@@ -163,6 +162,7 @@ function file_upload($file, $type = 'image', $name = '', $compress = false) {
 	}
 
 	$save_path = ATTACHMENT_ROOT . '/' . $result['path'];
+
 	if (!file_move($file['tmp_name'], $save_path)) {
 		return error(-1, '保存上传文件失败');
 	}

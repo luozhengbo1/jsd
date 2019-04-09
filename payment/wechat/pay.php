@@ -9,7 +9,6 @@ require '../../app/common/bootstrap.app.inc.php';
 load()->app('common');
 load()->app('template');
 load()->model('payment');
-
 $sl = $_GPC['ps'];
 $payopenid = $_GPC['payopenid'];
 $params = @json_decode(base64_decode($sl), true);
@@ -90,6 +89,8 @@ if (intval($wechat['switch']) == 3 || intval($wechat['switch']) == 2) {
 	unset($wechat['sub_mch_id']);
 	$wOpt = wechat_build($params, $wechat);
 }
+//var_dump($log);die;
+
 if (is_error($wOpt)) {
 	if ($wOpt['message'] == 'invalid out_trade_no' || $wOpt['message'] == 'OUT_TRADE_NO_USED') {
 		$id = date('YmdH');
@@ -100,6 +101,7 @@ if (is_error($wOpt)) {
 	message("抱歉，发起支付失败，具体原因为：“{$wOpt['errno']}:{$wOpt['message']}”。请及时联系站点管理员。");
 	exit;
 }
+
 ?>
 <script type="text/javascript">
 	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {

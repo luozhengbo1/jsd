@@ -8,8 +8,8 @@ if (empty($from_user)) {
 }
 
 //优惠券ID
-$id = intval($_GPC['couponid']);
-$type = intval($_GPC['type']);
+$id = intval($_GPC['couponid']); //49
+$type = intval($_GPC['type']); //
 
 //优惠券 1.发放总数2.没人领取数量
 $coupon = pdo_fetch("SELECT * FROM " . tablename($this->table_coupons) . " WHERE id=:id LIMIT 1", array(':id' => $id));

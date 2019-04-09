@@ -222,7 +222,8 @@ class Util_EweiShopV2Model {
         }
 
         if (empty($key)) {
-            $key = 'ZQiFErjQB7inrGpx27M1GR5w3TxZ64k7';
+//            $key = 'YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb';
+            $key ="RIrVUSsZ0aVTMXuT9sit6IN4MNCtbbhc";
         }
 
         $url = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=".$lat.",".$lng."&output=json&pois=1&ak=" . $key;

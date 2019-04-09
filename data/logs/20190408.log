@@ -1,0 +1,2096 @@
+2019-04-08 09:03:33 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685403</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:03:56 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685436</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:04:01 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685436</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:04:06 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685436</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:04:52 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554685436',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554685436',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:04:52 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:04:56 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554685436',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554685436',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:04:56 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:05:06 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554685436',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554685436',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:05:06 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:10:49 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>1554685848</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[测试内容]]></Content><MsgId>1234567890123456</MsgId></xml>
+
+2019-04-08 09:11:23 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685882</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:11:45 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'toUser',
+    'fromusername' => 'fromUser',
+    'createtime' => '1554685848',
+    'msgtype' => 'text',
+    'content' => '日常客服',
+    'msgid' => '1234567890123456',
+    'from' => 'fromUser',
+    'to' => 'toUser',
+    'time' => '1554685848',
+    'type' => 'text',
+    'event' => NULL,
+    'redirection' => true,
+    'source' => 'default',
+    'original' => '测试内容',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:11:45 response :
+------------
+Array:
+FromUserName : toUser ;
+ToUserName : fromUser ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-08 09:11:55 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685915</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:12:00 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685915</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:12:05 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554685915</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:12:45 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554685915',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554685915',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:12:45 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:13:00 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554685915',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554685915',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:13:00 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:13:02 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554685915',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554685915',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:13:02 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:40:55 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687655</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:41:01 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687661</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:41:05 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687665</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:41:06 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687661</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:41:11 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687661</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:41:58 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554687661',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554687661',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:41:58 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:41:59 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554687661',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554687661',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:41:59 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:42:11 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554687661',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554687661',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:42:11 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:43:00 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687779</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:43:05 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687779</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:43:10 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554687779</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 09:43:49 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554687779',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554687779',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:43:49 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:44:00 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554687779',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554687779',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:44:00 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 09:44:09 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554687779',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554687779',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 09:44:09 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:08:10 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689290</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:08:30 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689310</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:08:35 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689310</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:08:40 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689310</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:09:27 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554689310',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554689310',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:09:27 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:09:35 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554689310',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554689310',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:09:35 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:09:38 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554689310',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554689310',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:09:38 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:11:37 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689497</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:13:11 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689591</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:13:16 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689591</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:13:21 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554689591</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:14:10 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554689591',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554689591',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:14:10 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:14:16 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554689591',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554689591',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:14:16 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:14:18 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554689591',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554689591',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:14:18 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:49:25 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01rucDtuwznQubbsTKxIT6E]]></FromUserName>
+<CreateTime>1554691765</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:49:30 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01rucDtuwznQubbsTKxIT6E]]></FromUserName>
+<CreateTime>1554691769</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:49:34 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01rucDtuwznQubbsTKxIT6E]]></FromUserName>
+<CreateTime>1554691769</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:49:39 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01rucDtuwznQubbsTKxIT6E]]></FromUserName>
+<CreateTime>1554691769</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:50:30 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01rucDtuwznQubbsTKxIT6E',
+    'createtime' => '1554691769',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01rucDtuwznQubbsTKxIT6E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691769',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:50:30 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01rucDtuwznQubbsTKxIT6E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:50:31 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01rucDtuwznQubbsTKxIT6E',
+    'createtime' => '1554691769',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01rucDtuwznQubbsTKxIT6E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691769',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:50:31 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01rucDtuwznQubbsTKxIT6E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:50:34 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01rucDtuwznQubbsTKxIT6E',
+    'createtime' => '1554691769',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01rucDtuwznQubbsTKxIT6E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691769',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:50:34 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01rucDtuwznQubbsTKxIT6E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:50:56 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554691856</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:50:59 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554691859</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:51:04 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554691859</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:51:09 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554691859</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+2019-04-08 10:51:10 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554691859',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691859',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:51:10 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:51:52 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554691859',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691859',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:51:52 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:51:56 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554691916</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=3]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-08 10:51:57 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554691916',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=3',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691916',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=3',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:51:57 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-08 10:52:04 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554691859',
+    'msgtype' => 'event',
+    'event' => 'subscribe',
+    'eventkey' => '',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691859',
+    'type' => 'text',
+    'redirection' => true,
+    'source' => 'subscribe',
+    'content' => '地铁',
+  ),
+  'module' => 'reply',
+  'rule' => '15',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '134',
+    'rid' => '15',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '地铁',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:52:04 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 欢迎关注那家网极速达~
+
+参与极速达#年货节答题#活动
+<a href='https://hd.faisco.cn/16910793/43d8rcmv3M7A7xQE5qeY-A/load.html?style=56'>【点击蓝字开始答题】</a>
+♥最高可获得888元现金红包
+♥答题即可获得极速达3元无门槛优惠券哟~
+
+霸王餐抽奖活动火热进行中！
+888元现金红包、霸王餐还有更多优惠券等你拿<a href='https://hd.faisco.cn/16910793/43d8rcmv3M6XFF3YiUeELg/load.html?style=75'>【点击蓝字】</a>即可参与！！！
+
+回复“进群”，了解更多福利…… ;
+
+2019-04-08 10:52:24 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554691944</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-08 10:52:24 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554691944',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554691944',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&eid=1',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 10:52:24 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+
+2019-04-08 14:28:17 trace :
+------------
+String:
+<xml><ToUserName><![CDATA[gh_3fda0774701c]]></ToUserName>
+<FromUserName><![CDATA[oW-VD01zhPdr764rS0AO8yFAAX9E]]></FromUserName>
+<CreateTime>1554704897</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=adminorder]]></EventKey>
+<MenuId>700689682</MenuId>
+</xml>
+
+2019-04-08 14:28:17 params :
+------------
+String:
+array (
+  'message' => 
+  array (
+    'tousername' => 'gh_3fda0774701c',
+    'fromusername' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'createtime' => '1554704897',
+    'msgtype' => 'event',
+    'event' => 'VIEW',
+    'eventkey' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=adminorder',
+    'menuid' => '700689682',
+    'from' => 'oW-VD01zhPdr764rS0AO8yFAAX9E',
+    'to' => 'gh_3fda0774701c',
+    'time' => '1554704897',
+    'type' => 'text',
+    'content' => '日常客服',
+    'redirection' => true,
+    'source' => 'default',
+    'original' => 'http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&m=weisrc_dish&do=adminorder',
+  ),
+  'module' => 'reply',
+  'rule' => '18',
+  'priority' => '0',
+  'keyword' => 
+  array (
+    'id' => '127',
+    'rid' => '18',
+    'uniacid' => '2',
+    'module' => 'reply',
+    'content' => '日常客服',
+    'type' => '1',
+    'displayorder' => '0',
+    'status' => '1',
+    'reply_type' => 
+    array (
+      0 => 'basic',
+    ),
+  ),
+  'reply_type' => 
+  array (
+    0 => 'basic',
+  ),
+)
+
+2019-04-08 14:28:17 response :
+------------
+Array:
+FromUserName : gh_3fda0774701c ;
+ToUserName : oW-VD01zhPdr764rS0AO8yFAAX9E ;
+MsgType : text ;
+Content : 亲亲，售后客服点击链接直接进入咨询👉 https://gzdsy1.qiyukf.com/client?k=828288193b591b3af50349ee91192e84&wp=1感谢您的理解与咨询~ ;
+

@@ -110,6 +110,11 @@ class uc_note {
 		return $this->_serialize(array($get['id'], array()), 1);
 	}
 
+    /**
+     * @param $get
+     * @param $post
+     * @return string
+     */
 	function synlogin($get, $post) {
 		if(!API_SYNLOGIN) {
 			return API_RETURN_FORBIDDEN;
@@ -122,6 +127,11 @@ class uc_note {
 		}
 	}
 
+    /**
+     * @param $get
+     * @param $post
+     * @return string
+     */
 	function synlogout($get, $post) {
 		if(!API_SYNLOGOUT) {
 			return API_RETURN_FORBIDDEN;

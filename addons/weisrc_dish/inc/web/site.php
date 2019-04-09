@@ -5809,7 +5809,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $data['paytime'] = TIMESTAMP;
                     if ($store['is_auto_confirm'] == 1 && $order['status'] == 0) {
                         $data['status'] = 1;
-                        $this->doDada($order['weid'], $orderid, $storeid);
+                        $this->doDada($order['weid'], $orderid, $storeid);//新增
                     }
                     pdo_update($this->table_order, $data, array('id' => $orderid));
 
