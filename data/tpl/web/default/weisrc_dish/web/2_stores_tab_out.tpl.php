@@ -57,7 +57,7 @@
         </div>
     </div>
     <?php  if($setting['is_auto_address'] == 0 || empty($setting)) { ?>
-    <div class="form-group">
+    <div class="form-group" id="store_type_dis_mon">
         <label class="col-xs-12 col-sm-3 col-md-2 control-label">按距离收外送费</label>
         <div class="col-sm-9">
             <div class="radio radio-info radio-inline">
@@ -68,18 +68,18 @@
                 <input type="radio" id="is_delivery_distance2" value="0" name="is_delivery_distance" <?php  if($reply['is_delivery_distance']==0) { ?>checked<?php  } ?>>
                 <label for="is_delivery_distance2"> 关闭 </label>
             </div>
-            <div class="help-block">
+            <div class="help-block" id="add-dis">
                 请设置添加 <a id="add-distance"><i class="fa fa-plus-circle"></i> 添加按距离收外送费</a>
             </div>
         </div>
     </div>
-    <div id="distance-list">
-        <?php  if(!empty($distancelist)) { ?>
+    <div id="distance-list" id="dis_loodres">
+        <?php  if(!empty($distancelist)&& $reply['store_type']==1 ) { ?>
         <?php  if(is_array($distancelist)) { foreach($distancelist as $row) { ?>
-        <div class="form-group">
+        <div class="form-group"  >
             <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
-            <div class="col-sm-7">
-                <div class="input-group">
+            <div class="col-sm-7" >
+                <div class="input-group" >
                     <span class="input-group-addon">配送距离：</span>
                     <input type="text" class="form-control" value="<?php  echo $row['begindistance'];?>" name="begindistance[<?php  echo $row['id'];?>]">
                     <span class="input-group-addon no-b">公里至</span>
@@ -100,6 +100,19 @@
         <?php  $flag = false;?>
         <?php  } } ?>
         <?php  } ?>
+
+    </div>
+    <?php  } ?>
+    <?php  if(!empty($distancedata_pt)&& $reply['store_type']==1 ) { ?>
+    <div class="form-group" >
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">设置说明</label><br/>
+            <?php  if(is_array($distancedata_pt)) { foreach($distancedata_pt as $row1) { ?>
+            <div class="col-sm-7" >
+                <li>
+                    <span class="input-group-addon">配送距离：<?php  echo $row1['begindistance'];?>-<?php  echo $row1['enddistance'];?>公里 配送费不低于：<?php  echo $row1['dispatchprice'];?>元</span>
+                </li>
+            </div>
+            <?php  } } ?>
     </div>
     <?php  } ?>
     <div class="form-group">
@@ -183,8 +196,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div class="form-group">
         <label class="col-xs-12 col-sm-3 col-md-2 control-label">当日商家配送</label>
@@ -282,4 +293,21 @@
         $('#delivery-time-list').append($('#delivery-form-html').html());
         $('.clockpicker :text').clockpicker({autoclose: true});
     });
+    //判断是否显示距离设置
+    $(function () {
+        //关闭
+        if( $('input[name=is_delivery_distance]:checked').val()==0     ){
+            $("#add-dis").css('display','none')
+        }else{
+            $("#add-dis").css('display','block')
+            //关闭
+        }
+        $('#is_delivery_distance2').click(function () {
+            $("#add-dis").css('display','none')
+        })
+        $('#is_delivery_distance1').click(function () {
+            $("#add-dis").css('display','block')
+        })
+    })
+
 </script>

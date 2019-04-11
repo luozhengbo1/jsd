@@ -219,13 +219,18 @@ $(function(){
             }
         }
     });
-});
 
+});
 function check() {
         if($.trim($('#title').val()) == '') {
             message('没有输入门店名称.', '', 'error');
             return false;
         }
+        // if($.trim($('input[name="store_type"]').val()) == '') {
+        //     message('请选择门店类型', '', 'error');
+        //     return false;
+        // }
+
         return true;
     }
 </script>

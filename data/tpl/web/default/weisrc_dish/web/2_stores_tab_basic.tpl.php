@@ -13,6 +13,25 @@
             <input type="text" name="title" value="<?php  echo $reply['title'];?>" id="title" class="form-control" />
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">门店类型</label>
+        <div class="col-sm-9 col-xs-9 col-md-9">
+            <div class="radio radio-info radio-inline">
+                <input type="radio" id="store_type1" value="1" name="store_type" <?php  if($reply['store_type']==1) { ?>checked<?php  } ?>>
+                <label for="store_type1"> 外卖店 </label>
+            </div>
+            <div class="radio radio-info radio-inline">
+                <input type="radio" id="store_type2" value="2" name="store_type" <?php  if($reply['store_type']==2) { ?>checked<?php  } ?> <?php  if(empty($reply['store_type'])) { ?>checked <?php  } ?>  >
+                <label for="store_type2"> 堂食店 </label>
+            </div>
+            <div class="radio radio-info radio-inline">
+                <input type="radio" id="store_type3" value="3" name="store_type"  <?php  if($reply['store_type']==3) { ?>checked<?php  } ?>>
+                <label for="store_type3"> 邮寄店 </label>
+            </div>
+        </div>
+    </div>
+    <input type="hidden"  id="is_delivery_store_type" value="0" name="is_delivery">
     <div class="form-group">
         <label class="col-xs-12 col-sm-3 col-md-2 control-label">门店默认跳转</label>
         <div class="col-sm-9 col-xs-9 col-md-9">
@@ -131,7 +150,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-12 col-sm-3 col-md-2 control-label">门店类型</label>
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">经营范围</label>
         <div class="col-sm-9">
             <select class="form-control" name="type" id="type">
                 <option value="0">请选择</option>
@@ -309,3 +328,38 @@
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+
+       if($('input[name="store_type"]:checked').val()==2 || $('input[name="store_type"]:checked').val()==3 ){
+           $('#is_delivery_store_type').val(0);
+           $('#store_type_dis_mon').css('display','none')
+       }else{
+           $('#is_delivery_store_type').val(1);
+           $('#store_type_dis_mon').css('display','block')
+       }
+       //外卖
+       $('#store_type1').click(function () {
+           $('#is_delivery_store_type').val(1);
+           //开关
+           $('#store_type_dis_mon').css('display','block')
+           $('#distance-list').css('display','block');
+        })
+        //堂食
+        $('#store_type2').click(function () {
+            $('#is_delivery_store_type').val(0);
+            //开关
+            $('#store_type_dis_mon').css('display','none')
+            $('#distance-list').css('display','none');
+        })
+        //快递
+        $('#store_type3').click(function () {
+            $('#is_delivery_store_type').val(0);
+            //开关
+            $('#store_type_dis_mon').css('display','none')
+            $('#distance-list').css('display','none');
+        })
+
+    })
+
+</script>

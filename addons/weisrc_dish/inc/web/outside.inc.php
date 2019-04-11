@@ -32,6 +32,7 @@ if ($operation == 'display') {
             'enddistance' => $_GPC['enddistance'],
             'dispatchprice'=>$_GPC['dispatchprice'],
         );
+
         $distancelist = pdo_insert($this->table_distance_pt, $data);
         message('设置成功 ', $this->createWebUrl('outside', array('op' => 'display')), 'success');
     }
@@ -43,6 +44,10 @@ if ($operation == 'display') {
     }
     pdo_delete($this->table_distance_pt, array('id' => $id, 'weid' => $weid));
     message('数据删除成功！', $this->createWebUrl('outside', array('op' => 'display')), 'success');
+    //新增此方法获取数据来判断
+}elseif($operation == 'ajaxgetdata'){
+    $ajaxdata = pdo_fetchall("SELECT id,begindistance,enddistance,dispatchprice FROM " . tablename($this->table_distance_pt) );
+    exit(json_encode($ajaxdata));
 }
 include $this->template('web/outside');
 ?>

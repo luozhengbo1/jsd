@@ -87,8 +87,8 @@ if ($operation == 'setting') {
     $distancelist = pdo_fetchall("SELECT * FROM " . tablename('weisrc_dish_distance') . " WHERE weid = :weid AND storeid=:storeid order by id", array(':weid' => $weid, ':storeid' => $id));
 
     $deliverytimelist = pdo_fetchall("SELECT * FROM " . tablename('weisrc_dish_deliverytime') . " WHERE weid = :weid AND storeid=:storeid order by id", array(':weid' => $weid, ':storeid' => $id));
-
-    
+    //获取距离数据
+    $distancedata_pt = pdo_fetchall("SELECT id,begindistance,enddistance,dispatchprice FROM " . tablename($this->table_distance_pt)."order by begindistance");
     $is_bm_payu = $this->checkModule("bm_payu");
     $is_bank_pay = $this->checkModule("bm_payms");
     $is_vtiny_bankpay = $this->checkModule("vtiny_bankpay");
@@ -152,8 +152,9 @@ if ($operation == 'setting') {
         $clist2 = pdo_fetchall("SELECT * FROM " . tablename($this->table_coupon) . " WHERE weid = {$weid} AND storeid={$storeid} AND type=4 AND
 :time<endtime ORDER BY displayorder desc,id desc", array(':time' => TIMESTAMP));
     }
-
+//    var_dump($distancedata_pt);die;
     if (checksubmit('submit')) {
+
         $data = array(
             'btn_coupon_type' => intval($_GPC['btn_coupon_type']),
             'btn_coupon_id' => intval($_GPC['btn_coupon_id']),
@@ -274,6 +275,8 @@ if ($operation == 'setting') {
             'is_newlimitprice' => intval($_GPC['is_newlimitprice']),
             'is_oldlimitprice' => intval($_GPC['is_oldlimitprice']),
             'is_delivery_distance' => intval($_GPC['is_delivery_distance']),
+            //新增字段
+            'store_type' => intval($_GPC['store_type']),
         );
 
         if ($config['is_fengniao']==1) {
@@ -389,7 +392,8 @@ if ($operation == 'setting') {
                     $sendingprice = floatval($_GPC['sendingprice'][$oid]);
                     $dispatchprice = floatval($_GPC['dispatchprices'][$oid]);
                     $freeprice = $_GPC['freeprice'][$oid];
-
+                    $tmpurl=$this->createWebUrl('stores2', array('op' => 'post','storeid'=>$storeid,'id'=>$id));
+                    is_dispatchprice($begindistance,$enddistance,$dispatchprice,$tmpurl);
                     $data = array(
                         'weid' => $weid,
                         'storeid' => $id,
@@ -402,6 +406,7 @@ if ($operation == 'setting') {
                     $distanceids[] = $oid;
                 }
             }
+
             if (is_array($_GPC['newbegindistance'])) {
                 foreach ($_GPC['newbegindistance'] as $nid => $val) {
                     $begindistance = floatval($_GPC['newbegindistance'][$nid]);
@@ -416,7 +421,8 @@ if ($operation == 'setting') {
                     if ($enddistance <= $begindistance) {
                         continue;
                     }
-
+                    $tmpurl=$this->createWebUrl('stores2', array('op' => 'post','storeid'=>$storeid,'id'=>$id));
+                    is_dispatchprice($begindistance,$enddistance,$dispatchprice,$tmpurl);
                     $data = array(
                         'weid' => $weid,
                         'storeid' => $id,
@@ -431,6 +437,8 @@ if ($operation == 'setting') {
                     $distanceids[] = $did;
                 }
             }
+//            echo "<pre>";
+//            print_r($data);die;
             $distanceids = implode(',', array_unique($distanceids));
             if (!empty($distanceids)) {
                 pdo_query('delete from ' . tablename('weisrc_dish_distance') . " where weid = :weid and storeid = :storeid and id not in ({$distanceids})", array(':weid' => $_W['uniacid'], ':storeid' => $id));
@@ -498,6 +506,7 @@ if ($operation == 'setting') {
     }
     pdo_update($this->table_stores, array('deleted' => 1),array('id' => $id, 'weid' => $_W['uniacid']));
     message('删除成功！', $this->createWebUrl('stores', array('op' => 'display')), 'success');
+
 } elseif ($operation == 'restore') {
     $id = intval($_GPC['id']);
     $store = pdo_fetch("SELECT id FROM " . tablename($this->table_stores) . " WHERE id = '$id'");
@@ -569,3 +578,14 @@ if ($operation == 'setting') {
 }
 
 include $this->template('web/stores');
+//是否合理设置
+function is_dispatchprice($begindistance,$enddistance,$dispatchprice,$url){
+        $sql = "SELECT id,begindistance,enddistance,max(dispatchprice) as total FROM " . tablename('weisrc_dish_distance_pt')."
+         where begindistance>={$begindistance} and  enddistance<={$enddistance}";
+        $distancedata_pt_price = pdo_fetch($sql);
+//        echo $dispatchprice,"<br/>";
+//        echo $distancedata_pt_price['total'];
+        if($dispatchprice<$distancedata_pt_price['total']){
+            message('按距离收外送费设置不合理，请重新设置！', $url, 'error');
+        }
+}

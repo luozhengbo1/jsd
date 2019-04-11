@@ -25,6 +25,7 @@
             </div>
         </div>
     </div>
+<!--    店内-->
     <div class="form-group">
         <label class="col-xs-12 col-sm-3 col-md-2 control-label">支持店内</label>
         <div class="col-sm-9">
@@ -38,7 +39,8 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+<!-- 外卖-->
+    <div class="form-group" style="display: ;">
         <label class="col-xs-12 col-sm-3 col-md-2 control-label">支持外卖</label>
         <div class="col-sm-9">
             <div class="radio radio-info radio-inline">
