@@ -687,7 +687,7 @@
         if (confirm("确认取消吗?")) {
             $.ajax({
                 url: url, type: "post", dataType: "json",
-                timeout: "10000",
+                // timeout: "10000",
                 data: {
                 },
                 success: function (data) {
