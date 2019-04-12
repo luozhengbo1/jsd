@@ -103,8 +103,8 @@
 
     </div>
     <?php  } ?>
-    <?php  if(!empty($distancedata_pt)&& $reply['store_type']==1 ) { ?>
-    <div class="form-group">
+    <?php  if(!empty($distancedata_pt) ) { ?>
+    <div class="form-group" id="dis_desc">
             <div  class="col-xs-12" >
                 <div class="input-group" >
                     <span class="input-group-addon">设置说明对应公里不低于对应配送费，如：0-2，设置应不低于0-2之间的最大配送费</span>

@@ -330,10 +330,10 @@
 </div>
 <script>
     $(function () {
-
        if($('input[name="store_type"]:checked').val()==2 || $('input[name="store_type"]:checked').val()==3 ){
            $('#is_delivery_store_type').val(0);
            $('#store_type_dis_mon').css('display','none')
+           $('#dis_desc').css('display','none')
        }else{
            $('#is_delivery_store_type').val(1);
            $('#store_type_dis_mon').css('display','block')
@@ -344,13 +344,16 @@
            //开关
            $('#store_type_dis_mon').css('display','block')
            $('#distance-list').css('display','block');
-        })
+           $('#dis_desc').css('display','block')
+
+       })
         //堂食
         $('#store_type2').click(function () {
             $('#is_delivery_store_type').val(0);
             //开关
             $('#store_type_dis_mon').css('display','none')
             $('#distance-list').css('display','none');
+            $('#dis_desc').css('display','none')
         })
         //快递
         $('#store_type3').click(function () {
@@ -358,6 +361,7 @@
             //开关
             $('#store_type_dis_mon').css('display','none')
             $('#distance-list').css('display','none');
+            $('#dis_desc').css('display','none')
         })
 
     })
