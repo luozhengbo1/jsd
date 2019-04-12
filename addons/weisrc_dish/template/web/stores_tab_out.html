@@ -105,10 +105,14 @@
     </div>
     {/if}
     {if !empty($distancedata_pt)&& $reply['store_type']==1 }
-    <div class="form-group" >
-        <label class="col-xs-12 col-sm-3 col-md-2 control-label">设置说明</label>
+    <div class="form-group">
+            <div  class="col-xs-12" >
+                <div class="input-group" >
+                    <span class="input-group-addon">设置说明对应公里不低于对应配送费，如：0-2，设置应不低于0-2之间的最大配送费</span>
+                </div>
+            </div>
             {loop $distancedata_pt $row1}
-            <div class="col-sm-7" >
+            <div  class="col-xs-12" >
                 <div class="input-group" >
                     <span class="input-group-addon">配送距离：{$row1['begindistance']}-{$row1['enddistance']}公里  配送费不低于：{$row1['dispatchprice']}元</span>
                 </div>
@@ -154,7 +158,6 @@
                 </a>
             </div>
         </div>
-
         {php $flag = false;}
         {/loop}
         {/if}

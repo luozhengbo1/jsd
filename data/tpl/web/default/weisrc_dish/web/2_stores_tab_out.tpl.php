@@ -104,13 +104,17 @@
     </div>
     <?php  } ?>
     <?php  if(!empty($distancedata_pt)&& $reply['store_type']==1 ) { ?>
-    <div class="form-group" >
-        <label class="col-xs-12 col-sm-3 col-md-2 control-label">设置说明</label><br/>
+    <div class="form-group">
+            <div  class="col-xs-12" >
+                <div class="input-group" >
+                    <span class="input-group-addon">设置说明对应公里不低于对应配送费，如：0-2，设置应不低于0-2之间的最大配送费</span>
+                </div>
+            </div>
             <?php  if(is_array($distancedata_pt)) { foreach($distancedata_pt as $row1) { ?>
-            <div class="col-sm-7" >
-                <li>
-                    <span class="input-group-addon">配送距离：<?php  echo $row1['begindistance'];?>-<?php  echo $row1['enddistance'];?>公里 配送费不低于：<?php  echo $row1['dispatchprice'];?>元</span>
-                </li>
+            <div  class="col-xs-12" >
+                <div class="input-group" >
+                    <span class="input-group-addon">配送距离：<?php  echo $row1['begindistance'];?>-<?php  echo $row1['enddistance'];?>公里  配送费不低于：<?php  echo $row1['dispatchprice'];?>元</span>
+                </div>
             </div>
             <?php  } } ?>
     </div>
@@ -152,7 +156,6 @@
                 </a>
             </div>
         </div>
-
         <?php  $flag = false;?>
         <?php  } } ?>
         <?php  } ?>
