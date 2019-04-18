@@ -1,0 +1,177 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <style type="text/css">
+        body, html{width: 100%;height: 100%; margin:0;font-family:"微软雅黑";}
+        #l-map{height:300px;width:100%;}
+        #r-result{width:100%;}
+        #flag{
+            width: 3px;
+            height: 3px;
+            border: 0px;
+            position: absolute;
+            top: 206px;
+            left:210px;
+        }
+    </style>
+    <link rel="stylesheet" href="../Public/css/mui.min.css">
+    <link rel="stylesheet" type="text/css" href="../Public/css/app.css"/>
+    <style>
+        h5 {
+            margin: 5px 7px;
+        }
+
+    </style>
+    <script src="../Public/js/dump_src.js"></script>
+    <script src="../Public/js/mui.min.js"></script>
+    <script>
+        mui.init();
+    </script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=8d867483baeaffd7f85b1ee099aee919"></script>
+    <title>选择收货地址</title>
+</head>
+<body>
+
+<div id="search">
+    <form class="mui-input-group">
+        <div class="mui-input-row">
+            <input id="suggestId" type="text" class="mui-input-clear" placeholder="地址检索" style="text-align: center">
+        </div>
+    </form>
+</div>
+<div id="l-map"></div>
+<div id="r-result">
+
+</div>
+<div id="flag">
+    <a><span class="mui-icon mui-icon-plusempty"></span></a>
+</div>
+<!--<div id="searchResultPanel" style=""></div>-->
+</body>
+</html>
+<script type="text/javascript">
+    var title = [];
+    var address = [];
+    var points = [];
+    var currentPoint = "";
+    var currentAddress = "";
+    var isLocated = false;
+    var isdispatching = false;//是否配送
+    var d = 2000;//配送范围，圆的半径
+    var basePoint = new BMap.Point(116.331398,39.897445);//仓库的位置
+    // 百度地图API功能
+    var map = new BMap.Map("l-map");            // 创建Map实例
+    map.centerAndZoom(new BMap.Point(116.331398,39.897445),14);
+    map.addEventListener("moveend",showCurrentPoi);
+    map.addEventListener("moveend",showCurrentPoi);
+
+    //自动定位
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            currentPonit = r.point;
+            isLocated = true;
+            map.centerAndZoom(r.point,14);
+            map.panTo(r.point);
+            // 创建地理编码实例
+            var myGeo = new BMap.Geocoder();
+            // 根据坐标得到地址描述
+            myGeo.getLocation(r.point, function(result){
+                if (result){
+                    currentAddress = result.address;
+                }
+            });
+        }
+        else
+        {
+            alert("定位失败："+this.getStatus());
+        }
+    },{enableHighAccuracy: true})
+
+    //自动完成
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {"input" : "suggestId",
+            "location" : map
+        });
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        alert("1:"+_value.province+"2:"+_value.city+"3:"+_value.district+"4:"+_value.street+"5:"+_value.business);
+        showPoiFromKeyword();
+    });
+
+    function showPoiFromKeyword(){
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: function(results){
+                if (local.getStatus() == BMAP_STATUS_SUCCESS) {
+                    var point = local.getResults().getPoi(0).point;
+                    var title = local.getResults().getPoi(0).title;
+                    var address = local.getResults().getPoi(0).address;
+                    var distance = (map.getDistance(point,basePoint)).toFixed(2);
+                    if(distance<=d)
+                    {
+                        isdispatching = true;
+                    }
+                    if (!isdispatching) {
+                        alert("你的选择是：" + title + " 与最近的仓库的距离是：" + distance + "米，目前该地址尚不在配送范围内！")
+                    } else {
+                        alert("你的选择是：" + title + " 与最近的仓库的距离是：" + distance + "米，恭喜你，该地址在配送范围内！")
+                    }
+                }
+            }
+        });
+        local.search(myValue);
+    }
+
+    function showCurrentPoi()
+    {
+        var center = map.getCenter();
+        var local = new BMap.LocalSearch(map, {
+            renderOptions: {selectFirstResult:true},
+            onSearchComplete:function(results){
+                if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                    var s = [];
+                    var content = "";
+                    content = " <ul class='mui-table-view'> ";
+                    for (var i = 0; i < results.getCurrentNumPois(); i++)
+                    {
+                        title[i] = results.getPoi(i).title;
+                        address[i] = results.getPoi(i).address;
+                        points[i] = results.getPoi(i).point;
+                        content = content +
+                            " <li class='mui-table-view-cell mui-media'> <a href='javascript:confirmAddress(" + i + ");'>  <a id='icon-location' class='mui-media-object mui-pull-left'><span style='color:red' class='mui-icon mui-icon-location'></span></a> <div class='mui-media-body'>" +
+                            title[i] + "<p class='mui-ellipsis'>" +
+                            address[i] + "</div> </a> </li>";
+                    }
+                    content = content + " </ul>";
+                    document.getElementById("r-result").innerHTML = content;
+                }
+            }
+        });
+        var myGeo = new BMap.Geocoder();
+        myGeo.getLocation(center, function (result) {
+            if (result) {
+                local.search(result.address);
+            }
+        });
+    }
+
+    function confirmAddress(i)
+    {
+        //用户单击某一项之后，跳转会页面，同时将地址传递过去
+        var distance = (map.getDistance(points[i],basePoint)).toFixed(2);
+        if(distance<=d)
+        {
+            isdispatching = true;
+        }
+        if (!isdispatching) {
+            alert("你的选择是：" + title[i] + " 与最近的仓库的距离是：" + distance + "米，目前该地址尚不在配送范围内！")
+        } else {
+            alert("你的选择是：" + title[i] + " 与最近的仓库的距离是：" + distance + "米，恭喜你，该地址在配送范围内！")
+        }
+    }
+</script>

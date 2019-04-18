@@ -1,0 +1,23 @@
+<audio id="music" >
+    <source src="/attachment/audios/order.mp3" type="audio/mpeg">
+</audio>
+<script>
+    function checkorder() {
+        $.post("{php echo $this->createMobileUrl('checkorder', array('storeid' => $storeid));}", function(data){
+            var tip = "/attachment/audios/order.mp3";
+            if(data == 'success') {
+                $("#music")[0].src= tip;
+                $("#music")[0].play();
+            } else {
+                if (data != '') {
+                    $("#music")[0].src=tip;
+                    $("#music")[0].play();
+                }
+            }
+            setTimeout(checkorder, 10000);
+        });
+    }
+    $(function(){
+        checkorder();
+    });
+</script>

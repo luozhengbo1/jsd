@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="fe2c65dd-e8c9-427f-8ebe-95ec2bf5ffca" name="10.10.11.249" url="http://10.10.11.249">
+        <fileTransfer host="10.10.11.249" port="22" rootFolder="/www/wwwroot/jsd.gogcun.com" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions controlEncoding="UTF-8" dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
