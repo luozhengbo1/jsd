@@ -101,23 +101,22 @@
                             </div>
                         </div>
                     </li> -->
-					<li class="item-content" id="tagmap">
-                        <div class="item-inner">
-                            <div id="map" style="width: 100%; height: 300px; overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);">
-							</div>
-                        </div>
-                    </li>
-                    <a href="{$newmapurl}">
+<!--					<li class="item-content" id="tagmap">-->
+<!--                        <div class="item-inner">-->
+<!--                            <div id="map" style="width: 100%; height: 0px; overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);">-->
+<!--							</div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+                    <a href="javascript:;" onclick="newmap()" style=" width: 100%;">
                         <li class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label">收餐定位:</div>
-                                <div class="item-input input-address" style="padding-right:30px; line-height:21px" >
-                                    <textarea type="text" id="mapaddress" style="height: auto;line-height: normal;" name="mapaddress" value="{$item['address']}"></textarea>
+                                <div class="item-input input-address" style=" line-height:21px" >
+                                    <input type="text" id="mapaddress"  style="height: auto;line-height: normal;" name="mapaddress" value="{$item['address']}" />
                                 </div>
-
-                                <div class="item-input" style="width: 10%;" onclick="$('#tagmap').slideToggle(500);">
-                                    <img src="{php echo $this->cur_mobile_path}/image/inn_gps_icon.png" width="20px"/>
-                                </div>
+<!--                                <div class="item-input" style="width: 10%;" onclick="$('#tagmap').slideToggle(500);">-->
+<!--                                    <img src="{php echo $this->cur_mobile_path}/image/inn_gps_icon.png" width="20px"/>-->
+<!--                                </div>-->
                             </div>
                         </li>
                     </a>
@@ -187,108 +186,113 @@
         </div>
     </div>
     <script>
+        function newmap() {
+            var url = "{$newmapurl}"+"&x="+$("#lng").val()+"&y="+ $("#lat").val()
+            window.document.location.href=url
+        }
         "{if $operation == 'post'}"
+
         function setmapaddress(point)
         {
             var geo = new BMap.Geocoder();
             geo.getLocation(point, function(rs){
                 var addComp = rs.addressComponents;
                 address = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-                $('#mapaddress').val(address);
+               // $('#mapaddress').val(address);
             });
         }
 
-        function creatmap() {
-            var map = new BMap.Map("map");
-            // 创建地址解析器实例
-            var geo = new BMap.Geocoder();
-            var x = $("#lng").val();
-            var y = $("#lat").val();
-            var marker = new BMap.Marker(new BMap.Point(x, y));
-            map.addOverlay(marker);
-            map.enableScrollWheelZoom();
-            map.enableKeyboard();
-            //自动完成
-            function saveMapPoint(point) {
-                $("#lat").val(point.lat);
-                $("#lng").val(point.lng);
-            }
-
-            function setMapPoint(point) {
-                map.centerAndZoom(point, 19);
-                marker.setPosition(point);
-                saveMapPoint(point);
-            }
-
-            function getGeoLocation(address) {
-                address = typeof address == 'string' ? address : $('#mapaddress').val();
-                geo.getPoint(address, function (point) {
-                    if (point) {
-                        setMapPoint(point);
-                    }
-                }, $('#country').val());
-// clear address result
-                $("#address-result").html('');
-            }
-
-            $('#geo-btn').on('click', getGeoLocation);
-
-            if (parseFloat($("#lat").val()) != 0) {
-                setMapPoint(new BMap.Point(parseFloat($('#lng').val()), parseFloat($('#lat').val())));
-            } else {
-                map.centerAndZoom(addressText, 19);
-            }
-            // zoom bgtn
-            var topRightNav = new BMap.NavigationControl({
-                anchor: BMAP_ANCHOR_TOP_RIGHT,
-                type: BMAP_NAVIGATION_CONTROL_SMALL
-            });
-            map.addControl(topRightNav);
-            // set location btn
-            var geolocationControl = new BMap.GeolocationControl();
-            geolocationControl.addEventListener("locationSuccess", function (e) {
-                var address = '';
-                address += e.addressComponent.province;
-                address += e.addressComponent.city;
-                address += e.addressComponent.district;
-                address += e.addressComponent.street;
-                address += e.addressComponent.streetNumber;
-                $('#mapaddress').val(address);
-
-            });
-            map.addControl(geolocationControl);
-            map.addEventListener("click", function (e) {
-                setMapPoint(e.point);
-            });
-            map.addEventListener('moving', function (e) {
-                var point = map.getCenter();
-                marker.setPosition(point);
-                saveMapPoint(point);
-                setmapaddress(point);
-            });
-            var options = {
-                onSearchComplete: function (results) {
-                    // 判断状态是否正确
-                    if (local.getStatus() == BMAP_STATUS_SUCCESS) {
-                        var poi = results.getPoi(0);
-                        setMapPoint(poi.point);
-                    }
-                }
-            };
-
-            var local = new BMap.LocalSearch(map, options);
-            $('#mapaddress').on('keyup', function () {
-                local.search($('#mapaddress').val());
-            });
-
-            $(document).on(window.CLICK_EVENT, '#address-result li[data-point]', function () {
-                var address = $(this).text();
-                var point = $(this).data('point').split(/,/ig);
-//                $('#mapaddress').val(address).blur();
-                setMapPoint(new BMap.Point(parseFloat(point[0]), parseFloat(point[1])));
-                $("#address-result").html('');
-            });
-        }
+//         function creatmap() {
+//             var map = new BMap.Map("map");
+//             // 创建地址解析器实例
+//             var geo = new BMap.Geocoder();
+//             var x = $("#lng").val();
+//             var y = $("#lat").val();
+//             var marker = new BMap.Marker(new BMap.Point(x, y));
+//             map.addOverlay(marker);
+//             map.enableScrollWheelZoom();
+//             map.enableKeyboard();
+//             //自动完成
+//             function saveMapPoint(point) {
+//                 $("#lat").val(point.lat);
+//                 $("#lng").val(point.lng);
+//             }
+//
+//             function setMapPoint(point) {
+//                 map.centerAndZoom(point, 19);
+//                 marker.setPosition(point);
+//                 saveMapPoint(point);
+//             }
+//
+//             function getGeoLocation(address) {
+//                 address = typeof address == 'string' ? address : $('#mapaddress').val();
+//                 geo.getPoint(address, function (point) {
+//                     if (point) {
+//                         setMapPoint(point);
+//                     }
+//                 }, $('#country').val());
+// // clear address result
+//                 $("#address-result").html('');
+//             }
+//
+//             $('#geo-btn').on('click', getGeoLocation);
+//
+//             if (parseFloat($("#lat").val()) != 0) {
+//                 setMapPoint(new BMap.Point(parseFloat($('#lng').val()), parseFloat($('#lat').val())));
+//             } else {
+//                 map.centerAndZoom(addressText, 19);
+//             }
+//             // zoom bgtn
+//             var topRightNav = new BMap.NavigationControl({
+//                 anchor: BMAP_ANCHOR_TOP_RIGHT,
+//                 type: BMAP_NAVIGATION_CONTROL_SMALL
+//             });
+//             map.addControl(topRightNav);
+//             // set location btn
+//             var geolocationControl = new BMap.GeolocationControl();
+//             geolocationControl.addEventListener("locationSuccess", function (e) {
+//                 var address = '';
+//                 address += e.addressComponent.province;
+//                 address += e.addressComponent.city;
+//                 address += e.addressComponent.district;
+//                 address += e.addressComponent.street;
+//                 address += e.addressComponent.streetNumber;
+//                 $('#mapaddress').val(address);
+//
+//             });
+//             map.addControl(geolocationControl);
+//             map.addEventListener("click", function (e) {
+//                 setMapPoint(e.point);
+//             });
+//             map.addEventListener('moving', function (e) {
+//                 var point = map.getCenter();
+//                 marker.setPosition(point);
+//                 saveMapPoint(point);
+//                 // setmapaddress(point);
+//             });
+//             var options = {
+//                 onSearchComplete: function (results) {
+//                     // 判断状态是否正确
+//                     if (local.getStatus() == BMAP_STATUS_SUCCESS) {
+//                         var poi = results.getPoi(0);
+//                         setMapPoint(poi.point);
+//                     }
+//                 }
+//             };
+//
+//             var local = new BMap.LocalSearch(map, options);
+//             $('#mapaddress').on('keyup', function () {
+//                 local.search($('#mapaddress').val());
+//             });
+//
+//             $(document).on(window.CLICK_EVENT, '#address-result li[data-point]', function () {
+//                 var address = $(this).text();
+//                 var point = $(this).data('point').split(/,/ig);
+// //                $('#mapaddress').val(address).blur();
+//                 setMapPoint(new BMap.Point(parseFloat(point[0]), parseFloat(point[1])));
+//                 $("#address-result").html('');
+//             });
+//         }
 
         $(document).ready(function(){
             "{if empty($item)}"
@@ -302,7 +306,7 @@
             if (locationy == 0 || locationx == 0) {
                 window.onload = distance;
             } else {
-                creatmap();
+                // creatmap();
             }
 
             function distance() { //定位当前地址
@@ -325,7 +329,7 @@
             function positions(position) {
                 $("#lng").val(position.lng);
                 $("#lat").val(position.lat);
-                creatmap();
+                // creatmap();
             }
         });
         "{/if}"
@@ -462,8 +466,8 @@
 //            $('.popup-overlay').removeClass('modal-overlay-visible')
 //            var timer = setTimeout("close()", 450)
 //        });
-		var address ="{$item['address']}";
-		$('#mapaddress').val(address);
+		//var address ="{$item['address']}";
+		//$('#mapaddress').val(address);
         $('#address-list-editor .input-address').click(function (e) {
             $('.popup-address-locator').css({"display": "block"})
             $('.popup-address-locator').animate({"top": "0"}, 400)

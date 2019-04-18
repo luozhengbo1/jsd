@@ -1429,7 +1429,8 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
         if ($storeid == 0 || $mode == 0) {
             $backurl = $this->createMobileUrl('usercenter', array(), true);
         }
-        $addurl = $this->createMobileUrl('useraddress', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'op' => 'post', 'id' => $id, 'selectdate' => $selectdate, 'timeid' => $timeid, 'rtype' => $rtype), true);
+        $addurl = $this->createMobileUrl('useraddress',
+            array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'op' => 'post', 'id' => $id, 'selectdate' => $selectdate, 'timeid' => $timeid, 'rtype' => $rtype), true);
 
         $newmapurl = $this->createMobileUrl('useraddress',
             array('storeid' => $storeid,
@@ -1444,7 +1445,7 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
         } else if ($operation == 'post') {
             $id = intval($_GPC['id']);
             $item = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE id=:id", array(":id" => $id));
-
+            $item['address'] = $_GPC["myValue"]?$_GPC["myValue"]:$item['address'];
 
         } else if ($operation == 'AddAddress') {
             $data = array(
@@ -1478,11 +1479,14 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
                 exit;
             }
             //地图地址选择页面
-        }else if ( $operation == "mapselecte" ) {
-            include $this->template($this->cur_tpl . '/address_mapselecte');
+        }else  if( $operation == "mapselecte"){
+            $x = $_GPC['x'];
+            $y = $_GPC['y'];
+            include $this->template($this->cur_tpl . '/address_mapselecte');die;
         }
         include $this->template($this->cur_tpl . '/address');
     }
+
 
 
     public function doMobileGetgoodsdetail()
