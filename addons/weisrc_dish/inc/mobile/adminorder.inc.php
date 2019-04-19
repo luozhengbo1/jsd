@@ -4,6 +4,7 @@ $weid = $this->_weid;
 $from_user = $this->_fromuser;
 $setting = $this->getSetting();
 $status = 0;
+$type = isset($_GPC['type']) ? intval($_GPC['type']) : 1;
 
 if (!empty($_GPC['status'])) {
     $status = intval($_GPC['status']);
@@ -94,6 +95,23 @@ foreach ($order_list as $key => $value) {
     }
 
 }
-
-
+foreach ($order_list as $k => $v){
+    if ($type == 1) {
+        if(!(($v['ispay'] == 1 && $v['status']==0)||($v['ispay'] == 2))){
+            unset($order_list[$k]);
+        }
+    } elseif ($type == 2) {
+        if(!($v['ispay'] == 1 && $v['status']==1)){
+            unset($order_list[$k]);
+        }
+    } elseif ($type == 3) {
+        if(!($v['ispay'] == 1 && ($v['status']==1 || $v['status']==3))){
+            unset($order_list[$k]);
+        }
+    } elseif ($type == 4) {
+        if(!($v['status'] == -1 && ($v['ispay']==0 || $v['ispay']==2 || $v['ispay']==3))){
+            unset($order_list[$k]);
+        }
+    }
+}
 include $this->template($this->cur_tpl . '/admin_order');
