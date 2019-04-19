@@ -8,7 +8,7 @@ $rtype = intval($_GPC['rtype']);
 $setting = $this->getSetting();
 $zhekou = $_GPC['zhekou'];
 $psnum = $_GPC['psnum'];
-//var_dump($psnum);exit();
+//var_dump($from_user);exit();
 
 $mode = intval($_GPC['ordertype']) == 0 ? 1 : intval($_GPC['ordertype']);
 $is_auto_address = intval($setting['is_auto_address']);

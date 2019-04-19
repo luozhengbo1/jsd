@@ -744,6 +744,7 @@ class Common_EweiShopV2Model {
         $package['notify_url'] = $_W['siteroot'] . "addons/ewei_shopv2/payment/wechat/notify.php";
         $package['trade_type'] = 'JSAPI';
         $package['openid'] = empty($params['openid']) ? trim($_W['openid']) : trim($params['openid']);
+
         ksort($package, SORT_STRING);
         $string1 = '';
         foreach ($package as $key => $v) {

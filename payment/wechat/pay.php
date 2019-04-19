@@ -11,6 +11,8 @@ load()->app('template');
 load()->model('payment');
 $sl = $_GPC['ps'];
 $payopenid = $_GPC['payopenid'];
+//var_dump($payopenid);die;
+
 $params = @json_decode(base64_decode($sl), true);
 if($_GPC['done'] == '1') {
 	$log = pdo_get('core_paylog', array('plid' => $params['tid']));
@@ -54,6 +56,7 @@ if($auth != $_GPC['auth']) {
 	exit('参数传输错误.');
 }
 $setting = uni_setting($_W['uniacid'], array('payment'));
+
 if (!empty($_GPC['code'])) {
 	$proxy_pay_account = payment_proxy_pay_account();
 	$oauth = $proxy_pay_account->getOauthInfo($_GPC['code']);
@@ -82,7 +85,7 @@ $params = array(
 	'title' => urldecode($params['title']),
 	'uniontid' => $log['uniontid'],
 );
-var_dump($wechat);die;
+
 
 if (intval($wechat['switch']) == 3 || intval($wechat['switch']) == 2) {
 	$wOpt = wechat_proxy_build($params, $wechat);

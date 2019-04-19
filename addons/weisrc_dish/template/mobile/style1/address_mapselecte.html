@@ -93,7 +93,7 @@
     //BMAP_STATUS_TIMEOUT    超时。对应数值“8”。(自 1.1 新增)
     function confirmAddress(myValue)
     {
-        var url = "http://jsd.vgogbuy.cn/app/index.php?i=2&c=entry&storeid=106&mode=2&tablesid=0&op=post&id=0&selectdate=&timeid=0&rtype=1&do=useraddress&m=weisrc_dish&myValue="+myValue
+        var url = "{$addurl}&myValue="+myValue
         document.location.href=url
         //用户单击某一项之后，跳转会页面，同时将地址传递过去
     }

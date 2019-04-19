@@ -448,7 +448,9 @@ function uni_setting_load($name = '', $uniacid = 0) {
 	global $_W;
 	$uniacid = empty($uniacid) ? $_W['uniacid'] : $uniacid;
 	$cachekey = "unisetting:{$uniacid}";
-	$unisetting = cache_load($cachekey);
+//	cache_clean($cachekey);
+    $unisetting = cache_load($cachekey);
+//    print_r($unisetting);die;
 	if (empty($unisetting)) {
 		$unisetting = pdo_get('uni_settings', array('uniacid' => $uniacid));
 		if (!empty($unisetting)) {

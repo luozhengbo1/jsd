@@ -925,11 +925,12 @@ $(document).ready(function(e) {
                             var url = "{php echo $this->createMobileUrl('orderdetail', array(), true)}" + "&orderid=" + data.message['orderid'];
                         } else{
                             "{if $store['is_order_tip'] == 1}"
-                            var url = "{php echo $this->createMobileUrl('paytip', array(), true)}" + "&orderid=" + data.message['orderid'];
+                            var url = "{php echo $this->createMobileUrl('paytip',array(), true)}" + "&orderid=" + data.message['orderid'];
                             "{else}"
-                            var url = "{php echo $this->createMobileUrl('pay', array(), true)}" + "&orderid=" + data.message['orderid'];
+                            var url = "{php echo $this->createMobileUrl('pay', array('payopenid'=>$from_user), true)}" + "&orderid=" + data.message['orderid'];
                             "{/if}"
                         }
+                        // console.log(url)
                         location.href = url;
                     } else {
                         $.mvalidateTip(data.message['msg']);

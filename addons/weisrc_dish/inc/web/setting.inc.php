@@ -17,7 +17,6 @@ if (empty($stores)) {
 $setting = $this->getSetting();
 
 $fans = $this->getFansByOpenid($setting['tpluser']);
-
 if (checksubmit('submit')) {
 
     $data = array(
@@ -119,6 +118,8 @@ if (checksubmit('submit')) {
         'is_show_virtual' => intval($_GPC['is_show_virtual']),
         'dada_key'=>$_GPC['dada_key'],
         'dada_secret'=>$_GPC['dada_secret'],
+        //新增字段语音提示
+        'yy_ts_time'=>$_GPC['yy_ts_time'],
     );
 
     if ($config['is_fengniao']==1) {

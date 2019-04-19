@@ -5,6 +5,7 @@
     function checkorder() {
         $.post("{php echo $this->createMobileUrl('checkorder', array('storeid' => $storeid));}", function(data){
             var tip = "/attachment/audios/order.mp3";
+            console.log(data)
             if(data == 'success') {
                 $("#music")[0].src= tip;
                 $("#music")[0].play();

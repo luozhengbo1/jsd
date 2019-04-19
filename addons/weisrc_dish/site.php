@@ -5715,7 +5715,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $url = $url . '/selfOrdernum/' . $selfOrdernum . '/openId/' . $openId . '/customerId/' . $customerId . '/money/' . $money . '/notifyUrl/' . $notifyUrl . '/successUrl/' . $successUrl . '/uid/' . $uid . '/goodsName/' . $goodsName . '/remark/' . $remark . '/sign/' . $signIn;
             $jueqi_ymf_url = $url;
         }
-        
         if (IMS_VERSION >= '1.5.1') {
             include $this->template('paycenter_1.5.1');
         } elseif (IMS_VERSION != '0.7') {
@@ -7291,7 +7290,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             return 1000001;
         }
     }
-
+    //web 端后台
     public function doWebCheckOrder()
     {
         global $_W, $_GPC;
@@ -7324,6 +7323,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
         }
     }
 
+    //手机端后台
     public function doMobileCheckOrder()
     {
         global $_W, $_GPC;
@@ -7343,6 +7343,25 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             }
         }
     }
+//    public function doMobileCheckOrder()
+//    {
+//        global $_W, $_GPC;
+//        $setting = $this->getSetting();
+//        if ($setting['is_speaker'] == 1) {
+//            $storeid = intval($_GPC['storeid']);
+//            if ($storeid == 0) {
+//                $service = pdo_fetch("SELECT content FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
+//            } else {
+//                $service = pdo_fetch("SELECT content FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid, ':storeid' => $storeid));
+//            }
+//
+//            if ($service) {
+//                if (!empty($service['content'])) {
+//                    exit($service['content']);
+//                }
+//            }
+//        }
+//    }
 
     public function doWebCheckDeliveryOrder()
     {

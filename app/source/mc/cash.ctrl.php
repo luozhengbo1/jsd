@@ -174,7 +174,7 @@ if(!empty($type)) {
 		$sl = base64_encode(json_encode($ps));
 		$auth = sha1($sl . $_W['uniacid'] . $_W['config']['setting']['authkey']);
 
-		$callback = $_W['siteroot'] . "payment/wechat/pay.php?i={$_W['uniacid']}&auth={$auth}&ps={$sl}";
+		$callback = $_W['siteroot'] . "payment/wechat/pay.php?i={$_W['uniacid']}&auth={$auth}&ps={$sl}&payopenid={$_GPC['payopenid']}";
 		$global_unisetting = uni_account_global_oauth();
 		$unisetting['oauth']['host'] = !empty($unisetting['oauth']['host']) ? $unisetting['oauth']['host'] : $global_unisetting['oauth']['host'];
 		if (!empty($unisetting['oauth']['host'])) {
@@ -186,7 +186,6 @@ if(!empty($type)) {
 			header('Location: ' . $forward);
 			exit;
 		}
-
 		header("Location: $callback");
 		exit();
 	}

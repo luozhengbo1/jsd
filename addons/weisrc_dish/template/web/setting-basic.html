@@ -37,6 +37,16 @@
                     <label for="is_speaker2" class="radio-inline"><input type="radio" name="is_speaker" value="0" id="is_speaker2"  {if $setting['is_speaker']==0 || empty($setting)}checked{/if} /> 关闭</label>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">语音提示次数设置：</label>
+                <div class="col-sm-9">
+                    {if empty($setting['yy_ts_time'])}
+                    <label for="yy_ts_time" class="radio-inline">语音自动提示<input type="number" name="yy_ts_time" min="1" value="3" id="yy_ts_time" /> 次后，将不再提醒（默认为3次，请自行设置）</label>
+                    {else}
+                    <label for="yy_ts_time" class="radio-inline">语音自动提示<input type="number" name="yy_ts_time" min="1" value="{$setting['yy_ts_time']}" id="yy_ts_time" /> 次后，将不再提醒（默认为3次，请自行设置）</label>
+                    {/if}
+                </div>
+            </div>
             {if $_W['role'] == 'manager' || $_W['isfounder']}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-3 col-md-2 control-label">开启操作密码</label>

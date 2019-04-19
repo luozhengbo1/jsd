@@ -133,7 +133,7 @@ function wechat_build($params, $wechat) {
 		$wOpt['paySign'] = sha1($string);
 		return $wOpt;
 	} else {
-				if (!empty($params['user']) && is_numeric($params['user'])) {
+        if (!empty($params['user']) && is_numeric($params['user'])) {
 			$params['user'] = mc_uid2openid($params['user']);
 		}
 		$package = array();
@@ -153,7 +153,9 @@ function wechat_build($params, $wechat) {
 			$package['trade_type'] = 'NATIVE';
 			$package['product_id'] = $params['goodsid'];
 		} else {
-			$package['openid'] = empty($params['user']) ? $_W['fans']['from_user'] : $params['user'];
+//            $package['openid'] = empty($params['user']) ? $_W['fans']['from_user'] : $params['user'];
+            //支付openid
+            $package['openid'] = empty($params['user']) ?  $wechat['openid'] : $params['user'];
 			if (!empty($wechat['sub_mch_id'])) {
 				$package['sub_mch_id'] = $wechat['sub_mch_id'];
 			}
@@ -170,16 +172,17 @@ function wechat_build($params, $wechat) {
 			}
 			$string1 .= "{$key}={$v}&";
 		}
-		$string1 .= "key={$wechat['signkey']}";
+        $string1 .= "key={$wechat['signkey']}";
 		$package['sign'] = strtoupper(md5($string1));
-		$dat = array2xml($package);
+        $dat = array2xml($package);
 		$response = ihttp_request('https://api.mch.weixin.qq.com/pay/unifiedorder', $dat);
 		if (is_error($response)) {
 			return $response;
 		}
 		$xml = @isimplexml_load_string($response['content'], 'SimpleXMLElement', LIBXML_NOCDATA);
-		if (strval($xml->return_code) == 'FAIL') {
-			return error(-1, strval($xml->return_msg));
+//        print_r($xml);die;
+        if (strval($xml->return_code) == 'FAIL') {
+            return error(-1, strval($xml->return_msg));
 		}
 		if (strval($xml->result_code) == 'FAIL') {
 			return error(-1, strval($xml->err_code).': '.strval($xml->err_code_des));
