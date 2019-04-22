@@ -4673,7 +4673,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $templateMessage->send_template_message($order['from_user'], $templateid, $content, $access_token, $url);
         } else {
             $content = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
-            $content .= "\n订单号：{$keyword1}";
+            //$content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
             $content .= "\n时间：{$keyword3}";
             $content .= "\n门店名称：{$store['title']}";
@@ -4688,7 +4688,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content .= "\n桌台类型：{$tablezones['title']}";
                 $content .= "\n预定时间：{$order['meal_time']}";
             } else {
-                $content .= "\n联系方式：{$order['username']}－{$order['tel']}";
+                $content .= "\n配送信息：{$order['username']}－{$order['tel']}";
             }
             if ($order['dining_mode'] == 1) {
                 $tablename = $this->getTableName($order['tables']);
@@ -4696,7 +4696,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             }
             if ($order['dining_mode'] == 2) {
                 if (!empty($order['address'])) {
-                    $content .= "\n配送地址：{$order['address']}";
+                    //$content .= "\n配送地址：{$order['address']}";
+                    $content .= "\n{$order['address']}";
                 }
                 if (!empty($order['meal_time'])) {
                     $content .= "\n配送时间：{$order['meal_time']}";
@@ -4708,8 +4709,13 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             if (!empty($order['reply'])) {
                 $content .= "\n商家回复：{$order['reply']}";
             }
-
-            $content .= "\n应收合计：{$order['totalprice']}元";
+            if(!empty($order["storeid"])){
+                $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
+                $content .= "\n商家联系方式：{$tel['tel']}";
+            }
+            $total = $order['totalprice']+$order['dprice'];
+            $content .= "\n应收合计：{$total}元";
+            $content .= "\n实付合计：{$order['totalprice']}元";
             if ($order['credit'] > 0) {
                 $content .= "\n奖励积分：{$order['credit']}";
             }
@@ -7294,51 +7300,59 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
     public function doWebCheckOrder()
     {
         global $_W, $_GPC;
+        $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
         $setting = $this->getSetting();
-
+        $ts_times = $_GPC['ts_times']?$_GPC['ts_times']:$setIsSpeak['yy_ts_time'];
         if ($setting['is_speaker']==1) {
             $is_speaker = 1;
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
-                $strwhere = " WHERE weid=:weid AND status=0 ";
-                $param = array(':weid' => $this->_weid);
+                $strwhere = " WHERE weid=:weid AND status=0 and ts_times<:ts_times";
+                $param = array(':weid' => $this->_weid,':ts_times'=>$ts_times);
             } else {
                 $store = $this->getStoreById($storeid);
                 if ($store['is_speaker']==1) {
-                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid ";
-                    $param = array(':weid' => $this->_weid, ':storeid' => $storeid);
+                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times";
+                    $param = array(':weid' => $this->_weid,':storeid'=>$storeid,':ts_times'=>$ts_times);
                 } else {
                     $is_speaker = 0;
                 }
             }
-
             if ($is_speaker == 1) {
                 $service = pdo_fetch("SELECT * FROM " . tablename($this->table_service_log) . " {$strwhere} ORDER BY id DESC LIMIT 1", $param);
+                $update = ['ts_times'=>$service['ts_times']+1];
+                $where=['id'=>$service['id']];
+                pdo_update('weisrc_dish_service_log',$update,$where);
                 if ($service) {
                     if (!empty($service['content'])) {
-                        exit($service['content']);
+                        exit($service['id'].$service['content']);
                     }
                 }
             }
         }
     }
-
     //手机端后台
     public function doMobileCheckOrder()
     {
         global $_W, $_GPC;
         $setting = $this->getSetting();
         if ($setting['is_speaker'] == 1) {
+            //提示次數
+            $ts_times = $_GPC['ts_times'];
+            //第幾次
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
-                $service = pdo_fetch("SELECT content FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
+                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
             } else {
-                $service = pdo_fetch("SELECT content FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid, ':storeid' => $storeid));
+                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times ORDER BY id DESC LIMIT 1",
+                    array(':weid' => $this->_weid, ':storeid' => $storeid,':ts_times'=>$ts_times));
             }
-
             if ($service) {
+                $update = ['ts_times'=>$service['ts_times']+1];
+                $where=['id'=>$service['id']];
+                pdo_update('weisrc_dish_service_log',$update,$where);
                 if (!empty($service['content'])) {
-                    exit($service['content']);
+                    exit($service['id'].$service['content']);
                 }
             }
         }
