@@ -7,10 +7,27 @@ $id = intval($_GPC['id']);
 if (empty($from_user)) {
     $this->showMsg('请重新发送关键字进入系统!');
 }
-
 if ($id == 0) { //未选队列
     $this->showMsg('请先选择订单!');
 } else { //已选队列
+    //將商品庫存加回來
+    $sql = "select a.total,a.goodsid,b.isoptions,a.optionid from 
+            ".tablename('weisrc_dish_order_goods')."as a left join 
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid";
+    $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
+
+    if($goodsList && is_array($goodsList)){
+        foreach ($goodsList as $k=>$v){
+            //判斷商品是否啓用規格
+            if($v['isoptions']!=1){
+                pdo_update("weisrc_dish_goods",$update['counts']="`counts`+{$v['total']}",$where['id']=$v['goodsid']);
+            }else{
+                //啓用規格的商品 邏輯設計有bug 沒庫存
+            }
+
+
+        }
+    }
     $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND from_user=:from_user AND status=0 ORDER BY id DESC LIMIT 1", array(':id' => $id, ':from_user' => $from_user));
     if (empty($order)) {
         $this->showMsg('订单不存在！');

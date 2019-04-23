@@ -6,10 +6,13 @@
 define('IN_MOBILE', true);
 require '../../framework/bootstrap.inc.php';
 $input = file_get_contents('php://input');
+file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$input."\n",8);
+
 $isxml = true;
 if (!empty($input) && empty($_GET['out_trade_no'])) {
 	$obj = isimplexml_load_string($input, 'SimpleXMLElement', LIBXML_NOCDATA);
 	$data = json_decode(json_encode($obj), true);
+	file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$data,8);
 	if (empty($data)) {
 		$result = array(
 			'return_code' => 'FAIL',
@@ -33,14 +36,34 @@ if (!empty($input) && empty($_GET['out_trade_no'])) {
 }
 load()->web('common');
 load()->classs('coupon');
-$_W['uniacid'] = $_W['weid'] = intval($get['attach']);
-$_W['uniaccount'] = $_W['account'] = uni_fetch($_W['uniacid']);
-$_W['acid'] = $_W['uniaccount']['acid'];
-$setting = uni_setting($_W['uniacid'], array('payment'));
+    $_W['uniacid'] = $_W['weid'] = intval($get['attach']);
+    $_W['uniaccount'] = $_W['account'] = uni_fetch($_W['uniacid']);
+    $_W['acid'] = $_W['uniaccount']['acid'];
+    $setting = uni_setting($_W['uniacid'], array('payment'));
+//訂單語音提示
+$ordertsData = pdo_fetch('select id,ordersn,storeid from'.tablename("weisrc_dish_order")." where transid=:transid limit 1",array(':transid'=>$data['transaction_id']));
+if($ordertsData){
+    $ordertsData['orderid'] = 85341;
+    $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid limit 1',array(':orderid'=>$ordertsData['orderid']));
+    if(!$yytsres){
+        pdo_insert("weisrc_dish_service_log",
+            array(
+                'orderid' => $ordertsData['id'],
+                'storeid' =>$ordertsData['storeid'] ,
+                'weid' => $_W['weid'] ,
+                'from_user' => $data['openid'],
+                'content' => '您有未处理的订单，请尽快处理12312344',
+                'dateline' => TIMESTAMP,
+                'status' => 0)
+        );
+    }
+
+}
 if ($get['trade_type'] == 'NATIVE') {
 	$setting = setting_load('store_pay');
 	$setting['payment']['wechat'] = $setting['store_pay']['wechat'];
 }
+
 if(is_array($setting['payment'])) {
 	$wechat = $setting['payment']['wechat'];
 	WeUtility::logging('pay', var_export($get, true));

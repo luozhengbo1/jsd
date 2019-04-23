@@ -3,19 +3,18 @@
 </audio>
 <script>
     function checkorder() {
-        $.post("{php echo $this->createMobileUrl('checkorder', array('storeid' => $storeid));}", function(data){
+        var times = $("#is_speaker_times").val()
+        $.post("{php echo $this->createMobileUrl('checkorder', array('storeid' => $storeid));}", {'ts_times':times},function(data){
             var tip = "/attachment/audios/order.mp3";
-            console.log(data)
+            $("#music")[0].src= tip;
             if(data == 'success') {
-                $("#music")[0].src= tip;
-                $("#music")[0].play();
+                $("#music")[0].play()
             } else {
                 if (data != '') {
-                    $("#music")[0].src=tip;
-                    $("#music")[0].play();
+                    $("#music")[0].play()
                 }
             }
-            setTimeout(checkorder, 10000);
+            setTimeout(checkorder, 5000);
         });
     }
     $(function(){

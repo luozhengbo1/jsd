@@ -114,4 +114,5 @@ foreach ($order_list as $k => $v){
         }
     }
 }
+$setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
 include $this->template($this->cur_tpl . '/admin_order');

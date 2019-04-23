@@ -513,16 +513,16 @@ if ($this->msg_status_success == 2) {
 }
 
 $this->addOrderLog($orderid, $touser, 1, 1, 1);
-pdo_insert($this->table_service_log,
-    array(
-        'orderid' => $orderid,
-        'storeid' => $storeid,
-        'weid' => $weid,
-        'from_user' => $from_user,
-        'content' => '您有未处理的订单，请尽快处理',
-        'dateline' => TIMESTAMP,
-        'status' => 0)
-);
+//pdo_insert($this->table_service_log,
+//    array(
+//        'orderid' => $orderid,
+//        'storeid' => $storeid,
+//        'weid' => $weid,
+//        'from_user' => $from_user,
+//        'content' => '您有未处理的订单，请尽快处理123123',
+//        'dateline' => TIMESTAMP,
+//        'status' => 0)
+//);
 //if ($mode == 5) {
 //    $params['tid'] = $orderid;
 //    $params['user'] = $_W['fans']['from_user'];
