@@ -3,7 +3,6 @@ global $_W, $_GPC;
 $weid = $this->_weid;
 $from_user = $this->_fromuser;
 $id = intval($_GPC['id']);
-
 if (empty($from_user)) {
     $this->showMsg('请重新发送关键字进入系统!');
 }
@@ -20,11 +19,12 @@ if ($id == 0) { //未选队列
         foreach ($goodsList as $k=>$v){
             //判斷商品是否啓用規格
             if($v['isoptions']!=1){
-                pdo_update("weisrc_dish_goods",$update['counts']="`counts`+{$v['total']}",$where['id']=$v['goodsid']);
-            }else{
-                //啓用規格的商品 邏輯設計有bug 沒庫存
+                $update=['counts' =>"`counts`+{$v['total']}"];
+                pdo_update("weisrc_dish_goods",$update,$where['id']=$v['goodsid']);
             }
-
+//            else{
+                //啓用規格的商品 邏輯設計有bug 沒庫存
+//            }
 
         }
     }
@@ -43,6 +43,25 @@ if ($id == 0) { //未选队列
     }
     if ($order['ispay'] == 1) {
         pdo_update($this->table_order, array('ispay' => 2), array('id' => $id));
+        //將生成對應的語音提示信息
+        if($order){
+            $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid  and ts_type=2 limit 1',array(':orderid'=>$order['orderid']));
+            if(!$yytsres){
+                pdo_insert("weisrc_dish_service_log",
+                    array(
+                        'orderid' => $order['id'],
+                        'storeid' =>$order['storeid'] ,
+                        'weid' => $order['weid'] ,
+                        'from_user' => $order['from_user'],
+                        'content' => '您有待退款的的订单，请尽快处理',
+                        'dateline' => TIMESTAMP,
+                        'status' => 0,
+                        'ts_type'=>2,
+                    )
+                );
+            }
+
+        }
     }
 
     pdo_update($this->table_order, array('status' => -1), array('id' => $id));

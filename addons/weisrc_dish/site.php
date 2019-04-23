@@ -4677,7 +4677,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             //$content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
             $content .= "\n时间：{$keyword3}";
-            $content .= "\n门店名称：{$store['title']}"; 
+            $content .= "\n门店名称：{$store['title']}";
             $content .= "\n支付方式：{$paytype[$order['paytype']]}";
             $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
 
@@ -7313,7 +7313,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             } else {
                 $store = $this->getStoreById($storeid);
                 if ($store['is_speaker']==1) {
-                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times";
+                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times   ";
                     $param = array(':weid' => $this->_weid,':storeid'=>$storeid,':ts_times'=>$ts_times);
                 } else {
                     $is_speaker = 0;
@@ -7326,7 +7326,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
                 pdo_update('weisrc_dish_service_log',$update,$where);
                 if ($service) {
                     if (!empty($service['content'])) {
-                        exit($service['id'].$service['content']);
+                        exit($service['ts_type']);
                     }
                 }
             }
@@ -7343,9 +7343,9 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             //第幾次
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
-                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
             } else {
-                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times ORDER BY id DESC LIMIT 1",
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times   ORDER BY id DESC LIMIT 1",
                     array(':weid' => $this->_weid, ':storeid' => $storeid,':ts_times'=>$ts_times));
             }
             if ($service) {
@@ -7353,7 +7353,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
                 $where=['id'=>$service['id']];
                 pdo_update('weisrc_dish_service_log',$update,$where);
                 if (!empty($service['content'])) {
-                    exit($service['id'].$service['content']);
+                    exit($service['ts_type']);
                 }
             }
         }

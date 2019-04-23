@@ -7262,12 +7262,13 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             return 1000001;
         }
     }
-    //    web 端后台
+    //web 端后台
     public function doWebCheckOrder()
     {
         global $_W, $_GPC;
+        $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
         $setting = $this->getSetting();
-        $ts_times = $_GPC['ts_times']?$_GPC['ts_times']:3;
+        $ts_times = $_GPC['ts_times']?$_GPC['ts_times']:$setIsSpeak['yy_ts_time'];
         if ($setting['is_speaker']==1) {
             $is_speaker = 1;
             $storeid = intval($_GPC['storeid']);
@@ -7277,7 +7278,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             } else {
                 $store = $this->getStoreById($storeid);
                 if ($store['is_speaker']==1) {
-                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times";
+                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times   ";
                     $param = array(':weid' => $this->_weid,':storeid'=>$storeid,':ts_times'=>$ts_times);
                 } else {
                     $is_speaker = 0;
@@ -7290,13 +7291,12 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
                 pdo_update('weisrc_dish_service_log',$update,$where);
                 if ($service) {
                     if (!empty($service['content'])) {
-                        exit($service['id'].$service['content']);
+                        exit($service['ts_type']);
                     }
                 }
             }
         }
     }
-
     //手机端后台
     public function doMobileCheckOrder()
     {
@@ -7308,9 +7308,9 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             //第幾次
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
-                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
             } else {
-                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times ORDER BY id DESC LIMIT 1",
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times   ORDER BY id DESC LIMIT 1",
                     array(':weid' => $this->_weid, ':storeid' => $storeid,':ts_times'=>$ts_times));
             }
             if ($service) {
@@ -7318,12 +7318,11 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
                 $where=['id'=>$service['id']];
                 pdo_update('weisrc_dish_service_log',$update,$where);
                 if (!empty($service['content'])) {
-                    exit($service['id'].$service['content']);
+                    exit($service['ts_type']);
                 }
             }
         }
     }
-
     public function doWebCheckDeliveryOrder()
     {
         global $_W, $_GPC;

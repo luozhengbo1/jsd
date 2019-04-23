@@ -7,7 +7,24 @@ define('IN_MOBILE', true);
 require '../../framework/bootstrap.inc.php';
 $input = file_get_contents('php://input');
 file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$input."\n",8);
-
+$input = "<xml><appid><![CDATA[wx0fd57bd3a7fc8709]]></appid>
+<attach><![CDATA[2]]></attach>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1532311851]]></mch_id>
+<nonce_str><![CDATA[HMN9o8F5]]></nonce_str>
+<openid><![CDATA[oW-VD07I3zg4YdNen8HuK5oH4O6U]]></openid>
+<out_trade_no><![CDATA[2019042310500900001388585981]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[583F333DDA51CCDAA469F9C51C2C8EE2]]></sign>
+<time_end><![CDATA[20190423105041]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000318201904239662914297]]></transaction_id>
+</xml>";
 $isxml = true;
 if (!empty($input) && empty($_GET['out_trade_no'])) {
 	$obj = isimplexml_load_string($input, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -40,11 +57,11 @@ load()->classs('coupon');
     $_W['uniaccount'] = $_W['account'] = uni_fetch($_W['uniacid']);
     $_W['acid'] = $_W['uniaccount']['acid'];
     $setting = uni_setting($_W['uniacid'], array('payment'));
+
 //訂單語音提示
 $ordertsData = pdo_fetch('select id,ordersn,storeid from'.tablename("weisrc_dish_order")." where transid=:transid limit 1",array(':transid'=>$data['transaction_id']));
 if($ordertsData){
-    $ordertsData['orderid'] = 85341;
-    $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid limit 1',array(':orderid'=>$ordertsData['orderid']));
+    $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid and ts_type=1 limit 1',array(':orderid'=>$ordertsData['id']));
     if(!$yytsres){
         pdo_insert("weisrc_dish_service_log",
             array(
@@ -52,9 +69,11 @@ if($ordertsData){
                 'storeid' =>$ordertsData['storeid'] ,
                 'weid' => $_W['weid'] ,
                 'from_user' => $data['openid'],
-                'content' => '您有未处理的订单，请尽快处理12312344',
+                'content' => printf($yytsres),
                 'dateline' => TIMESTAMP,
-                'status' => 0)
+                'status' => 0,
+                'ts_type'=>1,
+            )
         );
     }
 
@@ -68,7 +87,8 @@ if(is_array($setting['payment'])) {
 	$wechat = $setting['payment']['wechat'];
 	WeUtility::logging('pay', var_export($get, true));
 	if(!empty($wechat)) {
-		ksort($get);
+
+        ksort($get);
 		$string1 = '';
 		foreach($get as $k => $v) {
 			if($v != '' && $k != 'sign') {
@@ -84,15 +104,15 @@ if(is_array($setting['payment'])) {
 		}
 		$sign = strtoupper(md5($string1 . "key={$wechat['signkey']}"));
 		if($sign == $get['sign']) {
-			$sql = 'SELECT * FROM ' . tablename('core_paylog') . ' WHERE `uniontid`=:uniontid';
+            $sql = 'SELECT * FROM ' . tablename('core_paylog') . ' WHERE `uniontid`=:uniontid';
 			$params = array();
 			$params[':uniontid'] = $get['out_trade_no'];
 			$log = pdo_fetch($sql, $params);
 			if (intval($wechat['switch']) == PAYMENT_WECHAT_TYPE_SERVICE) {
 				$get['openid'] = $log['openid'];
 			}
-						if(!empty($log) && $log['status'] == '0' && (($get['total_fee'] / 100) == $log['card_fee'])) {
-				$log['tag'] = iunserializer($log['tag']);
+			if(!empty($log) && $log['status'] == '0' && (($get['total_fee'] / 100) == $log['card_fee'])) {
+                $log['tag'] = iunserializer($log['tag']);
 				$log['tag']['transaction_id'] = $get['transaction_id'];
 				$log['uid'] = $log['tag']['uid'];
 				$record = array();
@@ -145,13 +165,14 @@ if(is_array($setting['payment'])) {
 						if(!empty($get['time_end'])) {
 							$ret['paytime'] = strtotime($get['time_end']);
 						}
-						$site->$method($ret);
+                        $site->$method($ret);
 						if($isxml) {
 							$result = array(
 								'return_code' => 'SUCCESS',
 								'return_msg' => 'OK'
 							);
 							echo array2xml($result);
+
 							exit;
 						} else {
 							exit('success');
