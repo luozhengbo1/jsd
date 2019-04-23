@@ -675,6 +675,8 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             }
 
             if ($result == 1) {
+                $order["ispay"] = 3;//为了初始化订单退款推送状态
+                $this->sendOrderNotice($order, $store, $setting);
                 message('退款成功！', $url, 'success');
             } else {
                 message('退款失败！', $url, 'error');
@@ -682,9 +684,11 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         } else if ($order['paytype'] == 1) {
             $this->setFansCoin($order['from_user'], $refund_price, "码上点餐单号{$order['ordersn']}退款");
             pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));
+            $this->sendOrderNotice($order, $store, $setting);
             message('操作成功！', $url, 'success');
         } else {
             pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));
+            $this->sendOrderNotice($order, $store, $setting);
             message('操作成功！', $url, 'success');
         }
     } else {

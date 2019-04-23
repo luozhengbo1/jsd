@@ -4672,6 +4672,87 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $templateMessage = new templateMessage();
             $templateMessage->send_template_message($order['from_user'], $templateid, $content, $access_token, $url);
         } else {
+            if($order["ispay"] == 1 && $order["status"] == 0){
+                //顾客下单付款成功的通知
+                $content = "您的订单{$order['ordersn']}";
+                //$content .= "\n订单号：{$keyword1}";
+                $content .= "\n订单状态：等待商家接单";
+                $content .= "\n时间：{$keyword3}";
+                $content .= "\n门店名称：{$store['title']}";
+                $content .= "\n支付方式：{$paytype[$order['paytype']]}";
+                $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
+                $content .= "\n配送信息：{$order['username']}－{$order['tel']}";
+                $content .= "\n{$order['address']}";
+                if(!empty($order["storeid"])){
+                    $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
+                    $content .= "\n商家联系方式：{$tel['tel']}";
+                }
+                $total = $order['totalprice']+$order['dprice'];
+                $content .= "\n应收合计：{$total}元";
+                $content .= "\n实付合计：{$order['totalprice']}元";
+                /* if ($order['credit'] > 0) {
+                     $content .= "\n奖励积分：{$order['credit']}";
+                 }*/
+                $this->sendText($order['from_user'], $content);
+            }
+
+            if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 3){
+                //B.邮寄店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
+                $content = "您的订单{$order['ordersn']}";
+                //$content .= "\n订单号：{$keyword1}";
+                //todo 接入顺丰单号
+                $content .= "\n订单状态：已确认";
+                $content .= "\n物流信息：<a href='https://m.kuaidi100.com/index_all.html?type=quanfengkuaidi&postid=123456'>点击查看物流信息</a>";
+                $content .= "\n时间：{$keyword3}";
+                $content .= "\n门店名称：{$store['title']}";
+                $content .= "\n支付方式：{$paytype[$order['paytype']]}";
+                $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
+                if(!empty($order["storeid"])){
+                    $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
+                    $content .= "\n商家联系方式：{$tel['tel']}";
+                }
+                $this->sendText($order['from_user'], $content);
+            }
+
+            if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 1){
+                //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
+                $date = date("Y-m-d H:i", $order['paytime']);
+                $content = "您的订单{$order['ordersn']}";
+                //$content .= "\n订单号：{$keyword1}";
+                $content .= "\n订单状态：已确认";
+                $content .= "\n时间：{$date}";
+                $content .= "\n门店名称：{$store['title']}";
+                $content .= "\n支付方式：{$paytype[$order['paytype']]}";
+                $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
+                if(!empty($order["storeid"])){
+                    $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
+                    $content .= "\n商家联系方式：{$tel['tel']}";
+                }
+                $this->sendText($order['from_user'], $content);
+
+                $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
+                //todo 如果是达达派送，输入外卖小哥的电话
+                $content1 .= "\n联系方式：{$tel['tel']}";
+                $this->sendText($order['from_user'], $content1);
+            }
+
+            if ($order["ispay"] == 3 && $order["status"] == -1){
+                //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
+                $content = "您的订单{$order['ordersn']}";
+                $content .= "\n订单状态：退款成功";
+                $content .= "\n时间：{$keyword3}";
+                $content .= "\n门店名称：{$store['title']}";
+                $content .= "\n配送信息：{$order['username']}－{$order['tel']}";
+                $content .= "\n{$order['address']}";
+                if(!empty($order["storeid"])){
+                    $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
+                    $content .= "\n商家联系方式：{$tel['tel']}";
+                }
+                $total = $order['totalprice']+$order['dprice'];
+                $content .= "\n应退金额：{$total}元";
+                $content .= "\n实退金额：{$order['totalprice']}元";
+                $this->sendText($order['from_user'], $content);
+            }/*
             $content = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
             //$content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
@@ -4719,7 +4800,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             if ($order['credit'] > 0) {
                 $content .= "\n奖励积分：{$order['credit']}";
             }
-            $this->sendText($order['from_user'], $content);
+            $this->sendText($order['from_user'], $content);*/
         }
     }
 
@@ -5158,7 +5239,11 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $result = $result['errmsg'] == 'ok' ? '发送成功' : $result['errmsg'];
             $this->addTplLog($order, $from_user, '管理员订单通知', $result);
         } else {
-            $content = "您有新的订单";
+            if ($order["ispay"] == 2 && $order["status"] == -1){
+                $content = "您一笔退款订单，请尽快处理";
+            }else{
+                $content = "您有新的订单";
+            }
             $content .= "\n订单类型：{$ordertype[$order['dining_mode']]}";
             $content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
@@ -5170,6 +5255,9 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             }
             $content .= "\n支付方式：{$paytype[$order['paytype']]}";
             $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
+            if ($order["ispay"] == 2 && $order["status"] == -1){
+                $content = "\n应退款{$order['totalprice']}元";
+            }
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
                 $content .= "\n商品名称   单价 数量";
@@ -5186,14 +5274,14 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content .= "\n桌台类型：{$tablezones['title']}";
                 $content .= "\n预定时间：{$order['meal_time']}";
             } else {
-                $content .= "\n联系方式：{$order['username']}－{$order['tel']}";
+                $content .= "\n配送信息：{$order['username']}－{$order['tel']}";
             }
             if ($order['dining_mode'] == 2) {
                 if (!empty($order['address'])) {
-                    $content .= "\n配送地址：{$order['address']}";
+                    $content .= "\n{$order['address']}";
                 }
                 if (!empty($order['meal_time'])) {
-                    $content .= "\n配送时间：{$order['meal_time']}";
+                  //  $content .= "\n配送时间：{$order['meal_time']}";
                 }
             }
             $content .= "\n备注：{$order['remark']}";
@@ -7312,7 +7400,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             } else {
                 $store = $this->getStoreById($storeid);
                 if ($store['is_speaker']==1) {
-                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times";
+                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times   ";
                     $param = array(':weid' => $this->_weid,':storeid'=>$storeid,':ts_times'=>$ts_times);
                 } else {
                     $is_speaker = 0;
@@ -7325,7 +7413,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
                 pdo_update('weisrc_dish_service_log',$update,$where);
                 if ($service) {
                     if (!empty($service['content'])) {
-                        exit($service['id'].$service['content']);
+                        exit($service['ts_type']);
                     }
                 }
             }
@@ -7342,9 +7430,9 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             //第幾次
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
-                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
             } else {
-                $service = pdo_fetch("SELECT id,content,ts_times FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times ORDER BY id DESC LIMIT 1",
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times   ORDER BY id DESC LIMIT 1",
                     array(':weid' => $this->_weid, ':storeid' => $storeid,':ts_times'=>$ts_times));
             }
             if ($service) {
@@ -7352,7 +7440,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
                 $where=['id'=>$service['id']];
                 pdo_update('weisrc_dish_service_log',$update,$where);
                 if (!empty($service['content'])) {
-                    exit($service['id'].$service['content']);
+                    exit($service['ts_type']);
                 }
             }
         }
