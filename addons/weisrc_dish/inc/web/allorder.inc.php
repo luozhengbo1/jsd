@@ -438,6 +438,7 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
 } elseif ($operation == 'confirmall') {
     $rowcount = 0;
     $notrowcount = 0;
+//    var_dump($_GPC['idArr']);die;
     foreach ($_GPC['idArr'] as $k => $id) {
         $id = intval($id);
         if (!empty($id)) {

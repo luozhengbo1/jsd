@@ -25,15 +25,53 @@ if ($operation == 'display') {
             'displayorder' => 0,
         );
     }
+//    echo "<pre>";
+//    print_r($distancelist);die;
     if (checksubmit('submit')) {
-        $data = array(
-            'weid' => $weid,
-            'begindistance'=>$_GPC['begindistance'],
-            'enddistance' => $_GPC['enddistance'],
-            'dispatchprice'=>$_GPC['dispatchprice'],
-        );
+        $distanceids = array(0);
+//        echo "<pre>";
+        if (is_array($_GPC['begindistance'])) {
+            foreach ($_GPC['begindistance'] as $oid => $val) {
+                $begindistance = floatval($_GPC['begindistance'][$oid]);
+                $enddistance = floatval($_GPC['enddistance'][$oid]);
+                $dispatchprice = floatval($_GPC['dispatchprices'][$oid]);
+                $data = array(
+                    'weid' => $weid,
+                    'begindistance' => $begindistance,
+                    'enddistance' => $enddistance,
+                    'dispatchprice' => $dispatchprice,
+                );
+                pdo_update($this->table_distance_pt, $data, array('id' => $_GPC['id'][$oid]));
+                $distanceids[] = $oid;
+            }
+        }
 
-        $distancelist = pdo_insert($this->table_distance_pt, $data);
+        if (is_array($_GPC['newbegindistance'])) {
+            foreach ($_GPC['newbegindistance'] as $nid => $val) {
+                $begindistance = floatval($_GPC['newbegindistance'][$nid]);
+                $enddistance = floatval($_GPC['newenddistance'][$nid]);
+                $dispatchprice = floatval($_GPC['newdispatchprices'][$nid]);
+                if (empty($enddistance)) {
+                    continue;
+                }
+                if ($enddistance <= $begindistance) {
+                    continue;
+                }
+                $data = array(
+                    'weid' => $weid,
+                    'begindistance' => $begindistance,
+                    'enddistance' => $enddistance,
+                    'dispatchprice' => $dispatchprice,
+                    'dateline' => TIMESTAMP
+                );
+                pdo_insert($this->table_distance_pt, $data);
+                $did = pdo_insertid();
+                $distanceids[] = $did;
+            }
+        }
+//            echo "<pre>";
+//            print_r($data);die;
+
         message('设置成功 ', $this->createWebUrl('outside', array('op' => 'display')), 'success');
     }
 } elseif ($operation == 'delete') {

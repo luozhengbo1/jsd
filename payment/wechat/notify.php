@@ -7,29 +7,11 @@ define('IN_MOBILE', true);
 require '../../framework/bootstrap.inc.php';
 $input = file_get_contents('php://input');
 file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$input."\n",8);
-$input = "<xml><appid><![CDATA[wx0fd57bd3a7fc8709]]></appid>
-<attach><![CDATA[2]]></attach>
-<bank_type><![CDATA[CFT]]></bank_type>
-<cash_fee><![CDATA[1]]></cash_fee>
-<fee_type><![CDATA[CNY]]></fee_type>
-<is_subscribe><![CDATA[Y]]></is_subscribe>
-<mch_id><![CDATA[1532311851]]></mch_id>
-<nonce_str><![CDATA[HMN9o8F5]]></nonce_str>
-<openid><![CDATA[oW-VD07I3zg4YdNen8HuK5oH4O6U]]></openid>
-<out_trade_no><![CDATA[2019042310500900001388585981]]></out_trade_no>
-<result_code><![CDATA[SUCCESS]]></result_code>
-<return_code><![CDATA[SUCCESS]]></return_code>
-<sign><![CDATA[583F333DDA51CCDAA469F9C51C2C8EE2]]></sign>
-<time_end><![CDATA[20190423105041]]></time_end>
-<total_fee>1</total_fee>
-<trade_type><![CDATA[JSAPI]]></trade_type>
-<transaction_id><![CDATA[4200000318201904239662914297]]></transaction_id>
-</xml>";
 $isxml = true;
 if (!empty($input) && empty($_GET['out_trade_no'])) {
 	$obj = isimplexml_load_string($input, 'SimpleXMLElement', LIBXML_NOCDATA);
 	$data = json_decode(json_encode($obj), true);
-	file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$data,8);
+//	file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$data,8);
 	if (empty($data)) {
 		$result = array(
 			'return_code' => 'FAIL',

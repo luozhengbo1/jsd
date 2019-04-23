@@ -1,14 +1,35 @@
+<!--<div class="form-group">-->
+<!--    &lt;!&ndash; <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label> &ndash;&gt;-->
+<!--    <div class="col-sm-7">-->
+<!--        -->
+<!--        <div class="input-group">-->
+<!--            <span class="input-group-addon">配送距离：</span>-->
+<!--            <input type="text" class="form-control" value="" name="begindistance">-->
+<!--            <span class="input-group-addon no-b">公里至</span>-->
+<!--            <input type="text" class="form-control" value="" name="enddistance">-->
+<!--            <span class="input-group-addon no-b">公里,平台承担的配送费</span>-->
+<!--            <input type="text" class="form-control" value="" name="dispatchprice">-->
+<!--            &lt;!&ndash;<span class="input-group-addon no-b">元,起送费</span>&ndash;&gt;-->
+<!--            &lt;!&ndash;<input type="text" class="form-control" value="" name="sendingprice[]">&ndash;&gt;-->
+<!--            <span class="input-group-addon no-l-b">元</span>-->
+<!--            &lt;!&ndash;freeprice&ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="col-sm-1">-->
+<!--        <a class="btn btn-danger btn-sm" onclick="$(this).parents('.form-group').remove(); return false;" href="{php echo $this->createWebUrl('outside', array('op' => 'delete', 'id' => $row['id']))}">删除-->
+<!--        </a>-->
+<!--    </div>-->
+<!--</div>-->
 <div class="form-group">
-    <!-- <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label> -->
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
     <div class="col-sm-7">
-        
         <div class="input-group">
             <span class="input-group-addon">配送距离：</span>
-            <input type="text" class="form-control" value="" name="begindistance">
+            <input type="text" class="form-control" value="" name="newbegindistance[]">
             <span class="input-group-addon no-b">公里至</span>
-            <input type="text" class="form-control" value="" name="enddistance">
+            <input type="text" class="form-control" value="" name="newenddistance[]">
             <span class="input-group-addon no-b">公里,平台承担的配送费</span>
-            <input type="text" class="form-control" value="" name="dispatchprice">
+            <input type="text" class="form-control" value="" name="newdispatchprices[]">
             <!--<span class="input-group-addon no-b">元,起送费</span>-->
             <!--<input type="text" class="form-control" value="" name="sendingprice[]">-->
             <span class="input-group-addon no-l-b">元</span>
@@ -19,5 +40,4 @@
         <a class="btn btn-danger btn-sm" onclick="$(this).parents('.form-group').remove(); return false;" href="{php echo $this->createWebUrl('outside', array('op' => 'delete', 'id' => $row['id']))}">删除
         </a>
     </div>
-
 </div>
