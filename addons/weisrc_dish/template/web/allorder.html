@@ -534,6 +534,7 @@
                 check.each(function (i) {
                     id[i] = $(this).val();
                 });
+                console.log(id)
                 var url = "{php echo $this->createWebUrl('allorder', array('op' => 'printall', 'storeid' => $storeid, 'position_type' => 2))}";
                 $.post(
                         url,
@@ -555,8 +556,8 @@
             if (confirm("确认要支付选择的订单?")) {
                 var id = new Array();
                 check.each(function (i) {
-                    id[i] = $(this).val();
-                });
+
+                });   id[i] = $(this).val();
                 var url = "{php echo $this->createWebUrl('allorder', array('op' => 'payall', 'storeid' => $storeid))}";
                 var paytype = $('#pay_id').val();
                 $.post(
@@ -575,7 +576,7 @@
         $("input[name=btn_confirmall]").click(function () {
             var check = $("input[type=checkbox][class!=check_all]:checked");
             if (check.length < 1) {
-                alert('请选择要确认的订单!');
+                alert('请选择要确认的订单!123');
                 return false;
             }
             if (confirm("确定要确认选择的订单?")) {
@@ -583,6 +584,7 @@
                 check.each(function (i) {
                     id[i] = $(this).val();
                 });
+                console.log(id)
                 var url = "{php echo $this->createWebUrl('allorder', array('op' => 'confirmall', 'storeid' => $storeid))}";
                 $.post(
                         url,
@@ -592,6 +594,18 @@
                             location.reload();
                         }, 'json'
                         );
+                // $.ajax({
+                //     url:url,
+                //     type:'post',
+                //     traditional:true,
+                //     data:  {idArr: id},
+                //     success:function (data) {
+                //         console.log(data)
+                //         console.log(id)
+                //         // alert(data.error);
+                //         // location.reload();
+                //     }
+                // })
             }
         });
         $("input[name=btn_finishall]").click(function () {

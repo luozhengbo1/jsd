@@ -30,12 +30,13 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
                     <div class="col-sm-7">
                         <div class="input-group">
+                            <input type="hidden" class="form-control" value="{$row['id']}" name="id[]">
                             <span class="input-group-addon">配送距离：</span>
-                            <input type="text" class="form-control" value="{$row['begindistance']}" name="begindistance">
+                            <input type="text" class="form-control" value="{$row['begindistance']}" name="begindistance[]">
                             <span class="input-group-addon no-b">公里至</span>
-                            <input type="text" class="form-control" value="{$row['enddistance']}" name="enddistance">
+                            <input type="text" class="form-control" value="{$row['enddistance']}" name="enddistance[]">
                             <span class="input-group-addon no-b">公里,平台承担的配送费</span>
-                            <input type="text" class="form-control" value="{$row['dispatchprice']}" name="dispatchprices">
+                            <input type="text" class="form-control" value="{$row['dispatchprice']}" name="dispatchprices[]">
                             <!--<span class="input-group-addon no-b">元,起送费</span>-->
                             <!--<input type="text" class="form-control" value="" name="sendingprice[]">-->
                             <span class="input-group-addon no-l-b">元</span>

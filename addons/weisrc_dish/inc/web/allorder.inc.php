@@ -375,9 +375,9 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
     foreach ($_GPC['idArr'] as $k => $id) {
 
         $id = intval($id);
-        print_r($id);
-       echo 1; 
-exit();
+//        print_r($id);
+//       echo 1;
+//exit();
         if (!empty($id)) {
             $order = $this->getOrderById($id);
             $prints = pdo_fetchall("SELECT * FROM " . tablename($this->table_print_setting) . " WHERE weid = :weid AND storeid=:storeid", array(':weid' => $weid, ':storeid' => $order['storeid']));
@@ -438,6 +438,7 @@ exit();
 } elseif ($operation == 'confirmall') {
     $rowcount = 0;
     $notrowcount = 0;
+//    var_dump($_GPC['idArr']);die;
     foreach ($_GPC['idArr'] as $k => $id) {
         $id = intval($id);
         if (!empty($id)) {
@@ -450,6 +451,10 @@ exit();
                 pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
                 $this->addOrderLog($id, $_W['user']['username'], 2, 2, 3);
                 $rowcount++;
+                //將對處理的訂單不再進行語音提示
+                $updatets=['status'=>1] ;
+                $wherets=['id'=> $id];
+                pdo_update('weisrc_dish_service_log',$updatets,$wherets);
             }
         }
     }

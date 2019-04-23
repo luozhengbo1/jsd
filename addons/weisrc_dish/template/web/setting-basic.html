@@ -37,7 +37,7 @@
                     <label for="is_speaker2" class="radio-inline"><input type="radio" name="is_speaker" value="0" id="is_speaker2"  {if $setting['is_speaker']==0 || empty($setting)}checked{/if} /> 关闭</label>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="yytstimes">
                 <label class="col-xs-12 col-sm-3 col-md-2 control-label">语音提示次数设置：</label>
                 <div class="col-sm-9">
                     {if empty($setting['yy_ts_time'])}
@@ -300,3 +300,11 @@
         </div>
     </div>
 </div>
+<script>
+    $('#is_speaker2').click(function () {
+        $('#yytstimes').css('display','none')
+    })
+    $('#is_speaker1').click(function () {
+        $('#yytstimes').css('display','block')
+    })
+</script>

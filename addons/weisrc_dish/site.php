@@ -5239,6 +5239,9 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $result = $result['errmsg'] == 'ok' ? '发送成功' : $result['errmsg'];
             $this->addTplLog($order, $from_user, '管理员订单通知', $result);
         } else {
+            if ($order["ispay"] == 0 ){
+                return ;
+            }
             if ($order["ispay"] == 2 && $order["status"] == -1){
                 $content = "您一笔退款订单，请尽快处理";
             }else{

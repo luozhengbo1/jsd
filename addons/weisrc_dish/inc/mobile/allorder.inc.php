@@ -438,6 +438,7 @@ exit();
 } elseif ($operation == 'confirmall') {
     $rowcount = 0;
     $notrowcount = 0;
+
     foreach ($_GPC['idArr'] as $k => $id) {
         $id = intval($id);
         if (!empty($id)) {
@@ -450,7 +451,12 @@ exit();
                 pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
                 $this->addOrderLog($id, $_W['user']['username'], 2, 2, 3);
                 $rowcount++;
+                //將對處理的訂單不再進行語音提示
+                $updatets=['status'=>1] ;
+                $wherets=['id'=> $id];
+                pdo_update('weisrc_dish_service_log',$updatets,$wherets);
             }
+
         }
     }
     $this->message("操作成功,共操作{$rowcount}条数据!", '', 0);

@@ -6,10 +6,12 @@
 define('IN_MOBILE', true);
 require '../../framework/bootstrap.inc.php';
 $input = file_get_contents('php://input');
+file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$input."\n",8);
 $isxml = true;
 if (!empty($input) && empty($_GET['out_trade_no'])) {
 	$obj = isimplexml_load_string($input, 'SimpleXMLElement', LIBXML_NOCDATA);
 	$data = json_decode(json_encode($obj), true);
+//	file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$data,8);
 	if (empty($data)) {
 		$result = array(
 			'return_code' => 'FAIL',
@@ -33,19 +35,42 @@ if (!empty($input) && empty($_GET['out_trade_no'])) {
 }
 load()->web('common');
 load()->classs('coupon');
-$_W['uniacid'] = $_W['weid'] = intval($get['attach']);
-$_W['uniaccount'] = $_W['account'] = uni_fetch($_W['uniacid']);
-$_W['acid'] = $_W['uniaccount']['acid'];
-$setting = uni_setting($_W['uniacid'], array('payment'));
+    $_W['uniacid'] = $_W['weid'] = intval($get['attach']);
+    $_W['uniaccount'] = $_W['account'] = uni_fetch($_W['uniacid']);
+    $_W['acid'] = $_W['uniaccount']['acid'];
+    $setting = uni_setting($_W['uniacid'], array('payment'));
+
+//訂單語音提示
+$ordertsData = pdo_fetch('select id,ordersn,storeid from'.tablename("weisrc_dish_order")." where transid=:transid limit 1",array(':transid'=>$data['transaction_id']));
+if($ordertsData){
+    $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid and ts_type=1 limit 1',array(':orderid'=>$ordertsData['id']));
+    if(!$yytsres){
+        pdo_insert("weisrc_dish_service_log",
+            array(
+                'orderid' => $ordertsData['id'],
+                'storeid' =>$ordertsData['storeid'] ,
+                'weid' => $_W['weid'] ,
+                'from_user' => $data['openid'],
+                'content' => printf($yytsres),
+                'dateline' => TIMESTAMP,
+                'status' => 0,
+                'ts_type'=>1,
+            )
+        );
+    }
+
+}
 if ($get['trade_type'] == 'NATIVE') {
 	$setting = setting_load('store_pay');
 	$setting['payment']['wechat'] = $setting['store_pay']['wechat'];
 }
+
 if(is_array($setting['payment'])) {
 	$wechat = $setting['payment']['wechat'];
 	WeUtility::logging('pay', var_export($get, true));
 	if(!empty($wechat)) {
-		ksort($get);
+
+        ksort($get);
 		$string1 = '';
 		foreach($get as $k => $v) {
 			if($v != '' && $k != 'sign') {
@@ -61,15 +86,15 @@ if(is_array($setting['payment'])) {
 		}
 		$sign = strtoupper(md5($string1 . "key={$wechat['signkey']}"));
 		if($sign == $get['sign']) {
-			$sql = 'SELECT * FROM ' . tablename('core_paylog') . ' WHERE `uniontid`=:uniontid';
+            $sql = 'SELECT * FROM ' . tablename('core_paylog') . ' WHERE `uniontid`=:uniontid';
 			$params = array();
 			$params[':uniontid'] = $get['out_trade_no'];
 			$log = pdo_fetch($sql, $params);
 			if (intval($wechat['switch']) == PAYMENT_WECHAT_TYPE_SERVICE) {
 				$get['openid'] = $log['openid'];
 			}
-						if(!empty($log) && $log['status'] == '0' && (($get['total_fee'] / 100) == $log['card_fee'])) {
-				$log['tag'] = iunserializer($log['tag']);
+			if(!empty($log) && $log['status'] == '0' && (($get['total_fee'] / 100) == $log['card_fee'])) {
+                $log['tag'] = iunserializer($log['tag']);
 				$log['tag']['transaction_id'] = $get['transaction_id'];
 				$log['uid'] = $log['tag']['uid'];
 				$record = array();
@@ -122,13 +147,14 @@ if(is_array($setting['payment'])) {
 						if(!empty($get['time_end'])) {
 							$ret['paytime'] = strtotime($get['time_end']);
 						}
-						$site->$method($ret);
+                        $site->$method($ret);
 						if($isxml) {
 							$result = array(
 								'return_code' => 'SUCCESS',
 								'return_msg' => 'OK'
 							);
 							echo array2xml($result);
+
 							exit;
 						} else {
 							exit('success');

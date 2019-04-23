@@ -135,11 +135,9 @@ if ($do == 'upload') {
 	$ext = strtolower($ext);
 	$size = intval($_FILES['file']['size']);
 	$originname = $_FILES['file']['name'];
-
 	$filename = file_random_name(ATTACHMENT_ROOT . '/' . $setting['folder'], $ext);
 
 	$file = file_upload($_FILES['file'], $type, $setting['folder'] . $filename, true);
-
 	if (is_error($file)) {
 		$result['message'] = $file['message'];
 		die(json_encode($result));

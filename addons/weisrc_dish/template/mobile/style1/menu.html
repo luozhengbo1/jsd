@@ -73,26 +73,26 @@
                     {else}
                     <input type="hidden" id="meal_date" value="" name="meal_date">
                     {/if}
-                    <li class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title label">配送时间:</div>
-                            <div class="item-input">
-                                <select name="meal_time" id="meal_time">
-                                    {$select_mealtime}
-                                </select>
-                            </div>
-                        </div>
-                    </li>
-                    {if $delivery_radius>0}
-                    <li class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title label">配送范围:</div>
-                            <div class="item-input">
-                                {if $delivery_radius>0}{$delivery_radius}公里{/if}
-                            </div>
-                        </div>
-                    </li>
-                    {/if}
+<!--                    <li class="item-content">-->
+<!--                        <div class="item-inner">-->
+<!--                            <div class="item-title label">配送时间:</div>-->
+<!--                            <div class="item-input">-->
+<!--                                <select name="meal_time" id="meal_time">-->
+<!--                                    {$select_mealtime}-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    {if $delivery_radius>0}-->
+<!--                    <li class="item-content">-->
+<!--                        <div class="item-inner">-->
+<!--                            <div class="item-title label">配送范围:</div>-->
+<!--                            <div class="item-input">-->
+<!--                                {if $delivery_radius>0}{$delivery_radius}公里{/if}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    {/if}-->
                 {/if}
                 <!--多收餐地址-->
                 {if $is_auto_address==0}

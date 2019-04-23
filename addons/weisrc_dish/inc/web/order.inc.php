@@ -534,7 +534,6 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
 } elseif ($operation == 'confirmall') {
     $rowcount = 0;
     $notrowcount = 0;
-    $_GPC['idArr4'] = ['85262'];
     foreach ($_GPC['idArr4'] as $k => $id) {
         $id = intval($id);
 
