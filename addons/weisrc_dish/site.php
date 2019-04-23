@@ -4672,11 +4672,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $templateMessage = new templateMessage();
             $templateMessage->send_template_message($order['from_user'], $templateid, $content, $access_token, $url);
         } else {
-            $content = "您的订单---------1-----------{$order['ordersn']}{$firstArr[$order['status']]}";
+
+            $content = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
             //$content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
             $content .= "\n时间：{$keyword3}";
-            $content .= "\n门店名称：{$store['title']}";
+            $content .= "\n门店名称：{$store['title']}"; 
             $content .= "\n支付方式：{$paytype[$order['paytype']]}";
             $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
 
@@ -4709,8 +4710,13 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             if (!empty($order['reply'])) {
                 $content .= "\n商家回复：{$order['reply']}";
             }
-
-            $content .= "\n应收合计：{$order['totalprice']}元";
+            if(!empty($order["storeid"])){
+                $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
+                $content .= "\n商家联系方式：{$tel['tel']}";
+            }
+            $total = $order['totalprice']+$order['dprice'];
+            $content .= "\n应收合计：{$total}元";
+            $content .= "\n实付合计：{$order['totalprice']}元";
             if ($order['credit'] > 0) {
                 $content .= "\n奖励积分：{$order['credit']}";
             }
