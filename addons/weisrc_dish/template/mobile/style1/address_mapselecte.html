@@ -20,13 +20,21 @@
 <body>
 <div id="allmap"></div>
 <div style="width:auto;height:55px;'">
-    <input type="text" id="locate" style="background-color:pink;" placeholder="地址"/ >
+    <input type="text" id="locate" style="background-color:pink;" placeholder="地址"  />
     <input type="button" value="确定" style="background-color:blue;"／>
+    <input type="hidden" id="point1"value="" />
+    <input type="hidden" id="point2" value="" />
 </div>
 </body>
 </html>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
     // 百度地图API功能
+    var title = [];
+    var address = [];
+    var points = [];
+    var currentPoint = "";
+    var currentAddress = "";
     var map = new BMap.Map("allmap");
     var point = new BMap.Point("{$x}","{$y}");
     map.centerAndZoom(point,17);
@@ -42,45 +50,98 @@
     ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
         var _value = e.item.value;
         myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        console.log("1:"+_value.province+"2:"+_value.city+"3:"+_value.district+"4:"+_value.street+"5:"+_value.business);
-        // showPoiFromKeyword();
-        console.log(myValue)
-        confirmAddress(myValue)
+        showPoiFromKeyword();
     });
-
+    function showPoiFromKeyword(){
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: function(results){
+                if (local.getStatus() == BMAP_STATUS_SUCCESS) {
+                    var point1 = local.getResults().getPoi(0).point;
+                    var title = local.getResults().getPoi(0).title;
+                    var address = local.getResults().getPoi(0).address;
+                    points[0] =point1
+                    // console.log(point1)
+                    confirmAddress(myValue)
+                }
+            }
+        });
+        local.search(myValue);
+    }
     geolocation.getCurrentPosition(function(r){
         var mk = new BMap.Marker(r.point);
         if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            currentPonit = r.point;
             map.addOverlay(mk);
             map.panTo(r.point);
             map.addEventListener('ondragging', function(){
                 mk.setPosition(map.getCenter());
             });
+
+            map.addEventListener("moveend",showCurrentPoi);
             //   地图停止移动后获取mk经纬度
-            map.addEventListener('moveend',function(){
-                var pos = mk.getPosition();
-                console.log(pos);
-                // 创建地址解析对象
-                var geoc = new BMap.Geocoder();
-                geoc.getLocation(pos, function(rs){
-                    var addComp = rs.addressComponents;
-
-                    // alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
-                    content = addComp.province +  addComp.city +  addComp.district +  addComp.street  + addComp.streetNumber;
-                    $("#locate").val(content)
-                });
-
-            })
-            //console.log(pos);
+            // map.addEventListener('moveend',function(){
+            //     var pos = mk.getPosition();
+            //     console.log(pos);
+            //     // 创建地址解析对象
+            //     var geoc = new BMap.Geocoder();
+            //     geoc.getLocation(pos, function(rs){
+            //         var addComp = rs.addressComponents;
+            //         // alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+            //         content = addComp.province +  addComp.city +  addComp.district +  addComp.street  + addComp.streetNumber;
+            //         $("#locate").val(content)
+            //         // 创建地址解析器实例
+            //     });
+            //     // geoc.getPoint(pos, function(point){
+            //     //     if (point) {
+            //     //         map.centerAndZoom(point, 16);
+            //     //         map.addOverlay(new BMap.Marker(point));
+            //     //     }else{
+            //     //         alert("您选择地址没有解析到结果!");
+            //     //     }
+            //     // }, "北京市");
+            // })
             // alert('您的位置：'+r.point.lng+','+r.point.lat);
         }
         else {
             alert('failed'+this.getStatus());
         }
 
-
-
     },{enableHighAccuracy: true})
+    function showCurrentPoi()
+    {
+        var center = map.getCenter();
+        var local = new BMap.LocalSearch(map, {
+            renderOptions: {selectFirstResult:true},
+            // onSearchComplete:function(results){
+            //     if (local.getStatus() == BMAP_STATUS_SUCCESS){
+            //         var s = [];
+            //         var content = "";
+            //         content = " <ul class='mui-table-view'> ";
+            //         for (var i = 0; i < results.getCurrentNumPois(); i++)
+            //         {
+            //             title[i] = results.getPoi(i).title;
+            //             address[i] = results.getPoi(i).address;
+            //             points[i] = results.getPoi(i).point;
+            //             content = content +
+            //                 " <li class='mui-table-view-cell mui-media'> <a href='javascript:confirmAddress(" + i + ");'>  <a id='icon-location' class='mui-media-object mui-pull-left'><span style='color:red' class='mui-icon mui-icon-location'></span></a> <div class='mui-media-body'>" +
+            //                 title[i] + "<p class='mui-ellipsis'>" +
+            //                 address[i] + "</div> </a> </li>";
+            //         }
+            //         content = content + " </ul>";
+            //         document.getElementById("r-result").innerHTML = content;
+            //     }
+            // }
+        });
+        var myGeo = new BMap.Geocoder();
+        myGeo.getLocation(center, function (result) {
+            console.log(center)
+            // points[1] = center
+            if (result) {
+                local.search(result.address);
+            }
+        });
+    }
+
     //关于状态码
     //BMAP_STATUS_SUCCESS    检索成功。对应数值“0”。
     //BMAP_STATUS_CITY_LIST    城市列表。对应数值“1”。
@@ -93,7 +154,11 @@
     //BMAP_STATUS_TIMEOUT    超时。对应数值“8”。(自 1.1 新增)
     function confirmAddress(myValue)
     {
-        var url = "{$addurl}&myValue="+myValue
+        console.log(points)
+        console.log(points[0].lng)
+        console.log(points[0].lat)
+        var url = "{$addurl}&myValue="+myValue+"&lat="+points[0].lat+"&lng="+points[0].lng
+        console.log(url)
         document.location.href=url
         //用户单击某一项之后，跳转会页面，同时将地址传递过去
     }

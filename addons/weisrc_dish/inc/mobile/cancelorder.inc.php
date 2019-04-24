@@ -10,12 +10,12 @@ if ($id == 0) { //未选队列
     $this->showMsg('请先选择订单!');
 } else { //已选队列
     //將商品庫存加回來
-    $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts from 
-            ".tablename('weisrc_dish_order_goods')."as a left join 
+    $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts from
+            ".tablename('weisrc_dish_order_goods')."as a left join
             " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid and b.counts<>-1";
     $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
 
-    if($goodsList && is_array($goodsList)){
+    if(!empty($goodsList) && is_array($goodsList)){
         foreach ($goodsList as $k=>$v){
             //判斷商品是否啓用規格
             if($v['isoptions']!=1){

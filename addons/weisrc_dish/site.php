@@ -1411,6 +1411,7 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
         return $isnewuser;
     }
 
+    //地址添加
     public function doMobileUserAddress()
     {
         global $_GPC, $_W;
@@ -1444,6 +1445,8 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
             $list = pdo_fetchall($sql, $paras);
         } else if ($operation == 'post') {
             $id = intval($_GPC['id']);
+            $lat = ($_GPC['lat']);
+            $lng = ($_GPC['lng']);
             $item = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE id=:id", array(":id" => $id));
             $item['address'] = $_GPC["myValue"]?$_GPC["myValue"]:$item['address'];
 

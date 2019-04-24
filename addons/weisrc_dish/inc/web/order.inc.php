@@ -534,18 +534,21 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
 } elseif ($operation == 'confirmall') {
     $rowcount = 0;
     $notrowcount = 0;
+//    var_dump($_GPC['idArr4']);die;
     foreach ($_GPC['idArr4'] as $k => $id) {
         $id = intval($id);
 
         if (!empty($id)) {
             $order = $this->getOrderById($id);
             if ($order) {
-                // if ($order['status'] == -1 || $order['ispay'] == 3) {
-                //     continue;
-                // }
-                // pdo_update($this->table_order, array('status' => 1, 'confirmtime' => TIMESTAMP), array('id' => $id, 'weid' => $weid));
-                // pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
-                $this->doDada($weid,$id,$storeid);exit;
+                 if ($order['status'] == -1 || $order['ispay'] == 3) {
+                     continue;
+                 }
+                 //修改訂單為確認
+                 pdo_update($this->table_order, array('status' => 1, 'confirmtime' => TIMESTAMP), array('id' => $id, 'weid' => $weid));
+                //將對應訂單提醒修改為，已確認
+                pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
+                $this->doDada($weid,$id,$storeid);
                 $this->addOrderLog($id, $_W['user']['username'], 2, 2, 3);
                 $rowcount++;
             }

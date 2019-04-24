@@ -1825,6 +1825,10 @@
                 success: function (data) {
                     if (data['message']['code'] != 0) {
                         $.mvalidateTip(data['message']['msg']);
+                        if(data['message']['code']==1 ){
+                            //將此商品移除
+                        }
+                        console.log(data)
                         return;
                     } else {
                         totalprice = data['message']['totalprice'];
