@@ -16,6 +16,7 @@ if ($mode == 0) {
 }
 
 $user = pdo_fetch("SELECT * FROM " . tablename($this->table_fans) . " WHERE weid = :weid  AND from_user=:from_user ORDER BY `id` DESC limit 1", array(':weid' => $weid, ':from_user' => $from_user));
+
 if ($user['status'] == 0) {
     message('你被禁止下单,不能进行相关操作...');
 }
@@ -281,14 +282,13 @@ $is_auto_address = intval($setting['is_auto_address']);
 
 $over_radius = 0;
 $delivery_radius = floatval($store['delivery_radius']);
-//var_dump($delivery_radius);
+//var_dump($mode);die;
 if ($mode == 2) {
     //距离
-    $distance = $this->getDistanceByGaodeForRiding($user['lat'], $user['lng'], $store['lat'], $store['lng']);
-	if($distance == 0)
-	{
-		$distance = $this->getDistance($user['lat'], $user['lng'], $store['lat'], $store['lng']);
-	}
+    $addressLatLng =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_useraddress') . " WHERE id = :id limit 1", array(':id' => $_GPC['addressid']));
+    //計算兩經緯度之間距離
+//    $distance = $this->getDistanceByGaodeForRiding($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
+    $distance = $this->getDistance($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
     $distance = floatval($distance);
     if ($store['not_in_delivery_radius'] == 0) { //只能在距离范围内
         if ($distance > $delivery_radius) {
@@ -297,17 +297,17 @@ if ($mode == 2) {
 
     }
 }
-//var_dump($distance);exit();
 
 if ($is_auto_address == 0 && $useraddress) { //多收餐地址 算距离
 //if ($useraddress) { //多收餐地址 算距离
-    $distance = $this->getDistanceByGaodeForRiding($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
-	if($distance == 0)
-	{
-		$distance = $this->getDistance($user['lat'], $user['lng'], $store['lat'], $store['lng']);
-	}
+//    $distance = $this->getDistanceByGaodeForRiding($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
+//	if($distance == 0)
+//	{
+    $distance = $this->getDistance($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
+//	}
     $distance = floatval($distance);
 }
+
 $dispatchareas_pt =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_distance_pt') . " WHERE weid=:weid and begindistance<'{$distance}' and enddistance>'{$distance}' ORDER BY id ASC", array(':weid' => $weid));
 if(empty($dispatchareas_pt)){
     $dispatchareas_pt = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_distance_pt'). "where weid =:weid and enddistance < '{$distance}' order by enddistance desc ",array(':weid'=>$weid));

@@ -51,7 +51,7 @@ if($ordertsData){
                 'storeid' =>$ordertsData['storeid'] ,
                 'weid' => $_W['weid'] ,
                 'from_user' => $data['openid'],
-                'content' => printf($yytsres),
+                'content' => "您有待確認的订单，请尽快处理",
                 'dateline' => TIMESTAMP,
                 'status' => 0,
                 'ts_type'=>1,
