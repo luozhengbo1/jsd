@@ -4736,7 +4736,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $this->sendText($order['from_user'], $content1);
             }
 
-            if ($order["ispay"] == 3 && $order["status"] == -1){
+            if ($order["ispay"] == 3 && $order["status"] == "-1"){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
                 $content = "您的订单{$order['ordersn']}";
                 $content .= "\n订单状态：退款成功";
@@ -5257,9 +5257,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content .= "\n桌台信息：{$tablename}";
             }
             $content .= "\n支付方式：{$paytype[$order['paytype']]}";
-            $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
             if ($order["ispay"] == 2 && $order["status"] == -1){
-                $content = "\n应退款{$order['totalprice']}元";
+                $content .= "\n应退款{$order['totalprice']}元";
+            }else{
+                $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
             }
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
