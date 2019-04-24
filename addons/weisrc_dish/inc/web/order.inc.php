@@ -666,7 +666,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         if ($refund_price > $coin) {
             message('退款金额不能大于订单金额！', $url, 'success');
         }
-
+        $store = $this->getStoreById($order['storeid']);
         if ($order['paytype'] == 2) { //微信支付
             if ($cur_store['is_jxkj_unipay'] == 1) { //万融收银
                 $result = $this->refund4($id, $storeid);
@@ -677,6 +677,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             }
 
             if ($result == 1) {
+                $order["refund_price1"] = $refund_price;
                 $order["ispay"] = 3;//为了初始化订单退款推送状态
                 $this->sendOrderNotice($order, $store, $setting);
                 message('退款成功！', $url, 'success');

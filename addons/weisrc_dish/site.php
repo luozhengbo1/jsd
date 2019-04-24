@@ -4719,7 +4719,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 1){
                 //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
-                $date = date("Y-m-d H:i", $order['paytime']);
+                $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
                 //$content .= "\n订单号：{$keyword1}";
                 $content .= "\n订单状态：已确认";
@@ -4741,9 +4741,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
             if ($order["ispay"] == 3 && $order["status"] == "-1"){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
+                $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
                 $content .= "\n订单状态：退款成功";
-                $content .= "\n时间：{$keyword3}";
+                $content .= "\n时间：{$date}";
                 $content .= "\n门店名称：{$store['title']}";
                 $content .= "\n配送信息：{$order['username']}－{$order['tel']}";
                 $content .= "\n{$order['address']}";
@@ -4751,9 +4752,9 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                $total = $order['totalprice']+$order['dprice'];
-                $content .= "\n应退金额：{$total}元";
-                $content .= "\n实退金额：{$order['totalprice']}元";
+               // $total = $order['totalprice']+$order['dprice'];
+                $content .= "\n应退金额：{$order['totalprice']}元";
+                $content .= "\n实退金额：{$order['refund_price1']}元";
                 $this->sendText($order['from_user'], $content);
             }/*
             $content = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
@@ -5250,10 +5251,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             }else{
                 $content = "您有新的订单";
             }
+            $date = date("Y-m-d H:i",  time());
             $content .= "\n订单类型：{$ordertype[$order['dining_mode']]}";
             $content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
-            $content .= "\n时间：{$keyword3}";
+            //$content .= "\n时间：{$keyword3}";
+            $content .= "\n时间：{$date}";
             $content .= "\n门店名称：{$store['title']}";
             if ($order['dining_mode'] == 1) {
                 $tablename = $this->getTableName($order['tables']);
@@ -8297,6 +8300,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetTransaction_id($refundid);
             $input->SetOut_refund_no($refund_order['id']);
             $result = $WxPayApi->refund($input, 6, $path_cert, $path_key, $key);
+            file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', array2xml($result)."\n",8);
             if ($result['return_code'] == 'SUCCESS') {
                 $input2 = new WxPayOrderQuery();
                 $input2->SetAppid($appid);
