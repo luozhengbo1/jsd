@@ -409,7 +409,7 @@
             <div class="list-item ddb-form-control">
                 <div class="ddb-form-label">总价格</div>
                 <div class="input-field">
-                    <input type="text" class="ddb-form-input ng-pristine ng-untouched ng-valid" style="border:1px solid #ffa39e;" placeholder="输入订单总价" value="{$order['totalprice']}" name="totalprice" id="totalprice">
+                    <input type="text" class="ddb-form-input ng-pristine ng-untouched ng-valid" {if $order['status']==1 || $order['status']==3 }disabled{/if} style="border:1px solid #ffa39e;" placeholder="输入订单总价" value="{$order['totalprice']}" name="totalprice" id="totalprice">
                 </div>
             </div>
         </div>

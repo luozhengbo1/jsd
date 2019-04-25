@@ -58,6 +58,21 @@ if($ordertsData){
             )
         );
     }
+    $yytsres1 =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid and ts_type=3 limit 1',array(':orderid'=>$ordertsData['id']));
+    if(!$yytsres1){
+        pdo_insert("weisrc_dish_service_log",
+            array(
+                'orderid' => $ordertsData['id'],
+                'storeid' =>$ordertsData['storeid'] ,
+                'weid' => $_W['weid'] ,
+                'from_user' => $data['openid'],
+                'content' => "您有待確認的订单，请尽快处理",
+                'dateline' => TIMESTAMP,
+                'status' => 0,
+                'ts_type'=>3,
+            )
+        );
+    }
 
 }
 if ($get['trade_type'] == 'NATIVE') {

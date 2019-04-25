@@ -126,4 +126,6 @@ orderid=:orderid ", array(':orderid' => $id));
 
 $printOrderCount = intval($printOrderCount);
 
+$data = array2xml($data);
+
 include $this->template($this->cur_tpl . '/admin_orderdetail');
