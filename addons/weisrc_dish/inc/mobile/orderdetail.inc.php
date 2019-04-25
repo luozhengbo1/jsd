@@ -6,7 +6,7 @@ $id = intval($_GPC['orderid']);
 $cur_nave = 'order';
 
 $setting = $this->getSetting();
-
+//$from_user = "oW-VD07I3zg4YdNen8HuK5oH4O6U";
 
 $order = pdo_fetch("SELECT a.* FROM " . tablename($this->table_order) . " AS a LEFT JOIN " . tablename($this->table_stores) . " AS b ON a.storeid=b.id  WHERE a.id =:id AND a.from_user=:from_user ORDER BY a.id DESC LIMIT 1", array(':id' => $id, ':from_user' => $from_user));
 //$order = pdo_fetch("SELECT a.* FROM " . tablename($this->table_order) . " AS a LEFT JOIN " . tablename($this->table_stores) . " AS b ON a.storeid=b.id  WHERE a.id =:id ORDER BY a.id DESC LIMIT 1", array(':id' => $id));

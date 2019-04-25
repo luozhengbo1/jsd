@@ -357,7 +357,12 @@
                         <div class="line-through" ng-hide="hide_right"></div>
                     </div>
                 </div>
-                <div class="order-state-body ng-binding">{if $order['delivery_status']==0}未配送{/if}{if $order['delivery_status']==1}配送中{/if}{if $order['delivery_status']==2}已配送{/if}</div>
+                <div class="order-state-body ng-binding">
+                    {if $order['delivery_status']==0}未配送{/if}
+                    {if $order['delivery_status']==1}配送中{/if}
+                    {if $order['delivery_status']==2}已配送{/if}
+                    {if $order['delivery_status']==3}商家配送{/if}
+                </div>
             </div>
             {/if}
             <div class="order-state ng-isolate-scope {if $order['status']==3}active{/if}">

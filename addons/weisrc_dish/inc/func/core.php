@@ -152,7 +152,7 @@ class Core extends WeModuleSite
             '11' => '收款',//配送员
         );
         $userarr = array('1' => '用户', '2' => '管理员', '3' => '配送员');
-        $content = $userarr[$usertype] . $username . $payarr[$paytype];
+            $content = $userarr[$usertype] . $username . $payarr[$paytype];
         if ($paytype == 7) {
             $content = $content . '，' . $oldprice . '改为' . $newprice . '。';
         }

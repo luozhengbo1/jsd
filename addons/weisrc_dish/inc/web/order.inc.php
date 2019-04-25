@@ -532,39 +532,48 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     }
     $this->message("操作成功,共操作{$rowcount}条数据!", '', 0);
 } elseif ($operation == 'confirmall') {
+
     $rowcount = 0;
     $notrowcount = 0;
-//    var_dump($_GPC['idArr4']);die;
     foreach ($_GPC['idArr4'] as $k => $id) {
         $id = intval($id);
-
         if (!empty($id)) {
             $order = $this->getOrderById($id);
             if ($order) {
-                 if ($order['status'] == -1 || $order['ispay'] == 3) {
+//                 if ($order['status'] == -1 || $order['ispay'] == 3) {
+//                     continue;
+//                 }
+                 if ($order['status'] == -1 ) {
                      continue;
                  }
-                 //修改訂單為確認
-                 pdo_update($this->table_order, array('status' => 1, 'confirmtime' => TIMESTAMP), array('id' => $id, 'weid' => $weid));
-                //將對應訂單提醒修改為，已確認
+//                 //修改訂單為確認
+                pdo_update($this->table_order, array('status' => 1, 'confirmtime' => TIMESTAMP), array('id' => $id, 'weid' => $weid));
+//                //將對應訂單提醒修改為，已確認
                 pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
-                //如果是配置了达达进行调用
+//                //如果是配置了达达进行调用
                 $storesInfo = pdo_fetch("select id,is_dada from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$storeid));
                 if($storesInfo['is_dada']==1){
                     //新增達達配送狀態
-                    $this->doDada($weid,$id,$storeid);
-//                    die;
-                    //商家自配
-                }else{
-                }
+                    $dadares =$this->doDada($weid,$id,$storeid);
+                    if($dadares=='success'){
+                        $msg ="订单已推送给达达";
+                    }else{
+                        $msg ="订单推达达失败，联系管理员,请先自己配送";
+                        pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
 
+                    }
+                //商家自配
+                }else{
+                    //
+                    pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
+                }
                 $this->addOrderLog($id, $_W['user']['username'], 2, 2, 3);
                 $rowcount++;
             }
         }
     }
 
-//    $this->message("操作成功,共操作{$rowcount}条数据!", '', 0);
+    $this->message("操作成功,共操作{$rowcount}条数据!{$msg}", '', 0);
 
 } elseif ($operation == 'cancelall') {
     $rowcount = 0;
@@ -674,9 +683,9 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
         $coin = floatval($order['totalprice']);
-//        if ($refund_price > $coin) {
-//            message('退款金额不能大于订单金额！', $url, 'success');
-//        }
+        if ($refund_price > $coin) {
+            message('退款金额不能大于订单金额！', $url, 'success');
+        }
         $store = $this->getStoreById($order['storeid']);
         if ($order['paytype'] == 2) { //微信支付
             if ($cur_store['is_jxkj_unipay'] == 1) { //万融收银
@@ -686,14 +695,14 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             } else {
                 $result = $this->refund2($id, $refund_price);
             }
-//            if ($result == 1) {
-//                $order["refund_price1"] = $refund_price;
-//                $order["ispay"] = 3;//为了初始化订单退款推送状态
-//                $this->sendOrderNotice($order, $store, $setting);
-//                message('退款成功！', $url, 'success');
-//            } else {
-//                message('退款失败！', $url, 'error');
-//            }
+            if ($result == 1) {
+                $order["refund_price1"] = $refund_price;
+                $order["ispay"] = 3;//为了初始化订单退款推送状态
+                $this->sendOrderNotice($order, $store, $setting);
+                message('退款成功！', $url, 'success');
+            } else {
+                message('退款失败！', $url, 'error');
+            }
         } else if ($order['paytype'] == 1) {
             $this->setFansCoin($order['from_user'], $refund_price, "码上点餐单号{$order['ordersn']}退款");
             pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));
