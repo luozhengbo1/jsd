@@ -674,9 +674,9 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
         $coin = floatval($order['totalprice']);
-        if ($refund_price > $coin) {
-            message('退款金额不能大于订单金额！', $url, 'success');
-        }
+//        if ($refund_price > $coin) {
+//            message('退款金额不能大于订单金额！', $url, 'success');
+//        }
         $store = $this->getStoreById($order['storeid']);
         if ($order['paytype'] == 2) { //微信支付
             if ($cur_store['is_jxkj_unipay'] == 1) { //万融收银
@@ -686,15 +686,14 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             } else {
                 $result = $this->refund2($id, $refund_price);
             }
-
-            if ($result == 1) {
-                $order["refund_price1"] = $refund_price;
-                $order["ispay"] = 3;//为了初始化订单退款推送状态
-                $this->sendOrderNotice($order, $store, $setting);
-                message('退款成功！', $url, 'success');
-            } else {
-                message('退款失败！', $url, 'error');
-            }
+//            if ($result == 1) {
+//                $order["refund_price1"] = $refund_price;
+//                $order["ispay"] = 3;//为了初始化订单退款推送状态
+//                $this->sendOrderNotice($order, $store, $setting);
+//                message('退款成功！', $url, 'success');
+//            } else {
+//                message('退款失败！', $url, 'error');
+//            }
         } else if ($order['paytype'] == 1) {
             $this->setFansCoin($order['from_user'], $refund_price, "码上点餐单号{$order['ordersn']}退款");
             pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));

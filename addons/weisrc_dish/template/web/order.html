@@ -331,6 +331,10 @@
                                 {/if}
                                 {if $item['dining_mode']==5}<span class="label label-info" title="收银" style="background-color: #d43f3a;border-color: #fee188;"><i class="fa fa-calendar"> 收银</i></span>{/if}
                                 {if $item['dining_mode']==6}<span class="label label-info" title="充值" ><i class="fa fa-calendar"> 充值</i></span>{/if}
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                                 {if !empty($item['table'])}
                                 <br><span class="label label-info">桌号:{$item['table']}</span>
                                 {/if}
@@ -412,7 +416,6 @@
                                    href="javascript:void(0);" title="退款" data-orderid={$item['id']} data-price="{$item['totalprice']}" >退款</a>
                                 {/if}
                                 {/if}
-
                                 {if $item['ispay'] == 1 && $item['status'] == 1 && $cur_store['store_type'] == 3}
                                 <a class="btn btn-info btn-sm"
                                    href="javascript:void(0);" title="物流" shipment-orderid={$item['id']} id="shipment_id" data-price="{$item['logistics_number']}" >
@@ -423,6 +426,7 @@
                                     修改物流号
                                     {/if}
                                 </a>
+
                                 {/if}
                             </td>
                         </tr>
@@ -498,7 +502,11 @@
             </button><h3>物流号</h3></div>
             <div class="modal-body">
                 <form id="Form2" action="{php echo $this->createWebUrl('order', array('op' => 'logistics', 'storeid' => $storeid))}" method="post" class="form-horizontal">
+<<<<<<< Updated upstream
                     <input type="hidden" name="order_id" id="order_id" value="0">
+=======
+                    <input type="hidden" name="id" id="order_id" value="0">
+>>>>>>> Stashed changes
                     <div class="form-group">
                         <label class="col-xs-12 col-sm-3 col-md-2 control-label">物流号</label>
                         <div class="col-sm-9">
@@ -573,8 +581,13 @@
         });
 
         $("tr").delegate("#shipment_id", "click", function () {
+<<<<<<< Updated upstream
             $("#shipment_number").val($(this).attr("data-price"));
             $("#order_id").val($(this).attr("shipment-orderid"));
+=======
+            $("#refund_price").val($(this).attr("data-price"));
+            $("#order_id").val($(this).attr("data-orderid"));
+>>>>>>> Stashed changes
             $('#order-logistics-modal').modal();
         });
         $(".check_all").click(function () {

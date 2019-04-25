@@ -13,7 +13,7 @@ $info=pdo_get('weisrc_dish_stores',array('weid'=>$weid,'id'=>$storeid));
     if(checksubmit('submit')){
             $data['source_id']=$_GPC['source_id'];
             $data['shop_no']=$_GPC['shop_no'];
-           // $data['ps_mode']=$_GPC['ps_mode'];
+            $data['is_dada']=$_GPC['is_dada'];
             $res = pdo_update('weisrc_dish_stores', $data, array('id' => $storeid));
             if($res){
                 message('编辑成功',$this->createWebUrl('dada',array('op' => 'display', 'storeid' => $storeid)),'success');

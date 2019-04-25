@@ -164,14 +164,15 @@ if(!empty($type)) {
 	}
 
 	if ($type == 'wechat') {
-		if(!empty($log['plid'])) {
+        if(!empty($log['plid'])) {
 			$tag = array();
 			$tag['acid'] = $_W['acid'];
 			$tag['uid'] = $_W['member']['uid'];
 			pdo_update('core_paylog', array('openid' => $_W['openid'], 'tag' => iserializer($tag)), array('plid' => $log['plid']));
 		}
 		$ps['title'] = urlencode($params['title']);
-		$sl = base64_encode(json_encode($ps));
+
+        $sl = base64_encode(json_encode($ps));
 		$auth = sha1($sl . $_W['uniacid'] . $_W['config']['setting']['authkey']);
 
 		$callback = $_W['siteroot'] . "payment/wechat/pay.php?i={$_W['uniacid']}&auth={$auth}&ps={$sl}&payopenid={$_GPC['payopenid']}";
@@ -189,7 +190,6 @@ if(!empty($type)) {
 		header("Location: $callback");
 		exit();
 	}
-
 	if ($type == 'jueqiymf') {
 		$sl = base64_encode(json_encode($ps));
 		$auth = sha1($sl . $_W['uniacid'] . $_W['config']['setting']['authkey']);
