@@ -282,7 +282,6 @@ $is_auto_address = intval($setting['is_auto_address']);
 
 $over_radius = 0;
 $delivery_radius = floatval($store['delivery_radius']);
-//var_dump($mode);die;
 if ($mode == 2) {
     //距离
     $addressLatLng =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_useraddress') . " WHERE id = :id limit 1", array(':id' => $_GPC['addressid']));
@@ -297,7 +296,9 @@ if ($mode == 2) {
 
     }
 }
-
+//p($addressLatLng);
+//p($store);
+//var_dump($distance);die;
 if ($is_auto_address == 0 && $useraddress) { //多收餐地址 算距离
 //if ($useraddress) { //多收餐地址 算距离
 //    $distance = $this->getDistanceByGaodeForRiding($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
