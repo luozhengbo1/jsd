@@ -8264,7 +8264,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         }
         return $text;
     }
-
+    //微信退款
     function refund2($id, $price)
     {
         global $_W;
@@ -8299,6 +8299,8 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetTotal_fee($fee);
             $input->SetTransaction_id($refundid);
             $input->SetOut_refund_no($refund_order['id']);
+//            echo "<pre>";
+//            var_dump($input);die;
             $result = $WxPayApi->refund($input, 6, $path_cert, $path_key, $key);
             file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', array2xml($result)."\n",8);
             if ($result['return_code'] == 'SUCCESS') {

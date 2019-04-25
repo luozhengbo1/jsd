@@ -548,13 +548,24 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                  pdo_update($this->table_order, array('status' => 1, 'confirmtime' => TIMESTAMP), array('id' => $id, 'weid' => $weid));
                 //將對應訂單提醒修改為，已確認
                 pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
-                $this->doDada($weid,$id,$storeid);die;
+                //如果是配置了达达进行调用
+                $storesInfo = pdo_fetch("select id,is_dada from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$storeid));
+                if($storesInfo['is_dada']==1){
+                    //新增達達配送狀態
+                    $this->doDada($weid,$id,$storeid);
+//                    die;
+                    //商家自配
+                }else{
+                }
+
                 $this->addOrderLog($id, $_W['user']['username'], 2, 2, 3);
                 $rowcount++;
             }
         }
     }
-   // $this->message("操作成功,共操作{$rowcount}条数据!", '', 0);
+
+//    $this->message("操作成功,共操作{$rowcount}条数据!", '', 0);
+
 } elseif ($operation == 'cancelall') {
     $rowcount = 0;
     $notrowcount = 0;

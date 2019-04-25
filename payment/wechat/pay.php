@@ -11,11 +11,11 @@ load()->app('template');
 load()->model('payment');
 $sl = $_GPC['ps'];
 $payopenid = $_GPC['payopenid'];
-//var_dump($payopenid);die;
-
 $params = @json_decode(base64_decode($sl), true);
+$log = pdo_get('core_paylog', array('plid' => $params['tid']));
+$order = pdo_get('weisrc_dish_order', array('id' => $log['tid']),'from_user');
+$log['openid'] = $order['from_user'];
 if($_GPC['done'] == '1') {
-	$log = pdo_get('core_paylog', array('plid' => $params['tid']));
 	if(!empty($log) && !empty($log['status'])) {
 		if (!empty($log['tag'])) {
 			$tag = iunserializer($log['tag']);
@@ -46,7 +46,6 @@ if($_GPC['done'] == '1') {
 	}
 }
 
-$log = pdo_get('core_paylog', array('plid' => $params['tid']));
 if(!empty($log) && $log['status'] != '0') {
 	exit('这个订单已经支付成功, 不需要重复支付.');
 }
@@ -66,7 +65,8 @@ if (!empty($_GPC['code'])) {
 }
 
 $_W['uniacid'] = $log['uniacid'];
-$_W['openid'] = $log['openid'];
+$_W['openid'] = $log['openid']?$log['openid']:'';
+
 
 if(!is_array($setting['payment'])) {
 	exit('没有设定支付参数.');
@@ -85,8 +85,6 @@ $params = array(
 	'title' => urldecode($params['title']),
 	'uniontid' => $log['uniontid'],
 );
-
-
 if (intval($wechat['switch']) == 3 || intval($wechat['switch']) == 2) {
 	$wOpt = wechat_proxy_build($params, $wechat);
 } else {
