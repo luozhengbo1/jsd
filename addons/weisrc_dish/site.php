@@ -200,10 +200,10 @@ class weisrc_dishModuleSite extends Core
        $config = array();
        $config['app_key'] = $res['dada_key'];
        $config['app_secret'] = $res['dada_secret'];
-       $config['source_id'] = $store['source_id'];
+       //商戶id
+        $config['source_id'] =73753;
+//        $config['source_id'] = $store['source_id'];
        $config['url'] = 'http://newopen.imdada.cn/api/cityCode/list';
-        //$config['url'] = 'http://newopen.qa.imdada.cn/api/order/addOrder';
-        //echo time();die;
        $obj = new DadaOpenapi($config);
        // $name="贵阳市发多少发士大夫十大";//$store['address'];
        // $name=substr($name,strpos($name,"省")+3);
@@ -211,7 +211,7 @@ class weisrc_dishModuleSite extends Core
        $data=array();
 //请求接口
        $reqStatus = $obj->makeRequest($data);
-       //print_r($obj->getCode());die;
+//       print_r($obj->getCode());die;
        if (!$reqStatus) {
         //接口请求正常，判断接口返回的结果，自定义业务操作
         if ($obj->getCode() == 0) {
@@ -226,36 +226,39 @@ class weisrc_dishModuleSite extends Core
           $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
 //发单请求数据,只是样例数据，根据自己的需求进行更改。
           $data2 = array(
-          'shop_no'=>  $store['shop_no'],//门店编号
-          'origin_id'=> $order['ordersn'],//订单id
-          'city_code'=> "贵阳市",//城市
-          //'tips'=> 0,//小费
-          //'info'=> $order['note'],//备注
-          // 'cargo_type'=> 1,
-          // 'cargo_weight'=> 10,
-          'cargo_price'=> $order['totalprice'],
-          // 'cargo_num'=> 2,
-          'is_prepay'=> 0,
-          'expected_fetch_time'=>time(),
-          //'expected_finish_time'=> 0,
-          // 'invoice_title'=> '发票抬头',
-          'receiver_name'=> $order['username'],
-          'receiver_address'=> $order['address'],
-          'receiver_phone'=> $order['tel'],
-          // 'receiver_tel'=> '18599999999',
-          'receiver_lat'        => $transpoint['lat'],
-          'receiver_lng'        => $transpoint['lng'],
-          'callback'=>'http://newopen.imdada.cn/inner/api/order/status/notify'
-          );
-          //var_dump($data2);exit();
+//              'shop_no'=>  $store['shop_no'],//门店编号
+              'shop_no'=> '11047059',//门店编号
+              'origin_id'=> $order['ordersn'],//订单id
+              'city_code'=> "贵阳市",//城市
+              //'tips'=> 0,//小费
+              'info'=> $order['note'],//备注
+              // 'cargo_type'=> 1,
+              // 'cargo_weight'=> 10,
+              'cargo_price'=> $order['totalprice'],
+              // 'cargo_num'=> 2,
+              'is_prepay'=> 0,
+              'expected_fetch_time'=>time(),
+              //'expected_finish_time'=> 0,
+              // 'invoice_title'=> '发票抬头',
+              'receiver_name'=> $order['username'],
+              'receiver_address'=> $order['address'],
+              'receiver_phone'=> $order['tel'],
+              // 'receiver_tel'=> '18599999999',
+              'receiver_lat'        => $transpoint['lat'],
+              'receiver_lng'        => $transpoint['lng'],
+    //          'callback'=>'http://newopen.imdada.cn/inner/api/order/status/notify'
+              );
           $config['url'] = 'http://newopen.imdada.cn/api/order/addOrder';
-
+          p($config);
+          $data2['callback'] = $_W['siteroot'] . 'payment/dadacallback.php';
           $obj2 = new DadaOpenapi($config);
 
           $reqStatus2 = $obj2->makeRequest($data2);
-          //var_dump($obj2);exit();
+            p($obj2);
+            p($reqStatus2);
+          die;
           if (!$reqStatus2) {
-    //接口请求正常，判断接口返回的结果，自定义业务操作
+        //接口请求正常，判断接口返回的结果，自定义业务操作
            //print_r($obj2->getCode());echo '达达';die;
             if ($obj2->getCode() == 0) {
               //echo '下单成功';
@@ -5340,6 +5343,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         return $arr;
     }
 
+    //支付方法
     public function doMobilePay()
     {
         global $_W, $_GPC;
@@ -5603,6 +5607,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $credtis = mc_credit_fetch($_W['member']['uid']);
             }
             $you = 0;
+
+
         } else {
             $log = pdo_get('core_paylog', array('uniacid' => $_W['uniacid'], 'module' => $params['module'], 'tid' => $params['tid']));
             if (empty($log)) {
@@ -8299,20 +8305,17 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetTotal_fee($fee);
             $input->SetTransaction_id($refundid);
             $input->SetOut_refund_no($refund_order['id']);
-//            echo "<pre>";
-//            var_dump($input);die;
             $result = $WxPayApi->refund($input, 6, $path_cert, $path_key, $key);
-            file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', array2xml($result)."\n",8);
+            file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($result,true)."\n",8);
             if ($result['return_code'] == 'SUCCESS') {
                 $input2 = new WxPayOrderQuery();
                 $input2->SetAppid($appid);
                 $input2->SetMch_id($mchid);
                 $input2->SetTransaction_id($refundid);
                 $result2 = $WxPayApi->orderQuery($input2, 6, $key);
-
                 if ($result2['return_code'] == 'SUCCESS' && $result2['trade_state'] == 'REFUND') {
                     $totalrefundprice = $price + $refund_order['refund_price'];
-                    if ($refund_order['totalprice'] == $totalrefundprice) {
+                    if ($refund_order['totalprice'] <= $totalrefundprice) {
                         pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $totalrefundprice), array('id' =>
                             $refund_order['id']));
                     } else {
