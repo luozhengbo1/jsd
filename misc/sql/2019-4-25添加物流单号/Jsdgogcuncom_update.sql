@@ -1,0 +1,1 @@
+﻿ alter table `ims_weisrc_dish_order` add   `logistics_number` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '物流号';
