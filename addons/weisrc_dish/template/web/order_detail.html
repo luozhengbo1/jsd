@@ -115,6 +115,14 @@
                                         {if empty($item['transid'])}-{else}{$item['transid']}{/if}
                                     </div>
                                 </div>
+                                {if $item['ispay'] == 1 && $item['status'] == 1 && $cur_store['store_type'] == 3}
+                                <div class="form-group clearfix">
+                                    <label class="col-xs-3 col-sm-3 control-label">物流单号：</label>
+                                    <div class="col-xs-9 col-sm-9 form-control-static">
+                                        {$item['logistics_number']}
+                                    </div>
+                                </div>
+                                {/if}
                                 <div class="form-group clearfix">
                                     <label class="col-xs-3 col-sm-3 control-label">订单类型：</label>
                                     <div class="col-xs-9 col-sm-9 form-control-static">
@@ -186,12 +194,12 @@
                                 </div>
                                 {/if}
                                 {if $item['dining_mode']==2}
-                                <div class="form-group clearfix">
+                                <!--<div class="form-group clearfix">
                                     <label class="col-xs-3 col-sm-3 control-label">配送时间：</label>
                                     <div class="col-xs-9 col-sm-9 form-control-static">
                                         {$item['meal_time']}
                                     </div>
-                                </div>
+                                </div>-->
                                 {/if}
                                 <div class="form-group clearfix">
                                     <label class="col-xs-3 col-sm-3 control-label">收货信息：</label>

@@ -535,7 +535,6 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     $rowcount = 0;
     $notrowcount = 0;
 //    var_dump($_GPC['idArr4']);die;
-    $_GPC['idArr4'] = ['85413'];
     foreach ($_GPC['idArr4'] as $k => $id) {
         $id = intval($id);
 
@@ -558,12 +557,15 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     //商家自配
                 }else{
                 }
+
                 $this->addOrderLog($id, $_W['user']['username'], 2, 2, 3);
                 $rowcount++;
             }
         }
     }
+
 //    $this->message("操作成功,共操作{$rowcount}条数据!", '', 0);
+
 } elseif ($operation == 'cancelall') {
     $rowcount = 0;
     $notrowcount = 0;
@@ -841,6 +843,17 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     $id = intval($_GPC['id']);
     $order = $this->getOrderById($id);
     $this->complaintfengniao($order, $cur_store, $setting);
+}elseif($operation == "logistics"){
+    //添加修改物流号
+    $id = intval($_GPC['order_id']);
+    $logistics_number = $_GPC['shipment_number'];
+    $order = $this->getOrderById($id);
+    if (empty($order)) {
+        message('订单不存在！', '', 'error');
+    }
+    pdo_update($this->table_order, array('logistics_number' => $logistics_number), array('id' => $id));
+    $url = $this->createWebUrl('order', array('op' => 'display', 'storeid' => $storeid));
+    message('录入成功！', $url, 'success');
 }
 
 include $this->template('web/order');

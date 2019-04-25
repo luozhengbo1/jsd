@@ -310,7 +310,6 @@ if ($operation == 'setting') {
                 message('当设置当天不允许配送的时候需要设置提前点外卖天数.', '', 'error');
             }
         }
-
         if (istrlen($data['title']) == 0) {
             message('没有输入标题.', '', 'error');
         }
@@ -319,6 +318,14 @@ if ($operation == 'setting') {
         }
         if (istrlen($data['tel']) == 0) {
 //                    message('没有输入联系电话.', '', 'error');
+        }
+        if($data['store_type'] == 1 ){
+            if (istrlen($data['tel']) == 0){
+                message('请完善信息', '', 'error');
+            }
+            if (!preg_match("/^1[34578]\d{9}$/", $data['tel'])){
+                message('请输入11位有效的手机号', '', 'error');
+            }
         }
         if (istrlen($data['address']) == 0) {
             //message('请输入地址。', '', 'error');
