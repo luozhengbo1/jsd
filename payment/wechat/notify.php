@@ -7,11 +7,33 @@ define('IN_MOBILE', true);
 require '../../framework/bootstrap.inc.php';
 $input = file_get_contents('php://input');
 file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$input."\n",8);
+//$input="
+//<xml>
+//<appid><![CDATA[wx0fd57bd3a7fc8709]]></appid>
+//<attach><![CDATA[2]]></attach>
+//<bank_type><![CDATA[CFT]]></bank_type>
+//<cash_fee><![CDATA[2]]></cash_fee>
+//<fee_type><![CDATA[CNY]]></fee_type>
+//<is_subscribe><![CDATA[Y]]></is_subscribe>
+//<mch_id><![CDATA[1532311851]]></mch_id>
+//<nonce_str><![CDATA[wD2Z21wh]]></nonce_str>
+//<openid><![CDATA[oW-VD07I3zg4YdNen8HuK5oH4O6U]]></openid>
+//<out_trade_no><![CDATA[2019042517233500001380729364]]></out_trade_no>
+//<result_code><![CDATA[SUCCESS]]></result_code>
+//<return_code><![CDATA[SUCCESS]]></return_code>
+//<sign><![CDATA[0DBC8949C738418A30165CD6D57EF4A2]]></sign>
+//<time_end><![CDATA[20190425172344]]></time_end>
+//<total_fee>2</total_fee>
+//<trade_type><![CDATA[JSAPI]]></trade_type>
+//<transaction_id><![CDATA[4200000314201904254738862014]]></transaction_id>
+//</xml>
+//";
 $isxml = true;
 if (!empty($input) && empty($_GET['out_trade_no'])) {
 	$obj = isimplexml_load_string($input, 'SimpleXMLElement', LIBXML_NOCDATA);
 	$data = json_decode(json_encode($obj), true);
-//	file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$data,8);
+	p($data);
+	file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$data,8);
 	if (empty($data)) {
 		$result = array(
 			'return_code' => 'FAIL',
@@ -84,7 +106,6 @@ if(is_array($setting['payment'])) {
 	$wechat = $setting['payment']['wechat'];
 	WeUtility::logging('pay', var_export($get, true));
 	if(!empty($wechat)) {
-
         ksort($get);
 		$string1 = '';
 		foreach($get as $k => $v) {
@@ -108,11 +129,14 @@ if(is_array($setting['payment'])) {
 			if (intval($wechat['switch']) == PAYMENT_WECHAT_TYPE_SERVICE) {
 				$get['openid'] = $log['openid'];
 			}
+//			p($log);
 			if(!empty($log) && $log['status'] == '0' && (($get['total_fee'] / 100) == $log['card_fee'])) {
+//                echo $sign;
                 $log['tag'] = iunserializer($log['tag']);
 				$log['tag']['transaction_id'] = $get['transaction_id'];
 				$log['uid'] = $log['tag']['uid'];
 				$record = array();
+				//表示
 				$record['status'] = '1';
 				$record['tag'] = iserializer($log['tag']);
 				pdo_update('core_paylog', $record, array('plid' => $log['plid']));

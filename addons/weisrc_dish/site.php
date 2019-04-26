@@ -6101,9 +6101,9 @@ storeid=".$order['storeid'].") ";
             }
         }
 
-        $tip_msg = '支付成功258';
-        $tip_msgs = '支付成功222';
-        $tip_msgss = '支付成功333';
+        $tip_msg = '支付成功';
+        $tip_msgs = '支付成功';
+        $tip_msgss = '支付成功';
         if ($params['type'] == 'delivery') {
             $tip_msg = '下单成功';
         }
@@ -8279,9 +8279,11 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetRefund_fee($refundfee);
             $input->SetTotal_fee($fee);
             $input->SetTransaction_id($refundid);
-            $input->SetOut_refund_no($refund_order['id']);
+//            $input->SetOut_refund_no($refund_order['id']);
+            $input->SetOut_refund_no($refund_order['id'].time());
             $result = $WxPayApi->refund($input, 6, $path_cert, $path_key, $key);
             file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($result,true)."\n",8);
+//            p($result);die;
             if ($result['return_code'] == 'SUCCESS') {
                 $input2 = new WxPayOrderQuery();
                 $input2->SetAppid($appid);
@@ -8290,7 +8292,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
                 $result2 = $WxPayApi->orderQuery($input2, 6, $key);
                 if ($result2['return_code'] == 'SUCCESS' && $result2['trade_state'] == 'REFUND') {
                     $totalrefundprice = $price + $refund_order['refund_price'];
-                    if ($refund_order['totalprice'] <= $totalrefundprice) {
+                    if ($refund_order['totalprice'] == $totalrefundprice) {
                         pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $totalrefundprice), array('id' =>
                             $refund_order['id']));
                     } else {
