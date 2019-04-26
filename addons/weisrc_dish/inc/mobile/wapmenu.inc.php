@@ -214,7 +214,7 @@ $param = array(':weid' => $weid, ':from_user' => $from_user, ':time' => TIMESTAM
 //php获取当前时间搓
 $time = time();
 
-$couponlist = pdo_fetchall("SELECT a.id as ids,a.couponid,a.weid,a.from_user,a.status,b.* FROM".tablename('weisrc_dish_sncode')."as a left join ".tablename('weisrc_dish_coupons')." as b on a.couponid = b.id where a.weid = :weid and a.from_user =:from_user and b.starttime <{$time} and b.endtime >{$time} and a.status = 0",array(':weid'=>$weid,':from_user'=>$from_user));
+$couponlist = pdo_fetchall("SELECT a.id as ids,a.couponid,a.weid,a.from_user,a.status,b.* FROM".tablename('weisrc_dish_sncode')."as a left join ".tablename('weisrc_dish_coupons')." as b on a.couponid = b.id where a.weid = :weid and a.from_user =:from_user and b.starttime <{$time} and b.endtime >{$time} and a.status = 0 and (a.storeid = 0 or a.storeid = :storeid)",array(':weid'=>$weid,':from_user'=>$from_user,':storeid'=>$storeid));
 
 //查询会员卡
 $huiyuan_ka = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_member_ka')."as a left join ".tablename('weisrc_dish_member')." as b on a.weid = b.weid where a.weid ='{$weid}' and a.user='{$from_user}' and a.endtime>'{$time}' ");
