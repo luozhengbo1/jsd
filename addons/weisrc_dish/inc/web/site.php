@@ -5988,9 +5988,9 @@ storeid=".$order['storeid'].") ";
             }
         }
 
-        $tip_msg = '支付成功258';
-        $tip_msgs = '支付成功222';
-        $tip_msgss = '支付成功333';
+        $tip_msg = '支付成功';
+        $tip_msgs = '支付成功';
+        $tip_msgss = '支付成功';
         if ($params['type'] == 'delivery') {
             $tip_msg = '下单成功';
         }

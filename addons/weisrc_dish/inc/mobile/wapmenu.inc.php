@@ -10,7 +10,6 @@ $orderid = intval($_GPC['orderid']);
 $mode = intval($_GPC['mode']);
 $append = intval($_GPC['append']);
 $psnum = $_GPC['psnum'];
-//var_dump($psnum);exit();
 if ($mode == 0) {
     message('请先选择下单模式', $this->createMobileUrl('detail', array('id' => $storeid)));
 }
