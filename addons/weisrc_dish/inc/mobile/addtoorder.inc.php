@@ -474,7 +474,7 @@ if ($append == 2) {
     
     if ($orderid > 0) {
         if ($couponid > 0) {
-            pdo_update($this->table_sncode, array('status' => 1,'usettime'=>time()), array('id' => $couponid));
+            pdo_update($this->table_sncode, array('status' => 1,'usetime'=>time()), array('id' => $couponid));
         }
     }
     //保存新订单商品
