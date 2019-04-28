@@ -105,7 +105,7 @@ foreach ($order_list as $k => $v){
             unset($order_list[$k]);
         }
     } elseif ($type == 3) {
-        if(!($v['ispay'] == 1 && ($v['status']==1 || $v['status']==3))){
+        if(!($v['ispay'] == 1 && $v['status']==3)){
             unset($order_list[$k]);
         }
     } elseif ($type == 4) {
