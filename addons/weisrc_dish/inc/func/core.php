@@ -459,7 +459,7 @@ class Core extends WeModuleSite
 	*/
 	function getDistanceByGaodeForRiding($lat1, $lng1, $lat2, $lng2, $len_type = 1, $decimal = 2)
     {
-		$url="https://restapi.amap.com/v4/direction/bicycling?origin=".$lng2.",".$lat2."&destination=".$lng1.",".$lat1."&key=8bd907c04a277af453449a32c33d57ab";
+        $url="https://restapi.amap.com/v4/direction/bicycling?origin=".$lng2.",".$lat2."&destination=".$lng1.",".$lat1."&key=8bd907c04a277af453449a32c33d57ab";
 		$content = file_get_contents($url);
 		$arr = json_decode($content,true);
 		$s = 0;

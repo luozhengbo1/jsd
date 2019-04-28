@@ -1,165 +1,207 @@
+<!DOCTYPE html>
 <html>
 {template 'common/header'}
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <style type="text/css">
-        body, html,#allmap {width: 100%;height: 500px;overflow: hidden;margin:0;font-family:"微软雅黑";}
-    </style>
-
-    <div id="search">
-        <form class="mui-input-group">
-            <div class="mui-input-row mui-search">
-                <input id="suggestId"  type="search" class="mui-input-clear" placeholder="地址搜索">
-            </div>
-        </form>
-    </div>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DD279b2a90afdf0ae7a3796787a0742e"></script>
-    <title>浏览器定位</title>
+<head lang="en">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+        <title>高德地图测试</title>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.Riding"></script>
+        <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
+        <script type="text/javascript" src="http://webapi.amap.com/demos/js/liteToolbar.js"></script>
+        <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+        <style>
+            html,body,#container{ height:100%; }
+        </style>
 </head>
 <body>
-<div id="allmap"></div>
-<div style="width:auto;height:55px;'">
-    <input type="text" id="locate" style="background-color:pink;" placeholder="地址"  />
-    <input type="button" value="确定" style="background-color:blue;"／>
-    <input type="hidden" id="point1"value="" />
-    <input type="hidden" id="point2" value="" />
-</div>
-</body>
-</html>
-<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript">
-    // 百度地图API功能
-    var title = [];
-    var address = [];
-    var points = [];
-    var currentPoint = "";
-    var currentAddress = "";
-    var map = new BMap.Map("allmap");
-    var point = new BMap.Point("{$x}","{$y}");
-    map.centerAndZoom(point,17);
-    // 将标注添加到地图中
-
-    var geolocation = new BMap.Geolocation();
-    //自动完成
-    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-        {"input" : "suggestId",
-            "location" : map
+   <div id="container" ></div>
+   <div   class="form-group" style="position:absolute;top:20px;left:10%;">
+            <span>地址:</span>
+            <input name="resourceAddress" id="addressmap" style="width:350px;">
+            <button onclick="markLocation()" type="button">搜索</button>
+    <button type="button" class="btn btn-primary" id="suremap" style="display: inline-block" data-dismiss="modal">确定</button>
+        </div>
+<script>
+    var map,addMarker,auto;
+    var geocoder;
+    var placeSearch;
+    var lnglatXY;
+    $(function(){
+        // 加入高的地图
+        map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom:15
+            /*center: [116.397428, 39.90923] */
         });
-    var myValue;
-    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
-        var _value = e.item.value;
-        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        showPoiFromKeyword();
-    });
-    function showPoiFromKeyword(){
-        var local = new BMap.LocalSearch(map, { //智能搜索
-            onSearchComplete: function(results){
-                if (local.getStatus() == BMAP_STATUS_SUCCESS) {
-                    var point1 = local.getResults().getPoi(0).point;
-                    var title = local.getResults().getPoi(0).title;
-                    var address = local.getResults().getPoi(0).address;
-                    points[0] =point1
-                    // console.log(point1)
-                    confirmAddress(myValue)
+        //输入提示
+        var auto = new AMap.Autocomplete({
+            input: "addressmap"
+        });
+        // var marker = new AMap.Marker({
+        //     icon: new AMap.Icon({
+        //         size:new AMap.Size(36,42),//图标大小
+        //         image:"/img/loc.png"
+        //     }),
+        //     //这里用/img/loc.png图片的left:18;top:38指向坐标
+        //     offset: new AMap.Pixel(-18,-38),
+        //     position: map.gaode.map.getCenter(),
+        //     draggable:true //点标记可拖拽
+        // });
+        // AMap.event.addListener(marker, 'dragging', function(e){
+        //     var lat = e.lnglat.lat,
+        //         lng = e.lnglat.lng;
+        //     marker.setPosition(new AMap.LngLat(lng,lat));
+        //
+        // });
+        AMap.plugin(['AMap.ToolBar','AMap.Scale'],
+            function(){
+                map.addControl(new AMap.ToolBar());
+
+                map.addControl(new AMap.Scale());
+            });
+        AMap.service('AMap.Geocoder',function(){//回调函数
+            //实例化Geocoder
+            geocoder = new AMap.Geocoder({
+                city: "贵阳",//城市，默认：“全国”
+                adius : 1000
+            });
+            //TODO: 使用geocoder 对象完成相关功能
+        });
+        // 加载搜索列表
+        myMapViewLocation();
+        AMap.service(["AMap.PlaceSearch"], function() {
+            placeSearch = new AMap.PlaceSearch({ //构造地点查询类
+                pageSize: 5,
+                pageIndex: 1,
+                city: "贵阳", //城市
+                map: map,
+                panel: "panel"
+            });
+        });
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+        var clickEventListener = map.on('click', function(e) {
+            $("#lon").val(e.lnglat.lng);
+            $("#lat").val(e.lnglat.lat);
+            console.log(e.lnglat.lng)
+            console.log(e.lnglat.lat)
+            // 填写地址
+            writeAddress([e.lnglat.lng,e.lnglat.lat]);
+            mapsearch();
+        });
+        //placeSearch.search("北京");
+        $("#addressmap").on("keydown",function(event){
+            if(event = event || window.event){
+                if(event.keyCode==13){
+                    markLocation();
                 }
             }
         });
-        local.search(myValue);
+    });
+
+    //地图搜索
+    function mapsearch(){
+        var mlon = $("#lon").val();
+        var mlat = $("#lat").val();
+        myMapViewLocation(mlon, mlat);
     }
-    geolocation.getCurrentPosition(function(r){
-        var mk = new BMap.Marker(r.point);
-        if(this.getStatus() == BMAP_STATUS_SUCCESS){
-            currentPonit = r.point;
-            map.addOverlay(mk);
-            map.panTo(r.point);
-            map.addEventListener('ondragging', function(){
-                mk.setPosition(map.getCenter());
-            });
-
-            map.addEventListener("moveend",showCurrentPoi);
-            //   地图停止移动后获取mk经纬度
-            // map.addEventListener('moveend',function(){
-            //     var pos = mk.getPosition();
-            //     console.log(pos);
-            //     // 创建地址解析对象
-            //     var geoc = new BMap.Geocoder();
-            //     geoc.getLocation(pos, function(rs){
-            //         var addComp = rs.addressComponents;
-            //         // alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
-            //         content = addComp.province +  addComp.city +  addComp.district +  addComp.street  + addComp.streetNumber;
-            //         $("#locate").val(content)
-            //         // 创建地址解析器实例
-            //     });
-            //     // geoc.getPoint(pos, function(point){
-            //     //     if (point) {
-            //     //         map.centerAndZoom(point, 16);
-            //     //         map.addOverlay(new BMap.Marker(point));
-            //     //     }else{
-            //     //         alert("您选择地址没有解析到结果!");
-            //     //     }
-            //     // }, "北京市");
-            // })
-            // alert('您的位置：'+r.point.lng+','+r.point.lat);
+    // 回显
+    function myMapViewLocation(mlon, mlat){
+        //console.log("回显坐标");
+        if(mlon&&mlat){
+            //removeMarkers(lnglatXY);
+            lnglatXY = [mlon,mlat];
+            addMarker(lnglatXY);
         }
-        else {
-            alert('failed'+this.getStatus());
-        }
-
-    },{enableHighAccuracy: true})
-    function showCurrentPoi()
-    {
-        var center = map.getCenter();
-        var local = new BMap.LocalSearch(map, {
-            renderOptions: {selectFirstResult:true},
-            // onSearchComplete:function(results){
-            //     if (local.getStatus() == BMAP_STATUS_SUCCESS){
-            //         var s = [];
-            //         var content = "";
-            //         content = " <ul class='mui-table-view'> ";
-            //         for (var i = 0; i < results.getCurrentNumPois(); i++)
-            //         {
-            //             title[i] = results.getPoi(i).title;
-            //             address[i] = results.getPoi(i).address;
-            //             points[i] = results.getPoi(i).point;
-            //             content = content +
-            //                 " <li class='mui-table-view-cell mui-media'> <a href='javascript:confirmAddress(" + i + ");'>  <a id='icon-location' class='mui-media-object mui-pull-left'><span style='color:red' class='mui-icon mui-icon-location'></span></a> <div class='mui-media-body'>" +
-            //                 title[i] + "<p class='mui-ellipsis'>" +
-            //                 address[i] + "</div> </a> </li>";
-            //         }
-            //         content = content + " </ul>";
-            //         document.getElementById("r-result").innerHTML = content;
-            //     }
-            // }
+    }
+    //移除之前的标点
+    function removeMarkers(lnglatXY){
+        marker = new AMap.Marker({
+            map: map,
+            position: lnglatXY,
+            icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+            offset: new AMap.Pixel(-13, -30)
         });
-        var myGeo = new BMap.Geocoder();
-        myGeo.getLocation(center, function (result) {
-            console.log(center)
-            // points[1] = center
-            if (result) {
-                local.search(result.address);
+        var markers = [];
+        markers.push(marker);
+        map.remove(markers);
+    }
+
+    var t=1;
+    // 实例化点标记
+    function addMarker(lnglatXY) {
+        if(t == 1) {
+            console.log(lnglatXY);
+            marker = new AMap.Marker({
+                icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: lnglatXY,
+                offset: new AMap.Pixel(-13, -30),
+                // 设置是否可以拖拽
+                draggable: true,
+                cursor: 'move',
+                // 设置拖拽效果
+                raiseOnDrag: true
+            });
+            marker.setMap(map);
+            map.setFitView();// 执行定位
+            t++;
+        }
+
+        //修改标点位置
+        if(t != 1){
+            marker.setPosition(lnglatXY);
+            map.setCenter(lnglatXY);
+            marker.setMap(map);
+            map.setFitView();// 执行定位
+        }
+
+    }
+
+    // 填写地址
+    function writeAddress(lnglatXY){
+        var geocoder = new AMap.Geocoder({
+            city : "重庆", //城市，默认：“全国”
+            radius : 1000 //范围，默认：500
+        });
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                geocoder_CallBack(result);
             }
         });
     }
 
-    //关于状态码
-    //BMAP_STATUS_SUCCESS    检索成功。对应数值“0”。
-    //BMAP_STATUS_CITY_LIST    城市列表。对应数值“1”。
-    //BMAP_STATUS_UNKNOWN_LOCATION    位置结果未知。对应数值“2”。
-    //BMAP_STATUS_UNKNOWN_ROUTE    导航结果未知。对应数值“3”。
-    //BMAP_STATUS_INVALID_KEY    非法密钥。对应数值“4”。
-    //BMAP_STATUS_INVALID_REQUEST    非法请求。对应数值“5”。
-    //BMAP_STATUS_PERMISSION_DENIED    没有权限。对应数值“6”。(自 1.1 新增)
-    //BMAP_STATUS_SERVICE_UNAVAILABLE    服务不可用。对应数值“7”。(自 1.1 新增)
-    //BMAP_STATUS_TIMEOUT    超时。对应数值“8”。(自 1.1 新增)
-    function confirmAddress(myValue)
-    {
-        console.log(points)
-        console.log(points[0].lng)
-        console.log(points[0].lat)
-        var url = "{$addurl}&myValue="+myValue+"&lat="+points[0].lat+"&lng="+points[0].lng
-        console.log(url)
-        document.location.href=url
-        //用户单击某一项之后，跳转会页面，同时将地址传递过去
+    // 地址回调
+    function geocoder_CallBack(data) {
+        var address = data.regeocode.formattedAddress; //返回地址描述
+        $("input[name=resourceAddress]").val(address);
+    }
+
+    //根据地址搜索
+    function markLocation() {
+        var address = $("#addressmap").val();
+        AMap.plugin('AMap.Geocoder', function() {
+            var geocoder = new AMap.Geocoder();
+            geocoder.getLocation(address, function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    // 经纬度                      
+                    var lon = result.geocodes[0].location.lng;
+                    var lat = result.geocodes[0].location.lat;
+
+                    $("#lon").val(lon);
+                    $("#lat").val(lat);
+
+                    lnglatXY = [lon, lat];
+                    addMarker(lnglatXY);
+                } else {
+                    console.log(status)
+                    console.log(result)
+                    alert('定位失败！');
+                }
+            });
+        });
     }
 </script>
+</body>
+</html>
