@@ -91,21 +91,30 @@ $this->resetHour();
 
 $restlist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$strwhere
 } ORDER BY is_rest DESC,displayorder DESC, id DESC LIMIT 100", array(':weid' => $weid));
-
+$setting = $this->getSetting();
+$is_contain_delivery = intval($setting['is_contain_delivery']);
 foreach($restlist as $key => $value) {
-    $totalprice = pdo_fetchcolumn("SELECT sum(totalprice) FROM " . tablename($this->table_order) . " WHERE weid = :weid AND storeid=:storeid AND ispay=1 AND ismerge=0 AND
-status=3 AND (paytype=1 OR paytype=2 OR paytype=4)", array(':weid' => $weid, ':storeid' => $value['id']));
-    $totalprice = floatval($totalprice);
+//    $totalprice = pdo_fetchcolumn("SELECT sum(totalprice) FROM " . tablename($this->table_order) . " WHERE weid = :weid AND storeid=:storeid AND ispay=1 AND ismerge=0 AND
+//status=3 AND (paytype=1 OR paytype=2 OR paytype=4)", array(':weid' => $weid, ':storeid' => $value['id']));
+//    $totalprice = floatval($totalprice);
+//    //已申请
+//    $totalprice1 = pdo_fetchcolumn("SELECT sum(price) FROM " . tablename($this->table_businesslog) . " WHERE weid = :weid AND storeid=:storeid AND status=1", array(':weid' => $weid, ':storeid' => $value['id']));
+//    $totalprice1 = floatval($totalprice1);
+//    //未申请
+//    $totalprice2 = pdo_fetchcolumn("SELECT sum(price) FROM " . tablename($this->table_businesslog) . " WHERE weid = :weid AND storeid=:storeid AND status=0", array(':weid' => $weid, ':storeid' => $value['id']));
+//    $totalprice2 = floatval($totalprice2);
+//    $totalprice = $totalprice - $totalprice1 - $totalprice2;
+    $storeid = intval($value['id']);
+    $store = $this->getStoreById($storeid);
+    $order_totalprice = $this->getStoreOrderTotalPrice($storeid, $is_contain_delivery);
     //已申请
-    $totalprice1 = pdo_fetchcolumn("SELECT sum(price) FROM " . tablename($this->table_businesslog) . " WHERE weid = :weid AND storeid=:storeid AND status=1", array(':weid' => $weid, ':storeid' => $value['id']));
-    $totalprice1 = floatval($totalprice1);
+    $totalprice1 = $this->getStoreOutTotalPrice($storeid);
     //未申请
-    $totalprice2 = pdo_fetchcolumn("SELECT sum(price) FROM " . tablename($this->table_businesslog) . " WHERE weid = :weid AND storeid=:storeid AND status=0", array(':weid' => $weid, ':storeid' => $value['id']));
-    $totalprice2 = floatval($totalprice2);
-    $totalprice = $totalprice - $totalprice1 - $totalprice2;
+    $totalprice2 = $this->getStoreGetTotalPrice($storeid);
+    $totalprice = $order_totalprice - $totalprice1 - $totalprice2;
     $restlist[$key]['totalprice'] = $totalprice;
 }
-
+//p($restlist);die;
 
 setcookie('global_sid_' . $weid,'',time()-1);
 include $this->template($this->cur_tpl . '/adminstore');

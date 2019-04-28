@@ -334,10 +334,45 @@ function tpl_form_field_industry($name, $pvalue = '', $cvalue = '', $parentid = 
 }
 
 
+//商家選擇經緯度
+//function tpl_form_field_coordinate($field, $value = array()) {
+//    $s = '';
+//    if(!defined('TPL_INIT_COORDINATE')) {
+//        $s .= '<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&s=1"></script><script type="text/javascript">
+//				function showCoordinate(elm) {
+//					require(["util"], function(util){
+//						var val = {};
+//						val.lng = parseFloat($(elm).parent().prev().prev().find(":text").val());
+//						val.lat = parseFloat($(elm).parent().prev().find(":text").val());
+//						util.map(val, function(r){
+//							$(elm).parent().prev().prev().find(":text").val(r.lng);
+//							$(elm).parent().prev().find(":text").val(r.lat);
+//						});
+//
+//					});
+//				}
+//
+//			</script>';
+//        define('TPL_INIT_COORDINATE', true);
+//    }
+//    $s .= '
+//		<div class="row row-fix">
+//			<div class="col-xs-4 col-sm-4">
+//				<input type="text" name="' . $field . '[lng]" value="'.$value['lng'].'" placeholder="地理经度"  class="form-control" />
+//			</div>
+//			<div class="col-xs-4 col-sm-4">
+//				<input type="text" name="' . $field . '[lat]" value="'.$value['lat'].'" placeholder="地理纬度"  class="form-control" />
+//			</div>
+//			<div class="col-xs-4 col-sm-4">
+//				<button onclick="showCoordinate(this);" class="btn btn-default" type="button">选择坐标</button>
+//			</div>
+//		</div>';
+//    return $s;
+//}
 function tpl_form_field_coordinate($field, $value = array()) {
-	$s = '';
-	if(!defined('TPL_INIT_COORDINATE')) {
-		$s .= '<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&s=1"></script><script type="text/javascript">
+    $s = '';
+    if(!defined('TPL_INIT_COORDINATE')) {
+        $s .= '<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&s=1"></script><script type="text/javascript">
 				function showCoordinate(elm) {
 					require(["util"], function(util){
 						var val = {};
@@ -352,9 +387,9 @@ function tpl_form_field_coordinate($field, $value = array()) {
 				}
 
 			</script>';
-		define('TPL_INIT_COORDINATE', true);
-	}
-	$s .= '
+        define('TPL_INIT_COORDINATE', true);
+    }
+    $s .= '
 		<div class="row row-fix">
 			<div class="col-xs-4 col-sm-4">
 				<input type="text" name="' . $field . '[lng]" value="'.$value['lng'].'" placeholder="地理经度"  class="form-control" />
@@ -366,7 +401,7 @@ function tpl_form_field_coordinate($field, $value = array()) {
 				<button onclick="showCoordinate(this);" class="btn btn-default" type="button">选择坐标</button>
 			</div>
 		</div>';
-	return $s;
+    return $s;
 }
 
 

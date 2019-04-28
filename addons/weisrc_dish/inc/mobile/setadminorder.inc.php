@@ -93,13 +93,13 @@ if ($orderstatus[$status] == 2) { //支付
     $this->addOrderLog($id, $touser, 2, 1, 5);
 
 } elseif ($orderstatus[$status] == 1) { //确认
-
     $update_data['confirmtime'] = TIMESTAMP;
     $update_data['status'] = $orderstatus[$status];
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));
     pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
-    $this->doDada($weid,$id);
+    $this->doDada($weid,$id,$order['storeid']);
     $this->addOrderLog($id, $touser, 2, 1, 3);
+//    p($order);die;
 
 } else if ($orderstatus[$status] == 3) { //完成
 

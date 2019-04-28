@@ -320,6 +320,9 @@
         <label class="col-xs-12 col-sm-3 col-md-2 control-label">坐标</label>
         <div class="col-sm-9">
             {php echo tpl_form_field_coordinate('baidumap', $reply)}
+<!--            <a class="btn btn-info btn-sm"-->
+<!--               href="javascript:void(0);" title="物流"  id="shipment_id" data-price="{$item['logistics_number']}" >-->
+<!--            </a>-->
         </div>
     </div>
     <div class="form-group">
@@ -329,6 +332,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(function () {
        if($('input[name="store_type"]:checked').val()==2 || $('input[name="store_type"]:checked').val()==3 ){

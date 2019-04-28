@@ -40,7 +40,6 @@ if ($operation == 'display') {
         $total = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_businesslog) . " WHERE weid = :weid AND storeid=:storeid  ", array(':weid' => $weid, ':storeid' => $storeid));
         $pager = pagination($total, $pindex, $psize);
     }
-
     $order_totalprice = $this->getStoreOrderTotalPrice($storeid, $is_contain_delivery);
     //已申请
     $totalprice1 = $this->getStoreOutTotalPrice($storeid);
