@@ -108,7 +108,7 @@ $this->resetHour();
 //p($sortid);die;
 if ($sortid == 1) { //正在营业
     $timein = date('H');
-    $strwhere .=" and {$timein}>begintime  and {$timein}< endtime ";
+    $strwhere .=" and {$timein}>=begintime  and {$timein}<= endtime ";
     $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist,is_rest ASC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) { //距离
     $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, displayorder DESC,id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));

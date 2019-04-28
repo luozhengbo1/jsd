@@ -1228,6 +1228,7 @@
                 success: function (data) {
                     if (data['message']['code'] != 0) {
                         $.mvalidateTip(data['message']['msg']);
+                        console.log(123)
                         return;
                     } else {
                         $('.native-scroll').html(data['message']['cart']);
@@ -1827,6 +1828,8 @@
                         $.mvalidateTip(data['message']['msg']);
                         if(data['message']['code']==1 ){
                             //將此商品移除
+                            // $('#dishid').remove()
+                            btnClean.click()
                         }
                         console.log(data)
                         return;

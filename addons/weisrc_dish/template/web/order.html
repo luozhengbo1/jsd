@@ -568,7 +568,17 @@
 <script type="text/javascript">
     $(function () {
         $("tr").delegate(".btnrefund", "click", function () {
-            $("#refund_price").val($(this).attr("data-price"));
+            var money,money2 = 0
+            money = $(this).attr("data-price")*100
+            var money1= "{$item['refund_price']}"
+            money1 =money1*100
+            money2 = money-money1
+            if (money2<0){
+                money2=0
+            }else{
+                money2 /=100
+            }
+            $("#refund_price").val(money2);
             $("#id").val($(this).attr("data-orderid"));
             $('#order-operator-modal').modal();
         });

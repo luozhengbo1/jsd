@@ -319,10 +319,18 @@
     <div class="form-group">
         <label class="col-xs-12 col-sm-3 col-md-2 control-label">坐标</label>
         <div class="col-sm-9">
-            {php echo tpl_form_field_coordinate('baidumap', $reply)}
-<!--            <a class="btn btn-info btn-sm"-->
-<!--               href="javascript:void(0);" title="物流"  id="shipment_id" data-price="{$item['logistics_number']}" >-->
-<!--            </a>-->
+            <div class="row row-fix">
+                <div class="col-xs-4 col-sm-4">
+                    <input type="text" id="lon" name="baidumap[lng]" value="{$reply['lng']}" placeholder="地理经度111" class="form-control">
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                    <input type="text" id="lat" name="baidumap[lat]" value="{$reply['lat']}" placeholder="地理纬度" class="form-control">
+                </div>
+                <a class="btn btn-info btn-sm"
+                   href="javascript:void(0);"  class="btn btn-default" title="坐标选择"  id="latlngselect"  >
+                    坐标选择</a>
+            </div>
+
         </div>
     </div>
     <div class="form-group">
@@ -332,9 +340,32 @@
         </div>
     </div>
 </div>
-
+<style>
+    #container{ height:100%; }
+    </style>
+<div id="order-logistics-modal"  class="modal fade" tabindex="-1" >
+    <div class="modal-dialog" style='width: 80%;'>
+        <div class="modal-content" style="height: 780px; ">
+            <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×
+            </button><h3>坐标选择</h3></div>
+            <div id="container" ></div>
+            <div class="">
+               <div   class="form-group" style="position:absolute;top:20px;left:10%;">
+                <span>地址:</span>
+                <input name="resourceAddress" id="addressmap" style="width:350px;">
+                <button onclick="markLocation()" type="button">搜索</button>
+                    <button type="button" class="btn btn-default" style="display: inline-block" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="suremap" style="display: inline-block" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(function () {
+        $("div").delegate("#latlngselect", "click", function () {
+            $('#order-logistics-modal').modal();
+        });
        if($('input[name="store_type"]:checked').val()==2 || $('input[name="store_type"]:checked').val()==3 ){
            // $('#is_delivery_store_type').val(0);
            $('#store_type_dis_mon').css('display','none')
@@ -371,4 +402,173 @@
 
     })
 
+</script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.Riding"></script>
+    <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/demos/js/liteToolbar.js"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+<script>
+    var map,addMarker,auto;
+    var geocoder;
+    var placeSearch;
+    var lnglatXY;
+    $(function(){
+        // 加入高的地图
+        map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom:15
+            /*center: [116.397428, 39.90923] */
+        });
+        //输入提示
+        var auto = new AMap.Autocomplete({
+            input: "addressmap"
+        });
+
+        AMap.plugin(['AMap.ToolBar','AMap.Scale'],
+            function(){
+                map.addControl(new AMap.ToolBar());
+
+                map.addControl(new AMap.Scale());
+            });
+        AMap.service('AMap.Geocoder',function(){//回调函数
+            //实例化Geocoder
+            geocoder = new AMap.Geocoder({
+                city: "贵阳",//城市，默认：“全国”
+                adius : 1000
+            });
+            //TODO: 使用geocoder 对象完成相关功能
+        });
+        // 加载搜索列表
+        myMapViewLocation();
+        AMap.service(["AMap.PlaceSearch"], function() {
+            placeSearch = new AMap.PlaceSearch({ //构造地点查询类
+                pageSize: 5,
+                pageIndex: 1,
+                city: "贵阳", //城市
+                map: map,
+                panel: "panel"
+            });
+        });
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+        var clickEventListener = map.on('click', function(e) {
+            $("#lon").val(e.lnglat.lng);
+            $("#lat").val(e.lnglat.lat);
+            console.log(e.lnglat.lng)
+            console.log(e.lnglat.lat)
+            // 填写地址
+            writeAddress([e.lnglat.lng,e.lnglat.lat]);
+            mapsearch();
+        });
+        //placeSearch.search("北京");
+        $("#addressmap").on("keydown",function(event){
+            if(event = event || window.event){
+                if(event.keyCode==13){
+                    markLocation();
+                }
+            }
+        });
+    });
+
+    //地图搜索
+    function mapsearch(){
+        var mlon = $("#lon").val();
+        var mlat = $("#lat").val();
+        myMapViewLocation(mlon, mlat);
+    }
+    // 回显
+    function myMapViewLocation(mlon, mlat){
+        //console.log("回显坐标");
+        if(mlon&&mlat){
+            //removeMarkers(lnglatXY);
+            lnglatXY = [mlon,mlat];
+            addMarker(lnglatXY);
+        }
+    }
+    //移除之前的标点
+    function removeMarkers(lnglatXY){
+        marker = new AMap.Marker({
+            map: map,
+            position: lnglatXY,
+            icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+            offset: new AMap.Pixel(-13, -30)
+        });
+        var markers = [];
+        markers.push(marker);
+        map.remove(markers);
+    }
+
+    var t=1;
+    // 实例化点标记
+    function addMarker(lnglatXY) {
+        if(t == 1) {
+            console.log(lnglatXY);
+            marker = new AMap.Marker({
+                icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: lnglatXY,
+                offset: new AMap.Pixel(-13, -30),
+                // 设置是否可以拖拽
+                draggable: true,
+                cursor: 'move',
+                // 设置拖拽效果
+                raiseOnDrag: true
+            });
+            marker.setMap(map);
+            map.setFitView();// 执行定位
+            t++;
+        }
+
+        //修改标点位置
+        if(t != 1){
+            marker.setPosition(lnglatXY);
+            map.setCenter(lnglatXY);
+            marker.setMap(map);
+            map.setFitView();// 执行定位
+        }
+
+    }
+
+    // 填写地址
+    function writeAddress(lnglatXY){
+        var geocoder = new AMap.Geocoder({
+            city : "重庆", //城市，默认：“全国”
+            radius : 1000 //范围，默认：500
+        });
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                geocoder_CallBack(result);
+            }
+        });
+    }
+
+    // 地址回调
+    function geocoder_CallBack(data) {
+        var address = data.regeocode.formattedAddress; //返回地址描述
+        $("input[name=resourceAddress]").val(address);
+    }
+
+    //根据地址搜索
+    function markLocation() {
+        var address = $("#addressmap").val();
+        AMap.plugin('AMap.Geocoder', function() {
+            var geocoder = new AMap.Geocoder();
+            geocoder.getLocation(address, function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    // 经纬度                      
+                    var lon = result.geocodes[0].location.lng;
+                    var lat = result.geocodes[0].location.lat;
+
+                    $("#lon").val(lon);
+                    $("#lat").val(lat);
+
+                    lnglatXY = [lon, lat];
+                    addMarker(lnglatXY);
+                } else {
+                    console.log(status)
+                    console.log(result)
+                    alert('定位失败！');
+                }
+            });
+        });
+    }
 </script>

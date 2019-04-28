@@ -63,7 +63,7 @@ load()->classs('coupon');
     $setting = uni_setting($_W['uniacid'], array('payment'));
 
 //訂單語音提示
-$ordertsData = pdo_fetch('select id,ordersn,storeid from'.tablename("weisrc_dish_order")." where transid=:transid limit 1",array(':transid'=>$data['transaction_id']));
+$ordertsData = pdo_fetch('select id,ordersn,storeid,from_user from'.tablename("weisrc_dish_order")." where transid=:transid limit 1",array(':transid'=>$data['transaction_id']));
 if($ordertsData){
     $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid and ts_type=1 limit 1',array(':orderid'=>$ordertsData['id']));
     if(!$yytsres){
@@ -188,6 +188,13 @@ if(is_array($setting['payment'])) {
 						}
                         $site->$method($ret);
 						if($isxml) {
+						    //自动确认支付的订单进行dodada
+//                            pdo_update($this->table_order, array('status' => 1, 'confirmtime' => TIMESTAMP), array('id' => $ordertsData['id']));
+//                            pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $ordertsData['id']));
+//                            $this->addOrderLog($ordertsData['id'], $ordertsData['from_user'], 2, 2, 3);
+//                            $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND weid=:weid LIMIT 1", array(':id' => $id, ':weid' => $this->_weid));
+//                            $this->doDada($weid,$id,$storeid);
+//                            $this->sendOrderNotice($order, $store, $setting);
 							$result = array(
 								'return_code' => 'SUCCESS',
 								'return_msg' => 'OK'

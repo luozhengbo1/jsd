@@ -44,17 +44,29 @@ if ($goods['counts'] == 0) {
 if ($goods['counts'] > 0) {
     $count = $goods['counts'] - $goods['today_counts'];
     if ($count <= 0) {
-        $this->showTip('该商品已售完', 1);
+        $result['totalprice'] = 0;
+        $result['totalcount'] = 0;
+        $result['goodscount'] = 0;
+        message($result, '', 'ajax');
+//        $this->showTip('该商品已售完', 1);
     }
     if (!empty($cart)) {
         if ($cart['total'] < $total) {
             if ($total > $count) {
-                $this->showTip('该商品已没库存', 1);
+                $result['totalprice'] = 0;
+                $result['totalcount'] = 0;
+                $result['goodscount'] = 0;
+                message($result, '', 'ajax');
+//                $this->showTip('该商品已没库存', 1);
             }
         }
     } else {
         if ($total > $count) {
-            $this->showTip('该商品已没库存', 1);
+            $result['totalprice'] = 0;
+            $result['totalcount'] = 0;
+            $result['goodscount'] = 0;
+            message($result, '', 'ajax');
+//            $this->showTip('该商品已没库存', 1);
         }
     }
 }
