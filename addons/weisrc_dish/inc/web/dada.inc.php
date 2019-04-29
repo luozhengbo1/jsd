@@ -18,7 +18,11 @@ $info=pdo_get('weisrc_dish_stores',array('weid'=>$weid,'id'=>$storeid));
             if($res){
                 message('编辑成功',$this->createWebUrl('dada',array('op' => 'display', 'storeid' => $storeid)),'success');
             }else{
-                message('编辑失败','','error');
+                if($info["is_dada"] == $data['is_dada']){
+                    message('编辑成功',$this->createWebUrl('dada',array('op' => 'display', 'storeid' => $storeid)),'success');
+                }else{
+                    message('编辑失败','','error');
+                }
             }
            
         }
