@@ -4668,8 +4668,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                $total = $order['totalprice']+$order['dprice'];
-                $content .= "\n应收合计：{$total}元";
+                $total = number_format($order['totalprice']+$order['dprice'],2);
+                $content .= "\n应付合计：{$total}元";
                 $content .= "\n实付合计：{$order['totalprice']}元";
                 /* if ($order['credit'] > 0) {
                      $content .= "\n奖励积分：{$order['credit']}";
