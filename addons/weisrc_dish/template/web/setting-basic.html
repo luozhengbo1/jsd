@@ -301,7 +301,9 @@
     </div>
 </div>
 <script>
+    $(function () {
         var is_speaker_val =$('input[name="is_speaker"]:checked').val()
+        // alert(is_speaker_val)
         if(is_speaker_val==0){
             console.log(is_speaker_val)
             $('#yytstimes').css('display','none')
@@ -312,5 +314,7 @@
         $('#is_speaker1').click(function () {
             $('#yytstimes').css('display','block')
         })
+    })
+
 
 </script>
