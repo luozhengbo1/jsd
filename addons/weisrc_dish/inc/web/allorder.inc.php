@@ -95,6 +95,10 @@ if ($operation == 'display') {
     if (!empty($list)) {
         foreach ($list as $key => $value) {
             $userids[$row['from_user']] = $row['from_user'];
+            if (!empty($value["storeid"])){
+                $storedata = pdo_fetch("SELECT * FROM " . tablename($this->table_stores) . " where id=:id LIMIT 1", array(':id' => $value["storeid"]));
+                $list[$key]['store_type'] = $storedata['store_type'];
+            }
             if ($value['dining_mode'] == 1 || $value['dining_mode'] == 3) {
                 $tablesid = intval($value['tables']);
                 $table = pdo_fetch("SELECT * FROM " . tablename($this->table_tables) . " where id=:id LIMIT 1", array(':id' => $tablesid));

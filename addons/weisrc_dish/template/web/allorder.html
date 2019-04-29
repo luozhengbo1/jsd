@@ -226,39 +226,9 @@
                                 {/if}
                             </td>
                             <td>
-                                {if $item['dining_mode']==1}<span class="label label-info" title="堂点" style="background-color: #9585bf;border-color: #9585bf;"><i class="fa fa-cutlery"> 店内</i></span>{/if}
-                                {if $item['dining_mode']==2}<span class="label label-info" title="外卖"  style="background-color: #4f99c6;border-color: #4f99c6;"><i class="fa fa-truck"> 外卖</i></span>
-
-                                {/if}
-                                {if $item['dining_mode']==3}<span class="label label-info" title="预定" style="background-color: #d43f3a;border-color: #fee188;"><i class="fa fa-calendar"> 预定</i></span>{/if}
-                                {if $item['dining_mode']==4}<span class="label label-info" title="快餐" style="background-color: #be386a;border-color: #be386a;"><i class="fa fa-delicious"> 快餐</i></span>
-                                {if !empty($item['quicknum'])}
-                                <br><span class="label label-info">牌号:{$item['quicknum']}</span>
-                                {/if}
-                                {/if}
-                                {if $item['dining_mode']==5}<span class="label label-info" title="收银" style="background-color: #d43f3a;border-color: #fee188;"><i class="fa fa-calendar"> 收银</i></span>{/if}
-                                {if $item['dining_mode']==6}<span class="label label-info" title="充值" ><i class="fa fa-calendar"> 充值</i></span>{/if}
-                                {if !empty($item['meal_time'])}
-                                <!--<br><span class="label label-info">{$item['meal_time']}</span>-->
-                                {/if}
-                                {if $item['dining_mode']==2}
-                                <br/>
-                                {if $item['delivery_status'] == 0}<span class="label label-default">未配送</span>{/if}
-                                {if $item['delivery_status'] == 1}<span class="label label-info">配送中</span>{/if}
-                                {if $item['delivery_status'] == 2}<span class="label label-success">已配送</span>{/if}
-
-                                {if $item['delivery_id'] != 0}
-                                <br/>
-                                <span class="label label-success">配送员:{$item['deliveryuser']}</span>
-                                {/if}
-                                {if $item['delivery_money'] != 0}
-                                <br/>
-                                <span class="label label-info">配送佣金:{$item['delivery_money']}</span>
-                                {/if}
-                                {/if}
-                                {if !empty($item['table'])}
-                                <br><span class="label label-info">桌号:{$item['table']}</span>
-                                {/if}
+                                {if $item['store_type']==1}<span class="label label-info" title="外卖"  style="background-color: #4f99c6;border-color: #4f99c6;"><i class="fa fa-truck"> 外卖</i></span>{/if}
+                                {if $item['store_type']==2}<span class="label label-info" title="食堂"  style="background-color: #4f99c6;border-color: #4f99c6;"><i class="fa fa-truck"> 食堂</i></span>{/if}
+                                {if $item['store_type']==3}<span class="label label-info" title="邮寄"  style="background-color: #4f99c6;border-color: #4f99c6;"><i class="fa fa-truck"> 邮寄</i></span>{/if}
                             </td>
                             <td>
                                 {if $item['status'] == 0}<span class="label label-info">待处理</span>{/if}
