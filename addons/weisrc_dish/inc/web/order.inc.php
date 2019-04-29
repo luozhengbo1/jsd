@@ -863,7 +863,13 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         message('订单不存在！', '', 'error');
     }
     pdo_update($this->table_order, array('logistics_number' => $logistics_number), array('id' => $id));
+
     $url = $this->createWebUrl('order', array('op' => 'display', 'storeid' => $storeid));
+    //邮寄店修改物流单号推送信息
+    if (!empty($logistics_number)){
+        $order['logistics_number'] = $logistics_number;
+        $this->sendOrderNotice($order, $cur_store, $setting);
+    }
     message('录入成功！', $url, 'success');
 }
 
