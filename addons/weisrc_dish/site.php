@@ -203,7 +203,8 @@ class weisrc_dishModuleSite extends Core
         $config['source_id'] = $store['source_id'];
        $data=array();
           //先转换一下坐标
-          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
+//          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
+        $transpoint = ['lng'=>$order['lng'],'lat'=>$order['lat']];
         //发单请求数据,只是样例数据，根据自己的需求进行更改。
           $data2 = array(
              'shop_no'=>  $store['shop_no'],//门店编号
@@ -4696,7 +4697,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 }
                 $this->addsendmsg($content,$order['from_user'],$type=6);
 
-//                $this->sendText($order['from_user'], $content);
             }
 
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 1){
