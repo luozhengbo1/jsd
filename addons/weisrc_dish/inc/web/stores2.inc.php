@@ -275,6 +275,8 @@ if ($operation == 'setting') {
             'is_newlimitprice' => intval($_GPC['is_newlimitprice']),
             'is_oldlimitprice' => intval($_GPC['is_oldlimitprice']),
             'is_delivery_distance' => intval($_GPC['is_delivery_distance']),
+            //排序有问题
+            'displayorder' => intval($_GPC['displayorder']),
             //新增字段
             'store_type' => intval($_GPC['store_type']),
         );

@@ -284,9 +284,11 @@ $delivery_radius = floatval($store['delivery_radius']);
 if ($mode == 2) {
     //距离
     $addressLatLng =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_useraddress') . " WHERE id = :id limit 1", array(':id' => $_GPC['addressid']));
-    //計算兩經緯度之間距離
-//    $distance = $this->getDistanceByGaodeForRiding($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
-    $distance = $this->getDistance($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
+    //計算兩經緯度之間骑行距離
+    $distance = $this->getDistanceByGaodeForRiding($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
+    if($distance==0){
+        $distance = $this->getDistance($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
+    }
     $distance = floatval($distance);
     if ($store['not_in_delivery_radius'] == 0) { //只能在距离范围内
         if ($distance > $delivery_radius) {
@@ -299,12 +301,12 @@ if ($mode == 2) {
 //p($store);
 //var_dump($distance);die;
 if ($is_auto_address == 0 && $useraddress) { //多收餐地址 算距离
-//if ($useraddress) { //多收餐地址 算距离
-//    $distance = $this->getDistanceByGaodeForRiding($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
-//	if($distance == 0)
-//	{
+//if ($useraddress) { //多收餐地址 算距离 計算兩經緯度之間骑行距離
+    $distance = $this->getDistanceByGaodeForRiding($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
+	if($distance == 0)
+	{
     $distance = $this->getDistance($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
-//	}
+	}
     $distance = floatval($distance);
 }
 
