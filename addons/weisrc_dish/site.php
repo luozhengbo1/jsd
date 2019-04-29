@@ -203,7 +203,8 @@ class weisrc_dishModuleSite extends Core
         $config['source_id'] = $store['source_id'];
        $data=array();
           //先转换一下坐标
-          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
+//          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
+        $transpoint = ['lng'=>$order['lng'],'lat'=>$order['lat']];
         //发单请求数据,只是样例数据，根据自己的需求进行更改。
           $data2 = array(
              'shop_no'=>  $store['shop_no'],//门店编号
@@ -4675,8 +4676,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                      $content .= "\n奖励积分：{$order['credit']}";
                  }*/
                 //入库
-//                $this->sendText($order['from_user'], $content);
-                $this->addsendmsg($content,$order['from_user'],$type=1);
+                $this->sendText($order['from_user'], $content);
+              //  $this->addsendmsg($content,$order['from_user'],$type=1);
             }
 
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 3){
@@ -4694,9 +4695,9 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                $this->addsendmsg($content,$order['from_user'],$type=6);
+                //$this->addsendmsg($content,$order['from_user'],$type=6);
+                $this->sendText($order['from_user'], $content);
 
-//                $this->sendText($order['from_user'], $content);
             }
 
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 1){
@@ -4713,12 +4714,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                $this->addsendmsg($content,$order['from_user'],$type=2);
-//                $this->sendText($order['from_user'], $content);
+                //$this->addsendmsg($content,$order['from_user'],$type=2);
+                $this->sendText($order['from_user'], $content);
                 $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
                 $content1 .= "\n联系方式：{$tel['tel']}";
-                $this->addsendmsg($content1,$order['from_user'],$type=3);
-//                $this->sendText($order['from_user'], $content1);
+                //$this->addsendmsg($content1,$order['from_user'],$type=3);
+                $this->sendText($order['from_user'], $content1);
             }
             if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) ){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
@@ -4736,8 +4737,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                // $total = $order['totalprice']+$order['dprice'];
                 $content .= "\n应退金额：{$order['refund_price1']}元";
                 $content .= "\n实退金额：{$order['refund_price1']}元";
-                $this->addsendmsg($content,$order['from_user'],$type=4);
-//                $res = $this->sendText($order['from_user'], $content);
+           //     $this->addsendmsg($content,$order['from_user'],$type=4);
+               $res = $this->sendText($order['from_user'], $content);
 //                file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($res,true)."\n",8);
 
             }/*
@@ -4797,7 +4798,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         if($list && is_array($list)){
             foreach ($list as $k=>$v){
                $res =  $this->sendText($v['openid'], $v['content']);
-               p($res);
                if(   $res['errno']=="-1" || !empty($res['errno'])   ){ //发送失败
                }else{
                   pdo_update("weisrc_dish_sendmsg",['status'=>1],['id'=>$v['id']]);
@@ -5307,8 +5307,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n备注：{$order['remark']}";
             $content .= "\n应收合计：{$order['totalprice']}元";
             if (!empty($from_user)) {
-//                $this->sendText($from_user, $content);
-                $this->addsendmsg($content,$from_user,$type=7);
+              $this->sendText($from_user, $content);
+               // $this->addsendmsg($content,$from_user,$type=7);
             }
         }
     }
