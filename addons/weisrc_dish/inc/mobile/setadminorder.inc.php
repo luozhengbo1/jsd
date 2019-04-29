@@ -41,6 +41,7 @@ if ($is_permission == false) {
 }
 
 $order = $this->getOrderById($id);
+$totalprice = floatval($order['totalprice']);
 $store = $this->getStoreById($order['storeid']);
 if (empty($order)) {
     message('订单不存在');
