@@ -6174,7 +6174,8 @@ storeid=".$order['storeid'].") ";
                 Header("Location: {$url}");
             } else {
                 //错误导致
-//                message($tip_msgss, $url, 'success');
+                $url = '../../app/' . $this->createMobileUrl('order', array('orderid' => $orderid));//更改URL跳转到我的订单
+                message($tip_msgss, $url, 'success');
             }
         }
     }
