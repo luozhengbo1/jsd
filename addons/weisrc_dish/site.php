@@ -4565,7 +4565,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         $keyword1 = $order['ordersn'];
         $keyword2 = $orderStatus[$order['status']];
         $keyword3 = date("Y-m-d H:i", $order['dateline']);
-
         if (!empty($setting['tplneworder']) && $setting['istplnotice'] == 1) {
             $templateid = $setting['tplneworder'];
             $first = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
@@ -4652,6 +4651,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $access_token = WeAccount::token();
             $templateMessage = new templateMessage();
             $templateMessage->send_template_message($order['from_user'], $templateid, $content, $access_token, $url);
+
         } else {
             if($order["ispay"] == 1 && $order["status"] == 0){
                 //顾客下单付款成功的通知
@@ -4674,16 +4674,18 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 /* if ($order['credit'] > 0) {
                      $content .= "\n奖励积分：{$order['credit']}";
                  }*/
-                $this->sendText($order['from_user'], $content);
+                //入库
+//                $this->sendText($order['from_user'], $content);
+                $this->addsendmsg($content,$order['from_user'],$type=1);
             }
 
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 3){
                 //B.邮寄店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
                 $content = "您的订单{$order['ordersn']}";
                 //$content .= "\n订单号：{$keyword1}";
-                //todo 接入顺丰单号
                 $content .= "\n订单状态：已确认";
-                $content .= "\n物流信息：<a href='https://m.kuaidi100.com/index_all.html?type=quanfengkuaidi&postid=123456'>点击查看物流信息</a>";
+                $logistics_number = $order['logistics_number'];
+                $content .= "\n物流信息：<a href='https://m.kuaidi100.com/index_all.html?type=quanfengkuaidi&postid=$logistics_number'>点击查看物流信息</a>";
                 $content .= "\n时间：{$keyword3}";
                 $content .= "\n门店名称：{$store['title']}";
                 $content .= "\n支付方式：{$paytype[$order['paytype']]}";
@@ -4692,7 +4694,9 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                $this->sendText($order['from_user'], $content);
+                $this->addsendmsg($content,$order['from_user'],$type=6);
+
+//                $this->sendText($order['from_user'], $content);
             }
 
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 1){
@@ -4709,15 +4713,14 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                $this->sendText($order['from_user'], $content);
-
+                $this->addsendmsg($content,$order['from_user'],$type=2);
+//                $this->sendText($order['from_user'], $content);
                 $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
-                //todo 如果是达达派送，输入外卖小哥的电话
                 $content1 .= "\n联系方式：{$tel['tel']}";
-                $this->sendText($order['from_user'], $content1);
+                $this->addsendmsg($content1,$order['from_user'],$type=3);
+//                $this->sendText($order['from_user'], $content1);
             }
-
-            if ($order["ispay"] == 3 && $order["status"] == "-1"){
+            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) ){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
@@ -4731,9 +4734,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
                // $total = $order['totalprice']+$order['dprice'];
-                $content .= "\n应退金额：{$order['totalprice']}元";
+                $content .= "\n应退金额：{$order['refund_price1']}元";
                 $content .= "\n实退金额：{$order['refund_price1']}元";
-                $this->sendText($order['from_user'], $content);
+                $this->addsendmsg($content,$order['from_user'],$type=4);
+//                $res = $this->sendText($order['from_user'], $content);
+//                file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($res,true)."\n",8);
+
             }/*
             $content = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
             //$content .= "\n订单号：{$keyword1}";
@@ -4786,6 +4792,32 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         }
     }
 
+    public  function doWebChecksendmsg(){
+        $list = pdo_fetchall("select * from ".tablename('weisrc_dish_sendmsg')." where status=:status",array(":status"=>0));
+        if($list && is_array($list)){
+            foreach ($list as $k=>$v){
+               $res =  $this->sendText($v['openid'], $v['content']);
+               p($res);
+               if(   $res['errno']=="-1" || !empty($res['errno'])   ){ //发送失败
+               }else{
+                  pdo_update("weisrc_dish_sendmsg",['status'=>1],['id'=>$v['id']]);
+               }
+            }
+        }
+    }
+    //新增发送信息msg
+    public function addsendmsg($content, $from_user,$type)
+    {
+        global $_W, $_GPC;
+        $insert = array(
+            'content' => $content,
+            'openid' => $from_user,
+            'status' => 0,
+            'type' => $type,
+            'sendtime' => date('Y-m-d H:i:s')
+        );
+        pdo_insert($this->table_sendmsg, $insert);
+    }
     public function addTplLog($order, $from_user, $content, $result)
     {
         global $_W, $_GPC;
@@ -5275,7 +5307,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n备注：{$order['remark']}";
             $content .= "\n应收合计：{$order['totalprice']}元";
             if (!empty($from_user)) {
-                $this->sendText($from_user, $content);
+//                $this->sendText($from_user, $content);
+                $this->addsendmsg($content,$from_user,$type=7);
             }
         }
     }
@@ -5885,8 +5918,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $order = $this->getOrderById($orderid);
         }
 
-
-
         if ($order['ispay'] == 0) {
             $storeid = $order['storeid'];
             $store = $this->getStoreById($storeid);
@@ -5915,7 +5946,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 }
             }
             $setting = $this->getSettingByWeid($order['weid']);
-
             //后台通知，修改状态
             if ($params['result'] == 'success' && $params['from'] == 'notify') {
                 if ($data['paytype'] == 1 || $data['paytype'] == 2 || $data['paytype'] == 4) { //在线，余额支付
@@ -5954,7 +5984,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 if ($params['type'] == 'credit') {
                     pdo_update($this->table_order, array('istpl' => 1), array('id' => $orderid));
                 }
-
                 if ($order['dining_mode'] != 6) {
                     $this->feiyinSendFreeMessage($orderid); //飞印
                     $this->_365SendFreeMessage($orderid); //365打印机
@@ -6107,7 +6136,6 @@ storeid=".$order['storeid'].") ";
         if ($params['type'] == 'delivery') {
             $tip_msg = '下单成功';
         }
-
         $setting = uni_setting($_W['uniacid'], array('creditbehaviors'));
         $credit = $setting['creditbehaviors']['currency'];
 
@@ -6132,6 +6160,7 @@ storeid=".$order['storeid'].") ";
             $url = '../../app/' . $this->createMobileUrl('usercenter', array());
         }
 
+
         if ($params['type'] == $credit) {
 
             if ($params['type'] == 'baifubao') {
@@ -6144,7 +6173,8 @@ storeid=".$order['storeid'].") ";
             if ($params['paysys'] == 'payu' || $params['paysys'] == 'bm_payms' || $params['paysys'] == 'jxkj_unipay') {
                 Header("Location: {$url}");
             } else {
-                message($tip_msgss, $url, 'success');
+                //错误导致
+//                message($tip_msgss, $url, 'success');
             }
         }
     }
@@ -8260,16 +8290,12 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         $path_key = IA_ROOT . '/addons/weisrc_dish/cert/apiclient_key_' . $_W['uniacid'] . '.pem';
         $account_info = $_W['account'];
         $refund_order = $this->getOrderById($id);
-
         if ($refund_order['paytype'] == 2) {
             $paysetting = uni_setting($_W['uniacid'], array('payment'));
             $wechatpay = $paysetting['payment']['wechat'];
-
-
             $mchid = $wechatpay['mchid'];
             $key = $wechatpay['apikey'];
             $appid = $account_info['key'];
-
             $fee = $refund_order['totalprice'] * 100;
             $refundfee = $price * 100;
             $refundid = $refund_order['transid'];
@@ -8283,7 +8309,6 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetOut_refund_no($refund_order['id'].time());
             $result = $WxPayApi->refund($input, 6, $path_cert, $path_key, $key);
             file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($result,true)."\n",8);
-//            p($result);die;
             if ($result['return_code'] == 'SUCCESS') {
                 $input2 = new WxPayOrderQuery();
                 $input2->SetAppid($appid);
@@ -8297,6 +8322,9 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
                             $refund_order['id']));
                     } else {
                         pdo_update($this->table_order, array('refund_price' => $totalrefundprice), array('id' => $refund_order['id']));
+                    }
+                    if($result['result_code']=="FAIL"){
+                        return $result['err_code_des'];
                     }
                     return 1;
                 } else {
