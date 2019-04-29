@@ -5,6 +5,7 @@ class Dadacallback{
     {
     }
     //
+
     public function index(){
     }
     public function baiduMapTogaodeMap($lng, $lat)
@@ -34,4 +35,4 @@ class Dadacallback{
 
 }
 $obj = new Dadacallback();
-
+$obj->checksendmsg();

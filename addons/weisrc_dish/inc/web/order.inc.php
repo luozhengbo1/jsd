@@ -30,7 +30,7 @@ if ($operation == 'fengniaolist') {
 
     $total = pdo_fetchcolumn('SELECT COUNT(1) FROM ' . tablename("weisrc_dish_fengniao") . " WHERE $commoncondition");
     $pager = pagination($total, $pindex, $psize);
-}elseif ($operation == 'display') {
+} elseif ($operation == 'display') {
     $commoncondition = " weid = '{$_W['uniacid']}' ";
     if ($storeid != 0) {
         $commoncondition .= " AND storeid={$storeid} ";
@@ -676,7 +676,6 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     $url = $this->createWebUrl('order', array('op' => 'display', 'storeid' => $storeid));
     $id = $_GPC['id'];
     $order = $this->getOrderById($id);
-    //var_dump('123---------'.$order['paytype']);exit();
     if (empty($order)) {
         message('订单不存在！', '', 'error');
     }
@@ -687,7 +686,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
         $coin = floatval($order['totalprice']);
-        if ($refund_price > $coin) {
+        if ($refund_price > $coin || $refund_price+$order['refund_price']>$order['totalprice']) {
             message('退款金额不能大于订单金额！', $url, 'success');
         }
         $store = $this->getStoreById($order['storeid']);
@@ -705,7 +704,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                 $this->sendOrderNotice($order, $store, $setting);
                 message('退款成功！', $url, 'success');
             } else {
-                message('退款失败！', $url, 'error');
+                message( $result, $url, 'error');
             }
         } else if ($order['paytype'] == 1) {
             $this->setFansCoin($order['from_user'], $refund_price, "码上点餐单号{$order['ordersn']}退款");

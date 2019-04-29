@@ -194,7 +194,7 @@ if(is_array($setting['payment'])) {
 //                            $this->addOrderLog($ordertsData['id'], $ordertsData['from_user'], 2, 2, 3);
 //                            $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND weid=:weid LIMIT 1", array(':id' => $id, ':weid' => $this->_weid));
 //                            $this->doDada($weid,$id,$storeid);
-//                            $this->sendOrderNotice($order, $store, $setting);
+                            $this->sendOrderNotice($order, $store, $setting);
 							$result = array(
 								'return_code' => 'SUCCESS',
 								'return_msg' => 'OK'

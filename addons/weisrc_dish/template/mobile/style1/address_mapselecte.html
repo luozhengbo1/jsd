@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
         <title>高德地图测试</title>
-    <script src="http://webapi.amap.com/maps?v=1.3&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.Riding"></script>
+            <script src="http://webapi.amap.com/maps?v=1.3&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.Riding,AMap.Geolocation"></script>
         <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
         <script type="text/javascript" src="http://webapi.amap.com/demos/js/liteToolbar.js"></script>
         <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
@@ -14,17 +14,34 @@
         <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
         <style>
             html,body,#container{ height:100%; }
+                #addressmap{
+                    background-color: #ccc;
+                }
         </style>
 </head>
 <body>
    <div id="container" ></div>
-   <div   class="form-group" style="position:absolute;top:20px;left:10%;">
-            <span>地址:</span>
-            <input name="resourceAddress" id="addressmap" style="width:350px;">
-            <button onclick="markLocation()" type="button">搜索</button>
-    <button type="button" class="btn btn-primary" id="suremap" style="display: inline-block" data-dismiss="modal">确定</button>
-        </div>
+   <div   class="form-group" style="position:absolute;top:0px;">
+        <div class="mui-input-row mui-search">
+            <input   name="resourceAddress" id="addressmap"  type="search"  style="width:70%;" class="mui-input-clear" placeholder="地址搜索">
+            <input type="button" onclick="markLocation()" style="padding: 6px 7px;" value="搜索">
+            <input type="button"  id="suremap"  class="btn mui-btn-primary"  style="padding: 6px 6px;" value="确定">
+            <input type="hidden" id="lon" name="lon" value="">
+            <input type="hidden" id="lat" name="lat" value="">
+        </div>
+    </div>
 <script>
+    $('#suremap').click(function () {
+        var lat=$('#lat').val()
+        var lon=$('#lon').val()
+           if(!lon || !lat){
+               alert('定位失败请重新定位')
+           }
+        var myValue = $('#addressmap').val()
+        var url = "{$addurl}&myValue="+myValue+"&lat="+lat+"&lng="+lon
+        console.log(url)
+        // document.location.href=url
+    })
     var map,addMarker,auto;
     var geocoder;
     var placeSearch;
@@ -33,29 +50,49 @@
         // 加入高的地图
         map = new AMap.Map('container', {
             resizeEnable: true,
-            zoom:15
-            /*center: [116.397428, 39.90923] */
+            zoom:15,
+            center: [106.724426, 26.604594]
         });
+        AMap.plugin('AMap.Geolocation', function() {
+            var geolocation = new AMap.Geolocation({
+                enableHighAccuracy: false,//是否使用高精度定位，默认:true
+                timeout: 10000,          //超过10秒后停止定位，默认：5s
+                buttonPosition:'RB',    //定位按钮的停靠位置
+                buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+
+            });
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition(function(status,result){
+                if(status == 'complete'){
+                    onComplete(result)
+                }else{
+                    onError(result)
+                }
+            });
+        });
+        //解析定位结果
+        function onComplete(data) {
+          console.log('定位成功')
+            var str = [];
+            str.push('定位结果：' + data.position);
+            str.push('定位类别：' + data.location_type);
+            if(data.accuracy){
+                str.push('精度：' + data.accuracy + ' 米');
+            }//如为IP精确定位结果则没有精度信息
+            str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+            document.getElementById('result').innerHTML = str.join('<br>');
+        }
+        //解析定位错误信息
+        function onError(data) {
+            alert('定位失败')
+            console.log(data)
+        }
+        addMarker([106.724426,26.604594])
         //输入提示
         var auto = new AMap.Autocomplete({
             input: "addressmap"
         });
-        // var marker = new AMap.Marker({
-        //     icon: new AMap.Icon({
-        //         size:new AMap.Size(36,42),//图标大小
-        //         image:"/img/loc.png"
-        //     }),
-        //     //这里用/img/loc.png图片的left:18;top:38指向坐标
-        //     offset: new AMap.Pixel(-18,-38),
-        //     position: map.gaode.map.getCenter(),
-        //     draggable:true //点标记可拖拽
-        // });
-        // AMap.event.addListener(marker, 'dragging', function(e){
-        //     var lat = e.lnglat.lat,
-        //         lng = e.lnglat.lng;
-        //     marker.setPosition(new AMap.LngLat(lng,lat));
-        //
-        // });
         AMap.plugin(['AMap.ToolBar','AMap.Scale'],
             function(){
                 map.addControl(new AMap.ToolBar());
@@ -162,10 +199,11 @@
     // 填写地址
     function writeAddress(lnglatXY){
         var geocoder = new AMap.Geocoder({
-            city : "重庆", //城市，默认：“全国”
-            radius : 1000 //范围，默认：500
+            city : "全国", //城市，默认：“全国”
+            radius : 500 //范围，默认：500
         });
         geocoder.getAddress(lnglatXY, function(status, result) {
+            console.log(result)
             if (status === 'complete' && result.info === 'OK') {
                 geocoder_CallBack(result);
             }
@@ -177,7 +215,6 @@
         var address = data.regeocode.formattedAddress; //返回地址描述
         $("input[name=resourceAddress]").val(address);
     }
-
     //根据地址搜索
     function markLocation() {
         var address = $("#addressmap").val();
@@ -185,7 +222,9 @@
             var geocoder = new AMap.Geocoder();
             geocoder.getLocation(address, function(status, result) {
                 if (status === 'complete' && result.info === 'OK') {
-                    // 经纬度                      
+                    // 经纬度        
+                    console.log(result)
+                    $("#addressmap").val(result.geocodes[0].formattedAddress)         
                     var lon = result.geocodes[0].location.lng;
                     var lat = result.geocodes[0].location.lat;
 
@@ -197,7 +236,8 @@
                 } else {
                     console.log(status)
                     console.log(result)
-                    alert('定位失败！');
+                    alert('搜索失败！');
+                    $("#addressmap").val('')
                 }
             });
         });

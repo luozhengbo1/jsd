@@ -90,6 +90,8 @@ class Core extends WeModuleSite
     public $table_money = "weisrc_dish_money";
     public $table_distance_pt = "weisrc_dish_distance_pt";
     public $table_cost = "weisrc_dish_cost";
+    //sendmsg
+    public $table_sendmsg = "weisrc_dish_sendmsg";
 
     public $serverip = '';
 

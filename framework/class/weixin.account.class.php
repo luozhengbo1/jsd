@@ -1020,7 +1020,8 @@ class WeiXinAccount extends WeAccount {
 		}
 		$token = $this->getAccessToken();
 		if(is_error($token)){
-			return $token;
+            return error(-1, 'token错误');
+//			return $token;
 		}
 		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={$token}";
 		$response = ihttp_request($url, urldecode(json_encode($data)));
