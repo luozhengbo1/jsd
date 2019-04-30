@@ -147,7 +147,7 @@
                         <div class="line-through" ng-hide="hide_right"></div>
                     </div>
                 </div>
-                <div class="order-state-body ng-binding">{if $order['delivery_status']==0}未配送{/if}{if $order['delivery_status']==1}配送中{/if}{if $order['delivery_status']==2}已配送{/if}</div>
+                <div class="order-state-body ng-binding">{if $order['delivery_status']==0}未配送{/if}{if $order['delivery_status']==1}配送中{/if}{if $order['delivery_status']==2||$order['delivery_status']==3 }已配送{/if}</div>
             </div>
             {/if}
             <div class="order-state ng-isolate-scope {if $order['status']==3}active{/if}">
@@ -405,6 +405,7 @@
             {/if}
         </div>
         <div class="space-8"></div>
+        <input type="hidden" class="ddb-form-input ng-pristine ng-untouched ng-valid" {if $order['status']==1 || $order['status']==3 || $order['ispay']==1 }disabled{/if} style="border:1px solid #ffa39e;" placeholder="输入订单总价" value="{$order['totalprice']}" name="totalprice" id="totalprice">
         <!--<div class="section">
             <div class="list-item ddb-form-control">
                 <div class="ddb-form-label">总价格</div>

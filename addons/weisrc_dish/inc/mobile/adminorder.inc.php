@@ -59,7 +59,7 @@ if ($is_permission == false) {
     }
 }
 if ($is_permission == false) {
-    //message('对不起，您没有该功能的操作权限!');
+    message('对不起，您没有该功能的操作权限!');
 }
 
 $storelist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " WHERE weid=:weid ORDER BY id DESC ", array(':weid' => $weid), 'id');
