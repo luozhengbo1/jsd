@@ -106,6 +106,7 @@ if ($orderstatus[$status] == 2) { //支付
         $dadares =$this->doDada($weid,$id,$order['storeid']);
         if($dadares=='success'){
             $msg ="订单已推送给达达";
+            pdo_update($this->table_order, array('delivery_status' => 1), array('id' => $id, 'weid' => $weid));
         }else{
             $msg ="订单推达达失败，联系管理员,请先自己配送";
             pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
@@ -127,7 +128,7 @@ if ($orderstatus[$status] == 2) { //支付
     $this->updateFansData($order['from_user']);
     $this->updateFansFirstStore($order['from_user'], $order['storeid']);
     //修改为已配送
-    pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
+    pdo_update($this->table_order, array('delivery_status' => 2), array('id' => $id, 'weid' => $weid));
     if ($order['isfinish'] == 0) {
         //计算积分
         $this->setOrderCredit($order['id']);

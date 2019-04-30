@@ -561,6 +561,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     $dadares =$this->doDada($weid,$id,$storeid);
                     if($dadares=='success'){
                         $msg ="订单已推送给达达";
+                        pdo_update($this->table_order, array('delivery_status' => 1), array('id' => $id, 'weid' => $weid));
                     }else{
                         $msg ="订单推达达失败，联系管理员,请先自己配送";
                         pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
@@ -613,7 +614,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     $this->setOrderCredit($order['id']);
                     pdo_update($this->table_order, array('isfinish' => 1), array('id' => $id));
                     //点击完成就完成
-                    pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
+                    pdo_update($this->table_order, array('delivery_status' => 2), array('id' => $id, 'weid' => $weid));
                     pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
                     pdo_update($this->table_fans, array('paytime' => TIMESTAMP), array('id' => $fans['id']));
                     if ($order['dining_mode'] == 1) {
