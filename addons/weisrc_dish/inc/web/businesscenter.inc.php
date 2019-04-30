@@ -46,6 +46,7 @@ if ($operation == 'display') {
     //未申请
     $totalprice2 = $this->getStoreGetTotalPrice($storeid);
     $totalprice = $order_totalprice - $totalprice1 - $totalprice2;
+
     $totalprice = sprintf('%.2f', $totalprice);
 
 } else if ($operation == 'post') {

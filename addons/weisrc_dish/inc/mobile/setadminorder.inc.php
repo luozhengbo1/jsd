@@ -11,7 +11,7 @@ $remark = trim($_GPC['remark']);
 $orderstatus = array('cancel' => -1, 'confirm' => 1, 'finish' => 3, 'pay' => 2, 'updateprice' => 4, 'print' => 5);
 
 if (empty($orderstatus[$status])) {
-    //message('对不起，您没有该功能的操作权限!!');
+    message('对不起，您没有该功能的操作权限!!');
 }
 
 if (empty($from_user)) {
@@ -37,7 +37,7 @@ if ($is_permission == false) {
 }
 
 if ($is_permission == false) {
-   // message('对不起，您没有该功能的操作权限!');
+    message('对不起，您没有该功能的操作权限!');
 }
 
 $order = $this->getOrderById($id);
@@ -99,6 +99,21 @@ if ($orderstatus[$status] == 2) { //支付
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));
     pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
     $this->doDada($weid,$id,$order['storeid']);
+    //如果是配置了达达进行调用
+    $storesInfo = pdo_fetch("select id,is_dada from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$order['storeid']));
+    if($storesInfo['is_dada']==1){
+        //新增達達配送狀態
+        $dadares =$this->doDada($weid,$id,$order['storeid']);
+        if($dadares=='success'){
+            $msg ="订单已推送给达达";
+        }else{
+            $msg ="订单推达达失败，联系管理员,请先自己配送";
+            pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
+        }
+        //商家自配
+    }else{
+        pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
+    }
     $this->addOrderLog($id, $touser, 2, 1, 3);
 //    p($order);die;
 
@@ -111,6 +126,8 @@ if ($orderstatus[$status] == 2) { //支付
 
     $this->updateFansData($order['from_user']);
     $this->updateFansFirstStore($order['from_user'], $order['storeid']);
+    //修改为已配送
+    pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
     if ($order['isfinish'] == 0) {
         //计算积分
         $this->setOrderCredit($order['id']);

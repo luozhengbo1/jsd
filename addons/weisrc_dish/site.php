@@ -262,47 +262,83 @@ class weisrc_dishModuleSite extends Core
     }
 
     //门店总消费金额
+//    public function getStoreOrderTotalPrice($storeid, $is_contain_delivery)
+//    {
+//        global $_W, $_GPC;
+//        $weid = $this->_weid;
+//        $order_totalprice = 0;
+//        $strwhere = " weid = :weid AND storeid=:storeid AND ispay=1 AND
+//ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) and order_ps_type=1 ";
+//        $storeType = pdo_fetch("select store_type from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$storeid));
+//        if ($is_contain_delivery !== 1  ) { //包含配送 kaiqi
+//            $field = "sum(totalprice-one_order_getprice-refund_price+pt_yf+dprice+zhekou+jifen_dk)";
+//            $field = ($storeType["store_type"] ==1 )?$field:"sum(totalprice-one_order_getprice-refund_price+dprice+zhekou+jifen_dk)";
+//            $order_totalprice = pdo_fetchcolumn("SELECT {$field} FROM " . tablename($this->table_order) . " WHERE {$strwhere}", array(':weid' => $weid, ':storeid' => $storeid));
+//            $order_totalprice = floatval($order_totalprice);
+////            echo "SELECT $field FROM " . tablename($this->table_order) . " WHERE  weid = $weid AND storeid=$storeid AND ispay=1 AND
+////ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";die;
+//            //var_dump($order_totalprice);exit();
+//        } else {
+//            //不包含配送费
+//                                                  $field = "sum(totalprice-one_order_getprice-refund_price+pt_yf+dprice+zhekou+jifen_dk)";
+//            $field = ($storeType["store_type"] ==1 )?$field:"sum(totalprice-one_order_getprice-refund_price+dprice+zhekou+jifen_dk)";
+//            $time = strtotime('2017-07-17 00:00:00');
+//            $order_totalprice1 = pdo_fetchcolumn("SELECT {$field} FROM " . tablename($this->table_order) . " WHERE {$strwhere} AND
+//dateline<:dateline", array(':weid' => $weid,
+//                ':storeid' => $storeid, ':dateline' => $time));
+//            $order_totalprice1 = floatval($order_totalprice1);
+//
+//                                                    $field1 = "sum(totalprice-dispatchprice-one_order_getprice-refund_price+pt_yf+dprice+zhekou+jifen_dk)";
+//            $field1 = ($storeType["store_type"] ==1 )?$field1:"sum(totalprice-dispatchprice-one_order_getprice-refund_price+dprice+zhekou+jifen_dk)";
+//            $order_totalprice2 = pdo_fetchcolumn("SELECT {$field1} FROM " . tablename($this->table_order) . " WHERE {$strwhere}
+//AND dateline>=:dateline", array(':weid' => $weid,
+//                ':storeid' => $storeid, ':dateline' => $time));
+//            $order_totalprice2 = floatval($order_totalprice2);
+//
+//            $order_totalprice = $order_totalprice1 + $order_totalprice2;
+//            p($order_totalprice);
+//            p($order_totalprice1);
+//            p($order_totalprice2);
+//            die;
+//        }
+//
+//        return $order_totalprice;
+//    }
+    //门店总消费金额
     public function getStoreOrderTotalPrice($storeid, $is_contain_delivery)
     {
         global $_W, $_GPC;
         $weid = $this->_weid;
-
-        $order_totalprice = 0;
-
         $strwhere = " weid = :weid AND storeid=:storeid AND ispay=1 AND
 ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
 
+        $time = strtotime('2017-07-17 00:00:00');
+        $fields ="totalprice,dispatchprice,one_order_getprice,refund_price,pt_yf,dprice,zhekou,jifen_dk,order_ps_type,dateline";
+        //7-17之前
+        $list = pdo_fetchall("select {$fields} from ".tablename($this->table_order)." where    {$strwhere} ",
+            array(':weid' => $weid, ':storeid' => $storeid)
+        );
+        $total1 =0;
+        if( is_array($list) ){
+            foreach ($list as $k=>$v){
+                //分为补贴单
+                if($v['order_ps_type'] == 1){
+                    $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+                //非补贴单
+                }else{
+                    //在17-07-17后
+                    if($v['dateline'] >= $time){
+                        $total1+=$v['totalprice']-$v['dispatchprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+                    }else{
+                        $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+                    }
 
-        $storeType = pdo_fetch("select store_type from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$storeid));
-        if ($is_contain_delivery == 1  ) { //包含配送 kaiqi
-            $field = "sum(totalprice-one_order_getprice-refund_price+pt_yf+dprice+zhekou+jifen_dk)";
-            $field = ($storeType["store_type"] ==1 )?$field:"sum(totalprice-one_order_getprice-refund_price+dprice+zhekou+jifen_dk)";
-            $order_totalprice = pdo_fetchcolumn("SELECT {$field} FROM " . tablename($this->table_order) . " WHERE {$strwhere}", array(':weid' => $weid, ':storeid' => $storeid));
-            $order_totalprice = floatval($order_totalprice);
-//            echo "SELECT $field FROM " . tablename($this->table_order) . " WHERE  weid = $weid AND storeid=$storeid AND ispay=1 AND
-//ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";die;
-            //var_dump($order_totalprice);exit();
-        } else {
-            //不包含配送费
-            $field = "sum(totalprice-one_order_getprice-refund_price+pt_yf+dprice+zhekou+jifen_dk)";
-            $field = ($storeType["store_type"] ==1 )?$field:"sum(totalprice-one_order_getprice-refund_price+dprice+zhekou+jifen_dk)";
-            $time = strtotime('2017-07-17 00:00:00');
-            $order_totalprice1 = pdo_fetchcolumn("SELECT {$field} FROM " . tablename($this->table_order) . " WHERE {$strwhere} AND
-dateline<:dateline", array(':weid' => $weid,
-                ':storeid' => $storeid, ':dateline' => $time));
-            $order_totalprice1 = floatval($order_totalprice1);
+                }
 
-            $field1 = "sum(totalprice-dispatchprice-one_order_getprice-refund_price+pt_yf+dprice+zhekou+jifen_dk)";
-            $field1 = ($storeType["store_type"] ==1 )?$field1:"sum(totalprice-dispatchprice-one_order_getprice-refund_price+dprice+zhekou+jifen_dk)";
-            $order_totalprice2 = pdo_fetchcolumn("SELECT {$field1} FROM " . tablename($this->table_order) . " WHERE {$strwhere}
-AND dateline>=:dateline", array(':weid' => $weid,
-                ':storeid' => $storeid, ':dateline' => $time));
-            $order_totalprice2 = floatval($order_totalprice2);
-            $order_totalprice = $order_totalprice1 + $order_totalprice2;
+            }
         }
-        return $order_totalprice;
+        return $total1;
     }
-
     //门店已提现金额
     public function getStoreOutTotalPrice($storeid)
     {
@@ -7413,7 +7449,8 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
         $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
         $setting = $this->getSetting();
         $ts_times = $_GPC['ts_times']?$_GPC['ts_times']:$setIsSpeak['yy_ts_time'];
-        if ($setting['is_speaker']==1) {
+        $res = pdo_get('weisrc_dish_stores',['id'=>intval($_GPC['storeid'])],'is_speaker');
+        if ($res['is_speaker'] == 1) {
             $is_speaker = 1;
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
@@ -7422,7 +7459,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             } else {
                 $store = $this->getStoreById($storeid);
                 if ($store['is_speaker']==1) {
-                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times<:ts_times   ";
+                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times_pc<:ts_times   ";
                     $param = array(':weid' => $this->_weid,':storeid'=>$storeid,':ts_times'=>$ts_times);
                 } else {
                     $is_speaker = 0;
@@ -7430,7 +7467,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             }
             if ($is_speaker == 1) {
                 $service = pdo_fetch("SELECT * FROM " . tablename($this->table_service_log) . " {$strwhere} ORDER BY id DESC LIMIT 1", $param);
-                $update = ['ts_times'=>$service['ts_times']+1];
+                $update = ['ts_times_pc'=>$service['ts_times_pc']+1];
                 $where=['id'=>$service['id']];
                 pdo_update('weisrc_dish_service_log',$update,$where);
                 if ($service) {
@@ -7446,7 +7483,8 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
     {
         global $_W, $_GPC;
         $setting = $this->getSetting();
-        if ($setting['is_speaker'] == 1) {
+        $res = pdo_get('weisrc_dish_stores',['id'=>intval($_GPC['storeid'])],'is_speaker');
+        if ($res['is_speaker'] == 1) {
             //提示次數
             $ts_times = $_GPC['ts_times'];
             //第幾次
@@ -7454,8 +7492,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
             if ($storeid == 0) {
                 $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
             } else {
-                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times   ORDER BY id DESC LIMIT 1",
-                    array(':weid' => $this->_weid, ':storeid' => $storeid,':ts_times'=>$ts_times));
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times   ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid, ':storeid' => $storeid,':ts_times'=>$ts_times));
             }
             if ($service) {
                 $update = ['ts_times'=>$service['ts_times']+1];

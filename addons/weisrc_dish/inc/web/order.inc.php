@@ -612,6 +612,8 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     //计算积分
                     $this->setOrderCredit($order['id']);
                     pdo_update($this->table_order, array('isfinish' => 1), array('id' => $id));
+                    //点击完成就完成
+                    pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
                     pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
                     pdo_update($this->table_fans, array('paytime' => TIMESTAMP), array('id' => $fans['id']));
                     if ($order['dining_mode'] == 1) {

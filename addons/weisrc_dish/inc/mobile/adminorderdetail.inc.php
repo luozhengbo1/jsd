@@ -65,7 +65,7 @@ is_admin_order=1 AND storeid=:storeid LIMIT 1", array(':weid' => $this->_weid, '
 }
 
 if ($is_permission == false) {
-   // message('对不起，您没有该功能的操作权限!');
+    message('对不起，您没有该功能的操作权限!');
 }
 
 //if (empty($storeids)) {

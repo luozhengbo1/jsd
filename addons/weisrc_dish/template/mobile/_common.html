@@ -4,7 +4,7 @@
 <script>
     function checkorder() {
         var times = $("#is_speaker_times").val()
-        $.post("{php echo $this->createMobileUrl('checkorder', array('storeid' => $storeid));}", {'ts_times':times},function(data){
+        $.post("{php echo $this->createMobileUrl('checkorder', array('storeid' => $storeid,'from'=>'mobile'));}", {'ts_times':times},function(data){
             if(data == 1 ) {
                 var tip = "/attachment/audios/新订单处理_立体声.mp3";
                 $("#music")[0].src= tip;

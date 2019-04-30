@@ -17,15 +17,19 @@ if ($mode == 3) {
 }
 
 $useraddress = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE weid=:weid AND from_user=:from_user AND isdefault=1 LIMIT 1", array(':weid' => $weid, ':from_user' => $from_user));
-
 if ($is_auto_address == 0) {
+
     $lat = trim($useraddress['lat']);
     $lng = trim($useraddress['lng']);
 } else {
+
     $lat = trim($_GPC['lat']);
     $lng = trim($_GPC['lng']);
 }
-
+//百度转高德计算距离
+$postionlatlng = $this->baiduMapTogaodeMap($lng,$lat);
+$lat=$postionlatlng['lat'];
+$lng=$postionlatlng['lng'];
 $is_handle_goods = 1; //是否处理商品
 if ($mode == 5 || $mode == 6) {
     $is_handle_goods = 0;
@@ -50,7 +54,8 @@ if ($mode == 2) {
     //距离
     $delivery_radius = floatval($store['delivery_radius']);
 	//sjg 2018-09-04
-	$distance = $this->getDistanceByGaodeForRiding($lat, $lng, $store['lat'], $store['lng']);
+
+    $distance = $this->getDistanceByGaodeForRiding($lat, $lng, $store['lat'], $store['lng']);
 	if($distance == 0)
 	{
 		$distance = $this->getDistance($lat, $lng, $store['lat'], $store['lng']);
@@ -86,6 +91,7 @@ if ($is_auto_address == 0) { //多收餐地址
     $tel = trim($_GPC['tel']); //电话
     $address = trim($_GPC['address']);
 }
+
 
 $sex = trim($_GPC['sex']); //性别
 $meal_time = trim($_GPC['meal_time']); //订餐时间
@@ -198,10 +204,9 @@ if ($mode == 2) { //外卖
     }
    
     $psf = $dispatchareas_pt['dispatchprice'];
-   
 
-    if ($store['is_delivery_distance'] == 1) { //按距离收费
-		//sjg 2018-09-04
+    if ($store['is_delivery_distance'] == 1 && $store['sort_type']==1 ) { //按距离收费 店铺为外卖店
+        //sjg 2018-09-04
 		/*
 		$distance = $this->getDistanceByGaodeForRiding($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
 		if($distance == 0)
@@ -212,7 +217,12 @@ if ($mode == 2) { //外卖
         $distanceprice = $this->getdistanceprice($storeid, $distance);
         $pi_yf = floatval($distanceprice['dispatchprice']);
         $dispatchprice = floatval($distanceprice['dispatchprice'])-$psf;
+        $order_ps_type = 1;
+
     }
+    $order_ps_type = 2;
+
+
     if ($store['is_delivery_time'] == 1) { //特殊时段加价
         $tprice = $this->getPriceByTime($storeid);
         $dispatchprice = $dispatchprice + $tprice;
@@ -437,7 +447,7 @@ if ($append == 2) {
         $quicknum = $this->getQuickNum($storeid);
         $data['quicknum'] = $quicknum;
     }
-
+    $data['order_ps_type'] =$order_ps_type;
     //保存订单
     pdo_insert($this->table_order, $data);
     $orderid = pdo_insertid();

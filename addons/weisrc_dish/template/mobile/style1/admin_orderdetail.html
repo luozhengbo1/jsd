@@ -137,7 +137,7 @@
                 <div class="order-state-body ng-binding">已确认</div>
             </div>
             {if $order['dining_mode']==2}
-            <div class="order-state ng-isolate-scope {if $order['delivery_status']>=1}active{/if}">
+            <div class="order-state ng-isolate-scope {if $order['delivery_status']>=1}active{/if}" data="{$order['delivery_status']}">
                 <div class="order-state-header">
                     <div class="square">
                         <div class="line-through" ng-hide="hide_left"></div>
