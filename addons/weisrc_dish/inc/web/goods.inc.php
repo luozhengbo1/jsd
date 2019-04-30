@@ -144,7 +144,12 @@ if ($operation == 'post') {
             unset($data['dateline']);
             pdo_update($this->table_goods, $data, array('id' => $id));
         }
-
+        /*if (intval($_GPC['counts']) != -1){
+        //需要校验库存
+            if (intval($_GPC['counts']) < intval($_GPC['today_counts'])){
+                message('每日库存不能小于今日已售！');
+            }
+        }*/
         //增加
         $optionids= [];
         if (is_array($_GPC['optiontitle'])) {
