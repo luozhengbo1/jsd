@@ -1,3 +1,4 @@
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <audio id="music" >
     <source src="/attachment/audios/新订单处理_立体声.mp3" type="audio/mpeg">
 </audio>
@@ -8,15 +9,27 @@
             if(data == 1 ) {
                 var tip = "/attachment/audios/新订单处理_立体声.mp3";
                 $("#music")[0].src= tip;
-                $("#music")[0].play()
+                //$("#music")[0].play()
+                document.getElementById('music').play()
+                wx.ready(function() {
+                    document.getElementById('music').play()
+                });
             } else if(data == 2) {
                 var tip = "/attachment/audios/退款订单_立体声.mp3";
                 $("#music")[0].src= tip;
-                $("#music")[0].play()
+                //$("#music")[0].play()
+                document.getElementById('music').play()
+                wx.ready(function() {
+                    document.getElementById('music').play()
+                });
             }else if(data == 3 ){
                 var tip = "/attachment/audios/微信支付到账_立体音.mp3";
                 $("#music")[0].src= tip;
-                $("#music")[0].play()
+                //$("#music")[0].play()
+                document.getElementById('music').play()
+                wx.ready(function() {
+                    document.getElementById('music').play()
+                });
             }
             setTimeout(checkorder, 5000);
         });
