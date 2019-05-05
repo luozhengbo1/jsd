@@ -287,7 +287,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-12 col-sm-3 col-md-2 control-label">电话</label>
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label" id="label-tel">{if $reply['store_type']==1}*{/if} 电话</label>
         <div class="col-sm-9">
             <input type="text" name="tel" id="tel" value="{$reply['tel']}" class="form-control">
         </div>
@@ -378,6 +378,7 @@
        $('#store_type1').click(function () {
            // $('#is_delivery_store_type').val(1);
            //开关
+           $('#label-tel').html("*电话")
            $('#store_type_dis_mon').css('display','block')
            $('#distance-list').css('display','block');
            $('#dis_desc').css('display','block')
@@ -387,6 +388,7 @@
         $('#store_type2').click(function () {
             // $('#is_delivery_store_type').val(0);
             //开关
+            $('#label-tel').html("电话")
             $('#store_type_dis_mon').css('display','none')
             $('#distance-list').css('display','none');
             $('#dis_desc').css('display','none')
@@ -395,6 +397,7 @@
         $('#store_type3').click(function () {
             // $('#is_delivery_store_type').val(0);
             //开关
+            $('#label-tel').html("电话")
             $('#store_type_dis_mon').css('display','none')
             $('#distance-list').css('display','none');
             $('#dis_desc').css('display','none')
