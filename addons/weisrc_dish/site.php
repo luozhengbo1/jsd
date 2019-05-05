@@ -327,10 +327,11 @@ ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
                 //非补贴单
                 }else{
                     //在17-07-17后
-                    if($v['dateline'] >= $time){
+                    if($v['dateline'] <= $time){
                         $total1+=$v['totalprice']-$v['dispatchprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
                     }else{
-                        $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+//                        $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+                          $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
                     }
 
                 }
