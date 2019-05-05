@@ -98,6 +98,7 @@ if ($operation == 'display') {
         }
 
         $successprice = $price - $charges;
+
         $data = array(
             'weid' => $weid,
             'storeid' => $storeid,

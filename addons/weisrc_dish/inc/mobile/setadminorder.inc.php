@@ -103,14 +103,14 @@ if ($orderstatus[$status] == 2) { //支付
     $storesInfo = pdo_fetch("select id,is_dada from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$order['storeid']));
     if($storesInfo['is_dada']==1){
         //新增達達配送狀態
-        $dadares =$this->doDada($weid,$id,$order['storeid']);
-        if($dadares=='success'){
-            $msg ="订单已推送给达达";
-            pdo_update($this->table_order, array('delivery_status' => 1), array('id' => $id, 'weid' => $weid));
-        }else{
-            $msg ="订单推达达失败，联系管理员,请先自己配送";
-            pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
-        }
+        $this->doDada($weid,$id,$order['storeid']);
+//        if($dadares=='success'){
+//            $msg ="订单已推送给达达";
+        pdo_update($this->table_order, array('delivery_status' => 1), array('id' => $id, 'weid' => $weid));
+//        }else{
+//            $msg ="订单推达达失败，联系管理员,请先自己配送";
+//            pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));
+//        }
         //商家自配
     }else{
         pdo_update($this->table_order, array('delivery_status' => 3), array('id' => $id, 'weid' => $weid));

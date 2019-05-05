@@ -9,6 +9,7 @@ $storeid = intval($_GPC['storeid']);
 $GLOBALS['frames'] = $this->getNaveMenu($storeid,$action);
 $returnid = $this->checkPermission($storeid);
 $cur_store = $this->getStoreById($storeid);
+
 if (empty($cur_store)) {
     message('门店不存在!');
 }
@@ -90,7 +91,6 @@ if ($operation == 'fengniaolist') {
 
     $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename($this->table_order) . " WHERE $commoncondition", $paras);
     $pager = pagination($total, $pindex, $psize);
-
     $order_count = pdo_fetchcolumn("SELECT COUNT(1) FROM " . tablename($this->table_order) . " WHERE weid=:weid AND status=0 AND storeid=:storeid LIMIT 1", array(':weid' => $this->_weid, ':storeid' => $storeid));
 
     if (!empty($list)) {

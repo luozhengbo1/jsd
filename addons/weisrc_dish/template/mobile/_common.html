@@ -6,15 +6,15 @@
         var times = $("#is_speaker_times").val()
         $.post("{php echo $this->createMobileUrl('checkorder', array('storeid' => $storeid,'from'=>'mobile'));}", {'ts_times':times},function(data){
             if(data == 1 ) {
-                var tip = "/attachment/audios/新订单处理_立体声.mp3";
+                var tip = "/attachment/audios/1.mp3";
                 $("#music")[0].src= tip;
                 $("#music")[0].play()
             } else if(data == 2) {
-                var tip = "/attachment/audios/退款订单_立体声.mp3";
+                var tip = "/attachment/audios/2.mp3";
                 $("#music")[0].src= tip;
                 $("#music")[0].play()
             }else if(data == 3 ){
-                var tip = "/attachment/audios/微信支付到账_立体音.mp3";
+                var tip = "/attachment/audios/3.mp3";
                 $("#music")[0].src= tip;
                 $("#music")[0].play()
             }

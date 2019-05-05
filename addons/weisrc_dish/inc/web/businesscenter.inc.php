@@ -10,6 +10,7 @@ $is_contain_delivery = intval($setting['is_contain_delivery']);
 //最低提现金额
 $getcash_price = intval($setting['getcash_price']);
 $fee_rate = floatval($setting['fee_rate']);
+//p($setting);die;
 $fee_min = intval($setting['fee_min']);
 $fee_max = intval($setting['fee_max']);
 
@@ -99,6 +100,7 @@ if ($operation == 'display') {
         }
 
         $successprice = $price - $charges;
+
         $data = array(
             'weid' => $weid,
             'storeid' => $storeid,
@@ -113,7 +115,7 @@ if ($operation == 'display') {
             'status' => 0,
             'dateline' => TIMESTAMP
         );
-
+        p($data);die;
         pdo_insert($this->table_businesslog, $data);
 
         $this->sendApplyNotice($setting, $store, $price);

@@ -203,8 +203,8 @@ class weisrc_dishModuleSite extends Core
         $config['source_id'] = $store['source_id'];
        $data=array();
           //先转换一下坐标
-//          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
-        $transpoint = ['lng'=>$order['lng'],'lat'=>$order['lat']];
+          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
+//        $transpoint = ['lng'=>$order['lng'],'lat'=>$order['lat']];
         //发单请求数据,只是样例数据，根据自己的需求进行更改。
           $data2 = array(
              'shop_no'=>  $store['shop_no'],//门店编号
@@ -235,19 +235,21 @@ class weisrc_dishModuleSite extends Core
 //          p($reqStatus2);
 //            print_r($obj2->getResult());
 //            die;
-        if (!$reqStatus2) {
-              //接口请求正常，判断接口返回的结果，自定义业务操作
-              //echo sprintf('code:%s,msg:%s', $obj->getCode(),$obj->getMsg());
-              if ($obj2->getCode() == 0) {
-              //echo '下单成功';
-                  file_put_contents('/www/wwwroot/jsd.gogcun.com/dada.log', $res = print_r($obj2->getResult(),true)."\n",8);
-                  return 'success';
-//                  print_r($obj2->getResult());
-            }
-          }else{
-              //达达请求失败
-              return $obj2->getMsg();
-          }
+//        file_put_contents('/www/wwwroot/dada.log', $res = print_r($reqStatus2,true)."\n12222222",8);
+        return 'success';
+//        if (!$reqStatus2) {
+//              //接口请求正常，判断接口返回的结果，自定义业务操作
+//              //echo sprintf('code:%s,msg:%s', $obj->getCode(),$obj->getMsg());
+//              if ($obj2->getCode() == 0) {
+//              //echo '下单成功';
+//                  file_put_contents('/www/wwwroot/dada.log', $res = print_r($obj2->getResult(),true)."\n",8);
+//                  return 'success';
+////                  print_r($obj2->getResult());
+//            }
+//          }else{
+//              //达达请求失败
+//              return $obj2->getMsg();
+//          }
     }
 
     public function doWebsetstyleproperty()
@@ -311,13 +313,16 @@ class weisrc_dishModuleSite extends Core
         $weid = $this->_weid;
         $strwhere = " weid = :weid AND storeid=:storeid AND ispay=1 AND
 ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
-
+//        $strwhere = " weid = $weid AND storeid=$storeid AND ispay=1 AND
+//ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
         $time = strtotime('2017-07-17 00:00:00');
         $fields ="totalprice,dispatchprice,one_order_getprice,refund_price,pt_yf,dprice,zhekou,jifen_dk,order_ps_type,dateline";
         //7-17之前
         $list = pdo_fetchall("select {$fields} from ".tablename($this->table_order)." where    {$strwhere} ",
             array(':weid' => $weid, ':storeid' => $storeid)
         );
+        $sql = "select {$fields} from ".tablename($this->table_order)." where    {$strwhere} ";
+//        p($sql);die;
         $total1 =0;
         if( is_array($list) ){
             foreach ($list as $k=>$v){
@@ -1808,8 +1813,28 @@ goodsid=:goodsid", array(':storeid' => $storeid, ':from_user' => $from_user, ':w
 
             $i++;
         }
-
-        $this->exportexcel($arr, array('所属商家', '订单号', '商户订单号', '支付方式', '状态', '数量', '总价', '商品总额', '用户配送费','平台配送费','商家配送费','优惠抵扣','会员折扣','积分抵扣','平台补贴总额','配送距离', '打包费', '茶位费', '服务费', '真实姓名', '电话号码', '地址', '时间', '配送点', '配送员', '配送佣金', '优惠信息', '新用户满减', '老用户满减', '备注'), TIMESTAMP);
+//        p($arr);die;
+        $this->exportexcel($arr, array(
+            '所属商家', //1
+            '订单号',
+            '商户订单号',
+            '支付方式',
+            '状态',
+            '数量',
+            '总价',
+            '商品总额',
+            '用户配送费',
+            '平台配送费',
+            '商家配送费',
+            '优惠抵扣',
+            '会员折扣',
+            '积分抵扣',
+            '平台补贴总额',
+            '配送距离',
+            '打包费',
+            '茶位费',
+            '服务费',
+            '真实姓名', '电话号码', '地址', '时间', '配送点', '配送员', '配送佣金', '优惠信息', '新用户满减', '老用户满减', '备注'), TIMESTAMP);
         exit();
     }
 
