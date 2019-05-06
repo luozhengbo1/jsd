@@ -179,19 +179,18 @@
             </div>
 
             <div class="form-group">
-                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">配送方式</label>
-                    <div class="col-sm-9">
-
-                        {if $cur_store['default_jump'] == 2}
-                        <label for="send_way" class="radio-inline"><input type="radio" name="send_way" value="1" id="send_way" {if empty($item) || $item['send_way'] == 1}checked="true"{/if} /> 外卖</label>
-                        &nbsp;&nbsp;&nbsp;
-                        {else}
-
-                        <label for="send_way" class="radio-inline"><input type="radio" name="send_way" value="2" id="send_way"  {if !empty($item) && $item['send_way'] == 2}checked="true"{/if} /> 邮递</label>
-                        {/if}
-                        <!-- <label for="send_way" class="radio-inline"><input type="radio" name="send_way" value="0" id="send_way"  {if !empty($item) && $item['send_way'] == 0}checked="true"{/if} /> 外卖和邮递</label> -->
-                        <span class="help-block"></span>
-                    </div>
+<!--                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">配送方式</label>-->
+<!--                    <div class="col-sm-9">-->
+<!--                        {if $cur_store['default_jump'] == 2}-->
+<!--                        <label for="send_way" class="radio-inline"><input type="radio" name="send_way" value="1" id="send_way" {if empty($item) || $item['send_way'] == 1}checked="true"{/if} /> 外卖</label>-->
+<!--                        &nbsp;&nbsp;&nbsp;-->
+<!--                        {else}-->
+<!--                        <label for="send_way" class="radio-inline"><input type="radio" name="send_way" value="2" id="send_way"  {if !empty($item) && $item['send_way'] == 2}checked="true"{/if} /> 邮递</label>-->
+<!--                        {/if}-->
+<!--                        &lt;!&ndash; <label for="send_way" class="radio-inline"><input type="radio" name="send_way" value="0" id="send_way"  {if !empty($item) && $item['send_way'] == 0}checked="true"{/if} /> 外卖和邮递</label> &ndash;&gt;-->
+<!--                        <span class="help-block"></span>-->
+<!--                    </div>-->
+                    <input type="hidden"  name="send_way" value="{if $cur_store['store_type'] == 1}1{elseif $cur_store['store_type'] == 3}2{else}2{/if}" >
                 </div>
 
                 <div class="form-group">

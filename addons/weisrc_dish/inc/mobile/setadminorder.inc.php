@@ -87,10 +87,7 @@ if ($orderstatus[$status] == 2) { //支付
     }
     $update_data['status'] = $orderstatus[$status];
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));
-
-
     $this->cancelfengniao($order, $store, $setting);
-
     $this->addOrderLog($id, $touser, 2, 1, 5);
 
 } elseif ($orderstatus[$status] == 1) { //确认
@@ -98,7 +95,7 @@ if ($orderstatus[$status] == 2) { //支付
     $update_data['status'] = $orderstatus[$status];
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));
     pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
-    $this->doDada($weid,$id,$order['storeid']);
+//    $this->doDada($weid,$id,$order['storeid']);
     //如果是配置了达达进行调用
     $storesInfo = pdo_fetch("select id,is_dada from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$order['storeid']));
     if($storesInfo['is_dada']==1){

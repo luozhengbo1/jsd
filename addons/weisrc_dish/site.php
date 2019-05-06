@@ -4738,7 +4738,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                      $content .= "\n奖励积分：{$order['credit']}";
                  }*/
                 //入库
-                $this->sendText($order['from_user'], $content);
+                $res = $this->sendText($order['from_user'], $content);
+                $print['res'] = $res;
+                $print['from_user'] = $order['from_user'];
+                $print['content'] = $content;
+                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+
               //  $this->addsendmsg($content,$order['from_user'],$type=1);
             }
 
@@ -4758,7 +4763,11 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
                 //$this->addsendmsg($content,$order['from_user'],$type=6);
-                $this->sendText($order['from_user'], $content);
+                $res = $this->sendText($order['from_user'], $content);
+                $print['res'] = $res;
+                $print['from_user'] = $order['from_user'];
+                $print['content'] = $content;
+                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
 
             }
 
@@ -4777,11 +4786,20 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
                 //$this->addsendmsg($content,$order['from_user'],$type=2);
-                $this->sendText($order['from_user'], $content);
+                $res =  $this->sendText($order['from_user'], $content);
+                $print['res'] = $res;
+                $print['from_user'] = $order['from_user'];
+                $print['content'] = $content;
+                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
                 $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
                 $content1 .= "\n联系方式：{$tel['tel']}";
                 //$this->addsendmsg($content1,$order['from_user'],$type=3);
-                $this->sendText($order['from_user'], $content1);
+                $res = $this->sendText($order['from_user'], $content1);
+                $print['res'] = $res;
+                $print['from_user'] = $order['from_user'];
+                $print['content'] = $content;
+                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+
             }
             if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) ){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
@@ -4799,9 +4817,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                // $total = $order['totalprice']+$order['dprice'];
                 $content .= "\n应退金额：{$order['refund_price1']}元";
                 $content .= "\n实退金额：{$order['refund_price1']}元";
-           //     $this->addsendmsg($content,$order['from_user'],$type=4);
-               $res = $this->sendText($order['from_user'], $content);
-//                file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($res,true)."\n",8);
+           //    $this->addsendmsg($content,$order['from_user'],$type=4);
+                $res = $this->sendText($order['from_user'], $content);
+                $print['res'] = $res;
+                $print['from_user'] = $order['from_user'];
+                $print['content'] = $content;
+                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
 
             }/*
             $content = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
@@ -8371,14 +8392,15 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetTransaction_id($refundid);
 //            $input->SetOut_refund_no($refund_order['id']);
             $input->SetOut_refund_no($refund_order['id'].time());
-            $result = $WxPayApi->refund($input, 6, $path_cert, $path_key, $key);
+            $result = $WxPayApi->refund($input, 30, $path_cert, $path_key, $key);
+            $result['time'] = date('Y-m-d H:i:s');
             file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($result,true)."\n",8);
             if ($result['return_code'] == 'SUCCESS') {
                 $input2 = new WxPayOrderQuery();
                 $input2->SetAppid($appid);
                 $input2->SetMch_id($mchid);
                 $input2->SetTransaction_id($refundid);
-                $result2 = $WxPayApi->orderQuery($input2, 6, $key);
+                $result2 = $WxPayApi->orderQuery($input2, 30, $key);
                 if ($result2['return_code'] == 'SUCCESS' && $result2['trade_state'] == 'REFUND') {
                     $totalrefundprice = $price + $refund_order['refund_price'];
                     if ($refund_order['totalprice'] == $totalrefundprice) {

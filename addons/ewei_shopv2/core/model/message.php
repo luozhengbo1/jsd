@@ -29,14 +29,14 @@ class Message_EweiShopV2Model {
     }
 
     //根据模板消息发送客服消息
-    public function sendCustomNotice($openid, $msg, $url = '', $account = null) { 
-     
+    public function sendCustomNotice($openid, $msg, $url = '', $account = null) {
+
         {
             if (!$account) {
                 $account = m('common')->getAccount();
             }
             if (!$account) {  
-                return;
+                return ;
             }  
             $content = "";
             if(is_array($msg)){

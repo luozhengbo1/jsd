@@ -115,7 +115,6 @@ if ($operation == 'display') {
             'status' => 0,
             'dateline' => TIMESTAMP
         );
-        p($data);die;
         pdo_insert($this->table_businesslog, $data);
 
         $this->sendApplyNotice($setting, $store, $price);
