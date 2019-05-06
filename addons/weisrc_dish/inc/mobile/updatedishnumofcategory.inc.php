@@ -47,6 +47,7 @@ if ($goods['counts'] > 0) {
         $result['totalprice'] = 0;
         $result['totalcount'] = 0;
         $result['goodscount'] = 0;
+        $result["msg"] = '该商品已售完';
         message($result, '', 'ajax');
 //        $this->showTip('该商品已售完', 1);
     }
@@ -56,6 +57,7 @@ if ($goods['counts'] > 0) {
                 $result['totalprice'] = 0;
                 $result['totalcount'] = 0;
                 $result['goodscount'] = 0;
+                $result["msg"] = '该商品已没库存';
                 message($result, '', 'ajax');
 //                $this->showTip('该商品已没库存', 1);
             }
@@ -65,6 +67,7 @@ if ($goods['counts'] > 0) {
             $result['totalprice'] = 0;
             $result['totalcount'] = 0;
             $result['goodscount'] = 0;
+            $result["msg"] = '该商品已没库存';
             message($result, '', 'ajax');
 //            $this->showTip('该商品已没库存', 1);
         }

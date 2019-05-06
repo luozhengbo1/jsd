@@ -1736,7 +1736,6 @@
 
             var goodsnum = $(this).next().text();
             goodsnum = parseInt(goodsnum) + 1;
-            $(this).next().text(goodsnum);
             var totalprice = $('.cart-fl strong').text()//总价
             var cartprice = $(this).parent().parent().find('font').text();
             totalprice = parseFloat(totalprice) + parseFloat(cartprice);
@@ -1744,8 +1743,6 @@
             $('.cart-fl strong').text(totalprice)
             var totalcount = $('.cart-n').text();
             totalcount = parseInt(totalcount) + 1;
-            $('.cart-n').text(totalcount);
-            $('.cart-num').text(totalcount);//没有商品 空
 
             //商品列表的标签
             var food = $('.food_add_' + dishid);
@@ -1768,6 +1765,9 @@
                         $.mvalidateTip(data['message']['msg']);
                         return;
                     } else {
+                        $(this).next().text(goodsnum);
+                        $('.cart-n').text(totalcount);
+                        $('.cart-num').text(totalcount);//没有商品 空
                         totalprice = data['message']['totalprice'];
                         totalcount = data['message']['totalcount'];
                         goodscount = data['message']['goodscount'];
@@ -1790,7 +1790,6 @@
             var optionid = this.parentNode.parentNode.getAttribute('optionid'); //规格编号
             var goodsnum = $(this).prev().text();
             goodsnum = parseInt(goodsnum) - 1;
-            $(this).prev().text(goodsnum);
             if (goodsnum == 0) {
                 $(this).parent().parent().css({"display": "none"})
                 $(this).next().text(0);
@@ -1809,8 +1808,6 @@
             var fnum = food.parent().find('.foodop-num');
             var jian = food.parent().find('.remove-btn');
 
-            $('.cart-n').text(totalcount);
-            $('.cart-num').text(totalcount);//没有商品 空
 
             var url = "{php echo $this->createMobileUrl('UpdateDishNumOfCategory', array('storeid' => $storeid, 'from_user' => $from_user), true)}";
             var params = {
@@ -1834,6 +1831,9 @@
                         console.log(data)
                         return;
                     } else {
+                        $(this).prev().text(goodsnum);
+                        $('.cart-n').text(totalcount);
+                        $('.cart-num').text(totalcount);//没有商品 空
                         totalprice = data['message']['totalprice'];
                         totalcount = data['message']['totalcount'];
                         goodscount = data['message']['goodscount'];
