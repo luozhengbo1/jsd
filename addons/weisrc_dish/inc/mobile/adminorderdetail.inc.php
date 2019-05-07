@@ -125,5 +125,6 @@ $printOrderCount = pdo_fetchcolumn('SELECT COUNT(1) FROM ' . tablename($this->ta
 orderid=:orderid ", array(':orderid' => $id));
 
 $printOrderCount = intval($printOrderCount);
+//p($order);die;
 
 include $this->template($this->cur_tpl . '/admin_orderdetail');

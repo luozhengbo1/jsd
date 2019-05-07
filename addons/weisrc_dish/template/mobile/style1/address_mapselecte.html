@@ -7,11 +7,11 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
         <title>高德地图测试</title>
             <script src="https://webapi.amap.com/maps?v=1.3&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.Riding,AMap.Geolocation,AMap.Geocoder"></script>
-        <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
-        <script type="text/javascript" src="http://webapi.amap.com/demos/js/liteToolbar.js"></script>
-        <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+        <script src="https://webapi.amap.com/ui/1.0/main.js"></script>
+        <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
+        <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
         <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-        <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+        <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
         <style>
             html,body,#container{ height:100%; }
                 #addressmap{
@@ -20,16 +20,23 @@
         </style>
 </head>
 <body>
-   <div id="container" ></div>
-   <div   class="form-group" style="position:absolute;top:0px;">
-        <div class="mui-input-row mui-search">
-            <input   name="resourceAddress" id="addressmap"  type="search"  style="width:70%;" class="" placeholder="">
-            <input type="button" onclick="markLocation()"  data-lat="" data-lng="" id="search" style="padding: 6px 7px;" value="搜索">
-            <input type="button"  id="suremap"  class="btn mui-btn-primary"  style="padding: 6px 6px;" value="确定">
-            <input type="hidden" id="lon" name="lon" value="">
-            <input type="hidden" id="lat" name="lat" value="">
-        </div>
+<div   class="form-group" style="position:relative;top:0px;">
+    <!--<div class="mui-input-row mui-search">
+        <input   name="resourceAddress" id="addressmap"  type="search"  style="width:70%;" class="" placeholder="">
+        <input type="button" onclick="markLocation()"  data-lat="" data-lng="" id="search" style="padding: 6px 7px;" value="搜索">
+        <input type="button"  id="suremap"  class="btn mui-btn-primary"  style="padding: 6px 6px;" value="确定">
+        <input type="hidden" id="lon" name="lon" value="">
+        <input type="hidden" id="lat" name="lat" value="">
+    </div>-->
+    <!--  <div class="mui-input-row mui-search">
+          <input type="search" class="mui-input-clear" placeholder="" data-input-clear="1" data-input-search="1"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span></span></span>
+      </div>-->
+    <div class="search-div">
+        <input type="text" value="">
     </div>
+</div>
+   <div id="container" ></div>
+  
 <script>
     $("#addressmap").bind("input propertychange",function(event){
         console.log($("#addressmap").val())
@@ -100,7 +107,7 @@
             $("#lat").val(e.lnglat.lat);
             console.log(e.lnglat.lng)
             console.log(e.lnglat.lat)
-            // 填写地址
+            // 填写地址placeSearch
             writeAddress([e.lnglat.lng,e.lnglat.lat]);
             mapsearch();
         });
@@ -134,7 +141,7 @@
         marker = new AMap.Marker({
             map: map,
             position: lnglatXY,
-            icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+            icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
             offset: new AMap.Pixel(-13, -30)
         });
         var markers = [];
@@ -148,7 +155,7 @@
         if(t == 1) {
             console.log(lnglatXY);
             marker = new AMap.Marker({
-                icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
                 position: lnglatXY,
                 offset: new AMap.Pixel(-13, -30),
                 // 设置是否可以拖拽
