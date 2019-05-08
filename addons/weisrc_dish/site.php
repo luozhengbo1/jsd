@@ -5556,10 +5556,13 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 //        $params['title'] = '餐饮' . $order['ordersn'];
         $goodsidset = pdo_fetchall('select goodsid from '.tablename('weisrc_dish_order_goods')." where orderid=:orderid ",array(':orderid'=>$order['id']));
         $goodsidset = join(array_column($goodsidset,'goodsid'),',');
-        $titleset= pdo_fetchall('select title from '.tablename('weisrc_dish_goods')." where id in($goodsidset ) ",[]);
-        $titleset = join(array_column($titleset,'title'),',');
-        $params['title'] = $titleset;
-
+        if($goodsidset){
+            $titleset= pdo_fetchall('select title from '.tablename('weisrc_dish_goods')." where id in($goodsidset ) ",[]);
+            $titleset = join(array_column($titleset,'title'),',');
+            $params['title'] = $titleset;
+        }else{
+            $params['title'] = '餐饮' . $order['ordersn'];
+        }
         if (IMS_VERSION >= '1.5.1') {
             load()->model('activity');
             load()->model('module');
