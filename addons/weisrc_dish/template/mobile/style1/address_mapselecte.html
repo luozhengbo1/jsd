@@ -1,233 +1,151 @@
-<!DOCTYPE html>
-<html>
-{template 'common/header'}
-<head lang="en">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-        <title>高德地图测试</title>
-            <script src="https://webapi.amap.com/maps?v=1.3&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.Riding,AMap.Geolocation,AMap.Geocoder"></script>
-        <script src="https://webapi.amap.com/ui/1.0/main.js"></script>
-        <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
-        <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
-        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
-        <style>
-            html,body,#container{ height:100%; }
-                #addressmap{
-                    background-color: #ccc;
-                }
-        </style>
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>高德地图测试</title>
+    <style>
+        html,
+        body,
+        #container {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            font-size: 13px;
+        }
+
+        #pickerBox {
+            position: fixed;
+            top:0;
+            left:0;
+            width:100%;
+            z-index: 9999;
+            padding-top:.5rem;
+        }
+
+        #pickerInput {
+            width:90%;
+            background: #fff;
+            border:1px solid #ccc;
+            outline: none;
+            height: 2.5rem;
+            margin:auto;
+            display: block;
+            padding-left:3%;
+            border-radius: 5px;
+        }
+
+        #poiInfo {
+            background: #fff;
+            width:90%;
+            margin:auto;
+        }
+
+        .amap-ui-poi-picker-search-results-container, .amap-ui-poi-picker-sugg-container {
+            left: 3% !important;
+            width:94%;
+            min-width: 120px !important;
+        }
+
+        .amap_lib_placeSearch .poibox.highlight {
+            background-color: #CAE1FF;
+        }
+
+        .amap_lib_placeSearch .poi-more {
+            display: none!important;
+        }
+    </style>
 </head>
+
 <body>
-<div   class="form-group" style="position:relative;top:0px;">
-    <!--<div class="mui-input-row mui-search">
-        <input   name="resourceAddress" id="addressmap"  type="search"  style="width:70%;" class="" placeholder="">
-        <input type="button" onclick="markLocation()"  data-lat="" data-lng="" id="search" style="padding: 6px 7px;" value="搜索">
-        <input type="button"  id="suremap"  class="btn mui-btn-primary"  style="padding: 6px 6px;" value="确定">
-        <input type="hidden" id="lon" name="lon" value="">
-        <input type="hidden" id="lat" name="lat" value="">
-    </div>-->
-    <!--  <div class="mui-input-row mui-search">
-          <input type="search" class="mui-input-clear" placeholder="" data-input-clear="1" data-input-search="1"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span></span></span>
-      </div>-->
-    <div class="search-div">
-        <input type="text" value="">
-    </div>
+<div id="container" class="map" tabindex="0"></div>
+<div id="pickerBox">
+    <input id="pickerInput" placeholder="输入关键字搜索" />
+    <div id="poiInfo"></div>
 </div>
-   <div id="container" ></div>
-  
-<script>
-    $("#addressmap").bind("input propertychange",function(event){
-        console.log($("#addressmap").val())
-        $('#lat').val('')
-        $('#lon').val('')
-    });
-    $('#suremap').click(function () {
-        markLocation()
-        var lat=$('#lat').val()
-        var lon=$('#lon').val()
-           if(!lon || !lat){
-               alert('定位失败请重新定位')
-               return false
-           }
-        var myValue = $('#addressmap').val()
-        var url = "{$addurl}&myValue="+myValue+"&lat="+lat+"&lng="+lon
-        console.log(url)
-        document.location.href=url
-    })
-    var map,addMarker,auto;
-    var geocoder;
-    var placeSearch;
-    var lnglatXY;
-    $(function(){
-        //绑定input文本框回车事件
-        $('#addressmap').bind('keypress',function(event){
-            if(event.keyCode == "13"){
-                markLocation();//搜索
-            }
-        });
-        // 加入高的地图
-        map = new AMap.Map('container', {
-            resizeEnable: true,
-            zoom:15,
-            center: [106.724426, 26.604594]
-        });
-
-        addMarker([106.724426,26.604594])
-        //输入提示
-        AMap.plugin(['AMap.ToolBar','AMap.Scale'],
-            function(){
-                map.addControl(new AMap.ToolBar());
-
-                map.addControl(new AMap.Scale());
-            });
-        AMap.service('AMap.Geocoder',function(){//回调函数
-            //实例化Geocoder
-            geocoder = new AMap.Geocoder({
-                city: "贵阳",//城市，默认：“全国”
-                adius : 1000
-            });
-            //TODO: 使用geocoder 对象完成相关功能
-        });
-        // 加载搜索列表
-        myMapViewLocation();
-        AMap.service(["AMap.PlaceSearch"], function() {
-            placeSearch = new AMap.PlaceSearch({ //构造地点查询类
-                pageSize: 5,
-                pageIndex: 1,
-                city: "贵阳", //城市
-                map: map,
-                panel: "panel"
-            });
-        });
-        //为地图注册click事件获取鼠标点击出的经纬度坐标
-        var clickEventListener = map.on('click', function(e) {
-            $("#lon").val(e.lnglat.lng);
-            $("#lat").val(e.lnglat.lat);
-            console.log(e.lnglat.lng)
-            console.log(e.lnglat.lat)
-            // 填写地址placeSearch
-            writeAddress([e.lnglat.lng,e.lnglat.lat]);
-            mapsearch();
-        });
-        //placeSearch.search("北京");
-        $("#addressmap").on("keydown",function(event){
-            if(event = event || window.event){
-                if(event.keyCode==13){
-                    markLocation();
-                }
-            }
-        });
+<script type="text/javascript" src='https://webapi.amap.com/maps?v=1.4.14&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.PlaceSearch'></script>
+<!-- UI组件库 1.0 -->
+<script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script type="text/javascript">
+    var map = new AMap.Map('container', {
+        zoom: 10
     });
 
-    //地图搜索
-    function mapsearch(){
-        var mlon = $("#lon").val();
-        var mlat = $("#lat").val();
-        myMapViewLocation(mlon, mlat);
-    }
-    // 回显
-    function myMapViewLocation(mlon, mlat){
-        //console.log("回显坐标");
-        if(mlon&&mlat){
-            //removeMarkers(lnglatXY);
-            lnglatXY = [mlon,mlat];
-            addMarker(lnglatXY);
+    AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
+
+        var poiPicker = new PoiPicker({
+            //city:'北京',
+            input: 'pickerInput'
+        });
+
+        //初始化poiPicker
+        poiPickerReady(poiPicker);
+    });
+    var options = {
+        'showButton': true,//是否显示定位按钮
+        'buttonPosition': 'LB',//定位按钮的位置
+        /* LT LB RT RB */
+        'buttonOffset': new AMap.Pixel(10, 20),//定位按钮距离对应角落的距离
+        'showMarker': true,//是否显示定位点
+        'markerOptions':{//自定义定位点样式，同Marker的Options
+            'offset': new AMap.Pixel(-18, -36),
+            'content':'<img src="https://a.amap.com/jsapi_demos/static/resource/img/user.png" style="width:36px;height:36px"/>'
+        },
+        'showCircle': true,//是否显示定位精度圈
+        'circleOptions': {//定位精度圈的样式
+            'strokeColor': '#0093FF',
+            'noSelect': true,
+            'strokeOpacity': 0.5,
+            'strokeWeight': 1,
+            'fillColor': '#02B0FF',
+            'fillOpacity': 0.25
         }
     }
-    //移除之前的标点
-    function removeMarkers(lnglatXY){
-        marker = new AMap.Marker({
-            map: map,
-            position: lnglatXY,
-            icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-            offset: new AMap.Pixel(-13, -30)
-        });
-        var markers = [];
-        markers.push(marker);
-        map.remove(markers);
-    }
+    AMap.plugin(["AMap.Geolocation"], function() {
+        var geolocation = new AMap.Geolocation(options);
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition()
+    });
+    function poiPickerReady(poiPicker) {
 
-    var t=1;
-    // 实例化点标记
-    function addMarker(lnglatXY) {
-        if(t == 1) {
-            console.log(lnglatXY);
-            marker = new AMap.Marker({
-                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-                position: lnglatXY,
-                offset: new AMap.Pixel(-13, -30),
-                // 设置是否可以拖拽
-                draggable: true,
-                cursor: 'move',
-                // 设置拖拽效果
-                raiseOnDrag: true
-            });
+        window.poiPicker = poiPicker;
+
+        var marker = new AMap.Marker();
+
+        var infoWindow = new AMap.InfoWindow({
+            offset: new AMap.Pixel(0, -20)
+        });
+
+        //选取了某个POI
+        poiPicker.on('poiPicked', function(poiResult) {
+
+            var source = poiResult.source,
+                poi = poiResult.item,
+                info = {
+                    source: source,
+                    id: poi.id,
+                    name: poi.name,
+                    location: poi.location.toString(),
+                    address: poi.address
+                };
+
             marker.setMap(map);
-            map.setFitView();// 执行定位
-            t++;
-        }
+            infoWindow.setMap(map);
 
-        //修改标点位置
-        if(t != 1){
-            marker.setPosition(lnglatXY);
-            map.setCenter(lnglatXY);
-            marker.setMap(map);
-            map.setFitView();// 执行定位
-        }
+            marker.setPosition(poi.location);
+            infoWindow.setPosition(poi.location);
+            console.log("jj",info);
+            infoWindow.setContent('<p>' + info.name + '</p><p>' + info.address + '</p>');
+            infoWindow.open(map, marker.getPosition());
 
-    }
-
-    // 填写地址
-    function writeAddress(lnglatXY){
-        var geocoder = new AMap.Geocoder({
-            city : "全国", //城市，默认：“全国”
-            radius : 500 //范围，默认：500
+            map.setCenter(marker.getPosition());
         });
-        geocoder.getAddress(lnglatXY, function(status, result) {
-            console.log(result)
-            if (status === 'complete' && result.info === 'OK') {
-                geocoder_CallBack(result);
-            }
-        });
+
+
     }
-
-    // 地址回调
-    function geocoder_CallBack(data) {
-        var address = data.regeocode.formattedAddress; //返回地址描述
-        $("input[name=resourceAddress]").val(address);
-    }
-    //根据地址搜索
-    function markLocation() {
-        var address = $("#addressmap").val();
-        AMap.plugin('AMap.Geocoder', function() {
-            var geocoder = new AMap.Geocoder();
-            geocoder.getLocation(address, function(status, result) {
-                if (status === 'complete' && result.info === 'OK') {
-                    // 经纬度        
-                    console.log(result)
-                    $("#addressmap").val(result.geocodes[0].formattedAddress)         
-                    var lon = result.geocodes[0].location.lng;
-                    var lat = result.geocodes[0].location.lat;
-
-                    $("#lon").val(lon);
-                    $("#lat").val(lat);
-                    $('#search').attr('data-lat',lat)
-                    $('#search').attr('data-lng',lon)
-                    lnglatXY = [lon, lat];
-                    addMarker(lnglatXY);
-                } else {
-                    console.log(status)
-                    console.log(result)
-                    alert('搜索失败！');
-                    $("#addressmap").val('')
-                }
-            });
-        });
-    }
-
-
 </script>
 </body>
+
 </html>
+

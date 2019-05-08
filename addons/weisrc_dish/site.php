@@ -232,10 +232,12 @@ class weisrc_dishModuleSite extends Core
           $config['url'] = 'http://newopen.imdada.cn/api/order/addOrder';
           $obj2 = new DadaOpenapi($config);
           $reqStatus2 = $obj2->makeRequest($data2);
+            $reqStatus2['data'] = $data2;
+            $reqStatus2['date'] = date('Y-m-d H:i:s');
 //          p($reqStatus2);
 //            print_r($obj2->getResult());
 //            die;
-//        file_put_contents('/www/wwwroot/dada.log', $res = print_r($reqStatus2,true)."\n12222222",8);
+        file_put_contents('/www/wwwroot/dada.log', $res = print_r($reqStatus2,true)."\n2222222",8);
         return 'success';
 //        if (!$reqStatus2) {
 //              //接口请求正常，判断接口返回的结果，自定义业务操作
@@ -4743,7 +4745,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
                 file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
-
               //  $this->addsendmsg($content,$order['from_user'],$type=1);
             }
 
@@ -5552,8 +5553,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         $params['ordersn'] = $order['ordersn'];
         $params['virtual'] = true;
         $params['module'] = 'weisrc_dish';
-        $params['title'] = '餐饮' . $order['ordersn'];
-
+//        $params['title'] = '餐饮' . $order['ordersn'];
+        $goodsidset = pdo_fetchall('select goodsid from '.tablename('weisrc_dish_order_goods')." where orderid=:orderid ",array(':orderid'=>$order['id']));
+        $goodsidset = join(array_column($goodsidset,'goodsid'),',');
+        $titleset= pdo_fetchall('select title from '.tablename('weisrc_dish_goods')." where id in($goodsidset ) ",[]);
+        $titleset = join(array_column($titleset,'title'),',');
+        $params['title'] = $titleset;
 
         if (IMS_VERSION >= '1.5.1') {
             load()->model('activity');

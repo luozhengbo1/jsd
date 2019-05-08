@@ -97,8 +97,9 @@ if ($orderstatus[$status] == 2) { //支付
     pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
 //    $this->doDada($weid,$id,$order['storeid']);
     //如果是配置了达达进行调用
-    $storesInfo = pdo_fetch("select id,is_dada from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$order['storeid']));
-    if($storesInfo['is_dada']==1){
+    $storesInfo = pdo_fetch("select id,is_dada,shop_no,source_id from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$order['storeid']));
+
+    if($storesInfo['is_dada']==1 &&  !empty($storesInfo['shop_no']) && !empty($storesInfo['source_id'])  ){
         //新增達達配送狀態
         $this->doDada($weid,$id,$order['storeid']);
 //        if($dadares=='success'){
