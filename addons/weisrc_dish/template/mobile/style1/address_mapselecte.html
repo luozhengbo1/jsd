@@ -25,21 +25,35 @@
         }
 
         #pickerInput {
-            width:90%;
+            width:67%;
             background: #fff;
             border:1px solid #ccc;
             outline: none;
             height: 2.5rem;
             margin:auto;
             display: block;
+            padding:0;
             padding-left:3%;
             border-radius: 5px;
+            float: left;
+            margin-left: 5%;
+
         }
 
         #poiInfo {
             background: #fff;
             width:90%;
             margin:auto;
+        }
+        #sureBtn {
+            border: 0;
+            background: #4287ee;
+            color: #fff;
+            border-radius: 5px;
+            border:1px solid #4287ee;
+            height: 2.5rem;
+            width: 17%;
+            margin: 0 5% 0 2%;
         }
 
         .amap-ui-poi-picker-search-results-container, .amap-ui-poi-picker-sugg-container {
@@ -55,6 +69,10 @@
         .amap_lib_placeSearch .poi-more {
             display: none!important;
         }
+        .amap-icon img{
+            width: 19px;
+            height: 33px;
+        }
     </style>
 </head>
 
@@ -62,20 +80,19 @@
 <div id="container" class="map" tabindex="0"></div>
 <div id="pickerBox">
     <input id="pickerInput" placeholder="输入关键字搜索" />
+    <button id="sureBtn" type="button">确定</button>
     <div id="poiInfo"></div>
 </div>
-<script type="text/javascript" src='https://webapi.amap.com/maps?v=1.4.14&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.PlaceSearch'></script>
+<script type="text/javascript" src='http://webapi.amap.com/maps?v=1.4.14&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.PlaceSearch,AMap.Geocoder'></script>
 <!-- UI组件库 1.0 -->
-<script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 <script type="text/javascript">
     var map = new AMap.Map('container', {
         zoom: 10
     });
 
     AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
-
         var poiPicker = new PoiPicker({
-            //city:'北京',
             input: 'pickerInput'
         });
 
@@ -107,39 +124,81 @@
         map.addControl(geolocation);
         geolocation.getCurrentPosition()
     });
-    function poiPickerReady(poiPicker) {
 
-        window.poiPicker = poiPicker;
-
-        var marker = new AMap.Marker();
-
+    var markers = [];//点标记数组
+    var infoWindow;//信息弹窗
+    var geocoder,marker;
+    //点击添加点标记
+    map.on('click', showInfoClick);
+    function showInfoClick(e){
+        removeMarkers();
+        addMarker(e);
+    }
+    // 实例化点标记
+    function addMarker(e) {
+        var Lng=e.lnglat.getLng();
+        var Lat=e.lnglat.getLat();
+        marker = new AMap.Marker({
+            position: [Lng,Lat],
+            offset: new AMap.Pixel(-13, -30),
+        });
         var infoWindow = new AMap.InfoWindow({
             offset: new AMap.Pixel(0, -20)
         });
+        markers.push(marker);
+        removeMarkers();
+        marker.setMap(map);
+        var lnglat=''+Lng+','+Lat+''
+        regeoCode(lnglat);
+    }
+    //删除点标记
+    function removeMarkers(){
+        map.remove(markers.slice(0,markers.length-1));
+    }
 
+    function regeoCode(lngLat) {
+        if(!geocoder){
+            geocoder = new AMap.Geocoder({
+                radius: 1000 //范围，默认：500
+            });
+        }
+        var lnglat
+        var lnglat  = lngLat.split(',');
+        if(!marker){
+            marker = new AMap.Marker();
+            map.add(marker);
+        }
+        marker.setPosition(lnglat);
+
+        geocoder.getAddress(lnglat, function(status, result) {
+            if (status === 'complete'&&result.regeocode) {
+                var address = result.regeocode.formattedAddress;
+                document.getElementById('pickerInput').value = address;
+            }else{alert(JSON.stringify(result))}
+        });
+    }
+
+    function poiPickerReady(poiPicker) {
+        window.poiPicker = poiPicker;
+        var marker = new AMap.Marker();
         //选取了某个POI
-        poiPicker.on('poiPicked', function(poiResult) {
+        poiPicker.on('poiPicked', function(poiResult) {                var source = poiResult.source,
+            poi = poiResult.item,
+            info = {
+                source: source,
+                id: poi.id,
+                name: poi.name,
+                location: poi.location.toString(),
+                address: poi.address
+            };
 
-            var source = poiResult.source,
-                poi = poiResult.item,
-                info = {
-                    source: source,
-                    id: poi.id,
-                    name: poi.name,
-                    location: poi.location.toString(),
-                    address: poi.address
-                };
-
+            markers.push(marker);
+            removeMarkers();
             marker.setMap(map);
-            infoWindow.setMap(map);
-
             marker.setPosition(poi.location);
-            infoWindow.setPosition(poi.location);
-            console.log("jj",info);
-            infoWindow.setContent('<p>' + info.name + '</p><p>' + info.address + '</p>');
-            infoWindow.open(map, marker.getPosition());
-
             map.setCenter(marker.getPosition());
+            var lnglat=''+poi.location.lng+','+poi.location.lat+''
+            regeoCode(lnglat);
         });
 
 
@@ -148,4 +207,3 @@
 </body>
 
 </html>
-

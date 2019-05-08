@@ -92,8 +92,8 @@ $isposition = 0;
 
 if (!empty($lat) && !empty($lng)) {
     $isposition = 1;
-    setcookie($this->_lat, $lat, TIMESTAMP + 1800);
-    setcookie($this->_lng, $lng, TIMESTAMP + 1800);
+    setcookie($this->_lat, $lat, TIMESTAMP + 900);
+    setcookie($this->_lng, $lng, TIMESTAMP + 900);
 } else {
     if (isset($_COOKIE[$this->_lat])) {
         $isposition = 1;//0的时候才跳转

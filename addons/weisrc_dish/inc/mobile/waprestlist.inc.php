@@ -59,8 +59,8 @@ $lng = trim($_GPC['lng']);
 $isposition = 0;
 if ($_GPC['pos'] == 1) {
     $isposition = 1;
-    setcookie($this->_lat, $lat, TIMESTAMP + 3600 * 12);
-    setcookie($this->_lng, $lng, TIMESTAMP + 3600 * 12);
+    setcookie($this->_lat, $lat, TIMESTAMP + 900);
+    setcookie($this->_lng, $lng, TIMESTAMP + 900);
 } else {
     if (isset($_COOKIE[$this->_lat])) {
         $isposition = 1;//0的时候才跳转
