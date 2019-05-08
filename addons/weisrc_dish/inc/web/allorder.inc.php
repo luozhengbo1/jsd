@@ -553,9 +553,9 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
     if (empty($order)) {
         message('订单不存在！', '', 'error');
     }
-    if (!$this->exists()) {
-        message('退款失败!!！', $url, 'error');
-    }
+//    if (!$this->exists()) {
+//        message('退款失败!!！', $url, 'error');
+//    }
     $this->addOrderLog($id, $_W['user']['username'], 2, 2, 6);
 
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
