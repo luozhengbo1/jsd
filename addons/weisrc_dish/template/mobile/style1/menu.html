@@ -483,8 +483,10 @@
 									</div>
 								{/if}
                             {/if}
-                            {if $psnum == 2}
-                            <div>配送方式 <em>贵州省内顺丰包邮</em></div>
+                            {if $store['store_type']!=2}
+                                {if $psnum == 2}
+                                <div>配送方式 <em>贵州省内顺丰包邮</em></div>
+                                {/if}
                             {/if}
                             {if $mode==2}
                             {if $distance}
