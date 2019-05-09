@@ -1506,8 +1506,9 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
             }
             //地图地址选择页面
         }else  if( $operation == "mapselecte"){
-            $x = $_GPC['x'];
-            $y = $_GPC['y'];
+
+            $item = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE id=:id", array(":id" => $id));
+//            p($item);
             include $this->template($this->cur_tpl . '/address_mapselecte');die;
         }
         include $this->template($this->cur_tpl . '/address');
@@ -7539,10 +7540,10 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
     {
         global $_W, $_GPC;
         $setting = $this->getSetting();
-        $res = pdo_get('weisrc_dish_stores',['id'=>intval($_GPC['storeid'])],'is_speaker');
-        if ($res['is_speaker'] == 1) {
+        $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
+        if ($setIsSpeak['is_speaker'] == 1) {
             //提示次數
-            $ts_times = $_GPC['ts_times'];
+            $ts_times = $setIsSpeak['yy_ts_time'];
             //第幾次
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {

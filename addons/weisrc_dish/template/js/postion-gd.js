@@ -23,11 +23,8 @@ $(function() {
             var mk = new BMap.Marker(r.point);
             locLng = r.point.lng;
             locLat = r.point.lat;
-            alert()
             $(".morelist").each(function() {
                 var ShopLngLat = $(this).find("#showlan").val();
-                console.log(1)
-                console.log(ShopLngLat)
                 var InputOF = ShopLngLat.indexOf(",");
                 var InputOFLast = ShopLngLat.length;
                 var ShopLng = ShopLngLat.slice(0, InputOF);
@@ -42,6 +39,7 @@ $(function() {
             cururl = $("#cururl").val();
             if (isposition == 0) {
                 var url = cururl + '&lat=' + locLat + '&lng=' + locLng + '&pos=1';
+                alert()
                 window.location = url;
             }
         } else {

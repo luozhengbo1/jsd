@@ -112,7 +112,8 @@
                             <div class="item-inner">
                                 <div class="item-title label">收餐定位:</div>
                                 <div class="item-input input-address" style=" line-height:21px" >
-                                    <input type="text" id="mapaddress"  style="height: auto;line-height: normal;" name="mapaddress" value="{$item['address']}" />
+                                    <input type="hidden" id="mapaddress"  style="height: auto;line-height: normal;" name="mapaddress" value="{$item['address']}" />
+                                    {$item['address']}
                                 </div>
 <!--                                <div class="item-input" style="width: 10%;" onclick="$('#tagmap').slideToggle(500);">-->
 <!--                                    <img src="{php echo $this->cur_mobile_path}/image/inn_gps_icon.png" width="20px"/>-->
@@ -187,7 +188,7 @@
     </div>
     <script>
         function newmap() {
-            var url = "{$newmapurl}"+"&x="+$("#lng").val()+"&y="+ $("#lat").val()
+            var url = "{$newmapurl}";
             window.document.location.href=url
         }
         "{if $operation == 'post'}"

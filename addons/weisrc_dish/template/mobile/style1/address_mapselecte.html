@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>高德地图测试</title>
+    <title>收餐定位</title>
     <style>
         html,
         body,
@@ -23,20 +22,35 @@
             z-index: 9999;
             padding-top:.5rem;
         }
-
+        .seach-box {
+            float: left;
+            width:70%;
+            margin-left: 5%;
+            position: relative;
+        }
+        .seach-box .input-icon
+        {
+            position: absolute;
+            top: .3rem;
+            right: 0;
+            background: #f4f4f4;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+        }
         #pickerInput {
-            width:67%;
+            width:97%;
             background: #fff;
             border:1px solid #ccc;
             outline: none;
             height: 2.5rem;
-            margin:auto;
             display: block;
             padding:0;
             padding-left:3%;
             border-radius: 5px;
-            float: left;
-            margin-left: 5%;
+
 
         }
 
@@ -73,87 +87,136 @@
             width: 19px;
             height: 33px;
         }
+
     </style>
 </head>
 
 <body>
 <div id="container" class="map" tabindex="0"></div>
 <div id="pickerBox">
-    <input id="pickerInput" placeholder="输入关键字搜索" />
+    <div class="seach-box">
+        <input id="pickerInput" placeholder="输入关键字搜索" value="{if isset($id)  }{$item['address']}{/if}" />
+        <span class="input-icon" id="inputIcon">X</span>
+    </div>
     <button id="sureBtn" type="button">确定</button>
+    <input id="lat" type="hidden" value="{if isset($id)  }{$item['lat']}{/if}" />
+    <input id="lon" type="hidden" value="{if isset($id)  }{$item['lng']}{/if}" />
     <div id="poiInfo"></div>
 </div>
-<script type="text/javascript" src='http://webapi.amap.com/maps?v=1.4.14&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.PlaceSearch,AMap.Geocoder'></script>
+<script type="text/javascript" src='https://webapi.amap.com/maps?v=1.4.14&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.PlaceSearch,AMap.Geocoder'></script>
 <!-- UI组件库 1.0 -->
-<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
 <script type="text/javascript">
+    $('#sureBtn').click(function () {
+        var lat=$('#lat').val()
+        var lon=$('#lon').val()
+        if(!lon || !lat){
+            alert('定位失败请重新定位')
+            return false
+        }
+        var myValue = $('#pickerInput').val()
+        var url = "{$addurl}&myValue="+myValue+"&lat="+lat+"&lng="+lon
+        console.log(url)
+        document.location.href=url
+    })
+    $("#inputIcon").click(function () {
+        $("#pickerInput").val("");
+    })
     var map = new AMap.Map('container', {
-        zoom: 10
+        zoom: 13
     });
 
     AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
         var poiPicker = new PoiPicker({
             input: 'pickerInput'
         });
-
         //初始化poiPicker
         poiPickerReady(poiPicker);
     });
-    var options = {
-        'showButton': true,//是否显示定位按钮
-        'buttonPosition': 'LB',//定位按钮的位置
-        /* LT LB RT RB */
-        'buttonOffset': new AMap.Pixel(10, 20),//定位按钮距离对应角落的距离
-        'showMarker': true,//是否显示定位点
-        'markerOptions':{//自定义定位点样式，同Marker的Options
-            'offset': new AMap.Pixel(-18, -36),
-            'content':'<img src="https://a.amap.com/jsapi_demos/static/resource/img/user.png" style="width:36px;height:36px"/>'
-        },
-        'showCircle': true,//是否显示定位精度圈
-        'circleOptions': {//定位精度圈的样式
-            'strokeColor': '#0093FF',
-            'noSelect': true,
-            'strokeOpacity': 0.5,
-            'strokeWeight': 1,
-            'fillColor': '#02B0FF',
-            'fillOpacity': 0.25
-        }
-    }
-    AMap.plugin(["AMap.Geolocation"], function() {
-        var geolocation = new AMap.Geolocation(options);
-        map.addControl(geolocation);
-        geolocation.getCurrentPosition()
-    });
 
     var markers = [];//点标记数组
-    var infoWindow;//信息弹窗
     var geocoder,marker;
+    if("{$id}"==0){
+        var options = {
+            'showButton': true,//是否显示定位按钮
+            'buttonPosition': 'LB',//定位按钮的位置
+            /* LT LB RT RB */
+            'buttonOffset': new AMap.Pixel(10, 20),//定位按钮距离对应角落的距离
+            'showMarker': true,//是否显示定位点
+            'markerOptions':{//自定义定位点样式，同Marker的Options
+                'offset': new AMap.Pixel(-18, -36),
+            },
+            'showCircle': true,//是否显示定位精度圈
+            'circleOptions': {//定位精度圈的样式
+                'strokeColor': '#0093FF',
+                'noSelect': true,
+                'strokeOpacity': 0.5,
+                'strokeWeight': 1,
+                'fillColor': '#02B0FF',
+                'fillOpacity': 0.25
+            }
+        }
+        AMap.plugin(["AMap.Geolocation"], function() {
+            var geolocation = new AMap.Geolocation(options);
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition(function(status,result){
+                if(status=='complete'){
+                    console.log('定位成功');
+                }else{
+                    console.log('定位失败');
+                }
+            })
+        });
+    }else{
+        var  useradd = {};
+        useradd['lnglat'] = {};
+        useradd['lnglat']['lat'] = "{$item['lat']}";
+        useradd['lnglat']['lng'] =  "{$item['lng']}";
+        useradd['lnglat']['yy'] = 1;
+        console.log(useradd)
+        addMarker(useradd)
+    }
+
     //点击添加点标记
     map.on('click', showInfoClick);
     function showInfoClick(e){
-        removeMarkers();
+        console.log(e);
         addMarker(e);
+        $('#lat').val(e.lnglat.lat)
+        $('#lon').val(e.lnglat.lng)
     }
     // 实例化点标记
     function addMarker(e) {
-        var Lng=e.lnglat.getLng();
-        var Lat=e.lnglat.getLat();
+        var Lng;
+        var Lat;
+        if(e['lnglat']['yy']==1){
+            Lng =  e['lnglat']['lng'];
+            Lat =  e['lnglat']['lat'];
+        }else{
+            Lng=e.lnglat.getLng();
+            Lat=e.lnglat.getLat();
+        }
         marker = new AMap.Marker({
             position: [Lng,Lat],
             offset: new AMap.Pixel(-13, -30),
         });
-        var infoWindow = new AMap.InfoWindow({
-            offset: new AMap.Pixel(0, -20)
-        });
+
         markers.push(marker);
         removeMarkers();
         marker.setMap(map);
-        var lnglat=''+Lng+','+Lat+''
-        regeoCode(lnglat);
+        console.log(e.lnglat);
+        marker.setPosition([Lng,Lat]);
+        map.setCenter(marker.getPosition());
+        if(e['lnglat']['yy']!=1) {
+            var lnglat = '' + Lng + ',' + Lat + ''
+            regeoCode(lnglat);
+        }
     }
     //删除点标记
     function removeMarkers(){
-        map.remove(markers.slice(0,markers.length-1));
+        map.remove(markers);
     }
 
     function regeoCode(lngLat) {
@@ -180,23 +243,27 @@
 
     function poiPickerReady(poiPicker) {
         window.poiPicker = poiPicker;
-        var marker = new AMap.Marker();
+        marker = new AMap.Marker();
         //选取了某个POI
-        poiPicker.on('poiPicked', function(poiResult) {                var source = poiResult.source,
-            poi = poiResult.item,
-            info = {
-                source: source,
-                id: poi.id,
-                name: poi.name,
-                location: poi.location.toString(),
-                address: poi.address
-            };
+        poiPicker.on('poiPicked', function(poiResult) {
+            var source = poiResult.source,
+                poi = poiResult.item,
+                info = {
+                    source: source,
+                    id: poi.id,
+                    name: poi.name,
+                    location: poi.location.toString(),
+                    address: poi.address
+                };
 
             markers.push(marker);
             removeMarkers();
             marker.setMap(map);
             marker.setPosition(poi.location);
+            console.log(poi.location);
             map.setCenter(marker.getPosition());
+            $('#lat').val(poi.location.lat)
+            $('#lon').val(poi.location.lng)
             var lnglat=''+poi.location.lng+','+poi.location.lat+''
             regeoCode(lnglat);
         });
