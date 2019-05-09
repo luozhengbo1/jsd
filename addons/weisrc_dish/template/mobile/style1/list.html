@@ -1611,6 +1611,9 @@
         //选择外卖和邮递
         $("#pspost :radio").click(function(){
             var val = $(this).val();
+            if ($("#cartinput").val()){
+                psnum = $("#cartinput").val()
+            }
             if(psnum == null){
                 psnum = val;
                 $("#pshideinput").val(psnum);
