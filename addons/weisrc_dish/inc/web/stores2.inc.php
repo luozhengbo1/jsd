@@ -329,6 +329,10 @@ if ($operation == 'setting') {
                 message('请输入11位有效的手机号', '', 'error');
             }
         }
+        if($data['store_type'] != 1 ){
+            //不是外卖店关闭距离配送
+            $data["is_delivery_distance"] = 0;
+        }
         if (istrlen($data['address']) == 0) {
             //message('请输入地址。', '', 'error');
         }
