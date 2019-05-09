@@ -412,8 +412,9 @@
                         "{if $mode==3}"
                         var url = "{php echo $this->createMobileUrl('reservationdetail', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'selectdate' => $selectdate, 'timeid' => $timeid, 'rtype' => $rtype), true)}" + "&addressid=" + id;
                         "{else}"
-                        var url = "{php echo $this->createMobileUrl('wapmenu', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid), true)}" + "&addressid=" + id;
+                        var url = "{php echo $this->createMobileUrl('wapmenu', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid,'psnum'=>$_GPC['psnum']), true)}" + "&addressid=" + id;
                         "{/if}"
+                        console.log(url)
                         location.href = url;
                     },error: function () {
                         alert("网络延迟！");

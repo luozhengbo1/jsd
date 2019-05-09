@@ -1444,7 +1444,6 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
         $timeid = intval($_GPC['timeid']);
         $selectdate = trim($_GPC['selectdate']);
 
-
         $id = intval($_GPC['id']);
         $backurl = $this->createMobileUrl('wapmenu', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'selectdate' => $selectdate, 'timeid' => $timeid, 'rtype' => $rtype),
             true);

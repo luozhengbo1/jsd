@@ -73,6 +73,7 @@ foreach ($goods as $key => $value) {
      // echo $value;
         $send_way = $value['send_way'];
 }
+$psnum = $send_way;
 // var_dump($send_way);
 $select_mealdate = '';
 if (!empty($store['delivery_within_days'])) {
@@ -135,6 +136,7 @@ $cart = pdo_fetchall("SELECT * FROM " . tablename($this->table_cart) . " a LEFT 
  a.weid=:weid AND a.from_user=:from_user AND a.storeid=:storeid AND total<>0", array(':weid' => $weid, ':from_user' =>
     $from_user, ':storeid' => $storeid));
 //打包费用
+//p($cart);
 $packvalue = 0;
 foreach ($cart as $key => $value) {
     if ($value['status'] == 0) {
@@ -355,10 +357,9 @@ if ($store['is_delivery_distance'] == 1) { //按距离收费
     }
 
 } else {
-	if($psnum == 2){
+	if($psnum == 2){ //邮寄
 		$dispatchprice = 0;
-	}
-	else{
+	}else{
 		//配送费
 		$dispatchprice = floatval($store['dispatchprice']);
 	}
@@ -370,8 +371,10 @@ if ($store['is_delivery_time'] == 1) { //特殊时段加价
 }
 
 if($psnum == 2){//邮递
+
     $dispatchprice = 0;
 }
+
 //echo "<pre>";
 //print_r($storeid);
 //print_r($couponlist);die;
