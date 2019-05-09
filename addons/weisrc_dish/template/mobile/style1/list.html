@@ -120,15 +120,48 @@
             right: -50%;
         }
         .i-add-btn{
-            padding:0 7px 2px;  line-height:20px; text-align:center; border-radius:20px;  font-size:20px;
+            line-height:20px; text-align:center; border-radius:20px;  font-size:.8rem;
             /*background-color:#fbd163;*/
             background-color:{$style_list_base};
             color: #fff;
+
+        }
+        .add-food .i-add-btn{
+            font-size: 20px;
+            border-radius: 20px;
+            width: 20px;
+            display: block;
+            line-height: 20px;
+            position: relative;
+            top: .3rem;
         }
         .i-remove-btn{
-            border: 1px solid #a7a2a9;padding:0 8px 2px 8px;  line-height:19px; text-align:center;
-            border-radius:20px; font-size:19px
+          /*  border: 1px solid #a7a2a9;
+            text-align: center;
+            border-radius: 20px;
+            display: block;
+            width:20px;
+            height:20px;
+            position: relative;
+            top: .3rem;*/
+            border: 1px solid #a7a2a9;
+            font-size: 20px;
+            border-radius: 50%;
+            width: 20px;
+            display: block;
+            line-height: 18px;
+            position: relative;
+            top: .3rem;
+            text-align:center;
         }
+       /* .i-remove-btn:before{
+            content: "-";
+            font-size: 30px;
+            position: absolute;
+            top: 0;
+            left: 5px;
+            line-height: 23px;
+        }*/
         .add-btn,.remove-btn{
             float: right;height: 25px;
         }
@@ -553,7 +586,7 @@
                      dprice="{if $iscard==1 && !empty($goods['memberprice'])}{$goods['memberprice']}{else}{$goods['marketprice']}{/if}"
                      dunitname="{$goods['unitname']}"
                      dsales="{$goods['sales']}">
-                    <div class="food-pic-wrap open-popup" style="width:5.5rem; height:5.5rem;margin-right:0.5rem;" data-target="#full">
+                    <div class="food-pic-wrap open-popup" style="width:5rem; height:5rem;margin-right:0.5rem;" data-target="#full">
                         <img class="j-food-pic food-pic goodsthumb lazy"
                              data-original="{if $goods['thumb']}{php echo tomedia($goods['thumb']);}{else}{php echo tomedia('./addons/weisrc_dish/icon.jpg');}{/if}" />
                     </div>
@@ -583,7 +616,7 @@
                             {else}
                             <!-- $goods['isoptions'] -->
                             <a class="j-add-item add-btn {if $goods['isoptions']==0 && $goods['send_way'] != 0}add-food{/if} " href="javascript:;" {if $goods['isoptions']==1 || $goods['send_way'] == 0} onclick="tan({$goods['id']});"{/if}  id="dishid_{$goods['id']}" >
-                                <i class="i-add-btn" {if $goods['isoptions']==1 || $goods['send_way'] == 0}style="font-size: 12px;padding: 8px 12px;"{/if}>
+                                <i class="i-add-btn" {if $goods['isoptions']==1 || $goods['send_way'] == 0}style="font-size: 12px;padding: 3px 5px;"{/if}>
                                     {if $goods['isoptions']==1 && $goods['send_way'] == 0}
                                     选规格
                                     {else if $goods['isoptions']==1}
@@ -605,7 +638,7 @@
                             </a>
                             {/if}
                         </div>
-                        <div class="food-price-region" data-target="#full" style="padding-left: 14px">
+                        <div class="food-price-region" data-target="#full" style="">
                             {php $flag = 0;}
                             {if $iscard==1 && !empty($goods['memberprice'])}
                             {php $flag = 1;}
