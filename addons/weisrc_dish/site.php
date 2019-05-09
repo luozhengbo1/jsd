@@ -6266,6 +6266,7 @@ storeid=".$order['storeid'].") ";
             } else {
                 //错误导致
                 $url = '../../app/' . $this->createMobileUrl('order', array('orderid' => $orderid));//更改URL跳转到我的订单
+                sleep(1);//防止支付状态还未更新；页面跳转
                 message($tip_msgss, $url, 'success');
             }
         }
