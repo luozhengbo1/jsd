@@ -248,6 +248,7 @@ foreach ($cart as $key => $value) {
     $cart[$key]['goodstitle'] = $goods_t['title'];
     $totalcount = $totalcount + $value['total'];
     $totalprice = $totalprice + $value['total'] * $value['price'];
+    $cart[$key]['goodsinventory'] = $goods_t["counts"]-$goods_t["today_counts"]>0 || $goods_t["counts"] != -1 ? 1 : 0;//判断是否有库存
    
 }
 

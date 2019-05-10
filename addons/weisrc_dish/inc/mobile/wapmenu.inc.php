@@ -142,6 +142,14 @@ foreach ($cart as $key => $value) {
     if ($value['status'] == 0) {
         message('商品' . $value['title'] . '已下架！');
     }
+    if (($value["counts"]-$value["today_counts"]<=0 || $value["counts"]==0) && ($value["counts"] != -1)){
+        $url = '../../app/' . $this->createMobileUrl('waplist', array('storeid' => $storeid, 'mode' => $mode));//更改URL跳转到我的订单
+        message($value['title'] . '已没库存！请从购物车删除该商品后下单', $url, 'error');
+    }
+    if (($value["counts"] != -1) && ($value["counts"]-$value["today_counts"]-$value["total"]<0)){
+        $url = '../../app/' . $this->createMobileUrl('waplist', array('storeid' => $storeid, 'mode' => $mode));//更改URL跳转到我的订单
+        message($value['title'] . '库存不足！', $url, 'error');
+    }
     $packvalue = $packvalue + $value['total'] * $value['packvalue'];
 }
 
