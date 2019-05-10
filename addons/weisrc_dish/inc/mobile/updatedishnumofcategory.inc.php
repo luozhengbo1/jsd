@@ -189,7 +189,7 @@ foreach ($cart as $key => $value) {
         if (!empty($value['optionname'])) {
             $optionname = '[' . $value['optionname'] . ']';
         }
-
+        $goodsinventory = $goods_t["counts"] - $goods_t["today_counts"]>0 || $goods_t["counts"] != -1 ? 1 : 0;//判断是否有库存
         $cart_html .= '<li dishid="'.$value['goodsid'].'" optionid="'.$value['optionid'].'">';
         $cart_html .= '<div class="cart-item-name">'.$goods_t['title'] . $optionname . '</div>';
         $cart_html .= '<div class="cart-item-price">¥<font>'.$value['price'].'</font></div>';
