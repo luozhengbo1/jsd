@@ -142,6 +142,9 @@ foreach ($cart as $key => $value) {
     if ($value['status'] == 0) {
         message('商品' . $value['title'] . '已下架！');
     }
+    if (($value["counts"]-$value["today_counts"]<=0 || $value["counts"]==0) && ($value["counts"] != -1)){
+        message($value['title'] . '已没库存！请从购物车删除该商品后下单');
+    }
     $packvalue = $packvalue + $value['total'] * $value['packvalue'];
 }
 

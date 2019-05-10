@@ -39,7 +39,9 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
 
 
 if ($goods['counts'] == 0) {
-    $this->showTip('该商品已售完', 1);
+    if (!($total == 0 && !empty($cart))){
+        $this->showTip('该商品已售完', 1);
+    }
 }
 if ($goods['counts'] > 0) {
     $count = $goods['counts'] - $goods['today_counts'];
