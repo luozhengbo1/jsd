@@ -39,7 +39,8 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
 
 
 if ($goods['counts'] == 0) {
-    if (!($total == 0 && !empty($cart))){
+    if ($cart['total'] < $total){
+        //库存等于0；禁止添加库存
         $this->showTip('该商品已售完', 1);
     }
 }
