@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a0aba3ea-db3e-4c97-8d65-24e7fa68d6a8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/wapmenu.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/wapmenu.inc.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/waplist.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/waplist.inc.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/site.php" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/site.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/js/postion.js" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/js/postion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address.html" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/web/goods_tab_basic.html" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/web/goods_tab_basic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,23 +28,23 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6876952">
+    <splitter split-orientation="horizontal" split-proportion="0.13892366">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="101" column="25" lean-forward="true" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
+                <state relative-caret-position="2727">
+                  <caret line="101" column="25" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/wapmenu.inc.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="601">
-                  <caret line="87" column="26" lean-forward="true" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
+                <state relative-caret-position="277">
+                  <caret line="75" column="15" lean-forward="true" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
                 </state>
               </provider>
             </entry>
@@ -54,8 +52,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/allorder.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="353">
-                  <caret line="675" column="13" lean-forward="true" selection-start-line="675" selection-start-column="13" selection-end-line="675" selection-end-column="13" />
+                <state relative-caret-position="18225">
+                  <caret line="675" column="13" selection-start-line="675" selection-start-column="13" selection-end-line="675" selection-end-column="13" />
                 </state>
               </provider>
             </entry>
@@ -63,8 +61,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/js/postion.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="277">
-                  <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+                <state relative-caret-position="837">
+                  <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
                 </state>
               </provider>
             </entry>
@@ -72,7 +70,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address_mapselecte.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="198">
+                <state relative-caret-position="3672">
                   <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
                 </state>
               </provider>
@@ -81,7 +79,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/../../../demo(3).html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-4698">
+                <state relative-caret-position="243">
                   <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
                 </state>
               </provider>
@@ -90,7 +88,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/goods_tab_basic.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="326">
+                <state relative-caret-position="5130">
                   <caret line="190" column="41" selection-start-line="190" selection-start-column="41" selection-end-line="190" selection-end-column="41" />
                 </state>
               </provider>
@@ -99,8 +97,29 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/menu.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="331">
-                  <caret line="107" column="30" lean-forward="true" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="30" />
+                <state relative-caret-position="177">
+                  <caret line="344" column="89" selection-start-line="344" selection-start-column="89" selection-end-line="344" selection-end-column="89" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/list.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2545">
+                  <caret line="1866" column="47" lean-forward="true" selection-start-line="1866" selection-start-column="47" selection-end-line="1866" selection-end-column="47" />
+                  <folding>
+                    <element signature="n#style#0;n#span#1;n#div#3;n#div#1;n#div#0;n#li#0;n#ul#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/web/themes/default/mc/member-post.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="472">
+                  <caret line="1008" column="20" lean-forward="true" selection-start-line="1008" selection-start-column="20" selection-end-line="1008" selection-end-column="20" />
                 </state>
               </provider>
             </entry>
@@ -112,10 +131,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/site.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="493">
-                  <caret line="1446" selection-start-line="1446" selection-end-line="1446" />
+                <state relative-caret-position="393">
+                  <caret line="318" lean-forward="true" selection-start-line="318" selection-end-line="318" />
                   <folding>
                     <element signature="e#3219#5701#0#PHP" />
+                    <element signature="e#6197#9064#0#PHP" />
                     <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
                   </folding>
                 </state>
@@ -123,15 +143,33 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/js/postion-gd.js">
+            <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/waplist.inc.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="243">
-                  <caret line="24" selection-start-line="23" selection-end-line="24" />
+                <state relative-caret-position="339">
+                  <caret line="322" column="45" selection-start-line="322" selection-start-column="45" selection-end-line="322" selection-end-column="45" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/updatedishnumofcategory.inc.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="432">
+                  <caret line="46" column="34" lean-forward="true" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/js/postion-gd.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="648">
+                  <caret line="24" selection-start-line="23" selection-end-line="24" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address.html">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="628">
@@ -153,22 +191,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>label-green</find>
-      <find>订单合计：</find>
-      <find>$order</find>
-      <find>TIMESTAMP +</find>
-      <find>isposition</find>
-      <find>$isposition</find>
-      <find>pos</find>
-      <find>配送时间</find>
-      <find>addMarker</find>
-      <find>lnglat</find>
-      <find>markers</find>
-      <find>getCurrentPosition</find>
-      <find>pay(</find>
-      <find>confirmall</find>
-      <find>$this-&gt;doDada($weid,$id,$order['storeid']);</find>
-      <find>useraddress(</find>
       <find>alert</find>
       <find>&gt;</find>
       <find>&lt;</find>
@@ -183,6 +205,22 @@
       <find>$send_way</find>
       <find>p(</find>
       <find>$psnum</find>
+      <find>dodada(</find>
+      <find>add</find>
+      <find>store</find>
+      <find>选配送</find>
+      <find>add-food</find>
+      <find>j-add-item</find>
+      <find>pbtn_add_food</find>
+      <find>tan(</find>
+      <find>dishid</find>
+      <find>add-btn</find>
+      <find>add-food</find>
+      <find>store['s</find>
+      <find>配送方式</find>
+      <find>cart-item-add</find>
+      <find>请稍后</find>
+      <find>btnAdd</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -200,10 +238,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/addons/weisrc_dish/template/web/_distance_item1.html" />
-        <option value="$PROJECT_DIR$/addons/weisrc_dish/template/web/outside.html" />
-        <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/web/outside.inc.php" />
-        <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/list.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/web/order_detail.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/web/stores2.inc.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/web/dada.inc.php" />
@@ -247,10 +281,14 @@
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address_mapselecte.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/web/goods_tab_basic.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/js/postion.js" />
-        <option value="$PROJECT_DIR$/addons/weisrc_dish/site.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/menu.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/wapmenu.inc.php" />
+        <option value="$PROJECT_DIR$/addons/weisrc_dish/site.php" />
+        <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/waplist.inc.php" />
+        <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/list.html" />
+        <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/updatedishnumofcategory.inc.php" />
+        <option value="$PROJECT_DIR$/web/themes/default/mc/member-post.html" />
       </list>
     </option>
   </component>
@@ -402,11 +440,12 @@
       <workItem from="1556153977690" duration="27982000" />
       <workItem from="1556240156190" duration="4661000" />
       <workItem from="1557191397989" duration="1395000" />
+      <workItem from="1557449924470" duration="4474000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="355109000" />
+    <option name="totallyTimeSpent" value="359644000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -421,7 +460,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1456777" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14727855" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -433,7 +472,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32934782" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="File Transfer" order="9" sideWeight="0.49839914" visible="true" weight="0.3278867" />
+      <window_info anchor="bottom" id="File Transfer" order="9" sideWeight="0.49839914" weight="0.3278867" />
       <window_info anchor="bottom" id="Database Changes" order="10" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32461873" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50160086" side_tool="true" weight="0.3278867" />
@@ -492,23 +531,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="17" column="70" lean-forward="true" selection-start-line="17" selection-start-column="70" selection-end-line="17" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/payment/wechat/test.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/admin_order.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="28" column="43" lean-forward="true" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/businesscenter.inc.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
@@ -659,13 +681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/waplist.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="314" column="115" selection-start-line="314" selection-start-column="115" selection-end-line="314" selection-end-column="115" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/allorder_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
@@ -694,13 +709,6 @@
           <folding>
             <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/allorder.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="675" column="13" lean-forward="true" selection-start-line="675" selection-start-column="13" selection-end-line="675" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -762,63 +770,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/js/postion-gd.js">
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="24" selection-start-line="23" selection-end-line="24" />
+        <state relative-caret-position="2727">
+          <caret line="101" column="25" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../demo(3).html">
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/allorder.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4698">
-          <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address_mapselecte.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
+        <state relative-caret-position="18225">
+          <caret line="675" column="13" selection-start-line="675" selection-start-column="13" selection-end-line="675" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/js/postion.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+        <state relative-caret-position="837">
+          <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php">
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address_mapselecte.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="101" column="25" lean-forward="true" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
+        <state relative-caret-position="3672">
+          <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/site.php">
+    <entry file="file://$PROJECT_DIR$/../../../demo(3).html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="1446" selection-start-line="1446" selection-end-line="1446" />
-          <folding>
-            <element signature="e#3219#5701#0#PHP" />
-            <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/menu.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="107" column="30" lean-forward="true" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="30" />
+        <state relative-caret-position="243">
+          <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/goods_tab_basic.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
+        <state relative-caret-position="5130">
           <caret line="190" column="41" selection-start-line="190" selection-start-column="41" selection-end-line="190" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/js/postion-gd.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="24" selection-start-line="23" selection-end-line="24" />
         </state>
       </provider>
     </entry>
@@ -829,10 +826,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/site.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="318" lean-forward="true" selection-start-line="318" selection-end-line="318" />
+          <folding>
+            <element signature="e#3219#5701#0#PHP" />
+            <element signature="e#6197#9064#0#PHP" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/wapmenu.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="87" column="26" lean-forward="true" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
+        <state relative-caret-position="277">
+          <caret line="75" column="15" lean-forward="true" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/menu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="344" column="89" selection-start-line="344" selection-start-column="89" selection-end-line="344" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/waplist.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="322" column="45" selection-start-line="322" selection-start-column="45" selection-end-line="322" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2545">
+          <caret line="1866" column="47" lean-forward="true" selection-start-line="1866" selection-start-column="47" selection-end-line="1866" selection-end-column="47" />
+          <folding>
+            <element signature="n#style#0;n#span#1;n#div#3;n#div#1;n#div#0;n#li#0;n#ul#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/themes/default/mc/member-post.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="1008" column="20" lean-forward="true" selection-start-line="1008" selection-start-column="20" selection-end-line="1008" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/updatedishnumofcategory.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="46" column="34" lean-forward="true" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
         </state>
       </provider>
     </entry>

@@ -333,5 +333,4 @@ $follow_image = !empty($setting['follow_logo']) ? tomedia($setting['follow_logo'
 $tipqrcode = tomedia($setting['tipqrcode']);
 $tipbtn = intval($setting['tipbtn']);
 $follow_url = $setting['follow_url'];
-
 include $this->template($this->cur_tpl . '/list');

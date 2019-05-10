@@ -615,13 +615,13 @@
                             <img src="{php echo $this->cur_mobile_path}/image/sale-end.png" style="width: 80px;">
                             {else}
                             <!-- $goods['isoptions'] -->
-                            <a class="j-add-item add-btn {if $goods['isoptions']==0 && $goods['send_way'] != 0}add-food{/if} " href="javascript:;" {if $goods['isoptions']==1 || $goods['send_way'] == 0} onclick="tan({$goods['id']});"{/if}  id="dishid_{$goods['id']}" >
+                            <a class="j-add-item add-btn {if $goods['isoptions']==0 }add-food{/if} " href="javascript:;" {if $goods['isoptions']==1  } onclick="tan({$goods['id']});"{/if}  id="dishid_{$goods['id']}" >
                                 <i class="i-add-btn" {if $goods['isoptions']==1 || $goods['send_way'] == 0}style="font-size: 12px;padding: 3px 5px;"{/if}>
                                     {if $goods['isoptions']==1 && $goods['send_way'] == 0}
                                     选规格
                                     {else if $goods['isoptions']==1}
                                     选规格
-                                    {else if $goods['send_way'] == 0}
+                                    {else if $goods['send_way'] == 0 && $store['store_type']!=2 }
                                     选配送
                                     {else}+
                                     {/if}
@@ -806,6 +806,7 @@
         <ul id="goodsoptionitem"></ul>
     </div>
 
+    {if $store['store_type']!=2}
     <div class="pstypes" id="pstypes" style="display: block;">
         <div class="guige">配送方式</div>
         <div class="psinput" id="pspost">
@@ -813,6 +814,7 @@
             <label><input type="radio" name="peisong" value="2">邮递</label>
         </div>
     </div>
+    {/if}
 
     <div class="cart-footer">
         <div class="cart-fl">
@@ -1862,7 +1864,7 @@
                         if(data['message']['code']==1 ){
                             //將此商品移除
                             // $('#dishid').remove()
-                            btnClean.click()
+                            // btnClean.click()
                         }
                         console.log(data)
                         return;
