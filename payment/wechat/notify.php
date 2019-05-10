@@ -6,7 +6,7 @@
 define('IN_MOBILE', true);
 require '../../framework/bootstrap.inc.php';
 $input = file_get_contents('php://input');
-file_put_contents('/www/wwwroot/jsd.gogcun.com/test.log',$input."\n",8);
+file_put_contents('/www/wwwroot/test.log',$input."\n",8);
 //$input="
 //<xml><appid><![CDATA[wx0fd57bd3a7fc8709]]></appid>
 //<attach><![CDATA[2]]></attach>

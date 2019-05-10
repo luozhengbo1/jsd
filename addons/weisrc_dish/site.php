@@ -194,7 +194,7 @@ class weisrc_dishModuleSite extends Core
        $res=pdo_get($this->table_setting,array('weid'=>$weid));
        $order=pdo_get('weisrc_dish_order',array('id'=>$orderid));
        $store=pdo_get('weisrc_dish_stores',array('weid'=>$weid,'id'=>$order['storeid']));
-    
+
     //*********************配置项*************************
        $config = array();
        $config['app_key'] = $res['dada_key'];
@@ -253,62 +253,7 @@ class weisrc_dishModuleSite extends Core
 //              return $obj2->getMsg();
 //          }
     }
-    /*public function dodada($weid,$orderid,$storeid){
 
-
-  header("Content-Type: text/html;charset=utf-8");
-
-  define("BASE_DIR", dirname(__FILE__) . "/");
-  require_once BASE_DIR . 'dada_openapi_php-master/api/addOrderApi.php';
-  require_once BASE_DIR . 'dada_openapi_php-master/client/dadaRequestClient.php';
-  require_once BASE_DIR . 'dada_openapi_php-master/client/dadaResponse.php';
-  require_once BASE_DIR . 'dada_openapi_php-master/config/config.php';
-  require_once BASE_DIR . 'dada_openapi_php-master/model/orderModel.php';
-    global $_W, $_GPC;
-  // include "DadaOpenapi.php";
-   $res=pdo_get($this->table_setting,array('weid'=>$weid));
-   $order=pdo_get('weisrc_dish_order',array('id'=>$orderid));
-   $store=pdo_get('weisrc_dish_stores',array('weid'=>$weid,'id'=>$order['storeid']));
-
-//*********************配置项*************************
-   $config = array();
-   $config['app_key'] = $res['dada_key'];
-   $config['app_secret'] = $res['dada_secret'];
-   //商戶id
-    $config['source_id'] = $store['source_id'];
-   //$data=array();
-      //先转换一下坐标
-    $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
-
-  //*********************1.配置项*************************
-  $configobj = new Config(73753, false);
-  $configobj->app_key=$config['app_key'];
-  $configobj->app_secret=$config['app_secret'];
-
-
-  //*********************2.实例化一个model*************************
-  $orderModel = new OrderModel();
-  $orderModel->setShopNo('11047059');
-  $orderModel->setOriginId($order['ordersn']);
-  $orderModel->setCityCode('0851');
-  $orderModel->setCargoPrice($order['totalprice']);
-  $orderModel->setIsPrepay(0);
-  $orderModel->setReceiverName('测试达达');
-  $orderModel->setReceiverAddress( $order['address']);
-  $orderModel->setReceiverLat($transpoint['lat']);
-  $orderModel->setReceiverLng($transpoint['lng']);
-  $orderModel->setReceiverPhone( $order['tel']);
-  $orderModel->setCallback('');
-
-  //*********************3.实例化一个api*************************
-  $addOrderApi = new AddOrderApi(json_encode($orderModel));
-
-  //***********************4.实例化客户端请求************************
-  $dada_client = new DadaRequestClient($configobj , $addOrderApi);
-  $resp = $dada_client->makeRequest();
-  echo json_encode($resp);
-   file_put_contents('/www/wwwroot/dada.log', $res = print_r($resp,true)."\n2222222",8);
-}*/
 
     public function doWebsetstyleproperty()
     {
@@ -5412,6 +5357,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $tablename = $this->getTableName($order['tables']);
                 $content .= "\n桌台信息：{$tablename}";
             }
+
             $content .= "\n支付方式：{$paytype[$order['paytype']]}";
             if ($order["ispay"] == 2 && $order["status"] == -1){
                 $content .= "\n应退款{$order['totalprice']}元";
@@ -6327,6 +6273,25 @@ storeid=".$order['storeid'].") ";
             }
         }
     }
+
+    /**
+     * 测试推送
+     */
+    function doWebtestts(){
+        //门店提醒
+        global $_GPC;
+        $orderid = $_GPC['orderid'];
+        $storeid = $_GPC['storeid'];
+        $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id  LIMIT 1", array(':id' => $orderid));
+        $setting = $this->getSettingByWeid($order['weid']);
+        $accounts = pdo_fetchall("SELECT * FROM " . tablename($this->table_account) . " WHERE weid = :weid AND storeid=:storeid AND status=2 AND is_notice_order=1 ORDER BY id DESC ", array(':weid' => $this->_weid, ':storeid' => $storeid));
+        foreach ($accounts as $key => $value) {
+            if (!empty($value['from_user'])) {
+               $this->sendText($value['from_user'], "测试推送");
+            }
+        }
+    }
+
 
     function register_jssdk_test($debug = false)
     {

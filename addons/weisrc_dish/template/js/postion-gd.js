@@ -13,52 +13,40 @@ $(function() {
     function Rad(d) {
         return d * Math.PI / 180.0
     };
-    var geolocation = new BMap.Geolocation();
-    if (document.location.href.indexOf("/shop/all/") == 0) {
-        geolocation = null
-    };
-    geolocation.getCurrentPosition(function(r) {
-        var _this = this;
-        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-            var mk = new BMap.Marker(r.point);
-            locLng = r.point.lng;
-            locLat = r.point.lat;
-            $(".morelist").each(function() {
-                var ShopLngLat = $(this).find("#showlan").val();
-                var InputOF = ShopLngLat.indexOf(",");
-                var InputOFLast = ShopLngLat.length;
-                var ShopLng = ShopLngLat.slice(0, InputOF);
-                var ShopLat = ShopLngLat.slice(InputOF + 1, InputOFLast);
-                var dis111 = distanceByLnglat(locLng, locLat, ShopLng, ShopLat);
-                $(this).find("#shopspostion").html(dis111 + "km");
-            });
-            $("#curlat").val(locLat);
-            $("#curlng").val(locLng);
 
-            isposition = $("#isposition").val();
-            cururl = $("#cururl").val();
-            if (isposition == 0) {
-                var url = cururl + '&lat=' + locLat + '&lng=' + locLng + '&pos=1';
-                alert()
-                window.location = url;
-            }
-        } else {
-            $(".morelist").each(function() {
-                $(this).find("#shopspostion").html("无法获取距离" + _this.getStatus() + "");
-            });
-        }
-    }, {
-        enableHighAccuracy: true
+    var map = new AMap.Map('container', {
+        resizeEnable: true
     });
-    //关于状态码
-    //BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
-    //BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
-    //BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
-    //BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
-    //BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
-    //BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
-    //BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
-    //BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
-    //BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+    AMap.plugin('AMap.Geolocation', function() {
+        var geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：5s
+            buttonPosition:'RB',    //定位按钮的停靠位置
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition(function(status,result){
+            if(status=='complete'){
+                onComplete(result)
+                console.log('定位成功')
+            }else{
+                onError(result)
+                console.log('定位失败')
+            }
+        });
+    });
+    //解析定位结果
+    function onComplete(data) {
+
+        console.log( data.position)
+
+    }
+    //解析定位错误信息
+    function onError(data) {
+
+    }
+
 });
 

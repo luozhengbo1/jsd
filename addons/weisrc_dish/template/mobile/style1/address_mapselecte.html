@@ -163,6 +163,7 @@
             map.addControl(geolocation);
             geolocation.getCurrentPosition(function(status,result){
                 if(status=='complete'){
+                    onComplete(result)
                     console.log('定位成功');
                 }else{
                     console.log('定位失败');
@@ -209,10 +210,20 @@
         console.log(e.lnglat);
         marker.setPosition([Lng,Lat]);
         map.setCenter(marker.getPosition());
-        if(e['lnglat']['yy']!=1) {
+        if(   e['lng']    ) {
+            var lnglat = '' + Lng + ',' + Lat + ''
+            regeoCode(lnglat);
+        }else if(e['lnglat']['yy']==1){
+        }else{
             var lnglat = '' + Lng + ',' + Lat + ''
             regeoCode(lnglat);
         }
+    }
+    //解析定位结果
+    function onComplete(data) {
+        addMarker(data.position)
+        console.log( data.position)
+
     }
     //删除点标记
     function removeMarkers(){

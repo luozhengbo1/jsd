@@ -90,4 +90,6 @@ if ($operation == 'display') {
     pdo_delete($this->table_account, array('id' => $id, 'weid' => $_W['uniacid']));
     message('删除成功！', $this->createWebUrl('coreuser', array('op' => 'display', 'storeid' => $storeid)), 'success');
 }
+p($list);die;
+
 include $this->template('web/coreuser');

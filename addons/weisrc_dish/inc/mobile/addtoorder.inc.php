@@ -182,7 +182,6 @@ if ($rtype != 1) {
         }
     }
 }
-
 if ($mode == 2) { //外卖
 
     $dispatchprice = $store['dispatchprice'];
@@ -215,7 +214,11 @@ if ($mode == 2) { //外卖
         $distanceprice = $this->getdistanceprice($storeid, $distance);
         $pi_yf = floatval($distanceprice['dispatchprice']);
         $dispatchprice = floatval($distanceprice['dispatchprice'])-$psf;
-   	    $order_ps_type=1;
+//        p(floatval($distanceprice['dispatchprice']));
+//        p($distance);
+//        p($psf);
+//        p($dispatchprice);die;
+        $order_ps_type=1;
     }else{
 //        $dispatchprice=0;
 //        $pi_yf=0;
@@ -235,6 +238,7 @@ if ($mode == 2) { //外卖
         }
     }
 }
+
 if ($mode == 1) { //店内
     if ($store['is_tea_money'] == 1) {
         $teavalue = $counts * floatval($store['tea_money']);

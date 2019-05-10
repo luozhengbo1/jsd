@@ -14,6 +14,7 @@ $(function() {
         return d * Math.PI / 180.0
     };
     var geolocation = new BMap.Geolocation();
+    console.log(geolocation)
     if (document.location.href.indexOf("/shop/all/") == 0) {
         geolocation = null
     };
