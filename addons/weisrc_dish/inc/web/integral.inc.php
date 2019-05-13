@@ -65,12 +65,12 @@ if ($operation == 'display') {
     $coupon_count3 = pdo_fetchcolumn("SELECT COUNT(1) FROM " . tablename($this->table_coupons) . " WHERE type = 3 AND type<>4 AND weid=:weid AND storeid={$storeid} ", array(':weid' => $weid));
 } else if ($operation == 'post') {
     $id = intval($_GPC['id']);
+//    p($id);die;
     $reply = pdo_fetch("select * from " . tablename($this->table_coupons) . " where id = :id AND weid=:weid
             LIMIT 1", array(':id' => $id, ':weid' => $weid));
 
     $goodslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid=:weid ORDER BY
     displayorder DESC,id DESC", array(':weid' => $weid), 'id');
-
     if (!empty($reply)) {
         if (!empty($reply['thumb'])) {
             $thumb = tomedia($reply['thumb']);
@@ -99,6 +99,7 @@ if ($operation == 'display') {
     if (checksubmit('submit')) {
  
         $goodsid = implode(',', $_GPC['goodsid']);
+//        p($goodsid);die;
 
         $data = array(
             'weid' => intval($_W['uniacid']),
@@ -112,7 +113,7 @@ if ($operation == 'display') {
             'type' => intval($_GPC['type']),
             'dcredit' => intval($_GPC['dcredit']),
             'attr_type' => 1,
-            // 'goodsids' => $goodsid,
+             'goodsids' => $goodsid,
             'gmoney' => floatval($_GPC['gmoney']),
             'dmoney' => floatval($_GPC['dmoney']),
             'starttime' => strtotime($_GPC['datelimit']['start']),

@@ -229,16 +229,17 @@ foreach ($couponlist as $k => $v){
            //删除不是当前店面的优惠劵
            unset($couponlist[$k]);
    }
-   if (isset($v["goodsids"])){
-        //删除不是当前商品的优惠劵
-        $goodsids = explode(",",$v["goodsids"]);
-        if (!in_array(0,$goodsids)){
-            $goodsids_cart = array_column($cart,"goodsid");
-            if (empty(array_intersect($goodsids,$goodsids_cart))){
-                unset($couponlist[$k]);
-            }
-        }
-    }
+
+//   if (isset($v["goodsids"])){
+//        //删除不是当前商品的优惠劵
+//        $goodsids = explode(",",$v["goodsids"]);
+//        if (!in_array(0,$goodsids)){
+//            $goodsids_cart = array_column($cart,"goodsid");
+//            if (empty(array_intersect($goodsids,$goodsids_cart))){
+//                unset($couponlist[$k]);
+//            }
+//        }
+//    }
 }
 //查询会员卡
 $huiyuan_ka = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_member_ka')."as a left join ".tablename('weisrc_dish_member')." as b on a.weid = b.weid where a.weid ='{$weid}' and a.user='{$from_user}' and a.endtime>'{$time}' ");
@@ -397,7 +398,7 @@ if($psnum == 2){//邮递
 
     $dispatchprice = 0;
 }
-
+$goodsids = join(array_column($cart,'id'),',');
 //echo "<pre>";
 //print_r($storeid);
 //print_r($couponlist);die;

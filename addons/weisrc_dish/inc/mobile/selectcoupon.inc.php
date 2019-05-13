@@ -4,7 +4,22 @@ $weid = $this->_weid;
 $from_user = $this->_fromuser;
 $couponid = intval($_GPC['couponid']);
 //var_dump('aaa'.$couponid);
-$coupon = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_sncode')."as a left join ".tablename('weisrc_dish_coupons')." as b on a.couponid = b.id where a.id = {$couponid} and a.weid = :weid and a.from_user =:from_user and a.status = 0",array(':weid'=>$weid,':from_user'=>$from_user));
+$coupon = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_sncode')."as a left join ".tablename('weisrc_dish_coupons')." as b on a.couponid = b.id 
+    where a.id = {$couponid} and a.weid = :weid and a.from_user =:from_user and a.status = 0",
+    array(':weid'=>$weid,':from_user'=>$from_user));
+$goodsids = $_GPC['goodsids'];
+$goodsids = explode(',',$goodsids);
+$flag =true ;
+if( !empty($coupon['goodsids']) ){
+    $conpgoodsids = explode(',',$coupon['goodsids']);
+    $flag = array_intersect($conpgoodsids, $goodsids);
+    $flag= $flag?true:false;
+}
+//p($_GPC['goodsids']);
+//p($conpgoodsids);
+//p($goodsids);
+//p($flag);die;
+//p($_GPC['goodsids']);die;
 //var_dump($coupon);
 // //$mode = intval($_GPC['mode']);
 
@@ -28,5 +43,6 @@ $coupon = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_sncode')."as a left j
 
 $result['gmoney'] = $coupon['gmoney'];
 $result['dprice'] = $coupon['dmoney'];
+$result['code'] =$flag ;
 echo json_encode($result);
 exit;

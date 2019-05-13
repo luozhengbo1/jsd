@@ -423,7 +423,7 @@
                                 {loop $cart $item}
                                 {if $item['total']>0}
                                 <div>
-                                    <div class="delivery-item-name">
+                                    <div class="delivery-item-name" >
                                         {$item['title']}
                                         {if !empty($item['optionname'])}
                                         [{$item['optionname']}]
@@ -1118,17 +1118,18 @@ $(document).ready(function(e) {
         }
         if (true) {
             var url = "{php echo $this->createMobileUrl('selectcoupon', array('mode' => $mode), true)}";
+            var goodsids="{$goodsids}"
             $.ajax({
                 url: url, type: "post", dataType: "json", timeout: "10000",
                 data: {
-                    "couponid": couponid
+                    "couponid": couponid,
+                    "goodsids":goodsids,
                 },
                 success: function (data) {
                     console.log(data)
                     var gmoney = data.gmoney;
-                    if(totalM - gmoney >= 0 ){
+                    if(totalM - gmoney >= 0 &&  data.code ){
                         $('#dprice').val(data.dprice);//优惠金额
-                        
                     }else{
                         $('#dprice').val('0');
                         $("#tishi").text("优惠券不可用").css("display","block");
