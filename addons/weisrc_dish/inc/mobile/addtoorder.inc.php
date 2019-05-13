@@ -26,9 +26,9 @@ if ($is_auto_address == 0) {
     $lng = trim($_GPC['lng']);
 }
 //百度转高德计算距离
-$postionlatlng = $this->baiduMapTogaodeMap($lng,$lat);
-$lat=$postionlatlng['lat'];
-$lng=$postionlatlng['lng'];
+//$postionlatlng = $this->baiduMapTogaodeMap($lng,$lat);
+//$lat=$postionlatlng['lat'];
+//$lng=$postionlatlng['lng'];
 $is_handle_goods = 1; //是否处理商品
 if ($mode == 5 || $mode == 6) {
     $is_handle_goods = 0;

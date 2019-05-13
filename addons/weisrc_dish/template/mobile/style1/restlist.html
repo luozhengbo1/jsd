@@ -250,8 +250,10 @@
         <input type="hidden" id="cururl" name="cururl" value="{php echo $this->createMobileurl('waprestlist', array('typeid' => $typeid,'areaid' => $areaid, 'sortid' => $sortid), true)}" />
 <!--        <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=5PESLgvMcSbSUbPjmDKgvGZ3"></script>-->
 <!--        {if $isposition==0}-->
-        <div id="container"></div>
-        <script type="text/javascript" src="../addons/weisrc_dish/template/js/postion.js?v=4"></script>
+        <div id="container" style="display: none;"></div>
+<!--        <script type="text/javascript" src="../addons/weisrc_dish/template/js/postion.js?v=4"></script>-->
+        <script type="text/javascript" src='https://webapi.amap.com/maps?v=1.4.14&key=c93e1e293e5b1c3dc581f3ff633144d3&plugin=AMap.PlaceSearch,AMap.Geocoder'></script>
+        <script type="text/javascript" src="../addons/weisrc_dish/template/js/postion-gd.js?v=3"></script>
 <!--        {/if}-->
         <script>
             //top行为

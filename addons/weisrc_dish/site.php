@@ -203,8 +203,8 @@ class weisrc_dishModuleSite extends Core
         $config['source_id'] = $store['source_id'];
        $data=array();
           //先转换一下坐标
-          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
-//        $transpoint = ['lng'=>$order['lng'],'lat'=>$order['lat']];
+//          $transpoint = $this->baiduMapTogaodeMap($order['lng'], $order['lat']);
+        $transpoint = ['lng'=>$order['lng'],'lat'=>$order['lat']];
         //发单请求数据,只是样例数据，根据自己的需求进行更改。
           $data2 = array(
              'shop_no'=>  $store['shop_no'],//门店编号
@@ -7525,7 +7525,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
         global $_W, $_GPC;
         $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
         $setting = $this->getSetting();
-        $ts_times = $_GPC['ts_times']?$_GPC['ts_times']:$setIsSpeak['yy_ts_time'];
+        $ts_times = $setIsSpeak['yy_ts_time'];
         $res = pdo_get('weisrc_dish_stores',['id'=>intval($_GPC['storeid'])],'is_speaker');
         if ($res['is_speaker'] == 1) {
             $is_speaker = 1;
@@ -7535,7 +7535,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
                 $param = array(':weid' => $this->_weid,':ts_times'=>$ts_times);
             } else {
                 $store = $this->getStoreById($storeid);
-                if ($store['is_speaker']==1) {
+                if ( $store['is_speaker']==1 ) {
                     $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times_pc<:ts_times   ";
                     $param = array(':weid' => $this->_weid,':storeid'=>$storeid,':ts_times'=>$ts_times);
                 } else {
