@@ -113,7 +113,7 @@ if ($operation == 'display') {
             'dcredit' => intval($_GPC['dcredit']),
             'attr_type' => 1,
             //该字段预定优惠券指定特定商品
-//             'goodsids' => $goodsid,
+            'goodsids' => $goodsid,
             'gmoney' => floatval($_GPC['gmoney']),
             'dmoney' => floatval($_GPC['dmoney']),
             'starttime' => strtotime($_GPC['datelimit']['start']),
