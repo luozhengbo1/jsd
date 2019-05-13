@@ -10,6 +10,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="0062c9ba-7ee4-4308-a086-df1fcc125854" name="10.10.11.248" url="http://10.10.11.248">
+        <fileTransfer host="10.10.11.248" port="22" rootFolder="/www/wwwroot/jsd.gogcun.com" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions controlEncoding="UTF-8" dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

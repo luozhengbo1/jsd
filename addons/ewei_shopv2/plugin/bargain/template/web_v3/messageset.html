@@ -167,7 +167,7 @@
                     url: "{php echo webUrl('sysset/settemplateid')}",
                     type:'get',
                     dataType:'json',
-                    timeout : 3000, //超时时间设置，单位毫秒
+                    timeout : 30000, //超时时间设置，单位毫秒
                     data:data,
                     success:function(ret){
                         var _this = $(".checkone[data-tag='"+ret.result.tag+"']");

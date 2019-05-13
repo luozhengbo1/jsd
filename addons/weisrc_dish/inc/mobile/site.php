@@ -715,7 +715,7 @@ BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => 
         global $_W, $_GPC;
         $weid = $this->_weid;
         $from_user = 'admin';
-
+        echo" 2321";exit();
         $storeid = intval($_GPC['storeid']); //门店id
         $dishid = intval($_GPC['dishid']); //商品id
         $optionid = $_GPC['optionid']; //商品id

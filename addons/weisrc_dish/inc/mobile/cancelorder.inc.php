@@ -6,6 +6,7 @@ $id = intval($_GPC['id']);
 if (empty($from_user)) {
     $this->showMsg('请重新发送关键字进入系统!');
 }
+
 if ($id == 0) { //未选队列
     $this->showMsg('请先选择订单!');
 } else { //已选队列
@@ -65,6 +66,8 @@ if ($id == 0) { //未选队列
     }
 
     pdo_update($this->table_order, array('status' => -1), array('id' => $id));
+    //添加用户取消订单记录
+    $this->addOrderLog($id, $order['from_user'], 1, 1, 5);
     $this->feiyinSendFreeMessage($id);
     $this->_365SendFreeMessage($id);
     $this->feieSendFreeMessage($id);

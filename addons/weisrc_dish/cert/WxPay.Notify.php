@@ -55,6 +55,7 @@ class WxPayNotify extends WxPayNotifyReply
 	final public function NotifyCallBack($data)
 	{
 		$msg = "OK";
+		var_dump($data);exit();
 		$result = $this->NotifyProcess($data, $msg);
 		
 		if($result == true){

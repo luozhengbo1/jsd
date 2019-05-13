@@ -12,7 +12,6 @@ $store = $this->getStoreById($storeid);
 if (empty($store)) {
     message('门店不存在!');
 }
-
 $category = pdo_fetchall("SELECT * FROM " . tablename($this->table_category) . " WHERE weid = :weid And storeid=:storeid ORDER BY parentid ASC, displayorder DESC", array(':weid' => $weid, ':storeid' => $storeid), 'id');
 
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';

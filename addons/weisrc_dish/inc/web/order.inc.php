@@ -539,6 +539,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
 
     $rowcount = 0;
     $notrowcount = 0;
+
     foreach ($_GPC['idArr4'] as $k => $id) {
         $id = intval($id);
         if (!empty($id)) {
