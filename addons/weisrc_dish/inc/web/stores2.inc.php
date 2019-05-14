@@ -298,6 +298,7 @@ if ($operation == 'setting') {
             }
             $data['thumbs'] = iserializer($thumbs);
         } else {
+            message('请上传门店实景图片。', '', 'error');
             $data['thumbs'] = '';
         }
         if (!$this->exists()) {
@@ -313,10 +314,10 @@ if ($operation == 'setting') {
             }
         }
         if (istrlen($data['title']) == 0) {
-            message('没有输入标题.', '', 'error');
+            message('没有输入门店名称。', '', 'error');
         }
         if (istrlen($data['title']) > 30) {
-            message('标题不能多于30个字。', '', 'error');
+            message('门店名称不能多于30个字。', '', 'error');
         }
         if (istrlen($data['tel']) == 0) {
 //                    message('没有输入联系电话.', '', 'error');
