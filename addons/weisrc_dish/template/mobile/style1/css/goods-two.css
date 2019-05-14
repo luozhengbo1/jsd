@@ -592,14 +592,14 @@ text-align:center; z-index:100000}
     border-radius: 50%;
     color: #fff;
     display: none;
-    font-size: 12px;
-    height: 15px;
-    line-height: 16px;
+    font-size: 10px;
+    height: 19px;
+    line-height: 18px;
     position: absolute;
     right: 0;
     text-align: center;
     top: 2px;
-    width: 15px;
+    width: 19px;
 }
 .cart-noempty {
     display: none;
@@ -863,14 +863,14 @@ img.baitem {
 	 background-color: #ff6900;
     border-radius: 50%;
     color: #fff;
-    font-size: 12px;
-    height: 15px;
-    line-height: 16px;
+    font-size: 10px;
+    height: 19px;
+    line-height: 19px;
     position: absolute;
     right: 0;
     text-align: center;
     top: -2px;
-    width: 15px;
+    width: 19px;
 	}
 .popup-cart-actions {
     padding: 0 0 0 12px;
