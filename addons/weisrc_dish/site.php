@@ -7529,21 +7529,18 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
     public function doWebCheckOrder()
     {
         global $_W, $_GPC;
-        $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
-        $setting = $this->getSetting();
-        $ts_times = $setIsSpeak['yy_ts_time'];
         $res = pdo_get('weisrc_dish_stores',['id'=>intval($_GPC['storeid'])],'is_speaker');
-        if ($res['is_speaker'] == 1) {
+        if ($res['is_speaker'] == 1 &&  intval($_GPC['storeid']) ) {
             $is_speaker = 1;
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
-                $strwhere = " WHERE weid=:weid AND status=0 and ts_times<:ts_times";
-                $param = array(':weid' => $this->_weid,':ts_times'=>$ts_times);
+                $strwhere = " WHERE weid=:weid AND status=0 and `ts_times`<`yy_ts_time`";
+                $param = array(':weid' => $this->_weid);
             } else {
                 $store = $this->getStoreById($storeid);
                 if ( $store['is_speaker']==1 ) {
-                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and ts_times_pc<:ts_times   ";
-                    $param = array(':weid' => $this->_weid,':storeid'=>$storeid,':ts_times'=>$ts_times);
+                    $strwhere = " WHERE weid=:weid AND status=0 AND storeid=:storeid  and `ts_times_pc`<`yy_ts_time`";
+                    $param = array(':weid' => $this->_weid,':storeid'=>$storeid);
                 } else {
                     $is_speaker = 0;
                 }
@@ -7565,17 +7562,14 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
     public function doMobileCheckOrder()
     {
         global $_W, $_GPC;
-        $setting = $this->getSetting();
-        $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
-        if ($setIsSpeak['is_speaker'] == 1) {
-            //提示次數
-            $ts_times = $setIsSpeak['yy_ts_time'];
+        $res = pdo_get('weisrc_dish_stores',['id'=>intval($_GPC['storeid'])],'is_speaker');
+        if ( $res['is_speaker'] == 1 ) {
             //第幾次
             $storeid = intval($_GPC['storeid']);
             if ($storeid == 0) {
                 $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid));
             } else {
-                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and ts_times<:ts_times   ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid, ':storeid' => $storeid,':ts_times'=>$ts_times));
+                $service = pdo_fetch("SELECT id,content,ts_times,ts_type FROM " . tablename($this->table_service_log) . " WHERE weid=:weid AND status=0 AND storeid=:storeid and `ts_times`<`yy_ts_time`   ORDER BY id DESC LIMIT 1", array(':weid' => $this->_weid, ':storeid' => $storeid));
             }
             if ($service) {
                 $update = ['ts_times'=>$service['ts_times']+1];

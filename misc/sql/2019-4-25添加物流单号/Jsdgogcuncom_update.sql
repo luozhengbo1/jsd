@@ -21,5 +21,6 @@ alter table  `ims_weisrc_dish_order` add `order_ps_type` tinyint(1) default 2 CO
 	update  ims_weisrc_dish_order set order_ps_type=1;
 	update  `ims_weisrc_dish_stores` set  is_dada=1;
 	alter table `ims_weisrc_dish_coupons` add `goodsids` text  COMMENT '商品id';
+	alter table `ims_weisrc_dish_service_log` add `yy_ts_time` int(11) default 3 COMMENT '实时语音提示次数';
 
 

@@ -46,8 +46,10 @@ if ($id == 0) { //未选队列
         pdo_update($this->table_order, array('ispay' => 2), array('id' => $id));
         //將生成對應的語音提示信息
         if($order){
+
             $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid  and ts_type=2 limit 1',array(':orderid'=>$order['orderid']));
             if(!$yytsres){
+                $setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
                 pdo_insert("weisrc_dish_service_log",
                     array(
                         'orderid' => $order['id'],
@@ -58,6 +60,7 @@ if ($id == 0) { //未选队列
                         'dateline' => TIMESTAMP,
                         'status' => 0,
                         'ts_type'=>2,
+                        'yy_ts_time'=>$setIsSpeak['yy_ts_time'],
                     )
                 );
             }

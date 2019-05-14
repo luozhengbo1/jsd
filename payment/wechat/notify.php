@@ -61,7 +61,7 @@ load()->classs('coupon');
 
 //訂單語音提示
 $ordertsData = pdo_fetch('select id,ordersn,storeid,from_user from'.tablename("weisrc_dish_order")." where transid=:transid limit 1",array(':transid'=>$data['transaction_id']));
-
+$setIsSpeak = pdo_fetch("select id,is_speaker,yy_ts_time from  ".tablename('weisrc_dish_setting')." limit 1");
 if($ordertsData){
     $yytsres =  pdo_fetch('select id ,orderid  from '.tablename('weisrc_dish_service_log').' where orderid=:orderid and ts_type=1 limit 1',array(':orderid'=>$ordertsData['id']));
     if(!$yytsres){
@@ -75,6 +75,7 @@ if($ordertsData){
                 'dateline' => TIMESTAMP,
                 'status' => 0,
                 'ts_type'=>1,
+                'yy_ts_time'=>$setIsSpeak['yy_ts_time'],
             )
         );
     }
@@ -92,6 +93,7 @@ if($ordertsData){
                     'dateline' => TIMESTAMP,
                     'status' => 0,
                     'ts_type'=>3,
+                    'yy_ts_time'=>$setIsSpeak['yy_ts_time'],
                 )
             );
         }
