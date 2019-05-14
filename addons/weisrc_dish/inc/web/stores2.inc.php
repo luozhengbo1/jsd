@@ -298,6 +298,7 @@ if ($operation == 'setting') {
             }
             $data['thumbs'] = iserializer($thumbs);
         } else {
+            message('请上传门店实景图片。', '', 'error');
             $data['thumbs'] = '';
         }
         if (!$this->exists()) {
