@@ -415,14 +415,14 @@
         </div>
         <div class="space-8"></div>
        <div class="section">
-            <div class="list-item ddb-form-control">
-                <div class="ddb-form-label">总价格</div>
-                <div class="input-field">
-                    {if $order['status']==1 || $order['status']==3 || $order['ispay']==1 }{$order['totalprice']}{/if}
-                    <input type="{if $order['status']==1 || $order['status']==3 || $order['ispay']==1 }hidden{else}text{/if}" class="ddb-form-input ng-pristine ng-untouched ng-valid"  style="border:1px solid #ffa39e;" placeholder="输入订单总价" value="{$order['totalprice']}" name="totalprice" id="totalprice">
-                </div>
+        <div class="list-item ddb-form-control">
+            <div class="ddb-form-label">总价格</div>
+            <div class="input-field">
+                {if $order['status']==1 || $order['status']==3 || $order['ispay']==1 }{$order['totalprice']}{/if}
+                <input type="{if $order['status']==1 || $order['status']==3 || $order['ispay']==1 }hidden{else}text{/if}" class="ddb-form-input ng-pristine ng-untouched ng-valid"  style="border:1px solid #ffa39e;" placeholder="输入订单总价" value="{$order['totalprice']}" name="totalprice" id="totalprice">
             </div>
         </div>
+    </div>
         <div class="section ng-scope">
             <div class="list-item ddb-form-control">
                 <textarea placeholder="请输入备注（可不填）" class="ng-pristine ng-untouched ng-valid" name="remark"
