@@ -67,13 +67,14 @@ $dispatchareas = pdo_fetchall("SELECT * FROM " . tablename($this->table_dispatch
 
 
 $useraddress = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE weid=:weid AND from_user=:from_user AND isdefault=1 LIMIT 1", array(':weid' => $weid, ':from_user' => $from_user));
-
-$goods =  pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid=:weid ORDER BY id ASC", array(':weid' => $weid));
-foreach ($goods as $key => $value) {
+$cart = pdo_fetchall("SELECT * FROM " . tablename($this->table_cart) . " WHERE  storeid=:storeid AND from_user=:from_user AND weid=:weid", array(':storeid' => $storeid, ':from_user' => $from_user, ':weid' => $weid));
+//var_dump($cart);exit();
+//$goods =  pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid=:weid ORDER BY id ASC", array(':weid' => $weid));
+foreach ($cart as $key => $value) {
      // echo $value;
-        $send_way = $value['send_way'];
+        $send_way = $value['psnum'];
 }
-$psnum = $send_way;
+$psnum = $psnum?$psnum:$send_way;
 // var_dump($send_way);
 $select_mealdate = '';
 if (!empty($store['delivery_within_days'])) {
