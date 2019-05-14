@@ -2067,7 +2067,7 @@ BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => 
         // print_r($mem);
         // echo "</pre>";exit();
         $sql = "SELECT * FROM " . tablename($this->table_fans) . " WHERE `weid`=:weid AND `nickname` LIKE :nickname ORDER
-BY lasttime DESC,id DESC LIMIT 0,8";
+BY lasttime DESC,id DESC ";
         $params = array();
         $params[':weid'] = $_W['uniacid'];
         $params[':nickname'] = "%{$kwd}%";
@@ -2079,7 +2079,6 @@ BY lasttime DESC,id DESC LIMIT 0,8";
             $r['headimgurl'] = $row['headimgurl'];
             $r['from_user'] = $row['from_user'];
             $row['entry'] = $r;
-
         }
         include $this->template('web/_query_fans');
     }
