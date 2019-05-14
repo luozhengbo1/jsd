@@ -20,5 +20,6 @@ ALTER  TABLE  `ims_weisrc_dish_sncode`  ADD  INDEX index_weid(`weid`);
 alter table  `ims_weisrc_dish_order` add `order_ps_type` tinyint(1) default 2 COMMENT '订单配送类型1表示是有补贴的订单，2表示没有补贴的订单';
 	update  ims_weisrc_dish_order set order_ps_type=1;
 	update  `ims_weisrc_dish_stores` set  is_dada=1;
+	alter table `ims_weisrc_dish_coupons` add `goodsids` text  COMMENT '商品id';
 
 

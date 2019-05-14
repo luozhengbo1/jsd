@@ -123,6 +123,8 @@
     })
     $("#inputIcon").click(function () {
         $("#pickerInput").val("");
+        $('#lat').val('')
+        $('#lon').val('')
     })
     var map = new AMap.Map('container', {
         zoom: 13
@@ -207,7 +209,6 @@
         markers.push(marker);
         removeMarkers();
         marker.setMap(map);
-        console.log(e.lnglat);
         marker.setPosition([Lng,Lat]);
         map.setCenter(marker.getPosition());
         if(   e['lng']    ) {
@@ -221,9 +222,9 @@
     }
     //解析定位结果
     function onComplete(data) {
-        addMarker(data.position)
-        console.log( data.position)
-
+        // addMarker(data.position)
+        $('#lon').val(data.position.lng)
+        $('#lat').val(data.position.lat)
     }
     //删除点标记
     function removeMarkers(){

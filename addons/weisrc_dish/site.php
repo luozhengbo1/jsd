@@ -4772,7 +4772,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
 
             }
-
+            //付款单推送
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 1){
                 //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
@@ -5068,10 +5068,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
-                $remark .= "\n商品名称   单价 数量";
+                $remark .= "\n商品名称 属性  单价 数量  小计";
                 $remark .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $remark .= "\n{$value['title']} {$value['price']}元 {$value['total']}{$value['unitname']}";
+                    $remark .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
 
@@ -5163,10 +5163,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
-                $content .= "\n商品名称   单价 数量";
+                $content .= "\n商品名称 属性  单价 数量  小计";
                 $content .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $content .= "\n{$value['title']} {$value['price']} {$value['total']}{$value['unitname']}";
+                    $content .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
             if ($order['dining_mode'] == 3) {
@@ -5256,11 +5256,18 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $remark .= "\n支付状态：{$paystatus[$order['ispay']]}";
 
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
+//            if (!empty($goods)) {
+//                $remark .= "\n商品名称   单价 数量";
+//                $remark .= "\n－－－－－－－－－－－－－－－－";
+//                foreach ($goods as $key => $value) {
+//                    $remark .= "\n{$value['title']} {$value['price']}元 {$value['total']}{$value['unitname']}";
+//                }
+//            }
             if (!empty($goods)) {
-                $remark .= "\n商品名称   单价 数量";
+                $remark .= "\n商品名称 属性  单价 数量  小计";
                 $remark .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $remark .= "\n{$value['title']} {$value['price']}元 {$value['total']}{$value['unitname']}";
+                    $remark .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
 
@@ -5366,10 +5373,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             }
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
-                $content .= "\n商品名称   单价 数量";
+                $content .= "\n商品名称 属性  单价 数量  小计";
                 $content .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $content .= "\n{$value['title']} {$value['price']} {$value['total']}{$value['unitname']}";
+                    $content .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
             if ($order['dining_mode'] == 3) {
