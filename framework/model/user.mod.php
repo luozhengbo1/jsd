@@ -166,10 +166,10 @@ function user_single($user_or_uid) {
 		return false;
 	}
 	if (!empty($user['password'])) {
-		// $password = user_hash($user['password'], $record['salt']);
-		// if ($password != $record['password']) {
-		// 	return false;
-		// }
+		 $password = user_hash($user['password'], $record['salt']);
+		 if ($password != $record['password']) {
+		 	return false;
+		 }
 	}
 	if (!empty($record['owner_uid'])) {
 		$record['vice_founder_name'] = pdo_getcolumn('users', array('uid' => $record['owner_uid']), 'username');
