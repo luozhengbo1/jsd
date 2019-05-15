@@ -561,7 +561,7 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
         $coin = floatval($order['totalprice']);
-        if ($refund_price > $coin) {
+        if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
             message('退款金额不能大于订单金额！', $url, 'success');
         }
 

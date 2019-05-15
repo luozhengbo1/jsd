@@ -690,7 +690,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
         $coin = floatval($order['totalprice']);
-        if ($refund_price > $coin || $refund_price+$order['refund_price']>$order['totalprice']) {
+        if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
             message('退款金额不能大于订单金额！', $url, 'success');
         }
         $store = $this->getStoreById($order['storeid']);
