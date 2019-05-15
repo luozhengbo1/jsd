@@ -567,6 +567,7 @@
             }else{
                 money2 /=100
             }
+            money2=parseInt(money2*100)/100;
             $("#refund_price").val(money2);
             $("#id").val($(this).attr("data-orderid"));
             $('#order-operator-modal').modal();

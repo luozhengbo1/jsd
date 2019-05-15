@@ -4772,7 +4772,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
             }
             //付款单推送
-            if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 1){
+            if($order["ispay"] == 1 && $order["status"] == 1 && ($store["store_type"] == 1 || $store["store_type"]==2) ){
                 //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
@@ -4791,7 +4791,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
-                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+              //  file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
                 $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
                 $content1 .= "\n联系方式：{$tel['tel']}";
                 //$this->addsendmsg($content1,$order['from_user'],$type=3);
@@ -4799,7 +4799,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
-                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+              //  file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
 
             }
             if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) ){
