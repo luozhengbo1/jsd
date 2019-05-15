@@ -321,7 +321,7 @@
         <div class="col-sm-9">
             <div class="row row-fix">
                 <div class="col-xs-4 col-sm-4">
-                    <input type="text" id="lon" name="baidumap[lng]" value="{$reply['lng']}" placeholder="地理经度111" class="form-control">
+                    <input type="text" id="lon" name="baidumap[lng]" value="{$reply['lng']}" placeholder="地理经度" class="form-control">
                 </div>
                 <div class="col-xs-4 col-sm-4">
                     <input type="text" id="lat" name="baidumap[lat]" value="{$reply['lat']}" placeholder="地理纬度" class="form-control">
@@ -492,7 +492,7 @@
     }
     //删除点标记
     function removeMarkers(){
-        map.remove(markers);
+        map.remove(marker);
     }
     //移除之前的标点
     // function removeMarkers(lnglatXY){
@@ -524,22 +524,18 @@
                 raiseOnDrag: true
 
             });
-            marker.setMap(map);
             map.setZoomAndCenter(14, lnglatXY);
+            marker.setMap(map);
             // map.setFitView();// 执行定位
             t++;
-            console.log(11111111111)
         }
 
         //修改标点位置
         if(t != 1){
-            console.log(33333)
+            // 同时传入缩放级别和中心点经纬度
             map.setZoomAndCenter(14, lnglatXY);
-           //  marker.setPosition(lnglatXY);
-           // // map.setCenter(lnglatXY);
-           //  // 同时传入缩放级别和中心点经纬度
-           //  marker.setMap(map);
-           //  map.setFitView();// 执行定位
+            marker.setPosition(lnglatXY);
+            marker.setMap(map);
         }
 
     }
