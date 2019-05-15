@@ -445,6 +445,7 @@
         });
         // 加载搜索列表
         myMapViewLocation();
+        writeAddress([ $("#lon").val(),$("#lat").val()]);
         AMap.service(["AMap.PlaceSearch"], function() {
             placeSearch = new AMap.PlaceSearch({ //构造地点查询类
                 pageSize: 5,
