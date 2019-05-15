@@ -346,13 +346,11 @@
 <div id="order-logistics-modal"  class="modal fade" tabindex="-1" >
     <div class="modal-dialog" style='width: 80%;'>
         <div class="modal-content" style="height: 780px; ">
-            <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×
-            </button><h3>坐标选择</h3></div>
             <div id="container" ></div>
             <div class="">
                <div   class="form-group" style="position:absolute;top:20px;left:10%;">
                 <span>地址:</span>
-                <input name="resourceAddress" id="addressmap" style="width:350px;">
+                <input name="resourceAddress" id="addressmap" style="width:600px;">
                 <button onclick="markLocation()" type="button">搜索</button>
                     <button type="button" class="btn btn-default" style="display: inline-block" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" id="suremap" style="display: inline-block" data-dismiss="modal">确定</button>
@@ -446,6 +444,7 @@
         // 加载搜索列表
         myMapViewLocation();
         writeAddress([ $("#lon").val(),$("#lat").val()]);
+        addMarker([ $("#lon").val(),$("#lat").val()]);
         AMap.service(["AMap.PlaceSearch"], function() {
             placeSearch = new AMap.PlaceSearch({ //构造地点查询类
                 pageSize: 5,
@@ -463,7 +462,8 @@
             console.log(e.lnglat.lat)
             // 填写地址
             writeAddress([e.lnglat.lng,e.lnglat.lat]);
-            mapsearch();
+            removeMarkers()
+            addMarker([e.lnglat.lng,e.lnglat.lat]);
         });
         //placeSearch.search("北京");
         $("#addressmap").on("keydown",function(event){
@@ -490,18 +490,23 @@
             addMarker(lnglatXY);
         }
     }
-    //移除之前的标点
-    function removeMarkers(lnglatXY){
-        marker = new AMap.Marker({
-            map: map,
-            position: lnglatXY,
-            icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-            offset: new AMap.Pixel(-13, -30)
-        });
-        var markers = [];
-        markers.push(marker);
+    //删除点标记
+    function removeMarkers(){
         map.remove(markers);
     }
+    //移除之前的标点
+    // function removeMarkers(lnglatXY){
+    //
+    //     marker = new AMap.Marker({
+    //         map: map,
+    //         position: lnglatXY,
+    //         icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+    //         offset: new AMap.Pixel(-13, -30)
+    //     });
+    //     var markers = [];
+    //     markers.push(marker);
+    //     map.remove(markers);
+    // }
 
     var t=1;
     // 实例化点标记
@@ -509,7 +514,7 @@
         if(t == 1) {
             console.log(lnglatXY);
             marker = new AMap.Marker({
-                icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
                 position: lnglatXY,
                 offset: new AMap.Pixel(-13, -30),
                 // 设置是否可以拖拽
@@ -517,18 +522,24 @@
                 cursor: 'move',
                 // 设置拖拽效果
                 raiseOnDrag: true
+
             });
             marker.setMap(map);
-            map.setFitView();// 执行定位
+            map.setZoomAndCenter(14, lnglatXY);
+            // map.setFitView();// 执行定位
             t++;
+            console.log(11111111111)
         }
 
         //修改标点位置
         if(t != 1){
-            marker.setPosition(lnglatXY);
-            map.setCenter(lnglatXY);
-            marker.setMap(map);
-            map.setFitView();// 执行定位
+            console.log(33333)
+            map.setZoomAndCenter(14, lnglatXY);
+           //  marker.setPosition(lnglatXY);
+           // // map.setCenter(lnglatXY);
+           //  // 同时传入缩放级别和中心点经纬度
+           //  marker.setMap(map);
+           //  map.setFitView();// 执行定位
         }
 
     }

@@ -346,6 +346,7 @@ ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
 
             }
         }
+
         return $total1;
     }
     //门店已提现金额

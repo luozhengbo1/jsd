@@ -452,6 +452,7 @@ if ($append == 2) {
         $quicknum = $this->getQuickNum($storeid);
         $data['quicknum'] = $quicknum;
     }
+    $data['order_ps_type'] =$order_ps_type;
     //保存订单
     pdo_insert($this->table_order, $data);
     $orderid = pdo_insertid();
