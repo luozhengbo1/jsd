@@ -127,6 +127,13 @@ if ($operation == 'post') {
         if (empty($data['pcate'])) {
             message('请选择商品分类！');
         }
+        //今日库存小于今日销量判断
+        if ($data['counts'] !=-1 ) {
+            if($data['counts'] < $data['today_counts']){
+                message("今日库存需大于今日已售");
+            }
+        }
+
 
         if (!empty($_FILES['thumb']['tmp_name'])) {
             load()->func('file');
