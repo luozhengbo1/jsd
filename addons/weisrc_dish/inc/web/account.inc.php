@@ -46,7 +46,7 @@ if ($operation == 'post') {
         $user['status'] = $_GPC['status'];
 //            $user['groupid'] = intval($_GPC['groupid']) ? intval($_GPC['groupid']) : message('请选择所属用户组');
         $user['groupid'] = -1;
-
+        $user['openid'] = trim($_GPC['from_user']);
         if (empty($users)) {
             if (user_check(array('username' => $user['username']))) {
                 message('非常抱歉，此用户名已经被注册，你需要更换注册名称！');
@@ -85,7 +85,7 @@ if ($operation == 'post') {
                     'remark' => trim($_GPC['remark']),
                     'dateline' => TIMESTAMP,
                     'username' => trim($_GPC['truename']),
-                    'role' => 1,
+                    'role' => 5,
                     'is_admin_order' => intval($_GPC['is_admin_order']),
                     'is_notice_order' => intval($_GPC['is_notice_order']),
                     'is_notice_service' => intval($_GPC['is_notice_service']),
@@ -107,7 +107,8 @@ if ($operation == 'post') {
                 'status' => intval($_GPC['status']),
                 'remark' => trim($_GPC['remark']),
                 'dateline' => TIMESTAMP,
-                'role' => 1,
+                //角色设计有问题
+                'role' => 5,
                 'username' => trim($_GPC['truename']),
                 'is_admin_order' => intval($_GPC['is_admin_order']),
                 'is_notice_order' => intval($_GPC['is_notice_order']),
@@ -126,14 +127,16 @@ if ($operation == 'post') {
         $strwhere .= " OR c.title LIKE '%{$_GPC['keyword']}%'";
     }
     $pindex = max(1, intval($_GPC['page']));
-    $psize = 10;
+    $psize = 15;
     $list = pdo_fetchall("SELECT a.*,b.username AS username,b.status AS status FROM " . tablename($this->table_account) . " a LEFT JOIN
-" . tablename('users') . " b ON a.uid=b.uid LEFT JOIN ims_weisrc_dish_stores c ON a.storeid = c.id WHERE a.weid = :weid AND a.role=1 $strwhere ORDER BY a.id DESC LIMIT
+" . tablename('users') . " b ON a.uid=b.uid LEFT JOIN ims_weisrc_dish_stores c ON a.storeid = c.id WHERE a.weid = :weid AND (a.role=1 or a.role=5) and b.username is not null  $strwhere ORDER BY a.id DESC LIMIT
 " . ($pindex - 1) * $psize . ',' . $psize, array(':weid' => $this->_weid));
-
+//    $sql = "SELECT a.*,b.username AS username,b.status AS status FROM " . tablename($this->table_account) . " a LEFT JOIN
+//    " . tablename('users') . " b ON a.uid=b.uid LEFT JOIN ims_weisrc_dish_stores c ON a.storeid = c.id WHERE a.weid =  $this->_weid (a.role=1 or a.role=5) $strwhere ORDER BY a.id DESC ";
+//    echo $sql;die;
     if (!empty($list)) {
         $total = pdo_fetchcolumn('SELECT COUNT(1) FROM ' . tablename($this->table_account) . " a LEFT JOIN
-" . tablename('users') . " b ON a.uid=b.uid LEFT JOIN ims_weisrc_dish_stores c ON a.storeid = c.id WHERE a.weid = :weid AND a.role=1 $strwhere ORDER BY a.id ", array(':weid' => $this->_weid));
+" . tablename('users') . " b ON a.uid=b.uid LEFT JOIN ims_weisrc_dish_stores c ON a.storeid = c.id WHERE a.weid = :weid AND (a.role=1 or a.role=5) and b.username is not null $strwhere ORDER BY a.id ", array(':weid' => $this->_weid));
         $pager = pagination($total, $pindex, $psize);
     }
 } else if ($operation == 'delete') {

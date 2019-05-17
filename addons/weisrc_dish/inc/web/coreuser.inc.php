@@ -26,7 +26,6 @@ if ($operation == 'display') {
     $psize = 10;
     $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_account) . "  WHERE weid = :weid AND role<>1 $strwhere ORDER BY id DESC LIMIT
 " . ($pindex - 1) * $psize . ',' . $psize, array(':weid' => $this->_weid));
-
     foreach($list as $key => $value) {
         $fans = $this->getFansByOpenid($value['from_user']);
         $list[$key]['headimgurl'] = $fans['headimgurl'];
