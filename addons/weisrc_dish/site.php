@@ -8450,8 +8450,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
                 }
             } else {
                 pdo_update($this->table_order, array('ispay' => 4), array('id' => $refund_order['id']));
-                print_r($result);
-                exit;
+
                 return 0;
             }
         } else {

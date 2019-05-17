@@ -132,7 +132,9 @@
 
     AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
         var poiPicker = new PoiPicker({
-            input: 'pickerInput'
+            input: 'pickerInput',
+            offset:15,
+            page:1,
         });
         //初始化poiPicker
         poiPickerReady(poiPicker);
