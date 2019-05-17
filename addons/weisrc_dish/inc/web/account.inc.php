@@ -121,14 +121,19 @@ if ($operation == 'post') {
     }
 } else if ($operation == 'display') {
     $strwhere = '';
+    if (!empty($_GPC['keyword'])) {
+        $strwhere .= " AND b.username LIKE '%{$_GPC['keyword']}%'";
+        $strwhere .= " OR c.title LIKE '%{$_GPC['keyword']}%'";
+    }
     $pindex = max(1, intval($_GPC['page']));
     $psize = 10;
     $list = pdo_fetchall("SELECT a.*,b.username AS username,b.status AS status FROM " . tablename($this->table_account) . " a LEFT JOIN
-" . tablename('users') . " b ON a.uid=b.uid WHERE a.weid = :weid AND a.role=1 $strwhere ORDER BY id DESC LIMIT
+" . tablename('users') . " b ON a.uid=b.uid LEFT JOIN ims_weisrc_dish_stores c ON a.storeid = c.id WHERE a.weid = :weid AND a.role=1 $strwhere ORDER BY a.id DESC LIMIT
 " . ($pindex - 1) * $psize . ',' . $psize, array(':weid' => $this->_weid));
 
     if (!empty($list)) {
-        $total = pdo_fetchcolumn('SELECT COUNT(1) FROM ' . tablename($this->table_account) . " WHERE weid = :weid $strwhere", array(':weid' => $this->_weid));
+        $total = pdo_fetchcolumn('SELECT COUNT(1) FROM ' . tablename($this->table_account) . " a LEFT JOIN
+" . tablename('users') . " b ON a.uid=b.uid LEFT JOIN ims_weisrc_dish_stores c ON a.storeid = c.id WHERE a.weid = :weid AND a.role=1 $strwhere ORDER BY a.id ", array(':weid' => $this->_weid));
         $pager = pagination($total, $pindex, $psize);
     }
 } else if ($operation == 'delete') {
