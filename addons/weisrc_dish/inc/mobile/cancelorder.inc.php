@@ -31,7 +31,7 @@ if ($id == 0) { //未选队列
     }
     $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND from_user=:from_user AND status=0 ORDER BY id DESC LIMIT 1", array(':id' => $id, ':from_user' => $from_user));
     if (empty($order)) {
-        $this->showMsg('订单不存在！');
+        $this->showMsg('订单已取消！');
     }
     $store = $this->getStoreById($order['storeid']);
 
