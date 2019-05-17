@@ -701,9 +701,11 @@
                 },
                 success: function (data) {
                     if (data.status == 1) {
+                        alert("取消订单成功");
                         location.href="{php echo $this->createMobileUrl('order', array(), true)}";
                     } else {
                         alert(data.msg);
+                        location.href="{php echo $this->createMobileUrl('order', array(), true)}";
                     }
                 },error: function (res,b,c) {
                     // console.log(res)
