@@ -101,7 +101,8 @@ if (!empty($fans)) {
             $sub = 1;
         }
     } else {
-        if ($_W['fans']['follow'] == 1) {
+        $fans_follow =  mc_fansinfo($from_user);
+        if ($fans_follow['follow'] == 1) {
             $sub = 1;
         }
     }
