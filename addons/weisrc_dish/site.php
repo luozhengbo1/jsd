@@ -4899,7 +4899,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             'openid' => $from_user,
             'status' => 0,
             'type' => $type,
-            'sendtime' => date('Y-m-d H:i:s')
+            'createtime' => date('Y-m-d H:i:s')
         );
         pdo_insert($this->table_sendmsg, $insert);
     }

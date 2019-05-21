@@ -15,7 +15,7 @@
         public function index()
         {
             $time = time();
-            $time1 = $time-3600;
+            $time1 = $time-60*10;
             $sql = "select id,ispay,status,storeid,totalnum,weid,totalprice,from_user,ordersn from ims_weisrc_dish_order where  ispay=0 and  status=0  and dateline < $time1 ";
             $query = self::$obj->query($sql);
             while($row = $query->fetch_array()){
