@@ -1034,8 +1034,8 @@ class WeiXinAccount extends WeAccount {
 		} elseif(!empty($result['errcode'])) {
 			return error(-1, "访问微信接口错误, 错误代码: {$result['errcode']}, 错误信息: {$result['errmsg']},错误详情：{$this->errorCode($result['errcode'])}");
 		}
-		return true;
-	}
+        return $result;
+    }
 
 	
 	public function sendTplNotice($touser, $template_id, $postdata, $url = '', $topcolor = '#FF683F') {

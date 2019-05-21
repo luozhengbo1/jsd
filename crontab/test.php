@@ -9,7 +9,6 @@ class Test{
         );
         private $conn;
         public $table = "ims_weisrc_dish_sendmsg";
-        public $filecache;
         /**
          * 测试推送
          */
@@ -24,32 +23,29 @@ class Test{
             $select = "select * from ".$this->table." where status=0 ";
             $result = $this->conn->query($select);
 //            echo "<pre>";
-//            echo 4;
             $updatesql = '';
             while ( $row= $result->fetch_assoc()){
                 if (!empty($row['openid'])) {
                     // 立即返回
                     ignore_user_abort(true);
                     ob_start();
+                    //"oW-VD01zhPdr764rS0AO8yFAAX9E"
+                    $data =  $this->reply_customer($row['openid'], $row['id']."时间:".date('Y-m-d H:i:s')."\n".$row['content']);
                     header('Connection: close');
                     header('Content-Length: ' . ob_get_length());
                     ob_end_flush();
                     ob_flush();
                     flush();
-                    $data =  $this->reply_customer($row['openid'], $row['id']."时间:".date('Y-m-d H:i:s')."\n".$row['content']);
-                    file_put_contents('/www/wwwroot/ts.log',  print_r($data,true),8);
+//                    print_r($data);
                     if($data->errcode==0 && $data->errmsg=="ok"){
-                        $updatesql .= " update ".$this->table." set status = 1 where id =". $row['id']."; "  ;
+                        $updatesql .= " update ".$this->table." set status = 1,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; "  ;
                     }
-
                 }
             }
             $this->conn->multi_query($updatesql);
-
         }
 
         public  function reply_customer($touser,$content){
-
             //更换成自己的APPID和APPSECRET
             $APPID="wx0fd57bd3a7fc8709";
             $APPSECRET="155b63989772784550b867c8a96d23a4";
@@ -58,9 +54,7 @@ class Test{
 
             $json=file_get_contents($TOKEN_URL);
             $result=json_decode($json);
-
             $ACC_TOKEN=$result->access_token;
-
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$ACC_TOKEN;
             $data = '{
                 "touser":"'.$touser.'",
