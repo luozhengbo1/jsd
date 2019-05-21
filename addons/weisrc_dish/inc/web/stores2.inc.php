@@ -326,8 +326,8 @@ if ($operation == 'setting') {
             if (istrlen($data['tel']) == 0){
                 message('请完善信息', '', 'error');
             }
-            if (!preg_match("/^1[34578]\d{9}$/", $data['tel'])){
-                message('请输入11位有效的手机号', '', 'error');
+            if (!preg_match("/^\d{1,12}$/", $data['tel'])){
+                message('请输入有效的号码', '', 'error');
             }
         }
         if($data['store_type'] != 1 ){
