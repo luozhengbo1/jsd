@@ -420,9 +420,46 @@
         // 加入高的地图
         map = new AMap.Map('container', {
             resizeEnable: true,
-            zoom:17
+            zoom:13
             /*center: [116.397428, 39.90923] */
-        });
+        })
+        if( $("#lon").val() && $("#lat").val() ){
+            // 加载搜索列表
+            console.log( $("#lon").val())
+            writeAddress([ $("#lon").val(),$("#lat").val()]);
+            addMarker([ $("#lon").val(),$("#lat").val()]);
+        }else{
+            AMap.plugin('AMap.Geolocation', function() {
+                var geolocation = new AMap.Geolocation({
+                    enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                    timeout: 10000,          //超过10秒后停止定位，默认：5s
+                    buttonPosition:'RB',    //定位按钮的停靠位置
+                    buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                    zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+
+                });
+                map.addControl(geolocation);
+                geolocation.getCurrentPosition(function(status,result){
+                    if(status=='complete'){
+                        onComplete(result)
+                        console.log('定位成功')
+                    }else{
+                        // onError(result)
+                        onComplete(result)
+                        console.log('定位失败')
+                    }
+                });
+            });
+            function onComplete(data) {
+                var   locLng = data.position.lng;
+                var  locLat = data.position.lat;
+                $("#lon").val(locLng)
+                $("#lat").val(locLat)
+                addMarker([locLng,locLat]);
+                writeAddress([ locLng,locLat]);
+            }
+        }
+
         //输入提示
         var auto = new AMap.Autocomplete({
             input: "addressmap"
@@ -442,10 +479,7 @@
             });
             //TODO: 使用geocoder 对象完成相关功能
         });
-        // 加载搜索列表
-        myMapViewLocation();
-        writeAddress([ $("#lon").val(),$("#lat").val()]);
-        addMarker([ $("#lon").val(),$("#lat").val()]);
+
         AMap.service(["AMap.PlaceSearch"], function() {
             placeSearch = new AMap.PlaceSearch({ //构造地点查询类
                 pageSize: 5,
@@ -495,25 +529,15 @@
     function removeMarkers(){
         map.remove(marker);
     }
-    //移除之前的标点
-    // function removeMarkers(lnglatXY){
-    //
-    //     marker = new AMap.Marker({
-    //         map: map,
-    //         position: lnglatXY,
-    //         icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-    //         offset: new AMap.Pixel(-13, -30)
-    //     });
-    //     var markers = [];
-    //     markers.push(marker);
-    //     map.remove(markers);
-    // }
+
 
     var t=1;
     // 实例化点标记
     function addMarker(lnglatXY) {
+        map.setZoom(15);
+        console.log(lnglatXY);
         if(t == 1) {
-            console.log(lnglatXY);
+            console.log(2)
             marker = new AMap.Marker({
                 icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
                 position: lnglatXY,
@@ -527,16 +551,18 @@
             });
             map.setZoomAndCenter(14, lnglatXY);
             marker.setMap(map);
-            // map.setFitView();// 执行定位
+            map.setFitView();// 执行定位
             t++;
         }
 
         //修改标点位置
         if(t != 1){
+            console.log(1)
             // 同时传入缩放级别和中心点经纬度
             map.setZoomAndCenter(14, lnglatXY);
             marker.setPosition(lnglatXY);
             marker.setMap(map);
+            map.setFitView();// 执行定位
         }
 
     }
@@ -544,7 +570,7 @@
     // 填写地址
     function writeAddress(lnglatXY){
         var geocoder = new AMap.Geocoder({
-            city : "重庆", //城市，默认：“全国”
+            city : "全国", //城市，默认：“全国”
             radius : 1000 //范围，默认：500
         });
         geocoder.getAddress(lnglatXY, function(status, result) {
