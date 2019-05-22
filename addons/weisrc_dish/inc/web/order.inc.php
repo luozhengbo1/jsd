@@ -693,6 +693,27 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
             message('退款金额不能大于订单金额！', $url, 'success');
         }
+
+        //开始分摊金额  is_return 表示商品未退的进行分摊。
+        //  $refund_price=0.05;
+        //  $order['totalprice']= 0.5;
+        $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$id) );
+        $totalRealPrice = 0;
+        foreach ($ordergoodsList as $k=>$v){
+            //  $ordergoodsList[$k]['real_price']=  floor($v['price']*$v['total']/$order['totalprice'] * $refund_price *100)/100;
+            $ordergoodsList[$k]['real_price']=  number_format($v['price']*$v['total']/$order['totalprice'] * $refund_price,2) ;
+            $totalRealPrice+= $ordergoodsList[$k]['real_price'];
+            // p($ordergoodsList[$k]['real_price']);
+        }
+        $errorMoney = ($refund_price*100 - $totalRealPrice*100)/100 ;
+        $ordergoodsList[0]['real_price'] =($ordergoodsList[0]['real_price']*100+ $errorMoney*100)/100;
+        //  p($errorMoney);
+        foreach ($ordergoodsList as $k=>$v){
+            $updateRealMoney['real_price'] = $v['real_price'];
+            pdo_update(tablename('weisrc_dish_order_goods'),$updateRealMoney,array('id'=>$v['id']));
+        }
+        //分摊结束
+//        die;
         $store = $this->getStoreById($order['storeid']);
         if ($order['paytype'] == 2) { //微信支付
             if ($cur_store['is_jxkj_unipay'] == 1) { //万融收银

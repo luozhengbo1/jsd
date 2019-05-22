@@ -124,7 +124,7 @@ if ($sortid == 1) { //正在营业
 
 if (!empty($restlist)) {
     foreach ($restlist as $key => $value) {
-//        $good_count = pdo_fetchcolumn("SELECT sum(sales) FROM " . tablename($this->table_goods) . " WHERE storeid=:id ", array(':id' => $value['id']));
+        $good_count = pdo_fetchcolumn("SELECT sum(sales) FROM " . tablename($this->table_goods) . " WHERE storeid=:id ", array(':id' => $value['id']));
         $restlist[$key]['sales'] = intval($good_count);
         $newlimitprice = '';
         $oldlimitprice = '';
