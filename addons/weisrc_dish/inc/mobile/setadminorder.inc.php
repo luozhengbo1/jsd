@@ -8,7 +8,14 @@ $status = trim($_GPC['status']);
 $totalprice = floatval($_GPC['totalprice']);
 $remark = trim($_GPC['remark']);
 
-$orderstatus = array('cancel' => -1, 'confirm' => 1, 'finish' => 3, 'pay' => 2, 'updateprice' => 4, 'print' => 5);
+$orderstatus = array(
+    'cancel' => -1,
+    'confirm' => 1,
+    'finish' => 3,
+    'pay' => 2,
+    'updateprice' => 4,
+    'print' => 5
+);
 
 if (empty($orderstatus[$status])) {
     message('对不起，您没有该功能的操作权限!!');
@@ -85,6 +92,32 @@ if ($orderstatus[$status] == 2) { //支付
     if ($order['ispay'] == 1) {
         $update_data['ispay'] = 2;//待退款
     }
+    $cacle_order = pdo_fetch("select id,status from ".tablename('weisrc_dish_order')." where id=:id ",array(':id'=>$id) );
+    if($cacle_order['status']==-1 ){
+        message('操作失败！该订单已经取消', $this->createMobileUrl('adminorderdetail', array('orderid' => $id), true), 'error');
+        die;
+    }
+    //將商品庫存加回來
+    $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts,b.today_counts,b.sales,a.dateline from
+            ".tablename('weisrc_dish_order_goods')."as a left join
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid and b.counts<>-1";
+    $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
+    if(!empty($goodsList) && is_array($goodsList)){
+        $today_start = strtotime(date('Y-m-d 00:00:00'));
+        $today_end = strtotime(date('Y-m-d 23:59:59'));
+        foreach ($goodsList as $k=>$v){
+            //判斷订单是否当天订单
+            if(  $v['dateline']>=$today_start && $v['dateline']<=$today_end   ){
+                //减去销量
+                $todaySales = $v['today_counts']-$v['total'];
+                $todaySales = $todaySales<=0?0:$todaySales;
+                $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$v['total']);
+                $update=['today_counts' =>$todaySales,'sales'=>$sales];
+                pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
+            }
+        }
+    }
+
     $update_data['status'] = $orderstatus[$status];
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));
     $this->cancelfengniao($order, $store, $setting);

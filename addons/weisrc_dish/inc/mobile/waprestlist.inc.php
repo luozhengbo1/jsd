@@ -107,7 +107,7 @@ if ($sortid == 1) {
 }
 $this->resetHour();
 //p($sortid);die;
-//$lat = "26.621761";
+//$lat = "26.651761";
 //$lng = "106.644928";
 if ($sortid == 1) { //正在营业
     $timein = date('H:i');

@@ -61,6 +61,10 @@
             float: right;
             color: #999999
         }
+        .btnan{
+            padding: 5px 10px;
+            margin: 5px 10px;
+        }
     </style>
 </head>
 <body>
@@ -73,21 +77,27 @@
     </div>
     <div class="ddb-nav-footer ng-scope" style="text-align:center;">
         {if $order['status']==0}
-        <span class="button border-green" onclick="confirmorder()">确认</span>
+            {if $order['ispay']==1}
+            <span class="button border-green btnan" onclick="confirmorder()">确认</span>
+            {/if}
         {/if}
-        <span class="button border-red" onclick="cancelorder()">取消</span>
         {if $order['ispay']==0}
-        <span class="button border-green" onclick="payorder()">支付</span>
+        <span class="button border-green btnan" onclick="payorder()">支付</span>
+        {/if}
+        {if $order['status']!=3}
+        <span class="button border-red btnan" onclick="cancelorder()">取消</span>
         {/if}
         {if $order['ispay']==1}
-        <span class="button border-blue" onclick="finishorder()">完成</span>
+            {if $order['status']!=3}
+            <span class="button border-blue btnan" onclick="finishorder()">完成</span>
+            {/if}
         {/if}
         {if $order['paytype']==0 || $order['paytype']==3}
-        <span class="button border-green" onclick="updatepriceorder()">改价</span>
+        <span class="button border-green btnan" onclick="updatepriceorder()">改价</span>
         {/if}
         <br/>
-        <span class="button border-orange" onclick="print()">前台打印</span>
-        <span class="button border-orange" onclick="print2()">后厨打印</span>
+        <span class="button border-orange btnan" onclick="print()">前台打印</span>
+        <span class="button border-orange btnan" onclick="print2()">后厨打印</span>
         数量({$printOrderCount})
     </div>
     <div class="main-view order-show ng-scope" id="delivery-order-show" style="padding-bottom: 80px;">
@@ -423,6 +433,7 @@
             </div>
         </div>
     </div>
+        <input type="hidden" id="remark" name="remark" value="{$order['remark']}">
 <!--        <div class="section ng-scope">-->
 <!--            <div class="list-item ddb-form-control">-->
 <!--                <textarea placeholder="请输入备注（可不填）" class="ng-pristine ng-untouched ng-valid" name="remark"-->

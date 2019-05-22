@@ -123,7 +123,7 @@ if ($typeid != 0) {
 }
 if ($sortid == 1) {
     $timein = date('H:i');
-    $strwhere .=" and ({$timein}>=begintime  and {$timein}<= endtime) ";
+    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
     $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) {
     $restlist = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));

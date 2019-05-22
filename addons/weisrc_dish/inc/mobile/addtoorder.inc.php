@@ -363,6 +363,7 @@ if ($mode == 6) {
 }
 
 //加菜
+
 if ($append == 2) {
     $orderid = intval($_GPC['order_id']);
     $dishInfo = pdo_fetchall("SELECT goodsid,price,total FROM " . tablename($this->table_order_goods) . " WHERE weid=:weid AND storeid=:storeid AND orderid=:orderid", array(":weid" => $weid, ":storeid" => $storeid, ":orderid" => $orderid));
@@ -454,6 +455,7 @@ if ($append == 2) {
     }
     $data['order_ps_type'] =$order_ps_type;
     //保存订单
+//    p($data);die;
     pdo_insert($this->table_order, $data);
     $orderid = pdo_insertid();
     //$this->doEmail($title);

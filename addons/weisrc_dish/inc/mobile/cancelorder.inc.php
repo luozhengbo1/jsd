@@ -11,22 +11,24 @@ if ($id == 0) { //未选队列
     $this->showMsg('请先选择订单!');
 } else { //已选队列
     //將商品庫存加回來
-    $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts,b.today_counts from
+    $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts,b.today_counts,b.sales,a.dateline from
             ".tablename('weisrc_dish_order_goods')."as a left join
             " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid and b.counts<>-1";
     $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
 
     if(!empty($goodsList) && is_array($goodsList)){
+        $today_start = strtotime(date('Y-m-d 00:00:00'));
+        $today_end = strtotime(date('Y-m-d 23:59:59'));
         foreach ($goodsList as $k=>$v){
             //判斷商品是否啓用規格
-            if($v['isoptions']!=1){
-                $update=['today_counts' =>$v['today_counts']-$v['total']];
-                pdo_update("weisrc_dish_goods",$update,$where['id']=$v['goodsid']);
+            if(  $v['dateline']>=$today_start && $v['dateline']<=$today_end   ){
+                //减去销量
+                $todaySales = $v['today_counts']-$v['total'];
+                $todaySales = $todaySales<=0?0:$todaySales;
+                $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$v['total']);
+                $update=['today_counts' =>$todaySales,'sales'=>$sales];
+                pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
             }
-//            else{
-                //啓用規格的商品 邏輯設計有bug 沒庫存
-//            }
-
         }
     }
     $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND from_user=:from_user AND status=0 ORDER BY id DESC LIMIT 1", array(':id' => $id, ':from_user' => $from_user));
@@ -70,7 +72,7 @@ if ($id == 0) { //未选队列
 
     pdo_update($this->table_order, array('status' => -1), array('id' => $id));
     //添加用户取消订单记录
-    $this->addOrderLog($id, $order['from_user'], 1, 1, 5);
+    $this->addOrderLog($id, $_W['user']['username'], 1, 1, 5);
     $this->feiyinSendFreeMessage($id);
     $this->_365SendFreeMessage($id);
     $this->feieSendFreeMessage($id);
