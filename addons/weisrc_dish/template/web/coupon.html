@@ -192,7 +192,11 @@
         });
     });
 </script>
+
 {else if $operation == 'post'}
+<link href="{$_W['siteroot']}addons/weisrc_dish/template/plugin/selector/css/ySelect.css" rel="stylesheet" type="text/css">
+<script src="{$_W['siteroot']}addons/weisrc_dish/template/plugin/selector/js/jquery-1.11.3.min.js"></script>
+<script src="{$_W['siteroot']}addons/weisrc_dish/template/plugin/selector/js/ySelect.js"></script>
 <div class="main">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -287,7 +291,17 @@
                 </div>
                 <div class="form-group" id="print_label">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">设置优惠商品</label>
+
                     <div class="col-sm-9">
+                        <select id='m1' class="demo" multiple="multiple" name="goodsid[]" onchange="test()">
+                            <option value="0" {if $all_goods==1}selected="selected"{/if}>全部商品</option>
+                            {loop $goodslist $row}
+                            <option value="{$row['id']}"  {if count($goodsids)>0 && in_array($row['id'], $goodsids)}
+                                selected="selected"{/if}>{$row['title']}</option>
+                            {/loop}
+                        </select>
+                        <!--
+                        <button id="current" class="btn btn-primary btn-sm">查看值</button>
                         <select class="form-control" style="margin-right:15px;height: 100% !important;" name="goodsid[]" autocomplete="off" multiple="true"
                                 size="10">
                             <option value="0" {if count($goodsids)==0}selected="selected"{/if}>全部商品</option>
@@ -298,7 +312,7 @@
                         </select>
                         <span class="help-block">
                             <code>可以按住ctrl键选择多个标签，当您设置了商品后，订单包含相关的商品就会生效，无需达到消费金额。</code>
-                        </span>
+                        </span>-->
                     </div>
                 </div>
 
@@ -383,8 +397,26 @@
             </div>
         </div>
     </form>
+
+</div>
 </div>
 <script type="text/javascript">
+    $(function() {
+        $('.demo').ySelect();
+        $('.demo1').ySelect(
+            {
+                placeholder: '请先选择一些项目',
+                searchText: '搜索',
+                showSearch: true,
+                numDisplayed: 1000000,
+                overflowText: '已选中 {n}项',
+                isCheck:false
+            }
+        );
+    });
+    function test(){
+       // alert($("#m1").ySelectedValues(","))
+    }
     $(function () {
         var property = ""
 //        $(":radio[name='attr_type']").click(function () {

@@ -78,6 +78,10 @@ if ($operation == 'display') {
 
         if (!empty($reply['goodsids'])) {
             $goodsids = explode(',', $reply['goodsids']);
+            $all_goods = 0;
+            if (in_array(0, $goodsids)){
+                $all_goods = 1;
+            }
         }
     }
 
@@ -97,9 +101,10 @@ if ($operation == 'display') {
     }
 
     if (checksubmit('submit')) {
-
+        if(empty($_GPC['goodsid'])){
+            message('请设置优惠商品', '', 'error');
+        }
         $goodsid = implode(',', $_GPC['goodsid']);
-
         $data = array(
             'weid' => intval($_W['uniacid']),
             'title' => trim($_GPC['title']),
