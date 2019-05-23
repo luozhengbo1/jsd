@@ -65,8 +65,6 @@ if ($operation == 'display') {
     $coupon_count3 = pdo_fetchcolumn("SELECT COUNT(1) FROM " . tablename($this->table_coupons) . " WHERE type = 3 AND type<>4 AND weid=:weid AND storeid={$storeid} ", array(':weid' => $weid));
 } else if ($operation == 'post') {
     $id = intval($_GPC['id']);
-//    p($id);die;
-    $is_all = 1;
     $reply = pdo_fetch("select * from " . tablename($this->table_coupons) . " where id = :id AND weid=:weid
             LIMIT 1", array(':id' => $id, ':weid' => $weid));
     $where_store = "WHERE weid = {$weid} AND deleted=0";
@@ -82,13 +80,18 @@ if ($operation == 'display') {
             $goodsids = explode(',', $reply['goodsids']);
         }
     }
+
     if (!empty($reply['storeids'])) {
         $storeids = explode(',', $reply['storeids']);
-        $all_storeids = 0;
-        if (in_array(0, $storeids)){
-            $all_storeids = 1;
-        }
     }
+    if ($reply['storeids'] != 0){
+        $storegoods = pdo_fetchall("SELECT title,id  FROM " . tablename($this->table_goods) . " WHERE weid=:weid AND storeid IN (".$reply['storeids'].") ORDER BY
+    displayorder DESC,id DESC", array(':weid' => $weid), 'id');
+    }
+    if (!empty($reply['goodsids'])) {
+        $goodsids = explode(',', $reply['goodsids']);
+    }
+
     if (!empty($reply)) {
         $starttime = date('Y-m-d H:i', $reply['starttime']);
         $endtime = date('Y-m-d H:i', $reply['endtime']);
@@ -103,15 +106,28 @@ if ($operation == 'display') {
         $starttime = date('Y-m-d H:i');
         $endtime = date('Y-m-d H:i', TIMESTAMP + 86400 * 30);
     }
-
+    if ($reply['storeids'] == 0){
+        $is_all = 1;
+    }else{
+        $is_all = 0;
+    }
     if (checksubmit('submit')) {
- 
-        //$goodsid = implode(',', $_GPC['goodsid']);
-//        p($goodsid);die;
-        $storeids = implode(',', $_GPC['storeids']);
+        if ($_GPC["is_all"] == 0){
+            if (!empty($_GPC["goodsids"])){
+                $goodsid = implode(',', $_GPC['goodsids']);
+            }
+            if (empty($_GPC['storeids'])){
+                message('设置优惠店铺', '', '');
+            }
+            $storeids = implode(',', $_GPC['storeids']);
+        }else{
+            $goodsid = 0;
+            $storeids = 0;
+        }
         $data = array(
             'weid' => intval($_W['uniacid']),
             'title' => trim($_GPC['title']),
+            'storeid' => $storeid,
             'storeids' => $storeids,
             'content' => trim($_GPC['content']),
             'thumb' => trim($_GPC['thumb']),

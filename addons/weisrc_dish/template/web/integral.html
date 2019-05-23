@@ -300,7 +300,11 @@
                                             selected="selected"{/if}>{$row['title']}</option>
                                         {/loop}
                                     </select>
-                                    <select id='m2' class="demo1" multiple="multiple" name="goodsids[]"onclick="goods_list()">
+                                    <select id='m2' class="demo1" multiple="multiple" name="goodsids[]">
+                                        {loop $storegoods $row}
+                                        <option value="{$row['id']}" {if count($goodsids)>0 && in_array($row['id'], $goodsids)}
+                                            selected="selected"{/if}>{$row['title']}</option>
+                                        {/loop}
                                     </select>
                                     <!--<div class="fs-wrap multiple">
                                         <div class="fs-label-wrap" onclick="goods_list()">
