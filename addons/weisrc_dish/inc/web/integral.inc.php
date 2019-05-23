@@ -66,9 +66,11 @@ if ($operation == 'display') {
 } else if ($operation == 'post') {
     $id = intval($_GPC['id']);
 //    p($id);die;
+    $is_all = 1;
     $reply = pdo_fetch("select * from " . tablename($this->table_coupons) . " where id = :id AND weid=:weid
             LIMIT 1", array(':id' => $id, ':weid' => $weid));
-
+    $where_store = "WHERE weid = {$weid} AND deleted=0";
+    $storeslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$where_store} order by displayorder desc,id desc");
     $goodslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid=:weid ORDER BY
     displayorder DESC,id DESC", array(':weid' => $weid), 'id');
     if (!empty($reply)) {
@@ -80,7 +82,13 @@ if ($operation == 'display') {
             $goodsids = explode(',', $reply['goodsids']);
         }
     }
-
+    if (!empty($reply['storeids'])) {
+        $storeids = explode(',', $reply['storeids']);
+        $all_storeids = 0;
+        if (in_array(0, $storeids)){
+            $all_storeids = 1;
+        }
+    }
     if (!empty($reply)) {
         $starttime = date('Y-m-d H:i', $reply['starttime']);
         $endtime = date('Y-m-d H:i', $reply['endtime']);
@@ -98,13 +106,13 @@ if ($operation == 'display') {
 
     if (checksubmit('submit')) {
  
-        $goodsid = implode(',', $_GPC['goodsid']);
+        //$goodsid = implode(',', $_GPC['goodsid']);
 //        p($goodsid);die;
-
+        $storeids = implode(',', $_GPC['storeids']);
         $data = array(
             'weid' => intval($_W['uniacid']),
             'title' => trim($_GPC['title']),
-            'storeid' => $storeid,
+            'storeids' => $storeids,
             'content' => trim($_GPC['content']),
             'thumb' => trim($_GPC['thumb']),
             'levelid' => intval($_GPC['levelid']),
@@ -364,6 +372,27 @@ lasttime DESC,id DESC ", array(':weid' => $weid, ':storeid' => $storeid, ':time'
      message('没有相关用户！', referer(), 'error');
     print_r($_GPC);
     exit;
+}elseif($operation == "getgoods"){
+    global $_W, $_GPC;
+    $storeids = $_GPC["storeids"];
+    if ($_GPC["goodsids"]!=''){
+        $goodsids = explode(',', $_GPC["goodsids"]);
+    }
+    $weid = $this->_weid;
+    if ($storeids !=''){
+        $where = "AND storeid IN ({$storeids})";
+        $goodslist = pdo_fetchall("SELECT title,id FROM " . tablename($this->table_goods) . " WHERE weid=:weid {$where} ORDER BY displayorder DESC,id DESC", array(':weid' => $weid), 'id');
+        foreach ($goodslist as $k => $v){
+            if (!empty($goodsids) && in_array($v["id"], $goodsids)){
+                $goodslist[$k]["selected"] = 1;
+            }
+        }
+    }
+    $data["msg"] = "提示";
+    $data["data"] = $goodslist;
+    $result = array('data' =>$data, 'status' => 1);
+    echo json_encode($result);
+    exit();
 }
 
 include $this->template('web/integral');

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>网站常用简易分页jQuery插件代码</title>
+<meta name="keywords" content="网站常用,简易分页,jQuery插件,代码" />
+<meta name="description" content="网站常用简易分页jQuery插件代码下载。" /> 
+<meta name="author" content="js代码" />
+<meta name="copyright" content="js代码" />
+<link type="text/css" rel="stylesheet" href="css/jquery.pagination.css" />
+<script src="js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="js/jquery.pagination.min.js"></script>
+</head>
+
+<body>
+<div class="box">
+	<div id="pagination1" class="page fl"></div>
+	<div class="info fl">
+		<p>当前页数：<span id="current1">1</span></p>
+	</div>
+</div>
+<div class="box">
+	<div id="pagination2" class="page fl"></div>
+	<div class="info fl">
+		<p>当前页数：<span id="current2">6</span></p>
+	</div>
+</div>
+<div class="box">
+	<div id="pagination3" class="page fl"></div>
+	<div class="info fl">
+		<p>当前页数：<span id="current3">8</span></p>
+	</div>
+</div>
+<script type="text/javascript">
+$(function() {
+	$("#pagination1").pagination({
+		currentPage: 1,
+		totalPage: 12,
+		callback: function(current) {
+			$("#current1").text(current)
+		}
+	});
+
+	$("#pagination2").pagination({
+		currentPage: 6,
+		totalPage: 12,
+		isShow: false,
+		count: 6,
+		prevPageText: "< 上一页",
+		nextPageText: "下一页 >",
+		callback: function(current) {
+			$("#current2").text(current)
+		}
+	});
+
+	$("#pagination3").pagination({
+		currentPage: 8,
+		totalPage: 16,
+		isShow: true,
+		count: 7,
+		homePageText: "首页",
+		endPageText: "尾页",
+		prevPageText: "上一页",
+		nextPageText: "下一页",
+		callback: function(current) {
+			$("#current3").text(current)
+		}
+	});
+});
+</script>
+</body>
+</html>
