@@ -91,7 +91,7 @@ if ($operation == 'post') {
             'endtime' => trim($_GPC['endtime']),
             'startdate' => strtotime($_GPC['datelimit']['start']),
             'enddate' => strtotime($_GPC['datelimit']['end']),
-            'counts' => intval($_GPC['counts']),
+            'counts' => (intval($_GPC['basic_counts'])==-1)?-1: intval($_GPC['add_counts'])+intval($_GPC['basic_counts']),
             'today_counts' => intval($_GPC['today_counts']),
             'sales' => intval($_GPC['sales']),
             'isspecial' => empty($_GPC['marketprice']) ? 1 : 2,
@@ -111,6 +111,9 @@ if ($operation == 'post') {
             'dateline' => TIMESTAMP,
             'startcount' => intval($_GPC['startcount']),
             'send_way' => intval($_GPC['send_way']),
+            //库存
+            'add_counts'=> intval($_GPC['add_counts']),
+            'basic_counts'=> intval($_GPC['basic_counts']),
         );
 
         if ($data['startcount'] < 1) {
@@ -150,6 +153,7 @@ if ($operation == 'post') {
         } else {
             unset($data['dateline']);
             pdo_update($this->table_goods, $data, array('id' => $id));
+//            die;
         }
         /*if (intval($_GPC['counts']) != -1){
         //需要校验库存

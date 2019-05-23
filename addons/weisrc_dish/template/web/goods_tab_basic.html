@@ -1,3 +1,13 @@
+<style>
+    .i-add-btn{
+        font-size: 33px;
+        line-height:20px; text-align:center; border-radius:20px;
+    /*background-color:#fbd163;*/
+    background-color:{$style_list_base};
+    padding: 5px 5px;
+    margin: 5px;
+    }
+</style>
 <div class="tab-pane  active" id="tab_basic">
     <div class="panel panel-default">
         <div class="panel-heading">商品编辑</div>
@@ -82,7 +92,7 @@
                         </div>
                         <div class="help-block"></div>
                     </div>
-                </div>
+                </div>每日库存
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">原价</label>
                     <div class="col-sm-9">
@@ -107,7 +117,10 @@
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">每日库存</label>
                     <div class="col-sm-9">
-                        <input type="text" name="counts" class="form-control" value="{if empty($item)}-1{else}{$item['counts']}{/if}" />
+                        <input type="text" name="basic_counts"  value="{if empty($item)}-1{else}{$item['basic_counts']}{/if}" />
+                        <a href="javascript:;" onclick="addcount(0)"><i class="i-add-btn">-</i></a>
+                        <input type="number" name="add_counts" value="{if  empty($item)|| $item['basic_counts']==-1} 0{else}{$item['add_counts']}{/if}" />
+                        <a href="javascript:;" onclick="addcount(1)"><i class="i-add-btn">+</i></a>
                         <div class="help-block">-1表示不限制</div>
                     </div>
                 </div>
@@ -202,3 +215,12 @@
             </div>
     </div>
 </div>
+<script>
+    function addcount(flag) {
+        if(flag==1){
+            $('input[name="add_counts"]').val(  parseInt($('input[name="add_counts"]').val())+1)
+        }else{
+            $('input[name="add_counts"]').val( parseInt( $('input[name="add_counts"]').val())-1)
+        }
+    }
+</script>
