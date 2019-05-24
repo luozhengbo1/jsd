@@ -13,7 +13,7 @@ if ($id == 0) { //未选队列
     //將商品庫存加回來
     $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts,b.today_counts,b.sales,a.dateline from
             ".tablename('weisrc_dish_order_goods')."as a left join
-            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid and b.counts<>-1";
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid ";
     $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
 
     if(!empty($goodsList) && is_array($goodsList)){

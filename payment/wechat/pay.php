@@ -67,7 +67,6 @@ if (!empty($_GPC['code'])) {
 $_W['uniacid'] = $log['uniacid'];
 $_W['openid'] = $log['openid']?$log['openid']:'';
 
-
 if(!is_array($setting['payment'])) {
 	exit('没有设定支付参数.');
 }
@@ -77,7 +76,8 @@ $sql = 'SELECT `key`,`secret` FROM ' . tablename('account_wechats') . ' WHERE `a
 $row = pdo_fetch($sql, array(':acid' => $wechat['account']));
 $wechat['appid'] = $row['key'];
 $wechat['secret'] = $row['secret'];
-$wechat['openid'] = $payopenid;
+//$wechat['openid'] = $payopenid;
+$wechat['openid'] = $_W['openid'];
 $params = array(
 	'tid' => $log['tid'],
 	'fee' => $log['card_fee'],
@@ -85,12 +85,16 @@ $params = array(
 	'title' => urldecode($params['title']),
 	'uniontid' => $log['uniontid'],
 );
+
 if (intval($wechat['switch']) == 3 || intval($wechat['switch']) == 2) {
 	$wOpt = wechat_proxy_build($params, $wechat);
-} else {
+} else { // 走这
     unset($wechat['sub_mch_id']);
 	$wOpt = wechat_build($params, $wechat);
 }
+
+//p($wechat);
+//p($wOpt);die;
 
 
 if (is_error($wOpt)) {

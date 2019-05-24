@@ -592,7 +592,7 @@
                             {/loop}
                         </td>
                         <td>
-                            {if $item['ispay']==0}
+                            {if $item['status']!=3 }
                             <a class="btn btn-warning btn-sm btn_goods_show" href="javascript:void(0);" title="退菜"
                                data-value="{$row['goodsid']}">退菜</a>
                             {/if}
@@ -743,7 +743,7 @@
     <input type="hidden" name="token" value="{$_W['token']}" />
 </form>
 <form class="form-horizontal form" action="" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="{$item[id]}">
+    <input type="hidden" name="id" id="tc_orderid" value="{$item[id]}">
     <div style="width:400px;position:absolute;top:50%;left:30%;z-index:2;display:none;" class="table_goods">
         <div class="panel panel-default">
             <div class="panel-heading">退菜数量</div>
@@ -757,7 +757,7 @@
         </div>
     </div>
     <input type="hidden" name="token" value="{$_W['token']}" />
-    <input type="hidden" id="goodsid" value="0" />
+    <input type="hidden" id="goodsid" name="goodsid" value="0" />
 </form>
 <script language="javascript">
     var display = $(".discount_display");
@@ -814,9 +814,10 @@
     }
 
     $(".table_close").click(function () {
-        goods.css('display', 'none');
+        tgoods.css('display', 'none');
     });
     $(".discount_submit").click(function () {
+        var orderid = $("#tc_orderid").val();
         var goodsid = $("#goodsid").val();
         var goodsnum = $("#goodsnum").val();
         var deliveryid = $("#deliveryid").val();

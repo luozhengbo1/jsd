@@ -7420,6 +7420,7 @@ id LIMIT 1 ", array(':weid' => $weid));
         }
     }
 
+    //这个方法是web 退菜
     public function doWebRetreat()
     {
         global $_W, $_GPC;

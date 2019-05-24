@@ -127,7 +127,7 @@
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">今日已售</label>
                     <div class="col-sm-9">
-                        <input type="text" name="today_counts" class="form-control" value="{$item['today_counts']}" />
+                        <input type="text" name="today_counts" disabled class="form-control" value="{$item['today_counts']}" />
                         <div class="help-block"></div>
                     </div>
                 </div>
@@ -139,7 +139,6 @@
                     </div>
                 </div>
             <!--isshow_sales-->
-
                 {if $_W['role'] != 'operator'}
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">购买积分</label>

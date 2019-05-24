@@ -136,6 +136,7 @@ if ($operation == 'fengniaolist') {
         if ($order['status'] == -1 || $order['ispay'] == 3) {
             message('取消和已退款订单不允许操作！', referer(), 'success');
         }
+        //如果订单未支付 只恢复库存，  如果订单已支付需要退款 并恢复库存
 
         $tableid = intval($_GPC['tableid']);
         $table = $this->getTableById($tableid);
@@ -390,7 +391,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         $this->updateFansData($order['from_user']);
         $this->updateFansFirstStore($order['from_user'], $order['storeid']);
         $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND weid=:weid LIMIT 1", array(':id' => $id, ':weid' => $this->_weid));
-        $this->sendOrderNotice($order, $store, $setting);
+        $this->sendOrderNotice($order, $cur_store, $setting);
         message('订单操作成功！', referer(), 'success');
     }
 
@@ -407,14 +408,106 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         message('确认订单操作成功！', referer(), 'success');
     }
     if (!empty($_GPC['cancel'])) {
+        $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND weid=:weid LIMIT 1", array(':id' => $id, ':weid' => $this->_weid));
+        //將商品庫存加回來
+        if($order['status']!=-1){
+            $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts,b.today_counts,b.sales,a.dateline from
+            ".tablename('weisrc_dish_order_goods')."as a left join
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid ";
+            $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
+            if(!empty($goodsList) && is_array($goodsList)){
+                $today_start = strtotime(date('Y-m-d 00:00:00'));
+                $today_end = strtotime(date('Y-m-d 23:59:59'));
+                foreach ($goodsList as $k=>$v){
+                    //判斷订单是否当天订单
+                    if(  $v['dateline']>=$today_start && $v['dateline']<=$today_end   ){
+                        //减去销量
+                        $todaySales = $v['today_counts']-$v['total'];
+                        $todaySales = $todaySales<=0?0:$todaySales;
+                        $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$v['total']);
+                        $update=['today_counts' =>$todaySales,'sales'=>$sales];
+                        pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
+                    }
+                }
+            }
+        }
+        if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
+            $refund_price = $order['totalprice'];
+            $store = $this->getStoreById($order['storeid']);
+            if ($order['paytype'] == 2) { //微信支付
+                if ($cur_store['is_jxkj_unipay'] == 1) { //万融收银
+                    $result = $this->refund4($id, $storeid);
+                } else if ($cur_store['is_jueqi_ymf'] == 1) { //崛起支付
+                    $result = $this->refund3($id, $storeid);
+                } else {
+                    $result = $this->refund2($id, $refund_price);
+                }
+                if ($result == 1) {
+
+                    //开始分摊金额  is_return 表示商品未退的进行分摊。
+                    // $refund_price=0.09;
+                    //  $order['totalprice']= 0.5;
+                    $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$id) );
+                    $totalRealPrice = 0;
+                    $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
+                    foreach ($ordergoodsList as $k=>$v){
+                        //  $ordergoodsList[$k]['real_price']=  floor($v['price']*$v['total']/$order['totalprice'] * $refund_price *100)/100;
+                        $ordergoodsList[$k]['real_tmp_price']=  number_format($v['price']*$v['total']/$totalPrice_total * $refund_price,2) ;
+                        $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
+//            p($ordergoodsList[$k]['real_price']);
+                    }
+                    $errorMoney = ($refund_price*100 - $totalRealPrice*100)/100 ;
+                    $ordergoodsList[0]['real_tmp_price'] =($ordergoodsList[0]['real_tmp_price']*100+ $errorMoney*100)/100;
+                    //  p($errorMoney);
+                    foreach ($ordergoodsList as $k=>$v){
+                        $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
+                        pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
+                    }
+//         p($ordergoodsList);        die;
+                    //分摊结束
+                    $order["refund_price1"] = $refund_price;
+                    $order["ispay"] = 3;//为了初始化订单退款推送状态
+                    $this->sendOrderNotice($order, $store, $setting);
+                }
+            } else if ($order['paytype'] == 1) {
+                $this->setFansCoin($order['from_user'], $refund_price, "码上点餐单号{$order['ordersn']}退款");
+                pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));
+                $this->sendOrderNotice($order, $store, $setting);
+                message('操作成功！', $url, 'success');
+            } else {
+                pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));
+                $this->sendOrderNotice($order, $store, $setting);
+                message('操作成功！', $url, 'success');
+            }
+        } else {
+            message('操作失败！', '', 'error');
+        }
         pdo_update($this->table_order, array('status' => -1), array('id' => $id, 'weid' => $weid));
         $this->addOrderLog($id, $_W['user']['username'], 2, 2, 5);
-        $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND weid=:weid LIMIT 1", array(':id' => $id, ':weid' => $this->_weid));
         $this->sendOrderNotice($order, $store, $setting);
         $this->cancelfengniao($order, $store, $setting);
         message('订单关闭操作成功！', referer(), 'success');
     }
     if (!empty($_GPC['open'])) {
+        $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts,b.today_counts,b.sales,a.dateline from
+            ".tablename('weisrc_dish_order_goods')."as a left join
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid ";
+        $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
+        if(!empty($goodsList) && is_array($goodsList)){
+            $today_start = strtotime(date('Y-m-d 00:00:00'));
+            $today_end = strtotime(date('Y-m-d 23:59:59'));
+            foreach ($goodsList as $k=>$v){
+                //判斷订单是否当天订单
+                if(  $v['dateline']>=$today_start && $v['dateline']<=$today_end   ){
+                    //加上销量
+                    $todaySales = $v['today_counts']+ $v['total'];
+                    $todaySales = $todaySales<=0?0:$todaySales;
+                    $sales = (($v['sales'] + $v['total'])<=0)?0:($v['sales'] + $v['total']);
+                    $update=['today_counts' =>$todaySales,'sales'=>$sales];
+                    pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
+                }
+            }
+        }
         pdo_update($this->table_order, array('status' => 0), array('id' => $id, 'weid' => $weid));
         $this->addOrderLog($id, $_W['user']['username'], 2, 2, 8);
         message('开启订单操作成功！', referer(), 'success');
@@ -589,6 +682,29 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         if (!empty($id)) {
             $order = $this->getOrderById($id);
             if ($order) {
+                //將商品庫存加回來
+                if($order['status']!=-1){
+                    $sql = "select a.total,a.goodsid,b.isoptions,a.optionid,b.counts,b.today_counts,b.sales,a.dateline from
+            ".tablename('weisrc_dish_order_goods')."as a left join
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid ";
+                    $goodsList = pdo_fetchall($sql,array(':orderid'=>$id));
+                    if(!empty($goodsList) && is_array($goodsList)){
+                        $today_start = strtotime(date('Y-m-d 00:00:00'));
+                        $today_end = strtotime(date('Y-m-d 23:59:59'));
+                        foreach ($goodsList as $k=>$v){
+                            //判斷订单是否当天订单
+                            if(  $v['dateline']>=$today_start && $v['dateline']<=$today_end   ){
+                                //减去销量
+                                $todaySales = $v['today_counts']-$v['total'];
+                                $todaySales = $todaySales<=0?0:$todaySales;
+                                $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$v['total']);
+                                $update=['today_counts' =>$todaySales,'sales'=>$sales];
+                                pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
+                            }
+                        }
+                    }
+                }
+
                 pdo_update($this->table_order, array('status' => -1), array('id' => $id, 'weid' => $weid));
                 $this->addOrderLog($id, $_W['user']['username'], 2, 2, 5);
                 $order = $this->getOrderById($id);

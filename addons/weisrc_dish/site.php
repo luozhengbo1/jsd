@@ -7729,16 +7729,19 @@ id LIMIT 1 ", array(':weid' => $weid));
         }
     }
 
+    //retreat 退菜
     public function doWebRetreat()
     {
         global $_W, $_GPC;
         $storeid = intval($_GPC['storeid']);
+        $store = $this->getStoreById($storeid);
         $this->checkPermission($storeid);
 
         $orderid = intval($_GPC['orderid']);
         $goodsid = intval($_GPC['goodsid']);
         $goodsnum = intval($_GPC['goodsnum']);//商品数量
-
+//        p($goodsnum);die;
+//        p($_GPC);die;
         if ($goodsnum == 0) {
             message('商品删除数量不能为0!');
         }
@@ -7764,7 +7767,55 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
         if ($goodsnum > $total) {
             message('退货数量大于商品数量!');
         }
+        //將商品庫存加回來
+        $sql = "select a.*,b.isoptions,b.counts,b.today_counts,b.sales,a.dateline from
+        ".tablename('weisrc_dish_order_goods')."as a left join
+        " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where a.orderid=:orderid ";
+        $goodsList = pdo_fetchall($sql,array(':orderid'=>$orderid));
+        if(!empty($goodsList) && is_array($goodsList)){
+            $today_start = strtotime(date('Y-m-d 00:00:00'));
+            $today_end = strtotime(date('Y-m-d 23:59:59'));
+            foreach ($goodsList as $k=>$v){
+                //判斷订单是否当天订单
+                if(  $v['dateline']>=$today_start && $v['dateline']<=$today_end  && $v['goodsid'] == $goodsid  ){
+                    //减去销量
+                    $todaySales = $v['today_counts']-$v['total'];
+                    $todaySales = $todaySales<=0?0:$todaySales;
+                    $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$v['total']);
+                    $update=['today_counts' =>$todaySales,'sales'=>$sales];
+                    pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
+                }
+            }
+        }
+        $refund_price =0 ;
+        if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
+            $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$orderid) );
+//            $totalRealPrice = 0;
+            $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
+            foreach ($ordergoodsList as $k=>$v){
+                if($v['goodsid']==$goodsid ){
+                    $ordergoodsList[$k]['real_tmp_price']=  (floor($v['price']/$totalPrice_total * $order['totalprice']*100) -$v['real_price']*100)/100  ;
+//                        $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
+                    $refund_price =  $ordergoodsList[$k]['real_tmp_price']*$goodsnum;
+                }
+            }
+//            $result = $this->refund2($orderid, $refund_price);
+//            var_dump($result);
+//            p($refund_price);die;
+            if($refund_price>0){
+                $result = $this->refund2($orderid, $refund_price);
+                $order["refund_price1"] = $refund_price;
+                $order["ispay"] = 3;//为了初始化订单退款推送状态
+                $weid = $this->_weid;
+                if ($result == 1) {
+                    $setting = pdo_fetch("select * from " . tablename($this->table_setting) . " where weid =:weid LIMIT 1", array(':weid' => $weid));
+                    $this->sendOrderNotice($order, $store, $setting);
+                    //退款记录
+                    $this->addOrderLog($orderid, $_W['user']['username'], 2, 2, 6);
+                }
+            }
 
+        }
         if ($total == $goodsnum) {
             pdo_delete($this->table_order_goods, array('id' => $item['id']));
         } else {
@@ -7775,10 +7826,16 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
         $goods = pdo_fetch("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid=:weid AND id=:goodsid ORDER by id
 DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $item['goodsid']));
 
+
         $touser = $_W['user']['username'] . '&nbsp;退菜：' . $goods['title'] . "*" . $goodsnum . ",";
         $this->addOrderLog($orderid, $touser, 2, 2, 1);
 
-        $totalprice = floatval($order['totalprice']) - $goodsprice;
+        //修改订单总价
+        if($refund_price == 0){
+            $totalprice = floatval($order['totalprice']) - $goodsprice;
+        }else{
+            $totalprice = floatval($order['totalprice']) - $refund_price;
+        }
         $goodsprice = floatval($order['goodsprice']) - $goodsprice;
         //更新订单金额
         pdo_update($this->table_order, array('totalprice' => $totalprice, 'goodsprice' => $goodsprice), array('weid' =>
@@ -7788,7 +7845,8 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $item['goodsid']));
 ORDER BY plid
 DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         if (!empty($paylog)) {
-            pdo_update('core_paylog', array('fee' => $_GPC['updateprice']), array('plid' => $paylog['plid']));
+//            pdo_update('core_paylog', array('fee' => $_GPC['updateprice']), array('plid' => $paylog['plid']));
+            pdo_update('core_paylog', array('fee' =>$totalprice ), array('plid' => $paylog['plid']));
         }
         if ($storeid == 0) {
             message('操作成功！', $this->createWebUrl('allorder', array('op' => 'detail', 'storeid' => $storeid, 'id' => $orderid)), 'success');
@@ -8453,7 +8511,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetTransaction_id($refundid);
 //            $input->SetOut_refund_no($refund_order['id']);
             $input->SetOut_refund_no($refund_order['id'].time());
-            $result = $WxPayApi->refund($input, 30, $path_cert, $path_key, $key);
+            $result = $WxPayApi->refund($input, 60, $path_cert, $path_key, $key);
             $result['time'] = date('Y-m-d H:i:s');
             file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($result,true)."\n",8);
             if ($result['return_code'] == 'SUCCESS') {

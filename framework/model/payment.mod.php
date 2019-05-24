@@ -78,7 +78,7 @@ function wechat_build($params, $wechat) {
 		$wechat['version'] = 1;
 	}
 	$wOpt = array();
-	if ($wechat['version'] == 1) {
+	if ($wechat['version'] == 1) { //
 		$wOpt['appId'] = $wechat['appid'];
 		$wOpt['timeStamp'] = strval(TIMESTAMP);
 		$wOpt['nonceStr'] = random(8);
@@ -132,7 +132,7 @@ function wechat_build($params, $wechat) {
 		$wOpt['signType'] = 'SHA1';
 		$wOpt['paySign'] = sha1($string);
 		return $wOpt;
-	} else {
+	} else { // zou zhe
         if (!empty($params['user']) && is_numeric($params['user'])) {
 			$params['user'] = mc_uid2openid($params['user']);
 		}
@@ -173,14 +173,17 @@ function wechat_build($params, $wechat) {
 			$string1 .= "{$key}={$v}&";
 		}
         $string1 .= "key={$wechat['signkey']}";
+//		p($string1);
+//		p($package);
 		$package['sign'] = strtoupper(md5($string1));
         $dat = array2xml($package);
+//        p($package);die;
 		$response = ihttp_request('https://api.mch.weixin.qq.com/pay/unifiedorder', $dat);
 		if (is_error($response)) {
 			return $response;
 		}
 		$xml = @isimplexml_load_string($response['content'], 'SimpleXMLElement', LIBXML_NOCDATA);
-//        print_r($xml);die;
+//        p($xml);die;
         if (strval($xml->return_code) == 'FAIL') {
             return error(-1, strval($xml->return_msg));
 		}
