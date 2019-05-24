@@ -5071,7 +5071,14 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $remark .= "\n商品名称 属性  单价 数量  小计";
                 $remark .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $remark .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $optionstring = '';
+                    if ($value['optionname'] != ""){
+                        $optionname = explode('+', $value['optionname']);
+                        for ($i = 0; $i < 3; $i++){
+                            $optionstring .= "(".$optionname[$i].")";
+                        }
+                    }
+                    $remark .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
 
@@ -5166,7 +5173,14 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content .= "\n商品名称 属性  单价 数量  小计";
                 $content .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $content .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $optionstring = '';
+                    if ($value['optionname'] != ""){
+                        $optionname = explode('+', $value['optionname']);
+                        for ($i = 0; $i < 3; $i++){
+                            $optionstring .= "(".$optionname[$i].")";
+                        }
+                    }
+                    $content .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
             if ($order['dining_mode'] == 3) {
@@ -5267,7 +5281,14 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $remark .= "\n商品名称 属性  单价 数量  小计";
                 $remark .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $remark .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $optionstring = '';
+                    if ($value['optionname'] != ""){
+                        $optionname = explode('+', $value['optionname']);
+                        for ($i = 0; $i < 3; $i++){
+                            $optionstring .= "(".$optionname[$i].")";
+                        }
+                    }
+                    $remark .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
 
@@ -5376,7 +5397,16 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content .= "\n商品名称 属性  单价 数量  小计";
                 $content .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
-                    $content .= "\n{$value['title']} {$goods['optionname']} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $optionstring = '';
+                    if ($value['optionname'] != ""){
+                        $optionname = explode('+', $value['optionname']);
+                        for ($i = 0; $i < 3; $i++){
+                            if ($optionname[$i] != ''){
+                                $optionstring .= "(".$optionname[$i].")";
+                            }
+                        }
+                    }
+                    $content .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
             if ($order['dining_mode'] == 3) {
