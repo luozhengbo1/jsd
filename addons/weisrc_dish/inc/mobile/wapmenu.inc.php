@@ -226,11 +226,20 @@ $time = time();
 
 $couponlist = pdo_fetchall("SELECT a.id as ids,a.couponid,a.weid,a.from_user,a.status,b.* FROM".tablename('weisrc_dish_sncode')."as a left join ".tablename('weisrc_dish_coupons')." as b on a.couponid = b.id where a.weid = :weid and a.from_user =:from_user and b.starttime <{$time} and b.endtime >{$time} and a.status = 0",array(':weid'=>$weid,':from_user'=>$from_user));
 foreach ($couponlist as $k => $v){
+    //storeid == 0 是平台优惠劵，storeid！= 0 是商家优惠劵
    if ($v["storeid"] != 0 && $v["storeid"] != $storeid){
            //删除不是当前店面的优惠劵
            unset($couponlist[$k]);
    }
-
+   if($v["storeid"] == 0){
+       //storeids 是平台设置商家，0 是全部商家，其他商家是以逗号隔开的集合
+       if ($v["storeids"] != 0 && $v["storeids"] != ''){
+          $storeids = explode(',', $v["storeids"]);
+          if (!in_array($storeid, $storeids)){
+              unset($couponlist[$k]);
+          }
+       }
+   }
 //   if (isset($v["goodsids"])){
 //        //删除不是当前商品的优惠劵
 //        $goodsids = explode(",",$v["goodsids"]);
