@@ -71,6 +71,7 @@ if ($operation == 'display') {
     $storeslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$where_store} order by displayorder desc,id desc");
     $goodslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid=:weid ORDER BY
     displayorder DESC,id DESC", array(':weid' => $weid), 'id');
+    $is_all = 1; //针对全选商家
     if (!empty($reply)) {
         if (!empty($reply['thumb'])) {
             $thumb = tomedia($reply['thumb']);
@@ -78,6 +79,11 @@ if ($operation == 'display') {
 
         if (!empty($reply['goodsids'])) {
             $goodsids = explode(',', $reply['goodsids']);
+        }
+        if ($reply['storeids'] == 0){
+            $is_all = 1;
+        }else{
+            $is_all = 0;
         }
     }
 
@@ -105,11 +111,6 @@ if ($operation == 'display') {
         );
         $starttime = date('Y-m-d H:i');
         $endtime = date('Y-m-d H:i', TIMESTAMP + 86400 * 30);
-    }
-    if ($reply['storeids'] == 0){
-        $is_all = 1;
-    }else{
-        $is_all = 0;
     }
     if (checksubmit('submit')) {
         if ($_GPC["is_all"] == 0){
