@@ -93,6 +93,7 @@ if (intval($wechat['switch']) == 3 || intval($wechat['switch']) == 2) {
 	$wOpt = wechat_build($params, $wechat);
 }
 
+//p($params);
 //p($wechat);
 //p($wOpt);die;
 
@@ -106,6 +107,10 @@ if (is_error($wOpt)) {
 	}
 	message("抱歉，发起支付失败，具体原因为：“{$wOpt['errno']}:{$wOpt['message']}”。请及时联系站点管理员。");
 	exit;
+}else{
+    //加上订单原价
+    $orderOrigin['origin_totalprice'] = $params['fee'];
+    pdo_update('weisrc_dish_order',$orderOrigin,array('id'=>$params['tid']));
 }
 
 ?>

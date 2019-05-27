@@ -112,8 +112,10 @@
     $('#sureBtn').click(function () {
         var lat=$('#lat').val()
         var lon=$('#lon').val()
-        if(!lon || !lat){
+        if(!lon || !lat || parseInt(lon)==0   || parseInt(lat)==0   ){
             alert('定位失败请重新定位')
+            $('#lat').val('')
+            $('#lon').val('')
             return false
         }
         var myValue = $('#pickerInput').val()

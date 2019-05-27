@@ -29,4 +29,7 @@ alter table  `ims_weisrc_dish_order` add `order_ps_type` tinyint(1) default 2 CO
 	alter table `ims_weisrc_dish_goods` add `basic_counts` int(11) default 0 COMMENT '基础库存';
 	alter table `ims_weisrc_dish_goods` add `add_counts` int(11) default 0 COMMENT '新增库存';
 
+	alter table `ims_weisrc_dish_order` add `origin_totalprice` decimal(10,2) default 0 COMMENT '订单原价';
+
+
 

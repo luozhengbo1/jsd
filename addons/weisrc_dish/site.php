@@ -1467,11 +1467,9 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
             $list = pdo_fetchall($sql, $paras);
         } else if ($operation == 'post') {
             $id = intval($_GPC['id']);
-            $lat = $_GPC['lat'];
-            $lng = $_GPC['lng'];
-//            p($lat);
-//            p($lng);die;
             $item = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE id=:id", array(":id" => $id));
+            $lat = $item['lat'];
+            $lng = $item['lng'];
             $item['address'] = $_GPC["myValue"]?$_GPC["myValue"]:$item['address'];
 
         } else if ($operation == 'AddAddress') {
@@ -1507,7 +1505,6 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
             }
             //地图地址选择页面
         }else  if( $operation == "mapselecte"){
-
             $item = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE id=:id", array(":id" => $id));
 //            p($item);
             include $this->template($this->cur_tpl . '/address_mapselecte');die;
@@ -6018,7 +6015,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         $orderid = $params['tid'];
         $fee = intval($params['fee']);
         $paytype = array('credit' => '1', 'wechat' => '2', 'alipay' => '4', 'baifubao' => '5', 'delivery' => '3');
-
+//        $data['origin_totalprice']
         // 卡券代金券备注
         if (!empty($params['is_usecard'])) {
             $cardType = array('1' => '微信卡券', '2' => '系统代金券');
@@ -6193,7 +6190,8 @@ storeid=".$order['storeid'].") ";
                             $data['status'] = 1;
                         }
                     }
-
+//                    //增加生成订单的原价
+//                    $data['origin_totalprice'] = ;
                     pdo_update($this->table_order, $data, array('id' => $orderid));
                     $this->feiyinSendFreeMessage($orderid);
                     $this->_365SendFreeMessage($orderid);
@@ -7803,7 +7801,8 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
 //            var_dump($result);
 //            p($refund_price);die;
             if($refund_price>0){
-                $result = $this->refund2($orderid, $refund_price);
+                $origin_totalprice = $order['origin_totalprice'];
+                $result = $this->refund2($orderid, $refund_price,$origin_totalprice);
                 $order["refund_price1"] = $refund_price;
                 $order["ispay"] = 3;//为了初始化订单退款推送状态
                 $weid = $this->_weid;
@@ -8480,7 +8479,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         return $text;
     }
     //微信退款
-    function refund2($id, $price)
+    function refund2($id, $price,$origin_totalprice=0)
     {
         global $_W;
         include_once IA_ROOT . '/addons/weisrc_dish/cert/WxPay.Api.php';
@@ -8500,6 +8499,11 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $mchid = $wechatpay['mchid'];
             $key = $wechatpay['apikey'];
             $appid = $account_info['key'];
+            if($origin_totalprice){
+                $fee = $origin_totalprice * 100;
+            }else{
+                $fee = $refund_order['totalprice'] * 100;
+            }
             $fee = $refund_order['totalprice'] * 100;
             $refundfee = $price * 100;
             $refundid = $refund_order['transid'];
