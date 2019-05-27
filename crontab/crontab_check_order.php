@@ -1,9 +1,18 @@
 <?php
-    $host ="127.0.0.1";
-    $user = "Jsdgogcuncom";
-    $password = "NiNWHh58b8ZC3LdM";
-    $databases="Jsdgogcuncom";
-    $port = "3306";
+    define('IN_IA', true);
+    define('IA_ROOT', str_replace("\\",'/', dirname(dirname(__FILE__))));
+    $configfile = IA_ROOT . "/data/config.php";
+    if(!file_exists($configfile)) {
+        header('Content-Type: text/html; charset=utf-8');
+        exit('配置文件不存在或是不可读，请检查“data/config”文件或是重新安装！');
+    }
+    require($configfile);
+    $con =  $config['db']['master'];
+    $host =$con['host'];
+    $user = $con['username'];
+    $password = $con['password'];
+    $databases= $con['database'];
+    $port =$con['port'] ;
     class CheckOrderCacnel{
         private static $obj;
         public $ordertable = "ims_weisrc_dish_order";
@@ -12,6 +21,10 @@
         public function __construct($host,$user,$password,$databases,$port)
         {
            self::$obj =  mysqli_connect($host,$user,$password,$databases,$port);
+            if (!self::$obj ) {
+                printf("Can't connect to MySQL Server. Errorcode: %s ", mysqli_connect_error());
+                exit;
+            }
         }
 
         //检查现在的所有订单,超过1小时未支付，并且不是已经取消的订单，
