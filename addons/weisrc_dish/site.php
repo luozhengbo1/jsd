@@ -8504,7 +8504,6 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             }else{
                 $fee = $refund_order['totalprice'] * 100;
             }
-            $fee = $refund_order['totalprice'] * 100;
             $refundfee = $price * 100;
             $refundid = $refund_order['transid'];
             $input->SetAppid($appid);
