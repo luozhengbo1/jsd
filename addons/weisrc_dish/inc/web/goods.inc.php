@@ -69,7 +69,12 @@ if ($operation == 'post') {
             $endtime = date('Y-m-d H:i', $item['enddate']);
         }
     }
-
+    if (!isset($item["add_counts"])){
+        $item["add_counts"] = 0;
+    }
+    if (!isset($item["basic_counts"])){
+        $item["basic_counts"] = 0;
+    }
     $optionlist = pdo_fetchall("SELECT * FROM " . tablename('weisrc_dish_goods_option') . " WHERE goodsid=:goodsid order by id", array(':goodsid' => $id));
     if (checksubmit('submit')) {
         $data = array(
@@ -115,7 +120,12 @@ if ($operation == 'post') {
             'add_counts'=> intval($_GPC['add_counts']),
             'basic_counts'=> intval($_GPC['basic_counts']),
         );
-
+        if ($_GPC['basic_counts'] == "") {
+            message('每日库存不能为空！');
+        }
+        if ($_GPC['add_counts'] == "") {
+            message('增加的每日库存不能为空！');
+        }
         if ($data['startcount'] < 1) {
             message('起售份数不能小于1!');
         }

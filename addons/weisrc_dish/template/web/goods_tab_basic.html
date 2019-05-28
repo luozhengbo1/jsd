@@ -119,7 +119,7 @@
                     <div class="col-sm-9">
                         <input type="text" name="basic_counts"  value="{if empty($item)}-1{else}{$item['basic_counts']}{/if}" />
                         <a href="javascript:;" onclick="addcount(0)"><i class="i-add-btn">-</i></a>
-                        <input type="number" name="add_counts" value="{if  empty($item)|| $item['basic_counts']==-1} 0{else}{$item['add_counts']}{/if}" />
+                        <input type="number" name="add_counts" value="{if  empty($item)|| $item['basic_counts']==-1}0{else}{$item['add_counts']}{/if}" />
                         <a href="javascript:;" onclick="addcount(1)"><i class="i-add-btn">+</i></a>
                         <div class="help-block">-1表示不限制</div>
                     </div>
