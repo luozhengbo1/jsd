@@ -36,10 +36,10 @@
             $query = self::$obj->query($sql);
             $today_start = strtotime(date('Y-m-d 00:00:00'));
             $today_end = strtotime(date('Y-m-d 23:59:59'));
-            while($row = $query->fetch_array()){
+            while($row = $query->fetch_assoc()){
                 $sql_ordergoods = "select * from ".$this->ordergoodstable." where orderid=".$row['id'];
                 $res = self::$obj->query($sql_ordergoods);
-                while($row1= $res->fetch_array()){
+                while($row1= $res->fetch_assoc()){
                     //如果时间在今天之内。
                     $sql_updategoods = " ";
                     if( $row1['dateline']>=$today_start &&   $row1['dateline']<=$today_end ){
@@ -54,7 +54,7 @@
                     weid,storeid,orderid,content,fromtype,status,dateline
                     ) value(". $row['weid'].",".$row['storeid'].", ".$row['id'].",'系统自动检测取消订单','1',0,".$time."  )";
                 //更新操作狀態
-                $res = self::$obj->query($insert);die;
+                $res = self::$obj->query($insert);
             }
         }
     }

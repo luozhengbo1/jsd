@@ -1468,8 +1468,13 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
         } else if ($operation == 'post') {
             $id = intval($_GPC['id']);
             $item = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE id=:id", array(":id" => $id));
-            $lat = $item['lat'];
-            $lng = $item['lng'];
+            if($id){
+                $lat = $item['lat'];
+                $lng = $item['lng'];
+            }else{
+                $lat = $_GPC['lat'];
+                $lng = $_GPC['lng'];
+            }
             $item['address'] = $_GPC["myValue"]?$_GPC["myValue"]:$item['address'];
 
         } else if ($operation == 'AddAddress') {
@@ -1485,6 +1490,9 @@ status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $this->_fromuser, ':
                 'lng' => trim($_GPC['lng']),
                 'dateline' => TIMESTAMP
             );
+            if(!$data['lat'] || !$data['lng']){
+                return 1;
+            }
             pdo_update($this->table_useraddress, array('isdefault' => 0), array('from_user' => $this->_fromuser));
             if (!empty($id)) {
                 pdo_update($this->table_useraddress, $data, array('id' => $id, 'from_user' => $this->_fromuser));

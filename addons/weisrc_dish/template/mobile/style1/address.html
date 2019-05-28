@@ -11,7 +11,7 @@
     <script src="{php echo $this->cur_mobile_path}/script/jquery-1.8.3.min.js"></script>
     <link rel="stylesheet" href="{php echo $this->cur_mobile_path}/mvalidate/validate.css" />
     <script type="text/javascript" src="{php echo $this->cur_mobile_path}/mvalidate/jquery-mvalidate.js" ></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&v=2.0&services=false"></script>
+<!--    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=YdrBsz1DLtc2PA6YFGTfExH8c3w5yfQb&v=2.0&services=false"></script>-->
 </head>
 <body>
 <style>
@@ -168,8 +168,7 @@
                             <div class="item-title label">联系电话:</div>
                             <div class="item-input">
                                 <input type="tel" maxlength="13" placeholder="配送员联系您的方式" value="{$item['mobile']}"
-                                       id="mobile"
-                                       name="mobile">
+                                       id="mobile"   name="mobile">
                             </div>
                         </div>
                     </li>
@@ -191,149 +190,58 @@
             var url = "{$newmapurl}";
             window.document.location.href=url
         }
-        "{if $operation == 'post'}"
+        // "{if $operation == 'post'}"
 
-        function setmapaddress(point)
-        {
-            var geo = new BMap.Geocoder();
-            geo.getLocation(point, function(rs){
-                var addComp = rs.addressComponents;
-                address = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-               // $('#mapaddress').val(address);
-            });
-        }
+        // function setmapaddress(point)
+        // {
+        //     var geo = new BMap.Geocoder();
+        //     geo.getLocation(point, function(rs){
+        //         var addComp = rs.addressComponents;
+        //         address = addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+        //        // $('#mapaddress').val(address);
+        //     });
+        // }
 
-//         function creatmap() {
-//             var map = new BMap.Map("map");
-//             // 创建地址解析器实例
-//             var geo = new BMap.Geocoder();
-//             var x = $("#lng").val();
-//             var y = $("#lat").val();
-//             var marker = new BMap.Marker(new BMap.Point(x, y));
-//             map.addOverlay(marker);
-//             map.enableScrollWheelZoom();
-//             map.enableKeyboard();
-//             //自动完成
-//             function saveMapPoint(point) {
-//                 $("#lat").val(point.lat);
-//                 $("#lng").val(point.lng);
-//             }
-//
-//             function setMapPoint(point) {
-//                 map.centerAndZoom(point, 19);
-//                 marker.setPosition(point);
-//                 saveMapPoint(point);
-//             }
-//
-//             function getGeoLocation(address) {
-//                 address = typeof address == 'string' ? address : $('#mapaddress').val();
-//                 geo.getPoint(address, function (point) {
-//                     if (point) {
-//                         setMapPoint(point);
-//                     }
-//                 }, $('#country').val());
-// // clear address result
-//                 $("#address-result").html('');
-//             }
-//
-//             $('#geo-btn').on('click', getGeoLocation);
-//
-//             if (parseFloat($("#lat").val()) != 0) {
-//                 setMapPoint(new BMap.Point(parseFloat($('#lng').val()), parseFloat($('#lat').val())));
-//             } else {
-//                 map.centerAndZoom(addressText, 19);
-//             }
-//             // zoom bgtn
-//             var topRightNav = new BMap.NavigationControl({
-//                 anchor: BMAP_ANCHOR_TOP_RIGHT,
-//                 type: BMAP_NAVIGATION_CONTROL_SMALL
-//             });
-//             map.addControl(topRightNav);
-//             // set location btn
-//             var geolocationControl = new BMap.GeolocationControl();
-//             geolocationControl.addEventListener("locationSuccess", function (e) {
-//                 var address = '';
-//                 address += e.addressComponent.province;
-//                 address += e.addressComponent.city;
-//                 address += e.addressComponent.district;
-//                 address += e.addressComponent.street;
-//                 address += e.addressComponent.streetNumber;
-//                 $('#mapaddress').val(address);
-//
-//             });
-//             map.addControl(geolocationControl);
-//             map.addEventListener("click", function (e) {
-//                 setMapPoint(e.point);
-//             });
-//             map.addEventListener('moving', function (e) {
-//                 var point = map.getCenter();
-//                 marker.setPosition(point);
-//                 saveMapPoint(point);
-//                 // setmapaddress(point);
-//             });
-//             var options = {
-//                 onSearchComplete: function (results) {
-//                     // 判断状态是否正确
-//                     if (local.getStatus() == BMAP_STATUS_SUCCESS) {
-//                         var poi = results.getPoi(0);
-//                         setMapPoint(poi.point);
-//                     }
-//                 }
-//             };
-//
-//             var local = new BMap.LocalSearch(map, options);
-//             $('#mapaddress').on('keyup', function () {
-//                 local.search($('#mapaddress').val());
-//             });
-//
-//             $(document).on(window.CLICK_EVENT, '#address-result li[data-point]', function () {
-//                 var address = $(this).text();
-//                 var point = $(this).data('point').split(/,/ig);
-// //                $('#mapaddress').val(address).blur();
-//                 setMapPoint(new BMap.Point(parseFloat(point[0]), parseFloat(point[1])));
-//                 $("#address-result").html('');
-//             });
-//         }
+        // $(document).ready(function(){
+        //     "{if empty($item)}"
+        //     var locationx = 0;
+        //     var locationy = 0;
+        //     "{else}"
+        //     var locationx = "{$item['lat']}";
+        //     var locationy = "{$item['lng']}";
+        //     "{/if}"
 
-        $(document).ready(function(){
-            "{if empty($item)}"
-            var locationx = 0;
-            var locationy = 0;
-            "{else}"
-            var locationx = "{$item['lat']}";
-            var locationy = "{$item['lng']}";
-            "{/if}"
+            // if (locationy == 0 || locationx == 0) {
+            //     window.onload = distance;
+            // } else {
+            //     // creatmap();
+            // }
 
-            if (locationy == 0 || locationx == 0) {
-                window.onload = distance;
-            } else {
-                // creatmap();
-            }
-
-            function distance() { //定位当前地址
-                var geolocation = new BMap.Geolocation();
-                geolocation.getCurrentPosition(function (r) {
-                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                        var position = {
-                            lng: r.point.lng,
-                            lat: r.point.lat
-                        }
-
-                        positions(position); //当前经纬度
-                        setmapaddress(r.point);//初始化设置地图地址
-
-                    } else {
-                        alert('获取当前位置失败,请确定您开启了定位服务');
-                    }
-                }, {enableHighAccuracy: true});
-            }
+            // function distance() { //定位当前地址
+            //     alert(2333)
+            //     var geolocation = new BMap.Geolocation();
+            //     geolocation.getCurrentPosition(function (r) {
+            //         if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            //             var position = {
+            //                 lng: r.point.lng,
+            //                 lat: r.point.lat
+            //             }
+            //
+            //             positions(position); //当前经纬度
+            //             setmapaddress(r.point);//初始化设置地图地址
+            //
+            //         } else {
+            //             alert('获取当前位置失败,请确定您开启了定位服务');
+            //         }
+            //     }, {enableHighAccuracy: true});
+            // }
             // function positions(position) {
             //     $("#lng").val(position.lng);
             //     $("#lat").val(position.lat);
             //     // creatmap();
             // }
-        });
-        "{/if}"
+        // });
+        // "{/if}"
     </script>
     <script>
         function postmain() {
@@ -361,6 +269,11 @@
                 if (!checkMobile($("#mobile").val())) {
                     return false;
                 }
+                if( !parseInt(lat) ||  !parseInt(lng) ){
+                    $.mvalidateTip("经纬度获取失败，请重新设置收餐定位");
+                    $("#mapaddress").val('')
+                    return false;
+                }
 
                 $.ajax({
                     url: url, type: "post", dataType: "json", timeout: "10000",
@@ -373,8 +286,13 @@
                         "mobile":mobile
                     },
                     success: function (data) {
-                        var url = "{php echo $this->createMobileUrl('useraddress', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'selectdate' => $selectdate, 'timeid' => $timeid, 'rtype' => $rtype), true)}" + "";
-                        location.href = url;
+                        if(data==1){
+                            $.mvalidateTip("获取经纬度失败，请重新获取地址");
+
+                        }else{
+                            var url = "{php echo $this->createMobileUrl('useraddress', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'selectdate' => $selectdate, 'timeid' => $timeid, 'rtype' => $rtype), true)}" + "";
+                            location.href = url;
+                        }
                     },error: function () {
                         alert("订单提交失败！");
                     }

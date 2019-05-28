@@ -319,9 +319,11 @@ $over_radius = 0;
 $delivery_radius = floatval($store['delivery_radius']);
 if ($mode == 2) {
     //距离
-    $addressLatLng =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_useraddress') . " WHERE id = :id limit 1", array(':id' => $_GPC['addressid']));
+    $addressLatLng = pdo_fetch("SELECT * FROM " . tablename($this->table_useraddress) . " WHERE weid=:weid AND from_user=:from_user AND isdefault=1 LIMIT 1", array(':weid' => $weid, ':from_user' => $from_user));
+//    $addressLatLng =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_useraddress') . " WHERE id = :id  limit 1", array(':id' => $_GPC['addressid']));
     //計算兩經緯度之間骑行距離
     $distance = $this->getDistanceByGaodeForRiding($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
+
     if($distance==0){
         $distance = $this->getDistance($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
     }

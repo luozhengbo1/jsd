@@ -400,7 +400,8 @@ class Core extends WeModuleSite
         return $navemenu;
     }
 
-    function getDistance($lat1, $lng1, $lat2, $lng2, $len_type = 1, $decimal = 2)
+    //計算兩點之間的距離
+    function getDistance($lat1, $lng1, $lat2, $lng2, $len_type = 1, $decimal = 4)
     {
         $radLat1 = $lat1 * M_PI / 180;
         $radLat2 = $lat2 * M_PI / 180;
