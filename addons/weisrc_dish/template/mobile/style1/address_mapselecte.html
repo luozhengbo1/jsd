@@ -24,8 +24,8 @@
         }
         .seach-box {
             float: left;
-            width:70%;
-            margin-left: 5%;
+            width:80%;
+            margin-left: 3%;
             position: relative;
         }
         .seach-box .input-icon
@@ -45,15 +45,15 @@
             background: #fff;
             border:1px solid #ccc;
             outline: none;
-            height: 2.5rem;
+            height: 2.8rem;
             display: block;
             padding:0;
             padding-left:3%;
             border-radius: 5px;
-
-
         }
-
+        #pickerInput::-webkit-input-placeholder {
+            line-height: 2.8rem;
+        }
         #poiInfo {
             background: #fff;
             width:90%;
@@ -66,8 +66,8 @@
             border-radius: 5px;
             border:1px solid #4287ee;
             height: 2.5rem;
-            width: 17%;
-            margin: 0 5% 0 2%;
+            width: 12%;
+            margin: 0 3% 0 2%;
         }
 
         .amap-ui-poi-picker-search-results-container, .amap-ui-poi-picker-sugg-container {
@@ -95,7 +95,8 @@
 <div id="container" class="map" tabindex="0"></div>
 <div id="pickerBox">
     <div class="seach-box">
-        <input id="pickerInput" placeholder="输入关键字搜索" value="{if isset($id)  }{$item['address']}{/if}" />
+<!--        <input id="pickerInput" placeholder="输入关键字搜索" value="{if isset($id)  }{$item['address']}{/if}" />-->
+        <textarea id="pickerInput" placeholder="输入关键字搜索" value="" />{if isset($id)  }{$item['address']}{/if}</textarea>
         <span class="input-icon" id="inputIcon">X</span>
     </div>
     <button id="sureBtn" type="button">确定</button>
