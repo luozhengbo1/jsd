@@ -85,7 +85,9 @@
         <span class="button border-green btnan" onclick="payorder()">支付</span>
         {/if}
         {if $order['status']!=3}
+        {if $order['status']!=-1}
         <span class="button border-red btnan" onclick="cancelorder()">取消</span>
+        {/if}
         {/if}
         {if $order['ispay']==1}
             {if $order['status']!=3}
