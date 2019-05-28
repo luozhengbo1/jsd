@@ -120,7 +120,7 @@
             return false
         }else{
             var myValue = $('#pickerInput').val()
-            var url = "{$addurl}&myValue="+myValue+"&lat="+lat+"&lng="+lon
+            var url = "{$addurl}&lat="+lat+"&lng="+lon+"&myValue="+encodeURIComponent(myValue) ;
             console.log(url)
             document.location.href=url
         }
