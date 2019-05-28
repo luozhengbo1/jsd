@@ -479,8 +479,6 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                 $this->sendOrderNotice($order, $store, $setting);
                 message('操作成功！', $url, 'success');
             }
-        } else {
-            message('操作失败！', '', 'error');
         }
         pdo_update($this->table_order, array('status' => -1), array('id' => $id, 'weid' => $weid));
         $this->addOrderLog($id, $_W['user']['username'], 2, 2, 5);

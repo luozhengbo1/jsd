@@ -7785,9 +7785,9 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
                 //判斷订单是否当天订单
                 if(  $v['dateline']>=$today_start && $v['dateline']<=$today_end  && $v['goodsid'] == $goodsid  ){
                     //减去销量
-                    $todaySales = $v['today_counts']-$v['total'];
+                    $todaySales = $v['today_counts']-$goodsnum;
                     $todaySales = $todaySales<=0?0:$todaySales;
-                    $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$v['total']);
+                    $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$goodsnum);
                     $update=['today_counts' =>$todaySales,'sales'=>$sales];
                     pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
                 }
@@ -7845,7 +7845,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $item['goodsid']));
         }
         $goodsprice = floatval($order['goodsprice']) - $goodsprice;
         //更新订单金额
-        pdo_update($this->table_order, array('totalprice' => $totalprice, 'goodsprice' => $goodsprice), array('weid' =>
+        pdo_update($this->table_order, array('totalprice' => $totalprice, 'goodsprice' => $goodsprice,'totalnum'=>$order['totalnum']-$goodsnum), array('weid' =>
             $this->_weid, 'id' => $orderid));
 
         $paylog = pdo_fetch("SELECT * FROM " . tablename('core_paylog') . " WHERE tid=:tid AND uniacid=:uniacid AND status=0 AND module='weisrc_dish'
