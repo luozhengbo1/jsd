@@ -68,7 +68,7 @@ if ($operation == 'display') {
     $reply = pdo_fetch("select * from " . tablename($this->table_coupon) . " where id = :id AND weid=:weid
             LIMIT 1", array(':id' => $id, ':weid' => $weid));
 
-    $goodslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE storeid=:storeid ORDER BY
+    $goodslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE storeid=:storeid AND deleted=0 ORDER BY
     displayorder DESC,id DESC", array(':storeid' => $storeid), 'id');
 
     if (!empty($reply)) {
