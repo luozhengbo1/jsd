@@ -1120,6 +1120,7 @@ $(document).ready(function(e) {
             var url = "{php echo $this->createMobileUrl('selectcoupon', array('mode' => $mode), true)}";
             var goodsids="{$goodsids}"
             var carts =  '{$carts}';
+            carts =  $.parseJSON(carts);
             $.ajax({
                 url: url, type: "post", dataType: "json", timeout: "10000",
                 data: {

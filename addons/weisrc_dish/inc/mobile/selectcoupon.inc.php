@@ -8,14 +8,14 @@ $coupon = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_sncode')."as a left j
     where a.id = {$couponid} and a.weid = :weid and a.from_user =:from_user and a.status = 0",
     array(':weid'=>$weid,':from_user'=>$from_user));
 $goodsids = $_GPC['goodsids'];
-$carts = json_decode(htmlspecialchars_decode( $_GPC['carts']), true);
+$carts = $_GPC['carts'];
 $goodsids = explode(',',$goodsids);
 $flag =true ;
 if( !empty($coupon['goodsids']) ){
     $conpgoodsids = explode(',',$coupon['goodsids']);
     $flag_arr = array_intersect($conpgoodsids, $goodsids);
+    $flag= false;
     if (!empty($flag_arr)){
-        $flag= false;
         //查看商品是否满足优惠金额
         foreach ($carts as $k => $v){
             if (in_array($v["goodsid"], $flag_arr)){
@@ -25,11 +25,13 @@ if( !empty($coupon['goodsids']) ){
                 }
             }
         }
-
-        if (in_array(0, $conpgoodsids)){
-            $flag =true ;
-        }
     }
+    if (in_array(0, $conpgoodsids)){
+        $flag =true ;
+    }
+}
+if (empty($carts)){
+    $flag= false;
 }
 //p($_GPC['goodsids']);
 //p($conpgoodsids);
