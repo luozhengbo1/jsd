@@ -411,6 +411,7 @@ if($psnum == 2){//邮递
     $dispatchprice = 0;
 }
 $goodsids = join(array_column($cart,'id'),',');
+$carts = json_encode($cart);
 //echo "<pre>";
 //print_r($storeid);
 //print_r($couponlist);die;
