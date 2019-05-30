@@ -17,9 +17,11 @@ if( !empty($coupon['goodsids']) ){
     $flag= false;
     if (!empty($flag_arr)){
         //查看商品是否满足优惠金额
+        $total = 0;
         foreach ($carts as $k => $v){
             if (in_array($v["goodsid"], $flag_arr)){
-                if ($v["total"]*$v["price"] >= $coupon['gmoney']){
+                $total = $total + $v["total"]*$v["price"];
+                if ($total >= $coupon['gmoney']){
                     $flag =true ;
                     continue;
                 }
