@@ -196,7 +196,7 @@
 {else if $operation == 'post'}
 <link href="{$_W['siteroot']}addons/weisrc_dish/template/plugin/selector/css/ySelect.css" rel="stylesheet" type="text/css">
 <script src="{$_W['siteroot']}addons/weisrc_dish/template/plugin/selector/js/jquery-1.11.3.min.js"></script>
-<script src="{$_W['siteroot']}addons/weisrc_dish/template/plugin/selector/js/ySelect.js"></script>
+<script src="{$_W['siteroot']}addons/weisrc_dish/template/plugin/selector/js/ySelectGoods.js"></script>
 <div class="main">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -293,7 +293,7 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">设置优惠商品</label>
 
                     <div class="col-sm-9">
-                        <select id='m1' class="demo" multiple="multiple" name="goodsid[]" onchange="test()">
+                        <select id='m1' class="demo" multiple="multiple" name="goodsid[]">
                             <option value="0" {if $all_goods==1}selected="selected"{/if}>全部商品</option>
                             {loop $goodslist $row}
                             <option value="{$row['id']}"  {if count($goodsids)>0 && in_array($row['id'], $goodsids)}
@@ -402,10 +402,9 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        $('.demo').ySelect();
-        $('.demo1').ySelect(
+        $('.demo').ySelect(
             {
-                placeholder: '请先选择一些项目',
+                placeholder: '请输入/选择商品名',
                 searchText: '搜索',
                 showSearch: true,
                 numDisplayed: 1000000,
@@ -414,9 +413,6 @@
             }
         );
     });
-    function test(){
-       // alert($("#m1").ySelectedValues(","))
-    }
     $(function () {
         var property = ""
 //        $(":radio[name='attr_type']").click(function () {
