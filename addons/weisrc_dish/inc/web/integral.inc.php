@@ -397,7 +397,7 @@ lasttime DESC,id DESC ", array(':weid' => $weid, ':storeid' => $storeid, ':time'
     }
     $weid = $this->_weid;
     if ($storeids !=''){
-        $where = "AND storeid IN ({$storeids}) AND deleted=0";
+        $where = "AND storeid IN ({$storeids}) AND deleted=0 AND status=1";
         $goodslist = pdo_fetchall("SELECT title,id FROM " . tablename($this->table_goods) . " WHERE weid=:weid {$where} ORDER BY displayorder DESC,id DESC", array(':weid' => $weid), 'id');
         foreach ($goodslist as $k => $v){
             if (!empty($goodsids) && in_array($v["id"], $goodsids)){
