@@ -2044,6 +2044,12 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
 BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => $id));
         $total_count = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid AND couponid=:couponid ORDER BY id DESC", array(':weid' => $weid, ':couponid' => $id));
 
+        if ($user_count >= $coupon_usercount && $coupon_usercount!=0){
+            $this->showMsg("每个用户只能领{$coupon_usercount}张", 1);
+        }
+        if ($total_count >= $coupon_totalcount && $coupon_totalcount!=0){
+            $this->showMsg("已经被领完了", 1);
+        }
         $sncode = 'SN' . random(11, 1);
         $sncode = $this->getNewSncode($weid, $sncode);
         $data = array(
