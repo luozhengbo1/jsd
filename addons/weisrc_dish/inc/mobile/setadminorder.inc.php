@@ -117,6 +117,54 @@ if ($orderstatus[$status] == 2) { //支付
             }
         }
     }
+    if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
+        $refund_price = $order['totalprice'];
+        $store = $this->getStoreById($order['storeid']);
+        if ($order['paytype'] == 2) { //微信支付
+            //关单时判断是否退过款
+            if($order['refund_price']>0){
+                $result = $this->refund2($id, $refund_price,$order['origin_totalprice']);
+            }else{
+                $result = $this->refund2($id, $refund_price);
+            }
+            if ($result == 1) {
+                //开始分摊金额  is_return 表示商品未退的进行分摊。
+                // $refund_price=0.09;
+                //  $order['totalprice']= 0.5;
+                $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$id) );
+                $totalRealPrice = 0;
+                $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
+                foreach ($ordergoodsList as $k=>$v){
+                    //  $ordergoodsList[$k]['real_price']=  floor($v['price']*$v['total']/$order['totalprice'] * $refund_price *100)/100;
+                    $ordergoodsList[$k]['real_tmp_price']=  number_format($v['price']*$v['total']/$totalPrice_total * $refund_price,2) ;
+                    $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
+//            p($ordergoodsList[$k]['real_price']);
+                }
+                $errorMoney = ($refund_price*100 - $totalRealPrice*100)/100 ;
+                $ordergoodsList[0]['real_tmp_price'] =($ordergoodsList[0]['real_tmp_price']*100+ $errorMoney*100)/100;
+                //  p($errorMoney);
+                foreach ($ordergoodsList as $k=>$v){
+                    $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
+                    pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
+                }
+                //  p($ordergoodsList); die;
+                //分摊结束
+                $order["refund_price1"] = $refund_price;
+                $order["ispay"] = 3;//为了初始化订单退款推送状态
+                $this->sendOrderNotice($order, $store, $setting);
+                //
+            }
+        } else if ($order['paytype'] == 1) {
+            $this->setFansCoin($order['from_user'], $refund_price, "码上点餐单号{$order['ordersn']}退款");
+            pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));
+            $this->sendOrderNotice($order, $store, $setting);
+            message('操作成功！', $url, 'success');
+        } else {
+            pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $refund_price), array('id' => $id));
+            $this->sendOrderNotice($order, $store, $setting);
+            message('操作成功！', $url, 'success');
+        }
+    }
 
     $update_data['status'] = $orderstatus[$status];
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));

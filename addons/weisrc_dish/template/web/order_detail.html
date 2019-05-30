@@ -521,6 +521,7 @@
                         <th style="width:15%;">商品名称</th>
                         <th style="text-align:center;width:10%;">图片</th>
                         <th style="text-align:center;width:10%;">单价(元)</th>
+                        <th style="text-align:center;width:10%;">退款分摊金额</th>
                         <th style="text-align:center;width:10%;">奖励积分</th>
                         <th style="text-align:center;width:10%;">数量</th>
                         <th style="text-align:center; width:10%;">小计(元)</th>
@@ -533,7 +534,7 @@
                     </thead>
                     {php $totalprice = 0;}
                     {loop $goods $row}
-                    <tr>
+                    <tr style="display: {if $row['is_return']==1 }none{/if}" >
                         <td>{$row['id']}</td>
                         <td>{if !empty($category[$row['pcate']])}<span class="text-error">[{$category[$row['pcate']]['name']}] </span>{/if}
                             <a href="{php echo $this->createWebUrl('goods', array('id' => $row['id'], 'op' => 'post', 'storeid' => $item['storeid']))}">{$row['title']}
@@ -547,6 +548,9 @@
                         </td>
                         <td style="text-align:center;">
                             {$row['price']}{if $item['isvip']==1}(会员){/if}
+                        </td>
+                        <td style="text-align:center;">
+                            {$row['real_price']}
                         </td>
                         <td style="text-align:center;">
                             {$row['credit']}
@@ -600,6 +604,7 @@
                     </tr>
                     {/loop}
                     <tr>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -686,10 +691,10 @@
             {/if}
             {if $item['status'] != -1}
                 {if $item['status']!=3 }
-                <button type="submit" class="btn span2" name="cancel" onclick="return confirm('确认关闭此订单吗？'); return false;" value="关闭">关闭订单</button>
+                <button type="button" class="btn span2" name="cancel" onclick="return confirm('确认关闭此订单吗？若是当日订单会恢复对应商品库存,是否确认？'); return false;" value="关闭">关闭订单</button>
                 {/if}
             {else}
-            <button type="submit" class="btn span2 btn-primary" name="open" onclick="return confirm('确认开启此订单吗？'); return false;" value="关闭">开启订单</button>
+                <button type="submit" class="btn span2 btn-primary" name="open" onclick="return confirm('确认开启此订单吗？'); return false;" value="开启">开启订单</button>
             {/if}
             <input type="hidden" name="token" value="{$_W['token']}" />
         </div>
@@ -822,7 +827,7 @@
         var goodsnum = $("#goodsnum").val();
         var deliveryid = $("#deliveryid").val();
         var delivery_status = $("#delivery_status").val();
-        if (confirm("确认要提交吗?")) {
+        if (confirm("确认要提交吗?若是当日订单会恢复对应商品库存,是否确认？")) {
             var url =
                     "{php echo $this->createWebUrl('retreat', array('orderid' => $id,'storeid' => $_GPC['storeid']))}" + '&goodsid=' + goodsid + '&goodsnum=' + goodsnum;
             window.location.href = url;

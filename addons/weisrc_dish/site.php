@@ -4781,7 +4781,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
             }
             //付款单推送
-            if($order["ispay"] == 1 && $order["status"] == 1 && ($store["store_type"] == 1 || $store["store_type"]==2) ){
+            if($order["ispay"] == 1 && $order["status"] == 1 && ($store["store_type"] == 1 || $store["store_type"]==3) ){
                 //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
@@ -4811,7 +4811,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
               //  file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
 
             }
-            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) ){
+            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) && ($store["store_type"] == 1 || $store["store_type"]==3)  ){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
@@ -7790,7 +7790,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
                     //减去销量
                     $todaySales = $v['today_counts']-$goodsnum;
                     $todaySales = $todaySales<=0?0:$todaySales;
-                    $sales = (($v['sales'] -$v['total'])<=0)?0:($v['sales'] -$goodsnum);
+                    $sales = (($v['sales'] -$goodsnum)<=0)?0:($v['sales'] -$goodsnum);
                     $update=['today_counts' =>$todaySales,'sales'=>$sales];
                     pdo_update("weisrc_dish_goods",$update,array('id'=>$v['goodsid']));
                 }
@@ -7803,14 +7803,15 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
             $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
             foreach ($ordergoodsList as $k=>$v){
                 if($v['goodsid']==$goodsid ){
-                    $ordergoodsList[$k]['real_tmp_price']=  (floor($v['price']/$totalPrice_total * $order['totalprice']*100) -$v['real_price']*100)/100  ;
+                    if($totalPrice_total==$order['origin_totalprice']){
+                        $ordergoodsList[$k]['real_tmp_price']=  floor($v['price']*$v['total']*100-$v['real_price']*100)/(100* $v['total']) ;
+                    }else{ //订单被改价后  优惠单不支持退款
+                        $refund_price = 0;
+                    }
 //                        $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
                     $refund_price =  $ordergoodsList[$k]['real_tmp_price']*$goodsnum;
                 }
             }
-//            $result = $this->refund2($orderid, $refund_price);
-//            var_dump($result);
-//            p($refund_price);die;
             if($refund_price>0){
                 $origin_totalprice = $order['origin_totalprice'];
                 $result = $this->refund2($orderid, $refund_price,$origin_totalprice);
@@ -7827,7 +7828,8 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
 
         }
         if ($total == $goodsnum) {
-            pdo_delete($this->table_order_goods, array('id' => $item['id']));
+//            pdo_delete($this->table_order_goods, array('id' => $item['id']));
+            pdo_update($this->table_order_goods, array('is_return' => 1), array('id' => $item['id']));
         } else {
             $total = $total - $goodsnum;
             pdo_update($this->table_order_goods, array('total' => $total), array('id' => $item['id']));
@@ -7848,7 +7850,8 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $item['goodsid']));
         }
         $goodsprice = floatval($order['goodsprice']) - $goodsprice;
         //更新订单金额
-        pdo_update($this->table_order, array('totalprice' => $totalprice, 'goodsprice' => $goodsprice,'totalnum'=>$order['totalnum']-$goodsnum), array('weid' =>
+        $totalnum = $order['totalnum']-$goodsnum;
+        pdo_update($this->table_order, array('totalprice' => $totalprice, 'goodsprice' => $goodsprice,'totalnum'=>$totalnum ), array('weid' =>
             $this->_weid, 'id' => $orderid));
 
         $paylog = pdo_fetch("SELECT * FROM " . tablename('core_paylog') . " WHERE tid=:tid AND uniacid=:uniacid AND status=0 AND module='weisrc_dish'
@@ -8488,6 +8491,73 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
                 break;
         }
         return $text;
+    }
+    function doWebRefund2_test($id="85784")
+    {
+        global $_W;
+        include_once IA_ROOT . '/addons/weisrc_dish/cert/WxPay.Api.php';
+        load()->model('account');
+        load()->func('communication');
+
+        $WxPayApi = new WxPayApi();
+        $input = new WxPayRefund();
+        $path_cert = IA_ROOT . '/addons/weisrc_dish/cert/apiclient_cert_' . $_W['uniacid'] . '.pem';
+        $path_key = IA_ROOT . '/addons/weisrc_dish/cert/apiclient_key_' . $_W['uniacid'] . '.pem';
+        $account_info = $_W['account'];
+        $refund_order = $this->getOrderById($id);
+        if ($refund_order['paytype'] == 2) {
+            $paysetting = uni_setting($_W['uniacid'], array('payment'));
+            $wechatpay = $paysetting['payment']['wechat'];
+            $mchid = $wechatpay['mchid'];
+            $key = $wechatpay['apikey'];
+            $appid = $account_info['key'];
+//            if($origin_totalprice){
+//                $fee = $origin_totalprice * 100;
+//            }else{
+//                $fee = $refund_order['totalprice'] * 100;
+//            }
+            $refundfee = 3.75*100;
+            $refundid = $refund_order['transid'];
+            $input->SetAppid($appid);
+            $input->SetMch_id($mchid);
+            $input->SetOp_user_id($mchid);
+            $input->SetRefund_fee(3.75*100);
+            $input->SetTotal_fee(8*100);
+            $input->SetTransaction_id($refundid);
+//            $input->SetOut_refund_no($refund_order['id']);
+            $input->SetOut_refund_no($refund_order['id'].time());
+            $result = $WxPayApi->refund($input, 60, $path_cert, $path_key, $key);
+            $result['time'] = date('Y-m-d H:i:s');
+            p($result);die;
+            file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($result,true)."\n",8);
+            if ($result['return_code'] == 'SUCCESS') {
+                $input2 = new WxPayOrderQuery();
+                $input2->SetAppid($appid);
+                $input2->SetMch_id($mchid);
+                $input2->SetTransaction_id($refundid);
+                $result2 = $WxPayApi->orderQuery($input2, 30, $key);
+                if ($result2['return_code'] == 'SUCCESS' && $result2['trade_state'] == 'REFUND') {
+                    $totalrefundprice = $price + $refund_order['refund_price'];
+                    if ($refund_order['totalprice'] == $totalrefundprice) {
+                        pdo_update($this->table_order, array('ispay' => 3, 'refund_price' => $totalrefundprice), array('id' =>
+                            $refund_order['id']));
+                    } else {
+                        pdo_update($this->table_order, array('refund_price' => $totalrefundprice), array('id' => $refund_order['id']));
+                    }
+                    if($result['result_code']=="FAIL"){
+                        return $result['err_code_des'];
+                    }
+                    return 1;
+                } else {
+                    pdo_update($this->table_order, array('ispay' => 4), array('id' => $refund_order['id']));
+                    return 0;
+                }
+            } else {
+                pdo_update($this->table_order, array('ispay' => 4), array('id' => $refund_order['id']));
+
+                return 0;
+            }
+        }
     }
     //微信退款
     function refund2($id, $price,$origin_totalprice=0)

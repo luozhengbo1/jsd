@@ -126,6 +126,10 @@
         }
 
     })
+    $('#pickerInput').bind('input propertychange', function() {
+        $('#lat').val('')
+        $('#lon').val('')
+    });
     $("#inputIcon").click(function () {
         $("#pickerInput").val("");
         $('#lat').val('')

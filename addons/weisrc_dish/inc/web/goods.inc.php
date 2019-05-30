@@ -98,6 +98,7 @@ if ($operation == 'post') {
             'enddate' => strtotime($_GPC['datelimit']['end']),
             'counts' => (intval($_GPC['basic_counts'])==-1)?-1: intval($_GPC['add_counts'])+intval($_GPC['basic_counts']),
             'today_counts' => intval($_GPC['today_counts']),
+//            'today_counts' => 222,
             'sales' => intval($_GPC['sales']),
             'isspecial' => empty($_GPC['marketprice']) ? 1 : 2,
             'isoptions' => intval($_GPC['isoptions']),
@@ -120,20 +121,18 @@ if ($operation == 'post') {
             'add_counts'=> intval($_GPC['add_counts']),
             'basic_counts'=> intval($_GPC['basic_counts']),
         );
+//        p($_GPC['today_counts']);
+//        p($data);die;
+
         if ($_GPC['basic_counts'] == "") {
             message('每日库存不能为空！');
-        }
-        if ($_GPC['add_counts'] == "") {
-            message('增加的每日库存不能为空！');
         }
         if ($data['startcount'] < 1) {
             message('起售份数不能小于1!');
         }
-
         if ($_W['role'] == 'operator') {
             unset($data['credit']);
         }
-
         if (empty($data['title'])) {
             message('请输入商品名称！');
         }
@@ -143,10 +142,9 @@ if ($operation == 'post') {
         //今日库存小于今日销量判断
         if ($data['counts'] !=-1 ) {
             if($data['counts'] < $data['today_counts']){
-                message("今日库存需大于今日已售");
+                message("每日库存不能小于今日已售");
             }
         }
-
 
         if (!empty($_FILES['thumb']['tmp_name'])) {
             load()->func('file');
@@ -165,12 +163,7 @@ if ($operation == 'post') {
             pdo_update($this->table_goods, $data, array('id' => $id));
 //            die;
         }
-        /*if (intval($_GPC['counts']) != -1){
-        //需要校验库存
-            if (intval($_GPC['counts']) < intval($_GPC['today_counts'])){
-                message('每日库存不能小于今日已售！');
-            }
-        }*/
+
         //增加
         $optionids= [];
         if (is_array($_GPC['optiontitle'])) {

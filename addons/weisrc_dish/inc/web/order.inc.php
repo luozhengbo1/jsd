@@ -440,10 +440,14 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                 } else if ($cur_store['is_jueqi_ymf'] == 1) { //崛起支付
                     $result = $this->refund3($id, $storeid);
                 } else {
-                    $result = $this->refund2($id, $refund_price);
+                    //关单时判断是否退过款
+                    if($order['refund_price']>0){
+                        $result = $this->refund2($id, $refund_price,$order['origin_totalprice']);
+                    }else{
+                        $result = $this->refund2($id, $refund_price);
+                    }
                 }
                 if ($result == 1) {
-
                     //开始分摊金额  is_return 表示商品未退的进行分摊。
                     // $refund_price=0.09;
                     //  $order['totalprice']= 0.5;
@@ -463,11 +467,12 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                         $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
                         pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
                     }
-//         p($ordergoodsList);        die;
+                    //  p($ordergoodsList); die;
                     //分摊结束
                     $order["refund_price1"] = $refund_price;
                     $order["ispay"] = 3;//为了初始化订单退款推送状态
                     $this->sendOrderNotice($order, $store, $setting);
+                    //
                 }
             } else if ($order['paytype'] == 1) {
                 $this->setFansCoin($order['from_user'], $refund_price, "码上点餐单号{$order['ordersn']}退款");
@@ -512,7 +517,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     }
 
     $item = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id = :id", array(':id' => $id));
-    $goods = pdo_fetchall("SELECT a.goodsid,a.price, b.credit, a.total,b.thumb,b.title,b.id ,b.pcate,a.optionname FROM " . tablename($this->table_order_goods) . " a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.orderid = :id", array(':id' => $id));
+    $goods = pdo_fetchall("SELECT a.goodsid,a.price, a.real_price,a.is_return, b.credit, a.total,b.thumb,b.title,b.id ,b.pcate,a.optionname FROM " . tablename($this->table_order_goods) . " a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.orderid = :id", array(':id' => $id));
     $discount = pdo_fetchall("SELECT * FROM " . tablename($this->table_category) . " WHERE weid=:weid and storeid=:storeid", array(":weid" => $weid,":storeid"=>$storeid));
     if ($item['dining_mode'] == 1 || $item['dining_mode'] == 3) {
         $tablesid = intval($item['tables']);
@@ -814,8 +819,10 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     $this->addOrderLog($id, $_W['user']['username'], 2, 2, 6);
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
+
         $coin = floatval($order['totalprice']);
-        if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
+//        if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
+        if ($refund_price > $coin || ($refund_price+$order['refund_price'])*100>$order['totalprice']*100) {
             message('退款金额不能大于订单金额！', $url, 'success');
         }
         if ($order['paytype'] == 2) { //微信支付
@@ -824,12 +831,11 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             } else if ($cur_store['is_jueqi_ymf'] == 1) { //崛起支付
                 $result = $this->refund3($id, $storeid);
             } else {
-                $result = $this->refund2($id, $refund_price);
+                $result = $this->refund2($id, $refund_price,$order['origin_totalprice']);
             }
             if ($result == 1) {
-
                 //开始分摊金额  is_return 表示商品未退的进行分摊。
-                // $refund_price=0.09;
+//         $refund_price=3.75;
                 //  $order['totalprice']= 0.5;
                 $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$id) );
                 $totalRealPrice = 0;
@@ -847,11 +853,14 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
                     pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
                 }
-//         p($ordergoodsList);        die;
                 //分摊结束
+                //将订单总价减少
+                //更新订单金额
+                $order_totalprice = ($order['totalprice'] - $refund_price)>=0?$order['totalprice'] - $refund_price:0;
+                pdo_update($this->table_order, array('totalprice' => $order_totalprice), array('weid' =>
+                    $this->_weid, 'id' => $id));
                 $order["refund_price1"] = $refund_price;
                 $order["ispay"] = 3;//为了初始化订单退款推送状态
-
                 $this->sendOrderNotice($order, $store, $setting);
                 message('退款成功！', $url, 'success');
             } else {
