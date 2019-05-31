@@ -164,30 +164,33 @@ if ($operation == 'display') {
     }
 } elseif ($operation == 'setstatus') {
     if ($_W['role'] == 'manager' || $_W['isfounder']) {
-        $id = intval($_GPC['id']);
-
-        $item = pdo_fetch("SELECT * FROM " . tablename($this->table_businesslog) . " WHERE weid =:weid AND id=:id ORDER BY id DESC LIMIT 1", array(':weid' => $weid, ':id' => $id));
-        if (!empty($item) && $item['stauts']==0) {
+        if(checksubmit('submit')) {
+            $id = intval($_GPC['id']);
+        }else{
+            echo  "提交失败";exit;
+        }
+        pdo()->begin();
+        $item = pdo_fetch("SELECT * FROM " . tablename($this->table_businesslog) . " WHERE weid =:weid AND id=:id  ORDER BY id DESC LIMIT 1 FOR UPDATE", array(':weid' => $weid, ':id' => $id));
+        if (!empty($item) && $item['stauts']==0 && !$item['trade_no'] && !$item['payment_no'] ) {
             $storeid = $item['storeid'];
             $userstore = $this->getStoreById($storeid);
-            //var_dump($userstore);exit();
             if ($item['business_type']== 1) { //微信账号
                 if (empty($userstore['business_openid'])) {
+                    pdo_commit();
                     message('提现账号没有设置对应的微信粉丝，不能提现！');
                 }
                 if (empty($userstore['business_username'])) {
+                    pdo_commit();
                     message('提现账号对应的姓名没填写，不能提现！');
                 }
                 $price = floatval($item['successprice']);
                 if ($price < 1) {
+                    pdo_commit();
                     message('提现金额最少要1元！');
                 }
-
-                
-                
-
                 $result = $this->sendMoney($userstore['business_openid'], $price, $userstore['business_username']);
                 if ($result['result_code'] == 'SUCCESS') {
+//                    file_put_contents("/www/wwwroot/jsd.gogcun.com/sendmony.log",$id."\n".date('Y-m-d H:i:s')."\n",8);
                     $data = array(
                         'status' => 1,
                         'handletime' => TIMESTAMP,
@@ -195,15 +198,17 @@ if ($operation == 'display') {
                         'payment_no' => $result['payment_no']
                     );
                     pdo_update($this->table_businesslog, $data, array('id' => $id, 'weid' => $weid));
+                    pdo_commit();
                     message('提现成功！', $this->createWebUrl('business', array('op' => 'adminbusinesslog')), 'success');
                 } else {
                     pdo_update($this->table_businesslog, array('status' => -1, 'handletime' => TIMESTAMP, 'result' => $result['msg']), array
                     ('id' => $id, 'weid' => $weid));
-
+                    pdo_commit();
                     message('提现失败！' . $result['err_code'], $this->createWebUrl('business', array('op' => 'adminbusinesslog')), 'success');
                 }
             } else {
                 pdo_update($this->table_businesslog, array('status' => 1, 'handletime' => TIMESTAMP), array('id' => $id, 'weid' => $weid));
+                pdo_commit();
                 message('操作成功！', $this->createWebUrl('business', array('op' => 'adminbusinesslog')), 'success');
             }
         }
@@ -220,5 +225,26 @@ if ($operation == 'display') {
         message('您没有相关的操作权限！');
     }
 }
-
+//function checksubmit($var = 'submit', $allowget = false) {
+//    global $_W, $_GPC;
+//    if (empty($_GPC[$var])) {
+//        return FALSE;
+//    }
+//    if(defined('IN_SYS')) {
+//        if (
+//            $allowget || (($_W['ispost'] && !empty($_W['token'])
+//                    && $_W['token'] == $_GPC['token']) && (empty($_SERVER['HTTP_REFERER']) ||
+//                    preg_replace("/https?://([^:/]+).*/i", "1", $_SERVER['HTTP_REFERER']) == preg_replace("/([^:]+).*/", "1", $_SERVER['HTTP_HOST'])))) {
+//            return TRUE;
+//        }
+//    } else {
+//        if(empty($_W['isajax']) && empty($_SESSION['token'][$_GPC['token']])) {
+//                message('抱歉，表单已经失效请您重新进入提交数据', referer(), 'error');
+//            } else {
+//                unset($_SESSION['token'][$_GPC['token']]);
+//            }
+//            return TRUE;
+//    }
+//    return FALSE;
+//}
 include $this->template('web/business');

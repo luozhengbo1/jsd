@@ -474,6 +474,7 @@ ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
             $fansdata['lng'] = $lng;
         }
         if (empty($user)) {
+            p($fansdata);die;
             pdo_insert($this->table_fans, $fansdata);
         } else {
             pdo_update($this->table_fans, $fansdata, array('id' => $user['id']));
@@ -6713,6 +6714,7 @@ EOF;
                     'agentid3' => 0,
                     'dateline' => TIMESTAMP
                 );
+                p($insert);die;
                 pdo_insert($this->table_fans, $insert);
             }
         } else {
@@ -6725,6 +6727,7 @@ EOF;
                     'agentid3' => 0,
                     'dateline' => TIMESTAMP
                 );
+                p($insert);die;
                 pdo_insert($this->table_fans, $insert);
             }
         }
@@ -8718,7 +8721,7 @@ meal_time=:meal_time AND dining_mode=3 AND status<>-1 AND paytype<>0 LIMIT 1", a
         exit(json_encode($vars));
     }
 
-    public function sendMoney($openid, $money, $re_user_name = '', $desc, $trade_no = '')
+    public function sendMoney($openid, $money, $re_user_name = '', $desc="余额提现", $trade_no = '')
     {
         global $_W;
         $paysetting = uni_setting($_W['uniacid'], array('payment'));
@@ -8727,8 +8730,6 @@ meal_time=:meal_time AND dining_mode=3 AND status<>-1 AND paytype<>0 LIMIT 1", a
         $mchid = $wechatpay['mchid'];
         $key = $wechatpay['apikey'];
         $appid = $account_info['key'];
-        //var_dump($mchid,$key,$appid);exit();
-
         $desc = isset($desc) ? $desc : '余额提现';
         $money = $money * 100;
         //var_dump($money);exit();
@@ -8770,7 +8771,7 @@ meal_time=:meal_time AND dining_mode=3 AND status<>-1 AND paytype<>0 LIMIT 1", a
         // exit();
         $path_key = IA_ROOT . '/addons/weisrc_dish/cert/apiclient_key_' . $_W['uniacid'] . '.pem';
         $path_rootca = IA_ROOT . '/addons/weisrc_dish/cert/rootca_' . $_W['uniacid'] . '.pem';
-
+//        p($path_rootca);die;
         $extras['CURLOPT_CAINFO'] = $path_rootca;
         $extras['CURLOPT_SSLCERT'] = $path_cert;
         $extras['CURLOPT_SSLKEY'] = $path_key;

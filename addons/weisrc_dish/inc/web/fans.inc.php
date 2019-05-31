@@ -77,7 +77,6 @@ storeid=:storeid  GROUP BY from_user,weid having weid = :weid", array(':weid' =>
 } else if ($operation == 'post') {
     $id = intval($_GPC['id']);
     $item = pdo_fetch("SELECT * FROM " . tablename($this->table_fans) . " WHERE id = :id", array(':id' => $id));
-
     $order_count = pdo_fetchcolumn("SELECT COUNT(1) as count FROM " . tablename($this->table_order) . " WHERE from_user=:from_user AND weid = :weid AND storeid=:storeid ", array(':weid' => $weid, ':from_user' => $item['from_user'], ':storeid' => $storeid));
     $cancel_count = pdo_fetchcolumn("SELECT COUNT(1) as count FROM " . tablename($this->table_order) . " WHERE from_user=:from_user AND weid = :weid AND status=-1 AND storeid=:storeid ", array(':weid' => $weid, ':from_user' => $item['from_user'], ':storeid' => $storeid));
     $pay_price = pdo_fetchcolumn("SELECT sum(totalprice) as totalprice FROM " . tablename($this->table_order)

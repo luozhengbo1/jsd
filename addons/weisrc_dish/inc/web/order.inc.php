@@ -811,12 +811,12 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         $refund_price = floatval($_GPC['refund_price']);
         $after_total = ($order['totalprice'] * 100 - $refund_price * 100) / 100;
         if($store['store_type']==1){
-            if($store['store_type']==1 && $store['is_delivery_distance']==1  && $after_total < $store['sendingprice']){
+            if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] &&  $after_total < $store['sendingprice']){
                 message('退款后订单低于配送价格不支持退款！', '', 'error');
                 exit;
             }
         }elseif ($store['store_type']==3){
-            if( $after_total < $store['sendingprice']){
+            if(  $store['sendingprice'] && $after_total < $store['sendingprice']){
                 message('退款后订单低于配送价格不支持退款！', '', 'error');
                 exit;
             }

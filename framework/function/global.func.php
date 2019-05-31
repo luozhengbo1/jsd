@@ -126,6 +126,7 @@ function random($length, $numeric = FALSE) {
 
 function checksubmit($var = 'submit', $allowget = false) {
 	global $_W, $_GPC;
+
 	if (empty($_GPC[$var])) {
 		return FALSE;
 	}

@@ -45,6 +45,8 @@ if (empty($fans)) {
     $this->updateFans($nickname, $headimgurl, $fans['id']);
 }
 $fans = $this->getFansByOpenid($from_user);
+//p($nickname);
+//p($fans);die;
 $slide = $this->getSlidesByPos(2);
 $adlist = $this->getSlidesByPos(3);
 

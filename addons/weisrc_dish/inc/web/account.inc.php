@@ -13,7 +13,7 @@ if ($operation == 'post') {
         $account = pdo_fetch("SELECT * FROM " . tablename($this->table_account) . " WHERE weid = :weid AND id=:id ORDER BY id DESC", array(':weid' => $this->_weid, ':id' => $id));
         $fans = $this->getFansByOpenid($account['from_user']);
     }
-
+//    p($account);die;
     if (!empty($account)) {
         $users = user_single($account['uid']);
     }
