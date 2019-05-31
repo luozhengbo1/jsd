@@ -83,7 +83,10 @@
                 var labelText = [];
 
                 this.$wrap.find('.fs-option.selected').each(function(i, el) {
-                    labelText.push($(el).find('.fs-option-label').text());
+                    var allgoods = "全部商品"
+                    if($(el).context.innerText.trim() != allgoods.trim()){
+                        labelText.push($(el).find('.fs-option-label').text());
+                    }
                 });
 
                 if (labelText.length < 1) {
