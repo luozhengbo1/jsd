@@ -188,7 +188,8 @@
     function noClickAll(val){
         if (val !='selected'){
             $('.fs-option.selected').each(function(i, el) {
-                if($(el).context.innerText == '全部商品'){
+                var allgoods = "全部商品"
+                if($(el).context.innerText.trim() == allgoods.trim()){
                     $(this).removeClass('selected');
                     $(this).attr('data-value');
                 }
@@ -200,9 +201,9 @@
         var obj = $(this)
         if ($wrap.hasClass('multiple')) {
             var selected = [];
-
             $(this).toggleClass('selected');
-            if(obj.context.innerText == '全部商品'){
+            var allgoods = "全部商品"
+            if(obj.context.innerText.trim() == allgoods.trim()){
                 clickAll(obj.context.classList[1])
             }else{
                 noClickAll(obj.context.classList[1])

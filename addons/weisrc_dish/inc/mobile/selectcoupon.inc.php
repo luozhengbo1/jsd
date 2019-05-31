@@ -23,7 +23,7 @@ if( !empty($coupon['goodsids']) ){
                 $total = $total + $v["total"]*$v["price"];
                 if ($total >= $coupon['gmoney']){
                     $flag =true ;
-                    continue;
+                    break;
                 }
             }
         }
