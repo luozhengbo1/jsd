@@ -74,10 +74,16 @@ if ($is_handle_goods == 1) {
         if (empty($cart)) {
             $this->showTip('请先添加商品!');
         }
-
-//        else {
-//            $goods = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE id IN (SELECT goodsid FROM " . tablename($this->table_cart) . " WHERE weid = :weid AND from_user = :from_user AND storeid=:storeid)", array(':weid' => $weid, ':from_user' => $from_user, ':storeid' => $storeid));
-//        }
+        $goodsid = implode(',', array_column($cart, 'goodsid'));
+        $goods = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE id IN ($goodsid)", array(':weid' => $weid, ':from_user' => $from_user, ':storeid' => $storeid));
+        if (empty($goods)) {
+            $this->showTip('商品已删除!');
+        }
+        foreach ($goods as $k => $v){
+            if ($v["deleted"] == 1){
+                $this->showTip($v["title"].'已删除!');
+            }
+        }
     }
 }
 if ($is_auto_address == 0) { //多收餐地址
