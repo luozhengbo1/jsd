@@ -398,7 +398,7 @@
 
                                 {if $item['ispay'] == 1 || $item['ispay'] == 2 || $item['ispay'] == 4}
                                 <a class="btn btn-danger btn-sm btnrefund"
-                                   href="javascript:void(0);" title="退款" data-orderid={$item['id']} data-price="{$item['totalprice']}" data-refund="{$item['refund_price']}" >退款</a>
+                                   href="javascript:void(0);" title="退款" data-orderid={$item['id']} data-price="{$item['totalprice']}"  data-origin-price="{$item['origin_totalprice']}" data-refund="{$item['refund_price']}" >退款</a>
                                 {/if}
                                 {/if}
                                 {if $item['ispay'] == 1 && $item['status'] == 1 && $cur_store['store_type'] == 3}
@@ -556,10 +556,16 @@
 <script type="text/javascript">
     $(function () {
         $("tr").delegate(".btnrefund", "click", function () {
-            var money=0,money2 = 0
+            var money=0,money2 = 0,origin_money=0
             money = $(this).attr("data-price")*100
+            origin_money = $(this).attr("data-origin-price")*100
+            console.log(origin_money)
+            if(origin_money!=money){
+                money = origin_money
+            }
             var money1 = $(this).attr("data-refund")*100
             money2 = money-money1
+            console.log(money)
             console.log(money1)
             console.log(money2)
             if (money2<0){

@@ -4782,7 +4782,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
             }
             //付款单推送
-            if($order["ispay"] == 1 && $order["status"] == 1 && ($store["store_type"] == 1 || $store["store_type"]==3) ){
+//            if($order["ispay"] == 1 && $order["status"] == 1 && ($store["store_type"] == 1 || $store["store_type"]==3) ){
+            if($order["ispay"] == 1 && $order["status"] == 1 ){
                 //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
@@ -4812,7 +4813,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
               //  file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
 
             }
-            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) && ($store["store_type"] == 1 || $store["store_type"]==3)  ){
+//            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) && ($store["store_type"] == 1 || $store["store_type"]==3)  ){
+            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 )   ){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
@@ -5044,7 +5046,18 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 //        }
         $storeid = $order['storeid'];
         $store = $this->getStoreById($storeid);
-
+        $ordertypestr="";
+        switch ($store['store_type']){
+            case 3:
+                $ordertypestr = "邮寄";
+                break;
+            case 2:
+                $ordertypestr = "堂食";
+                break;
+            case 1:
+                $ordertypestr = "外卖";
+                break;
+        }
         $site_url = str_replace('addons/bm_payu/', '', $_W['siteroot']);
         $site_url = str_replace('addons/bm_payms/', '', $site_url);
         $site_url = str_replace('addons/jxkj_unipay/', '', $site_url);
@@ -5071,13 +5084,15 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $tablename = $this->getTableName($order['tables']);
                 $remark .= "\n桌台信息：{$tablename}";
             }
-            $remark .= "\n订单类型：{$ordertype[$order['dining_mode']]}";
+//            $remark .= "\n订单类型：{$ordertype[$order['dining_mode']]}";
+
+            $remark .= "\n订单类型：{$ordertypestr}";
             $remark .= "\n支付方式：{$paytype[$order['paytype']]}";
             $remark .= "\n支付状态：{$paystatus[$order['ispay']]}";
 
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
-                $remark .= "\n商品名称 属性  单价 数量  小计";
+                $remark .= "\n商品名称 属性   数量  小计";
                 $remark .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
                     $optionstring = '';
@@ -5087,7 +5102,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             $optionstring .= "(".$optionname[$i].")";
                         }
                     }
-                    $remark .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $remark .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
 
@@ -5166,7 +5181,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $this->addTplLog($order, $from_user, '配送员订单通知', $result);
         } else {
             $content = "您有新的配送订单";
-            $content .= "\n订单类型：{$ordertype[$order['dining_mode']]}";
+            $content .= "\n订单类型：{$ordertypestr}";
             $content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
             $content .= "\n时间：{$keyword3}";
@@ -5179,7 +5194,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
-                $content .= "\n商品名称 属性  单价 数量  小计";
+                $content .= "\n商品名称 属性   数量  小计";
                 $content .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
                     $optionstring = '';
@@ -5189,7 +5204,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             $optionstring .= "(".$optionname[$i].")";
                         }
                     }
-                    $content .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $content .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
             if ($order['dining_mode'] == 3) {
@@ -5262,7 +5277,18 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         $site_url = str_replace('addons/jxkj_unipay/', '', $site_url);
 
         $url = $site_url . 'app' . str_replace('./', '/', $this->createMobileUrl('adminorderdetail', array('orderid' => $oid), true));
-
+        $ordertypestr="";
+        switch ($store['store_type']){
+            case 3:
+                $ordertypestr = "邮寄";
+                break;
+            case 2:
+                $ordertypestr = "堂食";
+                break;
+            case 1:
+                $ordertypestr = "外卖";
+                break;
+        }
         $keyword1 = $order['ordersn'];
         $keyword2 = $orderStatus[$order['status']];
         $keyword3 = date("Y-m-d H:i", $order['dateline']);
@@ -5274,7 +5300,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $tablename = $this->getTableName($order['tables']);
                 $remark .= "\n桌台信息：{$tablename}";
             }
-            $remark .= "\n订单类型：{$ordertype[$order['dining_mode']]}";
+            $remark .= "\n订单类型：{$ordertypestr}";
             $remark .= "\n支付方式：{$paytype[$order['paytype']]}";
             $remark .= "\n支付状态：{$paystatus[$order['ispay']]}";
 
@@ -5287,7 +5313,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 //                }
 //            }
             if (!empty($goods)) {
-                $remark .= "\n商品名称 属性  单价 数量  小计";
+                $remark .= "\n商品名称 属性  数量  小计";
                 $remark .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
                     $optionstring = '';
@@ -5297,7 +5323,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             $optionstring .= "(".$optionname[$i].")";
                         }
                     }
-                    $remark .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $remark .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
 
@@ -5384,7 +5410,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content = "您有新的订单";
             }
             $date = date("Y-m-d H:i",  time());
-            $content .= "\n订单类型：{$ordertype[$order['dining_mode']]}";
+            $content .= "\n订单类型：{$ordertypestr}";
             $content .= "\n订单号：{$keyword1}";
             $content .= "\n订单状态：{$keyword2}";
             //$content .= "\n时间：{$keyword3}";
@@ -5403,7 +5429,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             }
             $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE a.weid = :weid and a.orderid=:orderid", array(':weid' => $weid, ':orderid' => $oid));
             if (!empty($goods)) {
-                $content .= "\n商品名称 属性  单价 数量  小计";
+                $content .= "\n商品名称 属性   数量  小计";
                 $content .= "\n－－－－－－－－－－－－－－－－";
                 foreach ($goods as $key => $value) {
                     $optionstring = '';
@@ -5415,7 +5441,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             }
                         }
                     }
-                    $content .= "\n{$value['title']} {$optionstring} {$value['price']} {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $content .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
                 }
             }
             if ($order['dining_mode'] == 3) {
@@ -7779,6 +7805,61 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
         if ($goodsnum > $total) {
             message('退货数量大于商品数量!');
         }
+        $refund_price =0 ;
+        if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
+            $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$orderid) );
+//            $totalRealPrice = 0;
+            $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
+            foreach ($ordergoodsList as $k=>$v){
+                if($v['goodsid']==$goodsid ){
+                    if($totalPrice_total==$order['origin_totalprice']){
+                        $ordergoodsList[$k]['real_tmp_price']=  floor($v['price']*$v['total']*100-$v['real_price']*100)/(100* $v['total']) ;
+                    }else{ //订单被改价后  优惠单不支持退款
+                        $refund_price = 0;
+                    }
+//                        $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
+                    $refund_price =  $ordergoodsList[$k]['real_tmp_price']*$goodsnum;
+                }
+            }
+            //修改订单总价
+            if($refund_price == 0){
+                $totalprice = floatval($order['totalprice']) - $goodsprice;
+            }else{
+                $totalprice = floatval($order['totalprice']) - $refund_price;
+            }
+            if($store['store_type']==1){
+                $bjRes = bccomp($totalprice, $store['sendingprice'],2);
+                if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  ){
+                    message('退款后订单低于配送价格不支持退款！', '', 'error');
+                    exit;
+                }
+            }elseif ($store['store_type']==3){
+                if(  $store['sendingprice'] && $totalprice < $store['sendingprice']){
+                    message('退款后订单低于配送价格不支持退款！', '', 'error');
+                    exit;
+                }
+            }
+            if($refund_price>0){
+                $origin_totalprice = $order['origin_totalprice'];
+                $result = $this->refund2($orderid, $refund_price,$origin_totalprice);
+                $order["refund_price1"] = $refund_price;
+                $order["ispay"] = 3;//为了初始化订单退款推送状态
+                $weid = $this->_weid;
+                if ($result == 1) {
+                    $setting = pdo_fetch("select * from " . tablename($this->table_setting) . " where weid =:weid LIMIT 1", array(':weid' => $weid));
+                    $this->sendOrderNotice($order, $store, $setting);
+                    //退款记录
+                    $this->addOrderLog($orderid, $_W['user']['username'], 2, 2, 6);
+                }
+            }
+
+        }
+        //修改订单总价
+        if($refund_price == 0){
+            $totalprice = floatval($order['totalprice']) - $goodsprice;
+        }else{
+            $totalprice = floatval($order['totalprice']) - $refund_price;
+        }
         //將商品庫存加回來
         $sql = "select a.*,b.isoptions,b.counts,b.today_counts,b.sales,a.dateline from
         ".tablename('weisrc_dish_order_goods')."as a left join
@@ -7799,37 +7880,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
                 }
             }
         }
-        $refund_price =0 ;
-        if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
-            $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$orderid) );
-//            $totalRealPrice = 0;
-            $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
-            foreach ($ordergoodsList as $k=>$v){
-                if($v['goodsid']==$goodsid ){
-                    if($totalPrice_total==$order['origin_totalprice']){
-                        $ordergoodsList[$k]['real_tmp_price']=  floor($v['price']*$v['total']*100-$v['real_price']*100)/(100* $v['total']) ;
-                    }else{ //订单被改价后  优惠单不支持退款
-                        $refund_price = 0;
-                    }
-//                        $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
-                    $refund_price =  $ordergoodsList[$k]['real_tmp_price']*$goodsnum;
-                }
-            }
-            if($refund_price>0){
-                $origin_totalprice = $order['origin_totalprice'];
-                $result = $this->refund2($orderid, $refund_price,$origin_totalprice);
-                $order["refund_price1"] = $refund_price;
-                $order["ispay"] = 3;//为了初始化订单退款推送状态
-                $weid = $this->_weid;
-                if ($result == 1) {
-                    $setting = pdo_fetch("select * from " . tablename($this->table_setting) . " where weid =:weid LIMIT 1", array(':weid' => $weid));
-                    $this->sendOrderNotice($order, $store, $setting);
-                    //退款记录
-                    $this->addOrderLog($orderid, $_W['user']['username'], 2, 2, 6);
-                }
-            }
 
-        }
         if ($total == $goodsnum) {
 //            pdo_delete($this->table_order_goods, array('id' => $item['id']));
             pdo_update($this->table_order_goods, array('is_return' => 1), array('id' => $item['id']));
@@ -7845,12 +7896,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $item['goodsid']));
         $touser = $_W['user']['username'] . '&nbsp;退菜：' . $goods['title'] . "*" . $goodsnum . ",";
         $this->addOrderLog($orderid, $touser, 2, 2, 1);
 
-        //修改订单总价
-        if($refund_price == 0){
-            $totalprice = floatval($order['totalprice']) - $goodsprice;
-        }else{
-            $totalprice = floatval($order['totalprice']) - $refund_price;
-        }
+
         $goodsprice = floatval($order['goodsprice']) - $goodsprice;
         //更新订单金额
         $totalnum = $order['totalnum']-$goodsnum;
@@ -8495,7 +8541,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         }
         return $text;
     }
-    function doWebRefund2_test($id="85784")
+    function doWebRefund2_test($id="85848")
     {
         global $_W;
         include_once IA_ROOT . '/addons/weisrc_dish/cert/WxPay.Api.php';
@@ -8519,13 +8565,13 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
 //            }else{
 //                $fee = $refund_order['totalprice'] * 100;
 //            }
-            $refundfee = 3.75*100;
+            $refundfee = 3.1*100;
             $refundid = $refund_order['transid'];
             $input->SetAppid($appid);
             $input->SetMch_id($mchid);
             $input->SetOp_user_id($mchid);
-            $input->SetRefund_fee(3.75*100);
-            $input->SetTotal_fee(8*100);
+            $input->SetRefund_fee(3.1*100);
+            $input->SetTotal_fee(5.1*100);
             $input->SetTransaction_id($refundid);
 //            $input->SetOut_refund_no($refund_order['id']);
             $input->SetOut_refund_no($refund_order['id'].time());

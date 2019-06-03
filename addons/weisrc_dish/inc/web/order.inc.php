@@ -806,32 +806,61 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     // if (!$this->exists()) {
     //     message('退款失败!!！', $url, 'error');
     // }
+    //开始分摊金额  is_return 表示商品未退的进行分摊。
+//         $refund_price=3.75;
+    //  $order['totalprice']= 0.5;
+//    $refund_price = floatval($_GPC['refund_price']);
+//    $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$id) );
+//    $totalRealPrice = 0;
+//    $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
+//    foreach ($ordergoodsList as $k=>$v){
+//        //  $ordergoodsList[$k]['real_price']=  floor($v['price']*$v['total']/$order['totalprice'] * $refund_price *100)/100;
+//        $ordergoodsList[$k]['real_tmp_price']=  number_format($v['price']*$v['total']/5.1 * $refund_price,2) ;
+//        $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
+//        p($ordergoodsList[$k]['real_tmp_price']);
+//    }
+//    $errorMoney = ($refund_price*100 - $totalRealPrice*100)/100 ;
+//    $ordergoodsList[0]['real_tmp_price'] =($ordergoodsList[0]['real_tmp_price']*100+ $errorMoney*100)/100;
+////    p($errorMoney);
+//    foreach ($ordergoodsList as $k=>$v){
+//        $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
+//        p($updateRealMoney);
+//        //pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
+//    }
+//    die;
+    //分摊结束
     //不是取消的订单做个退款判断
     if($order['status']!=-1) {
         $refund_price = floatval($_GPC['refund_price']);
         $after_total = ($order['totalprice'] * 100 - $refund_price * 100) / 100;
         if($store['store_type']==1){
-            if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] &&  $after_total < $store['sendingprice']){
-                message('退款后订单低于配送价格不支持退款！', '', 'error');
+            $bjRes = bccomp($after_total,$store['sendingprice'],2);
+            if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1   ){
+                message('退款后订单低于配送价格不支持退款！', $url, 'error');
                 exit;
             }
         }elseif ($store['store_type']==3){
             if(  $store['sendingprice'] && $after_total < $store['sendingprice']){
-                message('退款后订单低于配送价格不支持退款！', '', 'error');
+                message('退款后订单低于配送价格不支持退款！', $url, 'error');
                 exit;
             }
         }
-
     }
 
     $this->addOrderLog($id, $_W['user']['username'], 2, 2, 6);
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
 
-        $coin = floatval($order['totalprice']);
-//        if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
-        if ($refund_price > $coin || ($refund_price+$order['refund_price'])*100>$order['totalprice']*100) {
-            message('退款金额不能大于订单金额！', $url, 'success');
+        if(bccomp($order['totalprice'],$order['origin_totalprice'],2)!=0 ){
+          $origin_totalprice = $order['origin_totalprice'];
+        }else{
+            $origin_totalprice =$order['totalprice'] ;
+        }
+        //退款金额的比较
+        $refundBjRes = bccomp($refund_price+$order['refund_price'],$origin_totalprice,2);
+        $refundBjRes1 = bccomp($refund_price,$origin_totalprice,2);
+        if ($refundBjRes1==1 ||  $refundBjRes1==0 || $refundBjRes==1 || $refundBjRes==0 ) {
+            message('退款金额不能大于订单金额！', $url, 'error');
         }
         if ($order['paytype'] == 2) { //微信支付
             if ($cur_store['is_jxkj_unipay'] == 1) { //万融收银
@@ -852,18 +881,19 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     //  $ordergoodsList[$k]['real_price']=  floor($v['price']*$v['total']/$order['totalprice'] * $refund_price *100)/100;
                     $ordergoodsList[$k]['real_tmp_price']=  number_format($v['price']*$v['total']/$totalPrice_total * $refund_price,2) ;
                     $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
-//            p($ordergoodsList[$k]['real_price']);
                 }
+//    p($totalRealPrice);
                 $errorMoney = ($refund_price*100 - $totalRealPrice*100)/100 ;
                 $ordergoodsList[0]['real_tmp_price'] =($ordergoodsList[0]['real_tmp_price']*100+ $errorMoney*100)/100;
-                //  p($errorMoney);
+//    p($errorMoney);
                 foreach ($ordergoodsList as $k=>$v){
                     $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
                     pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
                 }
+//    p($updateRealMoney);
+//    die;
                 //分摊结束
-                //将订单总价减少
-                //更新订单金额
+                //将订单总价减少 更新订单金额
                 $order_totalprice = ($order['totalprice'] - $refund_price)>=0?$order['totalprice'] - $refund_price:0;
                 pdo_update($this->table_order, array('totalprice' => $order_totalprice), array('weid' =>
                     $this->_weid, 'id' => $id));

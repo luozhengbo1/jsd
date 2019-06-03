@@ -461,7 +461,7 @@
         totalprice = parseFloat($("#totalprice").val());
         if (totalprice <= 0) { alert("总价格为0"); return false; }
 
-        if (confirm("确认取消吗?")) {
+        if (confirm("确认取消吗?若是当日订单会恢复对应商品库存,是否确认？")) {
             var url = "{php echo $this->createMobileUrl('setadminorder', array('orderid' => $order['id'], 'status' => 'cancel'), true)}" + '&totalprice=' + totalprice + '&remark=' + remark;
             window.location.href = url;
         }
