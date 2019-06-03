@@ -313,6 +313,12 @@
         }
     </style>
     <script>
+        if(window.name != "bencalie"){
+            location.reload();
+            window.name = "bencalie";
+        }else{
+            window.name = "";
+        }
         $(function () {
 //          $('.shopheader-notice, .shopheader-logo, .shopheader-name, .activity-wrap').click(function(e) {
 //                $('.vue-wrapper').css({"display":"block"})
