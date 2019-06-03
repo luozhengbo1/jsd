@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a0aba3ea-db3e-4c97-8d65-24e7fa68d6a8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/index.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/index.inc.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/inc/web/order.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/inc/web/order.inc.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/site.php" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/site.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/admin_orderdetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/admin_orderdetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/menu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/web/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/web/order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addons/weisrc_dish/template/web/order_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/addons/weisrc_dish/template/web/order_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql" beforeDir="false" afterPath="$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +28,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.2800441">
+    <splitter split-orientation="horizontal" split-proportion="0.31753033">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -83,8 +79,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/web/order.inc.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-31">
-                  <caret line="837" column="107" lean-forward="true" selection-start-line="837" selection-start-column="107" selection-end-line="837" selection-end-column="107" />
+                <state relative-caret-position="270">
+                  <caret line="812" selection-start-line="812" selection-start-column="2" selection-end-line="830" selection-end-column="10" />
                   <folding>
                     <element signature="e#1094#5105#0#PHP" />
                     <element signature="e#7349#8402#0#PHP" />
@@ -105,10 +101,28 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="369">
+                  <caret line="149" column="17" lean-forward="true" selection-start-line="149" selection-start-column="17" selection-end-line="149" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/goods.html">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="4563">
                   <caret line="169" column="43" selection-start-line="169" selection-start-column="25" selection-end-line="169" selection-end-column="43" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="410">
+                  <caret line="27" selection-start-line="27" selection-end-line="27" selection-end-column="113" />
                 </state>
               </provider>
             </entry>
@@ -141,8 +155,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/site.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="331">
-                  <caret line="7831" column="121" selection-start-line="7831" selection-start-column="121" selection-end-line="7831" selection-end-column="121" />
+                <state relative-caret-position="-74">
+                  <caret line="7827" column="20" lean-forward="true" selection-start-line="7827" selection-start-column="20" selection-end-line="7827" selection-end-column="20" />
                   <folding>
                     <element signature="e#3219#5701#0#PHP" />
                     <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
@@ -222,14 +236,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>checksubmit</find>
-      <find>$allowget</find>
-      <find>$price</find>
-      <find>adminbusinesslog</find>
-      <find>n checksubmit</find>
-      <find>sendMoney</find>
-      <find>pdo_insert($this-&gt;table_fans</find>
-      <find>审核</find>
       <find>pdo</find>
       <find>table_businesslog</find>
       <find>NO_AUTH</find>
@@ -242,7 +248,6 @@
       <find>$ordertype</find>
       <find>$store</find>
       <find>订单提</find>
-      <find>退菜</find>
       <find>switch</find>
       <find>$ordertypestr</find>
       <find>退款</find>
@@ -252,6 +257,15 @@
       <find>yy</find>
       <find>data-price</find>
       <find>$coin</find>
+      <find>_test</find>
+      <find>退菜</find>
+      <find>$totalRealPrice</find>
+      <find>updateRealMoney</find>
+      <find>ral_tmp_price</find>
+      <find>$updateRealMoney</find>
+      <find>ral_tmp</find>
+      <find>ral_</find>
+      <find>real_tmp</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -296,7 +310,6 @@
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/cancelorder.inc.php" />
         <option value="$PROJECT_DIR$/addons/ewei_shopv2/core/model/common.php" />
         <option value="$PROJECT_DIR$/framework/model/payment.mod.php" />
-        <option value="$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql" />
         <option value="$PROJECT_DIR$/payment/wechat/pay.php" />
         <option value="$PROJECT_DIR$/crontab/crontab_check_order.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/wapmenu.inc.php" />
@@ -304,7 +317,6 @@
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/web/goods.inc.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/address_mapselecte.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/web/goods_tab_basic.html" />
-        <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/web/coreuser.inc.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/web/account.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/web/account.inc.php" />
@@ -319,6 +331,8 @@
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/admin_orderdetail.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/menu.html" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/template/web/order.html" />
+        <option value="$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql" />
+        <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/inc/web/order.inc.php" />
         <option value="$PROJECT_DIR$/addons/weisrc_dish/site.php" />
       </list>
@@ -470,12 +484,12 @@
       <workItem from="1559110578969" duration="806000" />
       <workItem from="1559177868006" duration="18528000" />
       <workItem from="1559265150853" duration="28000" />
-      <workItem from="1559266540760" duration="34106000" />
+      <workItem from="1559266540760" duration="39101000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="596179000" />
+    <option name="totallyTimeSpent" value="601174000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -726,13 +740,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3672">
-          <caret line="136" column="52" selection-start-line="136" selection-start-column="52" selection-end-line="136" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/web/goods_tab_basic.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3591">
@@ -932,13 +939,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="10" selection-start-line="10" selection-end-line="32" selection-end-column="125" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/template/mobile/style1/list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="812">
@@ -960,10 +960,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/misc/sql/2019-4-25添加物流单号/Jsdgogcuncom_update.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="27" selection-start-line="27" selection-end-line="27" selection-end-column="113" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/mobile/setadminorder.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="149" column="17" lean-forward="true" selection-start-line="149" selection-start-column="17" selection-end-line="149" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/inc/web/order.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-31">
-          <caret line="837" column="107" lean-forward="true" selection-start-line="837" selection-start-column="107" selection-end-line="837" selection-end-column="107" />
+        <state relative-caret-position="270">
+          <caret line="812" selection-start-line="812" selection-start-column="2" selection-end-line="830" selection-end-column="10" />
           <folding>
             <element signature="e#1094#5105#0#PHP" />
             <element signature="e#7349#8402#0#PHP" />
@@ -984,8 +998,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/addons/weisrc_dish/site.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="7831" column="121" selection-start-line="7831" selection-start-column="121" selection-end-line="7831" selection-end-column="121" />
+        <state relative-caret-position="-74">
+          <caret line="7827" column="20" lean-forward="true" selection-start-line="7827" selection-start-column="20" selection-end-line="7827" selection-end-column="20" />
           <folding>
             <element signature="e#3219#5701#0#PHP" />
             <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />

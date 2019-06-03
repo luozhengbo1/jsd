@@ -7812,15 +7812,19 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
             $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
             foreach ($ordergoodsList as $k=>$v){
                 if($v['goodsid']==$goodsid ){
-                    if($totalPrice_total==$order['origin_totalprice']){
-                        $ordergoodsList[$k]['real_tmp_price']=  floor($v['price']*$v['total']*100-$v['real_price']*100)/(100* $v['total']) ;
-                    }else{ //订单被改价后  优惠单不支持退款
-                        $refund_price = 0;
-                    }
-//                        $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
+//                    if(bccomp($totalPrice_total,$order['totalprice'],2)==0){
+//                    p($v['price']*100);
+//                    p($v['real_price']*100);
+//                    p($v['real_price']*100/ $v['total']);
+                        $ordergoodsList[$k]['real_tmp_price']=  floor($v['price']*100-$v['single_real_price']*100 )/100 ;
+//                    }else{ //订单被改价后  优惠单不支持退款
+//                        $refund_price = 0;
+//                    }
+//                   $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
                     $refund_price =  $ordergoodsList[$k]['real_tmp_price']*$goodsnum;
                 }
             }
+//            p($refund_price);die;
             //修改订单总价
             if($refund_price == 0){
                 $totalprice = floatval($order['totalprice']) - $goodsprice;
@@ -7839,7 +7843,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
                     exit;
                 }
             }
-            if($refund_price>0){
+            if($refund_price){
                 $origin_totalprice = $order['origin_totalprice'];
                 $result = $this->refund2($orderid, $refund_price,$origin_totalprice);
                 $order["refund_price1"] = $refund_price;
@@ -8541,7 +8545,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         }
         return $text;
     }
-    function doWebRefund2_test($id="85848")
+    function doWebRefund2_test($id="85851")
     {
         global $_W;
         include_once IA_ROOT . '/addons/weisrc_dish/cert/WxPay.Api.php';
@@ -8565,13 +8569,13 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
 //            }else{
 //                $fee = $refund_order['totalprice'] * 100;
 //            }
-            $refundfee = 3.1*100;
+            $refundfee = 3.75*100;
             $refundid = $refund_order['transid'];
             $input->SetAppid($appid);
             $input->SetMch_id($mchid);
             $input->SetOp_user_id($mchid);
-            $input->SetRefund_fee(3.1*100);
-            $input->SetTotal_fee(5.1*100);
+            $input->SetRefund_fee(3.75*100);
+            $input->SetTotal_fee(8*100);
             $input->SetTransaction_id($refundid);
 //            $input->SetOut_refund_no($refund_order['id']);
             $input->SetOut_refund_no($refund_order['id'].time());

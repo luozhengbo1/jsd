@@ -25,6 +25,7 @@ alter table  `ims_weisrc_dish_order` add `order_ps_type` tinyint(1) default 2 CO
 
 
 	alter table `ims_weisrc_dish_order_goods` add `real_price` decimal(10,2) default 0 COMMENT '实际分摊金额';
+	alter table `ims_weisrc_dish_order_goods` add `single_real_price` decimal(10,2) default 0 COMMENT '单个实际分摊金额';
 	alter table `ims_weisrc_dish_order_goods` add `is_return` tinyint(1) default 0 COMMENT '0 未退，1已退';
 	alter table `ims_weisrc_dish_goods` add `basic_counts` int(11) default 0 COMMENT '基础库存';
 	alter table `ims_weisrc_dish_goods` add `add_counts` int(11) default 0 COMMENT '新增库存';

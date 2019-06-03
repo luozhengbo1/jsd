@@ -144,7 +144,8 @@ if ($orderstatus[$status] == 2) { //支付
                 $ordergoodsList[0]['real_tmp_price'] =($ordergoodsList[0]['real_tmp_price']*100+ $errorMoney*100)/100;
                 //  p($errorMoney);
                 foreach ($ordergoodsList as $k=>$v){
-                    $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
+                    $updateRealMoney =['real_price' =>$v['real_price'] + $v['real_tmp_price'],'single_real_price'=>($v['real_price'] + $v['real_tmp_price'])/$v['total'] ];
+//                    $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'] ];
                     pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
                 }
                 //  p($ordergoodsList); die;
