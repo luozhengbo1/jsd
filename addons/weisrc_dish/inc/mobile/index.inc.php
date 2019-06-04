@@ -149,6 +149,8 @@ if ($areaid != 0) {
 if ($typeid != 0) {
     $strwhere .= " AND typeid={$typeid} ";
 }
+//给默认值
+$sortid=1;
 if ($sortid == 1) {
     $timein = date('H:i');
     $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";

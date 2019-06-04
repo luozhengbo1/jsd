@@ -7834,11 +7834,6 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
             if($refund_price<0){
                 message('退款分摊已经大于商品单价，不支持退菜操作!');
             }
-//            p($goodsprice);
-//            p($order['totalprice']);
-//            p($refund_price);
-//            p($totalprice);
-//            die;
             if($store['store_type']==1){
                 $bjRes = bccomp($totalprice, $store['sendingprice'],2);
                 if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  ){
@@ -7854,6 +7849,14 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
 
             if($refund_price){
                 $origin_totalprice = $order['origin_totalprice'];
+                //其他订单只有一个商品 没退
+                if($total==$goodsnum && $item['id']==$ordergoodsList[0]['id'] && !$ordergoodsList[1]){
+                    $refund_price += $totalprice;
+                    pdo_update($this->table_order, array('status' => -1), array('id' =>$orderid));
+                }
+//                p($refund_price);
+//                p($ordergoodsList);
+//                p($item);die;
                 $result = $this->refund2($orderid, $refund_price,$origin_totalprice);
                 $order["refund_price1"] = $refund_price;
                 $order["ispay"] = 3;//为了初始化订单退款推送状态
@@ -8556,7 +8559,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         }
         return $text;
     }
-    function doWebRefund2_test($id="85851")
+    function doWebRefund2_test($id="85910")
     {
         global $_W;
         include_once IA_ROOT . '/addons/weisrc_dish/cert/WxPay.Api.php';
@@ -8580,12 +8583,12 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
 //            }else{
 //                $fee = $refund_order['totalprice'] * 100;
 //            }
-            $refundfee = 3.75*100;
+            $refundfee = 1.89*100;
             $refundid = $refund_order['transid'];
             $input->SetAppid($appid);
             $input->SetMch_id($mchid);
             $input->SetOp_user_id($mchid);
-            $input->SetRefund_fee(3.75*100);
+            $input->SetRefund_fee(1.89*100);
             $input->SetTotal_fee(8*100);
             $input->SetTransaction_id($refundid);
 //            $input->SetOut_refund_no($refund_order['id']);

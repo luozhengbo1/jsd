@@ -565,6 +565,7 @@
                         <th style="width:15%;">商品名称</th>
                         <th style="text-align:center;width:10%;">图片</th>
                         <th style="text-align:center;width:10%;">单价(元)</th>
+                        <th style="text-align:center;width:10%;">退款分摊金额</th>
                         <th style="text-align:center;width:10%;">奖励积分</th>
                         <th style="text-align:center;width:10%;">数量</th>
                         <th style="text-align:center; width:10%;">小计(元)</th>
@@ -591,6 +592,9 @@
                         </td>
                         <td style="text-align:center;">
                             {$row['price']}{if $item['isvip']==1}(会员){/if}
+                        </td>
+                        <td style="text-align:center;">
+                            {$row['real_price']}
                         </td>
                         <td style="text-align:center;">
                             {$row['credit']}

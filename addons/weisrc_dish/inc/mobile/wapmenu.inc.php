@@ -74,8 +74,10 @@ foreach ($cart as $key => $value) {
      // echo $value;
         $send_way = $value['psnum'];
 }
+//p($cart);
 $psnum = $psnum?$psnum:$send_way;
 // var_dump($send_way);
+// p($psnum);die;
 $select_mealdate = '';
 if (!empty($store['delivery_within_days'])) {
     $delivery_within_days = intval($store['delivery_within_days']) + 1;
@@ -361,7 +363,6 @@ if ($store['is_delivery_distance'] == 1) { //按距离收费
     }else{
         if ($distance > $delivery_radius) {
             $over_radius = 1;
-            
         }
         //阶梯距离价格
         $distanceprice = $this->getdistanceprice($storeid, $distance);
