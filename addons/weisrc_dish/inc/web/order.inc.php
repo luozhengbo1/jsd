@@ -91,8 +91,15 @@ if ($operation == 'fengniaolist') {
 
     $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename($this->table_order) . " WHERE $commoncondition", $paras);
     $pager = pagination($total, $pindex, $psize);
-    $order_count = pdo_fetchcolumn("SELECT COUNT(1) FROM " . tablename($this->table_order) . " WHERE weid=:weid AND status=0 AND storeid=:storeid LIMIT 1", array(':weid' => $this->_weid, ':storeid' => $storeid));
-
+    $order_count = 0;
+    $status_count = pdo_fetchall("SELECT status,COUNT(*) AS count FROM " . tablename($this->table_order) . " WHERE $commoncondition GROUP BY status", $paras);
+    if (!empty($status_count)){
+        foreach ($status_count as $k => $v){
+            if ($v["status"] == 0){
+                $order_count = $v["count"];
+            }
+        }
+    }
     if (!empty($list)) {
         foreach ($list as $key => $value) {
             $userids[$row['from_user']] = $row['from_user'];

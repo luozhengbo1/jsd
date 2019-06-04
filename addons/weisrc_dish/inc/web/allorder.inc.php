@@ -86,9 +86,15 @@ if ($operation == 'display') {
     }
 
     $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_order) . " WHERE $commoncondition ORDER BY id desc, dateline DESC LIMIT " . ($pindex - 1) * $psize . ',' . $psize, $paras);
-
-    $order_count = pdo_fetchcolumn("SELECT COUNT(1) FROM " . tablename($this->table_order) . " WHERE weid=:weid AND status=0 LIMIT 1", array(':weid' => $this->_weid));
-
+    $order_count = 0;
+    $status_count = pdo_fetchall("SELECT status,COUNT(*) AS count FROM " . tablename($this->table_order) . " WHERE $commoncondition GROUP BY status", $paras);
+    if (!empty($status_count)){
+        foreach ($status_count as $k => $v){
+            if ($v["status"] == 0){
+                $order_count = $v["count"];
+            }
+        }
+    }
     $total = pdo_fetchcolumn('SELECT COUNT(1) FROM ' . tablename($this->table_order) . " WHERE $commoncondition ", $paras);
     $pager = pagination($total, $pindex, $psize);
 
