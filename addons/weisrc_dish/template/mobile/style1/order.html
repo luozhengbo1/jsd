@@ -41,6 +41,10 @@
             <a class="list-item">
                 <div class="time">下单时间：{php echo date('Y-m-d H:i:s',$items['dateline'])}</div>
             </a>
+            {if $items['status']==0 && $items['ispay']==0   }
+            <div class="box" data-createtime="{$items['dateline']}"
+                 data-orderid="{$items['id']}" style="color: red"></div>
+            {/if}
             <a class="list-item" onclick="go_detail({$items['id']})">
                 <div class="name">
                     [{if $items['dining_mode']==1}堂点
@@ -101,7 +105,67 @@
         <div style="height:100px;"></div>
     </div>
 </div>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
 <script>
+    backTime()
+    function backTime(){
+        //28分株
+        $('.box').each(function (index, ele) {
+            var endTime = (parseInt($(ele).attr('data-createtime')) +10*60);
+            var currentTime = parseInt(new Date().getTime()/1000);
+            console.log(endTime,currentTime);
+            var orderid = parseInt($(ele).attr('data-orderid'))
+            setInterval(function () {
+                if(endTime > currentTime){
+                    currentTime = parseInt(new Date().getTime()/1000);
+                    var sulfTime = endTime-currentTime;
+                    var secondTime = parseInt(sulfTime/60);
+                    var millTime = sulfTime%60;
+                    var showText = '剩余支付时间'+secondTime+'分'+millTime+'秒';
+                    console.log(sulfTime)
+                    if(sulfTime>0)
+                        $(ele).html(showText);
+                    else{
+                        $(ele).html('订单已过期，请重新下单');
+                        cancelorder(orderid)
+                        // if($(ele).parents('.orderWrap').find('.orderCancel').size()>0){
+                        //     $(ele).parents('.orderWrap').find('.orderCancel').click();
+                        // }
+                        // // $(ele).parents('.orderWrap').find('.orderCancel').remove();
+                        // $(ele).parents('.orderWrap').find('.orderPay').remove();
+                    }
+                }else{
+                    var showText = '订单已过期，请重新下单';
+                    $(ele).html(showText);
+                    cancelorder(orderid)
+                    // if($(ele).parents('.orderWrap').find('.orderCancel').size()>0){
+                    //     $(ele).parents('.orderWrap').find('.orderCancel').click();
+                    // }
+                    // $(ele).parents('.orderWrap').find('.orderPay').remove();
+                }
+            },1000)
+        })
+    }
+    function cancelorder(orderid) {
+        var url = "{php  echo $this->createMobileUrl('cancelorder', array(), true)}";
+        url = url+'&id='+orderid
+        console.log(url)
+            $.ajax({
+                url: url, type: "post", dataType: "json",
+                data: {
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        console.log("取消订单成功");
+                      //  location.href="{php echo $this->createMobileUrl('order', array(), true)}";
+                    } else {
+                        console.log(data.msg);
+                        //location.href="{php echo $this->createMobileUrl('order', array(), true)}";
+                    }
+                }
+            });
+    }
     function jump(status) {
         window.location.href = "{php echo $this->createMobileUrl('order', array(), true)}" + "&status=" + status;
     }

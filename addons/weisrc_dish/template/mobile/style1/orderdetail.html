@@ -309,6 +309,7 @@
                 <!--<i class="red fa fa-ticket"></i> 索要发票-->
             <!--</div>-->
         <!--</a>-->
+
             {if $order['status'] == 0}
             <a class="list-item ng-scope" onclick="cancelorder()">
                 <div class="service-button">
@@ -644,6 +645,7 @@
     </div>
 </div>
 <script>
+
     function confirmorder() {
         var url = "{php echo $this->createMobileUrl('pay', array('orderid' => $order['id']), true)}";
         window.location.href = url;
