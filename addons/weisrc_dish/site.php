@@ -7824,7 +7824,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
                     $refund_price =  $ordergoodsList[$k]['real_tmp_price']*$goodsnum;
                 }
             }
-//            p($refund_price);die;
+
             //修改订单总价
             if($refund_price == 0){
                 $totalprice = floatval($order['totalprice']) - $goodsprice;
@@ -7843,6 +7843,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
                     exit;
                 }
             }
+//            p($refund_price);die;
             if($refund_price){
                 $origin_totalprice = $order['origin_totalprice'];
                 $result = $this->refund2($orderid, $refund_price,$origin_totalprice);

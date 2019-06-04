@@ -26,7 +26,7 @@ if (!empty($category)) {
 $label = pdo_fetchall("SELECT * FROM " . tablename($this->table_print_label) . " WHERE weid = :weid And storeid=:storeid ORDER BY displayorder DESC", array(':weid' => $weid, ':storeid' => $storeid), 'id');
 
 $nowtime = mktime(0, 0, 0);
-pdo_query("UPDATE " . tablename($this->table_goods) . " SET today_counts=0,lasttime=:time WHERE storeid=:storeid AND lasttime<:nowtime", array(':storeid' => $storeid, ':time' => TIMESTAMP, ':nowtime' => $nowtime));
+pdo_query("UPDATE " . tablename($this->table_goods) . " SET add_counts=0,today_counts=0,lasttime=:time WHERE storeid=:storeid AND lasttime<:nowtime", array(':storeid' => $storeid, ':time' => TIMESTAMP, ':nowtime' => $nowtime));
 
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
 if ($operation == 'post') {

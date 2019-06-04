@@ -441,7 +441,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     $result = $this->refund3($id, $storeid);
                 } else {
                     //关单时判断是否退过款
-                    if($order['refund_price']>0){
+                    if($order['refund_price']){
                         $result = $this->refund2($id, $refund_price,$order['origin_totalprice']);
                     }else{
                         $result = $this->refund2($id, $refund_price);
@@ -472,7 +472,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                     //分摊结束
                     $order["refund_price1"] = $refund_price;
                     $order["ispay"] = 3;//为了初始化订单退款推送状态
-                    $this->sendOrderNotice($order, $store, $setting);
+                   // $this->sendOrderNotice($order, $store, $setting);
                     //
                 }
             } else if ($order['paytype'] == 1) {
@@ -836,6 +836,10 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         $after_total = ($order['totalprice'] * 100 - $refund_price * 100) / 100;
         if($store['store_type']==1){
             $bjRes = bccomp($after_total,$store['sendingprice'],2);
+//            p($after_total);
+//            p($store['sendingprice']);
+//            p($bjRes);
+//            p($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  );
             if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1   ){
                 message('退款后订单低于配送价格不支持退款！', $url, 'error');
                 exit;
@@ -847,7 +851,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             }
         }
     }
-
+//    p(222);die;
     $this->addOrderLog($id, $_W['user']['username'], 2, 2, 6);
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);

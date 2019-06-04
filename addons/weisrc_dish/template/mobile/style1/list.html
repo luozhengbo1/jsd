@@ -1191,10 +1191,14 @@
     $(document).scroll(function () {
         var ftop = $(document).scrollTop();
         var cate = {$catecount}; //菜单栏个数
+        console.log(ftop)
         for (var i = 1; i < cate; i++) {
             var fheighti = $('.foodlistwrap h3').eq(i).offset();
             var hi = fheighti.top - 285;
+            // console.log(ftop)
+            console.log(ftop > hi)
             if (ftop > hi) {
+                // console.log(i)
                 $('.tag').removeClass('focus')
                 $('.tag').eq(i).addClass('focus')
             }
