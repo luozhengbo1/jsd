@@ -845,8 +845,10 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             $bjRes = bccomp($after_total,$store['sendingprice'],2);
 //            p($after_total);
 //            p($store['sendingprice']);
+//            p($store['sendingprice']);
 //            p($bjRes);
-//            p($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  );
+//            var_dump($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  );
+//            die;
             if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1   ){
                 message('退款后订单低于配送价格不支持退款！', $url, 'error');
                 exit;

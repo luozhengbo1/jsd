@@ -31,7 +31,7 @@
         public function index()
         {
             $time = time();
-            $time1 = $time-60*10;
+            $time1 = $time-60*1;
             $sql = "select id,ispay,status,storeid,totalnum,weid,totalprice,from_user,ordersn from {$this->ordertable} where  ispay=0 and  status=0  and dateline < $time1 ";
             $query = self::$obj->query($sql);
             $today_start = strtotime(date('Y-m-d 00:00:00'));
@@ -44,7 +44,7 @@
                     $sql_updategoods = " ";
                     if( $row1['dateline']>=$today_start &&   $row1['dateline']<=$today_end ){
                         //将销量减少
-                        $sql_updategoods .= " update ".$this->goodstable." set sales=sales-{$row1['total']} , today_counts=today_counts-{$row1['total']}  where id={$row1['goodsis']} ; ";
+                        $sql_updategoods .= " update ".$this->goodstable." set sales=sales-{$row1['total']} , today_counts=today_counts-{$row1['total']}  where id={$row1['goodsid']} ; ";
                     }
                     self::$obj->multi_query($sql_updategoods);
                 }

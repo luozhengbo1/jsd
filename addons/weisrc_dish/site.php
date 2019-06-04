@@ -7826,11 +7826,19 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
             }
 
             //修改订单总价
-            if($refund_price == 0){
+            if($refund_price == 0 ){
                 $totalprice = floatval($order['totalprice']) - $goodsprice;
             }else{
                 $totalprice = floatval($order['totalprice']) - $refund_price;
             }
+            if($refund_price<0){
+                message('退款分摊已经大于商品单价，不支持退菜操作!');
+            }
+//            p($goodsprice);
+//            p($order['totalprice']);
+//            p($refund_price);
+//            p($totalprice);
+//            die;
             if($store['store_type']==1){
                 $bjRes = bccomp($totalprice, $store['sendingprice'],2);
                 if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  ){
@@ -7843,7 +7851,7 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
                     exit;
                 }
             }
-//            p($refund_price);die;
+
             if($refund_price){
                 $origin_totalprice = $order['origin_totalprice'];
                 $result = $this->refund2($orderid, $refund_price,$origin_totalprice);
@@ -7860,11 +7868,13 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
 
         }
         //修改订单总价
-        if($refund_price == 0){
+        if($refund_price == 0 || $refund_price < 0){
             $totalprice = floatval($order['totalprice']) - $goodsprice;
         }else{
             $totalprice = floatval($order['totalprice']) - $refund_price;
         }
+
+
         //將商品庫存加回來
         $sql = "select a.*,b.isoptions,b.counts,b.today_counts,b.sales,a.dateline from
         ".tablename('weisrc_dish_order_goods')."as a left join
