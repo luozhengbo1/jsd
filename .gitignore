@@ -4,5 +4,5 @@
 ./attachment/*
 ./\.well-known/*
 ./data/*
-./.idea/*
+./\.idea/*
 ./.well-known/*

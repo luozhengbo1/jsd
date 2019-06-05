@@ -12,6 +12,9 @@ $con =  $config['db']['master'];
 $host =$con['host'];
 $user = $con['username'];
 $password = $con['password'];
+
+
+
 $databases= $con['database'];
 $port =$con['port'] ;
 
