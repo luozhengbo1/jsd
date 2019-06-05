@@ -8,7 +8,7 @@ $areaid = intval($_GPC['areaid']);
 $typeid = intval($_GPC['typeid']);
 $sortid = intval($_GPC['sortid']);
 if ($sortid == 0) {
-    $sortid = 2;
+    $sortid = 1;
 }
 
 $strwhere = " where weid = :weid and is_show=1 AND is_list=1 AND deleted=0 ";
@@ -26,8 +26,10 @@ $psize = $this->more_store_psize;
 $limit = " LIMIT " . ($pindex - 1) * $psize . ',' . $psize;
 
 if ($sortid == 1) {
+    $timein = date('H:i');
+    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
     $list = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere
-} ORDER BY is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+} ORDER BY dist, is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) {
     $list = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere
 } ORDER BY dist, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
@@ -37,7 +39,7 @@ if ($sortid == 1) {
 
 if (!empty($list)) {
     foreach ($list as $key => $value) {
-//        $good_count = pdo_fetchcolumn("SELECT sum(sales) FROM " . tablename($this->table_goods) . " WHERE storeid=:id ", array(':id' => $value['id']));
+        $good_count = pdo_fetchcolumn("SELECT sum(sales) FROM " . tablename($this->table_goods) . " WHERE storeid=:id ", array(':id' => $value['id']));
         $list[$key]['sales'] = intval($good_count);
         $newlimitprice = '';
         $oldlimitprice = '';

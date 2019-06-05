@@ -154,18 +154,28 @@ $sortid=1;
 if ($sortid == 1) {
     $timein = date('H:i');
     $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
-    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY  dist,is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) {
     $restlist = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else {
     $restlist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC,displayorder DESC, id DESC"  . $limit, array(':weid' => $weid));
 }
-
+//$strwhere = " where weid = {$weid} and is_show=1 AND is_list=1 AND deleted=0  and ('{$timein}'>=begintime  and '{$timein}'<= endtime)  ";
+//$sql = "SELECT *,(lat-{$lat}) * (lat-{$lat}) + (lng-{$lng}) * (lng-{$lng}) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist, is_rest DESC,displayorder DESC, id DESC " . $limit;
+//echo $sql;
+//die;
+//
+//foreach ($restlist as $v){
+//    p($v['title']);
+//    p($v['lat']);
+//    p($v['lng']);
+//}
+//die;
 $shoptotal = pdo_fetchcolumn("SELECT COUNT(1) FROM " . tablename($this->table_stores) . " WHERE weid={$weid} AND is_show=1 ORDER BY id DESC");
 
 if (!empty($restlist)) {
     foreach ($restlist as $key => $value) {
-//        $good_count = pdo_fetchcolumn("SELECT sum(sales) FROM " . tablename($this->table_goods) . " WHERE storeid=:id ", array(':id' => $value['id']));
+        $good_count = pdo_fetchcolumn("SELECT sum(sales) FROM " . tablename($this->table_goods) . " WHERE storeid=:id ", array(':id' => $value['id']));
         $restlist[$key]['sales'] = intval($good_count);
         $newlimitprice = '';
         $oldlimitprice = '';
@@ -213,4 +223,6 @@ $share_desc = !empty($setting['share_desc']) ? str_replace("#username#", $nickna
 $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']) : tomedia("../addons/weisrc_dish/icon.jpg");
 $share_url = $host . 'app/' . $this->createMobileUrl('index', array('agentid' => $fans['id']), true);
 
+
+//p($restlist);die;
 include $this->template($this->cur_tpl . '/index');

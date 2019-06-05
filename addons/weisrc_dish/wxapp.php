@@ -388,36 +388,20 @@ class weisrc_dishModuleWxapp extends WeModuleWxapp
 
         global $_GPC, $_W;
 
-
-
         $weid = $this->_weid;
-
         $lat = $_COOKIE[$this->_lat];
-
         $lng = $_COOKIE[$this->_lng];
 
-
-
         $areaid = intval($_GPC['areaid']);
-
         $typeid = intval($_GPC['typeid']);
-
         $sortid = intval($_GPC['sortid']);
-
         if ($sortid == 0) {
-
-            $sortid = 2;
-
+            $sortid =1;
         }
-
-
 
         $strwhere = " where weid = :weid and is_show=1 AND is_list=1 AND deleted=0 ";
 
-
-
         if ($areaid != 0) {
-
             $strwhere .= "  AND areaid={$areaid} ";
 
         }
@@ -441,10 +425,11 @@ class weisrc_dishModuleWxapp extends WeModuleWxapp
 
 
         if ($sortid == 1) {
-
+            $timein = date('H:i');
+            $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
             $list = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere
 
-} ORDER BY is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+} ORDER BY dist, is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 
         } else if ($sortid == 2 && !empty($lat)) {
 
@@ -457,7 +442,6 @@ class weisrc_dishModuleWxapp extends WeModuleWxapp
             $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC,displayorder DESC, id DESC" . $limit, array(':weid' => $weid));
 
         }
-
 
 
         if (!empty($list)) {
