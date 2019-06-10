@@ -5121,7 +5121,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             $optionstring .= "(".$optionname[$i].")";
                         }
                     }
-                    $remark .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $remark .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".number_format($value['price']*$value['total'],2);
                 }
             }
 
@@ -5223,7 +5223,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             $optionstring .= "(".$optionname[$i].")";
                         }
                     }
-                    $content .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $content .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".number_format($value['price']*$value['total'],2);
                 }
             }
             if ($order['dining_mode'] == 3) {
@@ -5351,7 +5351,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             $optionstring .= "(".$optionname[$i].")";
                         }
                     }
-                    $remark .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $remark .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".number_format($value['price']*$value['total'],2);
                 }
             }
 
@@ -5469,7 +5469,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                             }
                         }
                     }
-                    $content .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".$value['price']*$value['total'];
+                    $content .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".number_format($value['price']*$value['total'],2);
                 }
             }
             if ($order['dining_mode'] == 3) {
