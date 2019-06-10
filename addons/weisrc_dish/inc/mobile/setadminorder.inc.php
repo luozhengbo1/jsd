@@ -173,6 +173,8 @@ if ($orderstatus[$status] == 2) { //支付
     $this->addOrderLog($id, $touser, 2, 1, 5);
 
 } elseif ($orderstatus[$status] == 1) { //确认
+    $order['status'] = $orderstatus[$status];
+    $this->sendOrderNotice($order, $store, $setting);
     $update_data['confirmtime'] = TIMESTAMP;
     $update_data['status'] = $orderstatus[$status];
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));
@@ -180,7 +182,6 @@ if ($orderstatus[$status] == 2) { //支付
 //    $this->doDada($weid,$id,$order['storeid']);
     //如果是配置了达达进行调用
     $storesInfo = pdo_fetch("select id,is_dada,shop_no,source_id from ".tablename('weisrc_dish_stores')." where id=:id limit 1",array(":id"=>$order['storeid']));
-
     if($storesInfo['is_dada']==1 &&  !empty($storesInfo['shop_no']) && !empty($storesInfo['source_id'])  ){
         //新增達達配送狀態
         $this->doDada($weid,$id,$order['storeid']);

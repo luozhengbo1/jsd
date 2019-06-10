@@ -4823,7 +4823,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $res =  $this->sendText($order['from_user'], $content);
                 if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
                     pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
-
                 }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
@@ -4835,8 +4834,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $msgId1 = $this->addsendmsg($content1,$order['from_user'],$type=3);
                 $res = $this->sendText($order['from_user'], $content1);
                 if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
-                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
-
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId1));
                 }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
@@ -4862,7 +4860,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                // $total = $order['totalprice']+$order['dprice'];
                 $content .= "\n应退金额：".number_format($order['refund_price1'],2)."元";
                 $content .= "\n实退金额：".number_format($order['refund_price1'],2)."元";
-               $msgId = $this->addsendmsg($content,$order['from_user'],$type=4);
+                $msgId = $this->addsendmsg($content,$order['from_user'],$type=4);
                 $res = $this->sendText($order['from_user'], $content);
                 if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
                     pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
