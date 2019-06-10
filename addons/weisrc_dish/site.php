@@ -4777,7 +4777,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
               //  $this->addsendmsg($content,$order['from_user'],$type=1);
             }
             //客人下单付款成功，且商家确认订单后，推送给顾客的信息
-            if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 3){
+            if($order["ispay"] == 1 && $order["status"] == 1){
                 $content = "您的订单{$order['ordersn']}";
                 //$content .= "\n订单号：{$keyword1}";
                 $content .= "\n订单状态：已确认";
