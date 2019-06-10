@@ -4,7 +4,8 @@ class Test{
             'host'=>'localhost',
             'user'=>'Jsdgogcuncom',
             'password'=>'NiNWHh58b8ZC3LdM',
-            'database'=>'Jsdgogcuncom_test',
+            'database'=>'Jsdgogcuncom_test',//线下
+            //'database'=>'Jsdgogcuncom',//线上
             'port'=>'3306',
         );
         private $conn;
@@ -30,7 +31,8 @@ class Test{
                     ignore_user_abort(true);
                     ob_start();
                     //"oW-VD01zhPdr764rS0AO8yFAAX9E"
-                    $data =  $this->reply_customer($row['openid'], $row['id']."时间:".date('Y-m-d H:i:s')."\n".$row['content']);
+//                    $data =  $this->reply_customer($row['openid'], $row['id']."时间:".date('Y-m-d H:i:s')."\n".$row['content']);
+                    $data =  $this->reply_customer($row['openid'],$row['content']);
                     header('Connection: close');
                     header('Content-Length: ' . ob_get_length());
                     ob_end_flush();

@@ -31,7 +31,8 @@ abstract class WeAccount {
 		if(!empty($uniaccount) && isset($uniaccount['type'])) {
 			return self::includes($uniaccount);
 		} else {
-			return error('-1', '公众号不存在或是已经被删除');
+//        return error('-1', '公众号不存在或是已经被删除');
+        return array('status'=>'-1', 'msg'=>'公众号不存在或是已经被删除');
 		}
 	}
 

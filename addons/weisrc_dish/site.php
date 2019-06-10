@@ -4272,7 +4272,12 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content .= "\n排队号码：" . $this->getQueueName($order['queueid']) . " " . $order['num'];
                 $content .= "\n排队状态：已取消";
             }
-            $this->sendText($order['from_user'], $content);
+            $msgId = $this->addsendmsg($content,$order['from_user'],$type=4);
+            $res = $this->sendText($order['from_user'], $content);
+            if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+            }
+
         }
     }
 
@@ -4359,7 +4364,11 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $content .= "\n排队号码：" . $this->getQueueName($order['queueid']) . " " . $order['num'];
                 $content .= "\n排队等待：" . intval($wait_count) . '队';
             }
-            $this->sendText($from_user, $content);
+            $msgId = $this->addsendmsg($content,$from_user,$type=7);
+            $res = $this->sendText($from_user, $content);
+            if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+            }
         }
     }
 
@@ -4750,11 +4759,16 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                      $content .= "\n奖励积分：{$order['credit']}";
                  }*/
                 //入库
+                $msgId = $this->addsendmsg($content,$order['from_user'],$type=1);
                 $res = $this->sendText($order['from_user'], $content);
+                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
+                }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
-                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
               //  $this->addsendmsg($content,$order['from_user'],$type=1);
             }
 
@@ -4773,12 +4787,15 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                //$this->addsendmsg($content,$order['from_user'],$type=6);
+                $msgId = $this->addsendmsg($content,$order['from_user'],$type=6);
                 $res = $this->sendText($order['from_user'], $content);
+                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+                }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
-                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
             }
             //付款单推送
@@ -4797,20 +4814,29 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                     $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
                     $content .= "\n商家联系方式：{$tel['tel']}";
                 }
-                //$this->addsendmsg($content,$order['from_user'],$type=2);
+                $msgId = $this->addsendmsg($content,$order['from_user'],$type=2);
                 $res =  $this->sendText($order['from_user'], $content);
+                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
+                }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
-              //  file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
+                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
+
                 $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
                 $content1 .= "\n联系方式：{$tel['tel']}";
-                //$this->addsendmsg($content1,$order['from_user'],$type=3);
+                $msgId1 = $this->addsendmsg($content1,$order['from_user'],$type=3);
                 $res = $this->sendText($order['from_user'], $content1);
+                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
+                }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
-              //  file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
             }
 //            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) && ($store["store_type"] == 1 || $store["store_type"]==3)  ){
@@ -4830,12 +4856,16 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                // $total = $order['totalprice']+$order['dprice'];
                 $content .= "\n应退金额：".number_format($order['refund_price1'],2)."元";
                 $content .= "\n实退金额：".number_format($order['refund_price1'],2)."元";
-           //    $this->addsendmsg($content,$order['from_user'],$type=4);
+               $msgId = $this->addsendmsg($content,$order['from_user'],$type=4);
                 $res = $this->sendText($order['from_user'], $content);
+                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
+                }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
-                file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log',  print_r($print,true)."\n",8);
+                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
             }/*
             $content = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
@@ -4889,18 +4919,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         }
     }
 
-    public  function doWebChecksendmsg(){
-        $list = pdo_fetchall("select * from ".tablename('weisrc_dish_sendmsg')." where status=:status",array(":status"=>0));
-        if($list && is_array($list)){
-            foreach ($list as $k=>$v){
-               $res =  $this->sendText($v['openid'], $v['content']);
-               if(   $res['errno']=="-1" || !empty($res['errno'])   ){ //发送失败
-               }else{
-                  pdo_update("weisrc_dish_sendmsg",['status'=>1],['id'=>$v['id']]);
-               }
-            }
-        }
-    }
     //新增发送信息msg
     public function addsendmsg($content, $from_user,$type)
     {
@@ -4913,6 +4931,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             'createtime' => date('Y-m-d H:i:s')
         );
         pdo_insert($this->table_sendmsg, $insert);
+        return pdo_insertid();
     }
     public function addTplLog($order, $from_user, $content, $result)
     {
@@ -5228,7 +5247,16 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n备注：{$order['remark']}";
             $content .= "\n应收合计：{$order['totalprice']}元";
             if (!empty($from_user)) {
-                $this->sendText($from_user, $content);
+                $msgId = $this->addsendmsg($content,$order['from_user'],$type=7);
+                $res =  $this->sendText($from_user, $content);
+                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+                }
+                $print['res'] = $res;
+                $print['from_user'] = $order['from_user'];
+                $print['content'] = $content;
+                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
+
             }
         }
     }
@@ -5465,7 +5493,16 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n备注：{$order['remark']}";
             $content .= "\n应收合计：".number_format($order['totalprice'],2)."元";
             if (!empty($from_user)) {
-              $this->sendText($from_user, $content);
+                $msgId = $this->addsendmsg($content,$order['from_user'],$type=7);
+                $res =  $this->sendText($from_user, $content);
+                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
+                }
+                $print['res'] = $res;
+                $print['from_user'] = $order['from_user'];
+                $print['content'] = $content;
+                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
                // $this->addsendmsg($content,$from_user,$type=7);
             }
         }
@@ -6041,8 +6078,15 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         $send['msgtype'] = 'text';
         $send['text'] = array('content' => urlencode($content));
         $acc = WeAccount::create();
-        $data = $acc->sendCustomNotice($send);
-        return $data;
+//        p(is_object($acc));die;
+        if(is_object($acc)){
+            $data = $acc->sendCustomNotice($send);
+            //  [errcode] => 0
+            //    [errmsg] => ok
+            return $data;
+        }else{
+            return array('status'=>'-1','创建对象失败');
+        }
     }
 
     public function payResult($params)
@@ -6358,11 +6402,19 @@ storeid=".$order['storeid'].") ";
         $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id  LIMIT 1", array(':id' => $orderid));
         $setting = $this->getSettingByWeid($order['weid']);
         $accounts = pdo_fetchall("SELECT * FROM " . tablename($this->table_account) . " WHERE weid = :weid AND storeid=:storeid AND status=2 AND is_notice_order=1 ORDER BY id DESC ", array(':weid' => $this->_weid, ':storeid' => $storeid));
-        foreach ($accounts as $key => $value) {
-            if (!empty($value['from_user'])) {
-               $this->sendText($value['from_user'], "测试推送");
-            }
+       // foreach ($accounts as $key => $value) {
+         //   if (!empty($value['from_user'])) {
+//                $this->sendText($value['from_user'], "测试推送");
+        $msgId = $this->addsendmsg("测试推送","oW-VD01zhPdr764rS0AO8yFAAX9E",$type=4);
+//        p($msgId);die;
+        $res = $this->sendText("oW-VD01zhPdr764rS0AO8yFAAX9E", "测试推送");
+        if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+            pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
         }
+        p($res);
+           // }
+        //}
     }
 
 
