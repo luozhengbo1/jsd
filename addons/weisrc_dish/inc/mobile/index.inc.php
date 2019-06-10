@@ -120,15 +120,19 @@ $isposition = 0;
 
 if (!empty($lat) && !empty($lng)) {
     $isposition = 1;
-    setcookie($this->_lat, $lat, TIMESTAMP + 900);
-    setcookie($this->_lng, $lng, TIMESTAMP + 900);
+//    setcookie($this->_lat, $lat, TIMESTAMP + 900);
+//    setcookie($this->_lng, $lng, TIMESTAMP + 900);
+    setcookie($this->_lat, $lat, TIMESTAMP + 15);
+    setcookie($this->_lng, $lng, TIMESTAMP + 15);
 } else {
-    if (isset($_COOKIE[$this->_lat])) {
-        $isposition = 1;//0的时候才跳转
-        $lat = $_COOKIE[$this->_lat];
-        $lng = $_COOKIE[$this->_lng];
-    }
+//    if (isset($_COOKIE[$this->_lat])) {
+//        $isposition = 1;//0的时候才跳转
+//        $lat = $_COOKIE[$this->_lat];
+//        $lng = $_COOKIE[$this->_lng];
+//    }
 }
+//p($lat);
+//p($lng);die;
 
 $ispass = 0;
 if (isset($_COOKIE['auth2_ispass_' . $_W['uniacid']])) {
