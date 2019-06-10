@@ -738,7 +738,7 @@
             {/if}
             {if $item['status'] != -1}
                 {if $item['status']!=3 }
-                <button type="submit" class="btn span2" name="cancel" onclick="return ts('确认关闭此订单吗？当日订单恢复库存')" value="关闭">关闭订单</button>
+                <button type="submit" class="btn span2" name="cancel" onclick="return ts('确认关闭此订单吗？订单金额将退给客户，当日订单恢复库存')" value="关闭">关闭订单</button>
                 {/if}
             {else}
             <button type="submit" class="btn span2 btn-primary" name="open" onclick="return ts('确认开启此订单吗？');" value="关闭">开启订单</button>
