@@ -4649,6 +4649,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         $keyword1 = $order['ordersn'];
         $keyword2 = $orderStatus[$order['status']];
         $keyword3 = date("Y-m-d H:i", $order['dateline']);
+        if($store['store_type'] == 2 ){
+            //堂食不推送
+            return ;
+        }
         if (!empty($setting['tplneworder']) && $setting['istplnotice'] == 1) {
             $templateid = $setting['tplneworder'];
             $first = "您的订单{$order['ordersn']}{$firstArr[$order['status']]}";
@@ -5066,6 +5070,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         $storeid = $order['storeid'];
         $store = $this->getStoreById($storeid);
         $ordertypestr="";
+        if($store['store_type'] == 2 ){
+            //堂食不推送
+            return ;
+        }
         switch ($store['store_type']){
             case 3:
                 $ordertypestr = "邮寄";
@@ -5306,6 +5314,10 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
         $url = $site_url . 'app' . str_replace('./', '/', $this->createMobileUrl('adminorderdetail', array('orderid' => $oid), true));
         $ordertypestr="";
+        if($store['store_type'] == 2 ){
+            //堂食不推送
+            return ;
+        }
         switch ($store['store_type']){
             case 3:
                 $ordertypestr = "邮寄";
