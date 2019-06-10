@@ -5493,7 +5493,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n备注：{$order['remark']}";
             $content .= "\n应收合计：".number_format($order['totalprice'],2)."元";
             if (!empty($from_user)) {
-                $msgId = $this->addsendmsg($content,$order['from_user'],$type=10);
+                $msgId = $this->addsendmsg($content,$from_user,$type=10);
                 $res =  $this->sendText($from_user, $content);
                 if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
                     pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
