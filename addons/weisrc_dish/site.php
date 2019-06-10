@@ -4772,6 +4772,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
+                $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
               //  $this->addsendmsg($content,$order['from_user'],$type=1);
             }
@@ -4799,6 +4800,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
+                $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
             }
@@ -4827,6 +4829,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
+                $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
                 $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
@@ -4840,6 +4843,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
+                $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
             }
@@ -4869,6 +4873,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
+                $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
             }/*
@@ -5263,6 +5268,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
+                $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
 
             }
@@ -5514,6 +5520,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
+                $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
                // $this->addsendmsg($content,$from_user,$type=7);
             }
