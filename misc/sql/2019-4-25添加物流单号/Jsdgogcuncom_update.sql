@@ -6,6 +6,7 @@
   `status` tinyint(1) DEFAULT NULL COMMENT '0未发送 1已发送',
   `type` tinyint(1) DEFAULT NULL COMMENT '类型1顾客下单付款成功的通知2商家确认订单3商家安排派送4商家处理退款6邮寄点',
   `sendtime` datetime DEFAULT NULL,
+  `createtime` datetime default null
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 alter table `ims_weisrc_dish_stores` add `store_type`  tinyint(1)  default 2 COMMENT '1为外卖店2堂食店3为邮寄店';
