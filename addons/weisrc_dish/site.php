@@ -4776,14 +4776,15 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
               //  $this->addsendmsg($content,$order['from_user'],$type=1);
             }
-
+            //客人下单付款成功，且商家确认订单后，推送给顾客的信息
             if($order["ispay"] == 1 && $order["status"] == 1 && $store["store_type"] == 3){
-                //B.邮寄店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
                 $content = "您的订单{$order['ordersn']}";
                 //$content .= "\n订单号：{$keyword1}";
                 $content .= "\n订单状态：已确认";
-                $logistics_number = $order['logistics_number'];
-                $content .= "\n物流信息：<a href='https://m.kuaidi100.com/index_all.html?type=quanfengkuaidi&postid=$logistics_number'>点击查看物流信息</a>";
+                if($store["store_type"] == 3){
+                    $logistics_number = $order['logistics_number'];
+                    $content .= "\n物流信息：<a href='https://m.kuaidi100.com/index_all.html?type=quanfengkuaidi&postid=$logistics_number'>点击查看物流信息</a>";
+                }
                 $content .= "\n时间：{$keyword3}";
                 $content .= "\n门店名称：{$store['title']}";
                 $content .= "\n支付方式：{$paytype[$order['paytype']]}";
@@ -4802,51 +4803,65 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $print['content'] = $content;
                 $print['time'] = time();
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
+                if($store["store_type"] == 1){
+                    $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
+                    $content1 .= "\n联系方式：{$tel['tel']}";
+                    $msgId1 = $this->addsendmsg($content1,$order['from_user'],$type=3);
+                    $res = $this->sendText($order['from_user'], $content1);
+                    if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                        pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
+                    }
+                    $print['res'] = $res;
+                    $print['from_user'] = $order['from_user'];
+                    $print['content'] = $content;
+                    $print['time'] = time();
+                    file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
+                }
 
             }
             //付款单推送
 //            if($order["ispay"] == 1 && $order["status"] == 1 && ($store["store_type"] == 1 || $store["store_type"]==3) ){
-            if($order["ispay"] == 1 && $order["status"] == 1 ){
-                //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
-                $date = date("Y-m-d H:i",  time());
-                $content = "您的订单{$order['ordersn']}";
-                //$content .= "\n订单号：{$keyword1}";
-                $content .= "\n订单状态：已确认";
-                $content .= "\n时间：{$date}";
-                $content .= "\n门店名称：{$store['title']}";
-                $content .= "\n支付方式：{$paytype[$order['paytype']]}";
-                $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
-                if(!empty($order["storeid"])){
-                    $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
-                    $content .= "\n商家联系方式：{$tel['tel']}";
-                }
-                $msgId = $this->addsendmsg($content,$order['from_user'],$type=2);
-                $res =  $this->sendText($order['from_user'], $content);
-                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
-                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
-
-                }
-                $print['res'] = $res;
-                $print['from_user'] = $order['from_user'];
-                $print['content'] = $content;
-                $print['time'] = time();
-                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
-
-                $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
-                $content1 .= "\n联系方式：{$tel['tel']}";
-                $msgId1 = $this->addsendmsg($content1,$order['from_user'],$type=3);
-                $res = $this->sendText($order['from_user'], $content1);
-                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
-                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
-
-                }
-                $print['res'] = $res;
-                $print['from_user'] = $order['from_user'];
-                $print['content'] = $content;
-                $print['time'] = time();
-                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
-
-            }
+//            if($order["ispay"] == 1 && $order["status"] == 1 ){
+//                //外卖店：客人下单付款成功，且商家确认订单后，推送给顾客的信息
+//                $date = date("Y-m-d H:i",  time());
+//                $content = "您的订单{$order['ordersn']}";
+//                //$content .= "\n订单号：{$keyword1}";
+//                $content .= "\n订单状态：已确认";
+//                $content .= "\n时间：{$date}";
+//                $content .= "\n门店名称：{$store['title']}";
+//                $content .= "\n支付方式：{$paytype[$order['paytype']]}";
+//                $content .= "\n支付状态：{$paystatus[$order['ispay']]}";
+//                if(!empty($order["storeid"])){
+//                    $tel = pdo_fetch("select tel from".tablename($this->table_stores)." where id=:storeid limit 1 ",array(":storeid"=>$order["storeid"]));
+//                    $content .= "\n商家联系方式：{$tel['tel']}";
+//                }
+//                $msgId = $this->addsendmsg($content,$order['from_user'],$type=2);
+//                $res =  $this->sendText($order['from_user'], $content);
+//                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+//                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+//
+//                }
+//                $print['res'] = $res;
+//                $print['from_user'] = $order['from_user'];
+//                $print['content'] = $content;
+//                $print['time'] = time();
+//                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
+//                $content1 = "您的订单{$order['ordersn']}已由商家安排派送";
+//                $content1 .= "\n联系方式：{$tel['tel']}";
+//                $msgId1 = $this->addsendmsg($content1,$order['from_user'],$type=3);
+//                $res = $this->sendText($order['from_user'], $content1);
+//                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+//                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+//
+//                }
+//                $print['res'] = $res;
+//                $print['from_user'] = $order['from_user'];
+//                $print['content'] = $content;
+//                $print['time'] = time();
+//                file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
+//
+//            }
 //            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) && ($store["store_type"] == 1 || $store["store_type"]==3)  ){
             if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 )   ){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息

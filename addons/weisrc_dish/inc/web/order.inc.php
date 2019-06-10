@@ -525,7 +525,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     }
 
     $item = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id = :id", array(':id' => $id));
-    $goods = pdo_fetchall("SELECT a.goodsid,a.price, a.real_price,a.is_return, b.credit, a.total,b.thumb,b.title,b.id ,b.pcate,a.optionname FROM " . tablename($this->table_order_goods) . " a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.orderid = :id and a.is_return = 0", array(':id' => $id));
+    $goods = pdo_fetchall("SELECT a.goodsid,a.price, a.real_price,a.single_real_price, a.is_return, b.credit, a.total,b.thumb,b.title,b.id ,b.pcate,a.optionname FROM " . tablename($this->table_order_goods) . " a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.orderid = :id and a.is_return = 0", array(':id' => $id));
     $discount = pdo_fetchall("SELECT * FROM " . tablename($this->table_category) . " WHERE weid=:weid and storeid=:storeid", array(":weid" => $weid,":storeid"=>$storeid));
     if ($item['dining_mode'] == 1 || $item['dining_mode'] == 3) {
         $tablesid = intval($item['tables']);

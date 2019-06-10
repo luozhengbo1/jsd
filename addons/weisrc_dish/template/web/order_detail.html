@@ -598,6 +598,9 @@
                         <td>
                             {if $item['status']!=3 }
                             <a class="btn btn-warning btn-sm btn_goods_show" href="javascript:void(0);" title="退菜"
+                               data-single_real_price="{$row['single_real_price']}"
+                                data-real_price="{$row['real_price']}"
+                               data-price="{$row['price']}"
                                data-value="{$row['goodsid']}">退菜</a>
                             {/if}
                         </td>
@@ -767,7 +770,10 @@
         </div>
     </div>
     <input type="hidden" name="token" value="{$_W['token']}" />
-    <input type="hidden" id="goodsid" name="goodsid" value="0" />
+    <input type="hidden" id="goodsid" name="goodsid" value="" />
+    <input type="hidden" id="single_real_price" name="single_real_price" value="" />
+    <input type="hidden" id="goods_price" name="goods_price" value="" />
+    <input type="hidden" id="refund_real_price" name="refund_real_price" value="" />
 </form>
 <script language="javascript">
     var display = $(".discount_display");
@@ -812,6 +818,12 @@
         tgoods.css("display", '');
         $(".table_input").val("");
         $("#goodsid").val(id);
+        var single_real_price = $(this).attr('data-single_real_price');
+        var real_price = $(this).attr('data-real_price');
+        var goods_price = $(this).attr('data-price');
+        $("#single_real_price").val(single_real_price);
+        $("#refund_real_price").val(real_price);
+        $("#goods_price").val(goods_price);
         setDivCenter('.table_goods');
     });
 
@@ -832,7 +844,25 @@
         var goodsnum = $("#goodsnum").val();
         var deliveryid = $("#deliveryid").val();
         var delivery_status = $("#delivery_status").val();
-        if (confirm("确认要提交吗?若是当日订单会恢复对应商品库存,是否确认？")) {
+        var num = $('#goodsnum').val()
+        var goods_price = $('#goods_price').val()
+        var single_real_price = $('#single_real_price').val()
+        console.log(num)
+        console.log(single_real_price)
+        console.log(goods_price)
+
+        if(single_real_price > goods_price ){
+            alert('退款分摊已经超过或等于菜品单价不可退菜');
+            return false;
+        }
+        var refund_money = (goods_price-single_real_price)*num
+        console.log(refund_money)
+
+        if(refund_money>0){
+            // console.log(refund_money)
+            refund_money =  parseFloat(refund_money)
+        }
+        if (confirm("确认要提交吗?若是当日订单会恢复对应商品库存,是否确认？退菜金额："+refund_money)) {
             var url =
                     "{php echo $this->createWebUrl('retreat', array('orderid' => $id,'storeid' => $_GPC['storeid']))}" + '&goodsid=' + goodsid + '&goodsnum=' + goodsnum;
             window.location.href = url;
