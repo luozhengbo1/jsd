@@ -676,10 +676,10 @@
         </div>
         <div class="form-group col-sm-12" style="margin-bottom: 15px;">
             {if $item['ispay']==0}
-            <button type="submit" class="btn btn-danger span2" onclick="ts('确认设置该订单为完成支付吗？');" name="confrimpay"  value="确认付款">确认付款</button>
+            <button type="submit" class="btn btn-danger span2" onclick="return ts('确认设置该订单为完成支付吗？');" name="confrimpay"  value="确认付款">确认付款</button>
             {/if}
             {if $item['status'] == 0}
-            <button type="submit" class="btn btn-primary span2" onclick="ts('确认设置该订单为已确认吗？');" name="confirm" value="确认订单">确认订单</button>
+            <button type="submit" class="btn btn-primary span2" onclick="return ts('确认设置该订单为已确认吗？');" name="confirm" value="确认订单">确认订单</button>
             {/if}
             {if $item['status'] == 1}
             {if $item['ispay'] == 0}
@@ -689,10 +689,10 @@
             {/if}
             {if $item['status'] != -1}
                 {if $item['status']!=3 }
-                <button type="submit" class="btn span2" name="cancel" onclick="ts('确认关闭此订单吗？若是当日订单会恢复对应商品库存,是否确认？'); " value="关闭">关闭订单</button>
+                <button type="submit" class="btn span2" name="cancel" onclick="return ts('确认关闭此订单吗？若是当日订单会恢复对应商品库存,是否确认？'); " value="关闭">关闭订单</button>
                 {/if}
             {else}
-            <button type="submit" class="btn span2 btn-primary" name="open" onclick="ts('确认开启此订单吗？'); " value="开启">开启订单</button>
+            <button type="submit" class="btn span2 btn-primary" name="open" onclick="return ts('确认开启此订单吗？'); " value="开启">开启订单</button>
             {/if}
             <input type="hidden" name="token" value="{$_W['token']}" />
         </div>

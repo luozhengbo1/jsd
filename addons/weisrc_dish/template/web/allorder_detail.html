@@ -408,6 +408,12 @@
         <input type="hidden" name="token" value="{$_W['token']}" />
     </form>
     <script language="javascript">
+        function ts(ts) {
+            if(confirm(ts)){
+                return true
+            }
+            return false
+        }
         var display = $(".discount_display");
         $(".discount_close").click(function () {
             $(".discount_input").val("");
@@ -719,12 +725,10 @@
         </div>
         <div class="form-group col-sm-12" style="margin-bottom: 15px;">
             {if $item['ispay']==0}
-            <button type="submit" class="btn btn-danger span2" onclick="return confirm('确认设置该订单为完成支付吗？');
-                    return false;" name="confrimpay"  value="确认付款">确认付款</button>
+            <button type="submit" class="btn btn-danger span2" onclick="return ts('确认设置该订单为完成支付吗？');return false;" name="confrimpay"  value="确认付款">确认付款</button>
             {/if}
             {if $item['status'] == 0}
-            <button type="submit" class="btn btn-primary span2" onclick="return confirm('确认设置该订单为已确认吗？');
-                    return false;" name="confirm" value="确认订单">确认订单</button>
+            <button type="submit" class="btn btn-primary span2" onclick=" return ts('确认设置该订单为已确认吗？');return false;" name="confirm" value="确认订单">确认订单</button>
             {/if}
             {if $item['status'] == 1}
             {if $item['ispay'] == 0}
@@ -734,10 +738,10 @@
             {/if}
             {if $item['status'] != -1}
                 {if $item['status']!=3 }
-                <button type="submit" class="btn span2" name="cancel" onclick="return confirm('确认关闭此订单吗？'); return false;" value="关闭">关闭订单</button>
+                <button type="submit" class="btn span2" name="cancel" onclick="return ts('确认关闭此订单吗？当日订单恢复库存')" value="关闭">关闭订单</button>
                 {/if}
             {else}
-            <button type="submit" class="btn span2 btn-primary" name="open" onclick="return confirm('确认开启此订单吗？'); return false;" value="关闭">开启订单</button>
+            <button type="submit" class="btn span2 btn-primary" name="open" onclick="return ts('确认开启此订单吗？');" value="关闭">开启订单</button>
             {/if}
             <input type="hidden" name="token" value="{$_W['token']}" />
         </div>
