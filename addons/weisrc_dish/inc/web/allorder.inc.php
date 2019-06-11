@@ -589,7 +589,7 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
             } else if ($store['is_jueqi_ymf'] == 1) { //崛起支付
                 $result = $this->refund3($id, $order['storeid']);
             } else {
-                $result = $this->refund2($id, $refund_price);
+                $result = $this->refund2($id, $refund_price,$order['origin_totalprice']);
             }
 
             if ($result == 1) {
