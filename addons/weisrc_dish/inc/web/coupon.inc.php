@@ -116,7 +116,7 @@ if ($operation == 'display') {
             'usercount' => intval($_GPC['usercount']),
             'type' => intval($_GPC['type']),
             'dcredit' => intval($_GPC['dcredit']),
-            'attr_type' => 1,
+            'attr_type' => intval($_GPC['attr_type']),
             //该字段预定优惠券指定特定商品
             'goodsids' => $goodsid,
             'gmoney' => floatval($_GPC['gmoney']),
