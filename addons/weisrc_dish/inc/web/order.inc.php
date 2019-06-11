@@ -883,6 +883,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
                 $result = $this->refund3($id, $storeid);
             } else {
                 $result = $this->refund2($id, $refund_price,$order['origin_totalprice']);
+
             }
             if ($result == 1) {
                 //开始分摊金额  is_return 表示商品未退的进行分摊。
@@ -908,7 +909,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
 //    die;
                 //分摊结束
                 //将订单总价减少 更新订单金额
-                $order_totalprice = ($order['totalprice'] - $refund_price)>=0?$order['totalprice'] - $refund_price:0;
+                $order_totalprice = ($order['totalprice'] - $refund_price)>=0?($order['totalprice'] - $refund_price):0;
                 pdo_update($this->table_order, array('totalprice' => $order_totalprice), array('weid' =>
                     $this->_weid, 'id' => $id));
                 $order["refund_price1"] = $refund_price;

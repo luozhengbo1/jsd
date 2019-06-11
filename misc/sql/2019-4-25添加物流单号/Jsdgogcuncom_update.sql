@@ -32,7 +32,9 @@ alter table  `ims_weisrc_dish_order` add `order_ps_type` tinyint(1) default 2 CO
 	alter table `ims_weisrc_dish_goods` add `add_counts` int(11) default 0 COMMENT '新增库存';
 
 	alter table `ims_weisrc_dish_order` add `origin_totalprice` decimal(10,2) default 0 COMMENT '订单原价';
+	alter table `ims_weisrc_dish_sendmsg` add `createtime` datetime  COMMENT '创建时间';
 	ALTER TABLE `ims_weisrc_dish_coupons` ADD `storeids` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '店铺id';
-
+	-- 将历史数据中没有原价的进行更新
+update ims_weisrc_dish_order set origin_totalprice=`totalprice` where id in (select * from (  select  id from ims_weisrc_dish_order where  paytime < 1560177000 ) as a)
 
 

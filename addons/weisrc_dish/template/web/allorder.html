@@ -301,7 +301,10 @@
                                 <a class="btn btn-warning btn-sm btn_table_show" href="javascript:void(0);" title="配送" data-value="{$item['id']}">配送</a>{/if}
                                 {if $item['status'] != 3 && $item['ispay'] != 3}
                                 {if $item['ispay'] == 1 || $item['ispay'] == 2 || $item['ispay'] == 4}
-                                <a class="btn btn-danger btn-sm btnrefund" href="javascript:void(0);" title="退款" data-orderid={$item['id']} data-price="{$item['totalprice']}">退款</a>
+                                <a class="btn btn-danger btn-sm btnrefund" href="javascript:void(0);" title="退款"
+                                   data-orderid={$item['id']} data-price="{$item['totalprice']}"
+                                   data-origin-price="{$item['origin_totalprice']}" data-refund="{$item['refund_price']}"
+                                >退款</a>
                                 {/if}
                                 {/if}
                             </td>
@@ -461,7 +464,26 @@
 <script type="text/javascript">
     $(function () {
         $("tr").delegate(".btnrefund", "click", function () {
-            $("#refund_price").val($(this).attr("data-price"));
+            var money=0,money2 = 0,origin_money=0
+            money = $(this).attr("data-price")
+            origin_money = $(this).attr("data-origin-price")
+            console.log(origin_money)
+            if(origin_money!=money){
+                money = origin_money
+            }
+            var money1 = $(this).attr("data-refund")
+            money2 = floatSub(money,money1)
+            console.log(money)
+            console.log(money1)
+            console.log(money2)
+            if (money2<0){
+                money2=0
+            }else{
+                //money2 /=100
+            }
+            // money2=parseInt(money2*100)/100;
+            $("#refund_price").val(money2);
+            // $("#refund_price").val($(this).attr("data-price"));
             $("#id").val($(this).attr("data-orderid"));
             $('#order-operator-modal').modal();
         });

@@ -7903,6 +7903,11 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
             }
             if($store['store_type']==1){
                 $bjRes = bccomp($totalprice, $store['sendingprice'],2);
+                p($bjRes);
+                p($store['is_delivery_distance']);
+                p($store['store_type']);
+                p($store['sendingprice']);
+                die;
                 if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  ){
                     message('退款后订单低于配送价格不支持退款！', '', 'error');
                     exit;
@@ -8731,7 +8736,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             $input->SetOut_refund_no($refund_order['id'].time());
             $result = $WxPayApi->refund($input, 60, $path_cert, $path_key, $key);
             $result['time'] = date('Y-m-d H:i:s');
-            file_put_contents('/www/wwwroot/jsd.gogcun.com/test1.log', $res = print_r($result,true)."\n",8);
+            file_put_contents('/www/wwwroot/test1.log', $res = print_r($result,true)."\n",8);
             if ($result['return_code'] == 'SUCCESS') {
                 $input2 = new WxPayOrderQuery();
                 $input2->SetAppid($appid);

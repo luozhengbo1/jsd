@@ -322,7 +322,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     }
 
     $item = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id = :id", array(':id' => $id));
-    $goods = pdo_fetchall("SELECT a.goodsid,a.price, a.total,b.thumb,b.title,b.id,b.pcate,b.credit,a.optionname FROM " . tablename($this->table_order_goods) . "
+    $goods = pdo_fetchall("SELECT a.goodsid,a.price, a.real_price,a.single_real_price, a.is_return, b.credit, a.total,b.thumb,b.title,b.id ,b.pcate,a.optionname  FROM " . tablename($this->table_order_goods) . "
 a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.orderid = :id", array(':id' => $id));
 
     $discount = pdo_fetchall("SELECT * FROM " . tablename($this->table_category) . " WHERE weid=:weid and storeid=:storeid", array(":weid" => $weid, ":storeid" => $order['storeid']));
@@ -566,10 +566,21 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
 
     if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款
         $refund_price = floatval($_GPC['refund_price']);
-        $coin = floatval($order['totalprice']);
-        if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
-            message('退款金额不能大于订单金额！', $url, 'success');
+        if(bccomp($order['totalprice'],$order['origin_totalprice'],2)!=0 ){
+            $origin_totalprice = $order['origin_totalprice'];
+        }else{
+            $origin_totalprice =$order['totalprice'] ;
         }
+        //退款金额的比较
+        $refundBjRes = bccomp($refund_price+$order['refund_price'],$origin_totalprice,2);
+        $refundBjRes1 = bccomp($refund_price,$origin_totalprice,2);
+        if ($refundBjRes1==1 || $refundBjRes==1  ) {
+            message('退款金额不能大于订单金额1！', $url, 'error');
+        }
+//        $coin = floatval($order['totalprice']);
+//        if ($refund_price > $coin || round($refund_price+$order['refund_price'], 2)>$order['totalprice']) {
+//            message('退款金额不能大于订单金额！', $url, 'success');
+//        }
 
         if ($order['paytype'] == 2) { //微信支付
             $store = $this->getStoreById($order['storeid']);
@@ -582,6 +593,32 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
             }
 
             if ($result == 1) {
+                $ordergoodsList = pdo_fetchall("select *,total*price as moneyrate from ".tablename('weisrc_dish_order_goods')." where is_return=0  and  orderid=:orderid order by moneyrate desc ",array(':orderid'=>$id) );
+                $totalRealPrice = 0;
+                $totalPrice_total = array_sum(array_column($ordergoodsList,'moneyrate'));
+                foreach ($ordergoodsList as $k=>$v){
+                    //  $ordergoodsList[$k]['real_price']=  floor($v['price']*$v['total']/$order['totalprice'] * $refund_price *100)/100;
+                    $ordergoodsList[$k]['real_tmp_price']=  number_format($v['price']*$v['total']/$totalPrice_total * $refund_price,2) ;
+                    $totalRealPrice+= $ordergoodsList[$k]['real_tmp_price'];
+                }
+//    p($totalRealPrice);
+                $errorMoney = ($refund_price*100 - $totalRealPrice*100)/100 ;
+                $ordergoodsList[0]['real_tmp_price'] =($ordergoodsList[0]['real_tmp_price']*100+ $errorMoney*100)/100;
+//    p($errorMoney);
+                foreach ($ordergoodsList as $k=>$v){
+                    $updateRealMoney=['real_price' =>$v['real_price'] + $v['real_tmp_price'],'single_real_price'=>($v['real_price'] + $v['real_tmp_price'])/$v['total'] ];
+                    pdo_update($this->table_order_goods,$updateRealMoney,array('id'=>$v['id']));
+                }
+//    p($updateRealMoney);
+//    die;
+                //分摊结束
+                //将订单总价减少 更新订单金额
+                $order_totalprice = ($order['totalprice'] - $refund_price)>=0?($order['totalprice'] - $refund_price):0;
+                pdo_update($this->table_order, array('totalprice' => $order_totalprice), array('weid' =>
+                    $this->_weid, 'id' => $id));
+                $order["refund_price1"] = $refund_price;
+                $order["ispay"] = 3;//为了初始化订单退款推送状态
+                $this->sendOrderNotice($order, $store, $setting);
                 message('退款成功！', $url, 'success');
             } else {
                 message('退款失败！', $url, 'error');

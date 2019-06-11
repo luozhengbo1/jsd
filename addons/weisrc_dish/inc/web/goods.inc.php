@@ -26,7 +26,7 @@ if (!empty($category)) {
 $label = pdo_fetchall("SELECT * FROM " . tablename($this->table_print_label) . " WHERE weid = :weid And storeid=:storeid ORDER BY displayorder DESC", array(':weid' => $weid, ':storeid' => $storeid), 'id');
 
 $nowtime = mktime(0, 0, 0);
-pdo_query("UPDATE " . tablename($this->table_goods) . " SET add_counts=0,today_counts=0,lasttime=:time WHERE storeid=:storeid AND lasttime<:nowtime", array(':storeid' => $storeid, ':time' => TIMESTAMP, ':nowtime' => $nowtime));
+pdo_query("UPDATE " . tablename($this->table_goods) . " SET today_counts=0,lasttime=:time WHERE storeid=:storeid AND lasttime<:nowtime", array(':storeid' => $storeid, ':time' => TIMESTAMP, ':nowtime' => $nowtime));
 
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
 if ($operation == 'post') {
@@ -69,12 +69,12 @@ if ($operation == 'post') {
             $endtime = date('Y-m-d H:i', $item['enddate']);
         }
     }
-    if (!isset($item["add_counts"])){
-        $item["add_counts"] = 0;
-    }
-    if (!isset($item["basic_counts"])){
-        $item["basic_counts"] = 0;
-    }
+//    if (!isset($item["add_counts"])){
+//        $item["add_counts"] = 0;
+//    }
+//    if (!isset($item["basic_counts"])){
+//        $item["basic_counts"] = 0;
+//    }
     $optionlist = pdo_fetchall("SELECT * FROM " . tablename('weisrc_dish_goods_option') . " WHERE goodsid=:goodsid order by id", array(':goodsid' => $id));
     if (checksubmit('submit')) {
         $data = array(
@@ -96,7 +96,8 @@ if ($operation == 'post') {
             'endtime' => trim($_GPC['endtime']),
             'startdate' => strtotime($_GPC['datelimit']['start']),
             'enddate' => strtotime($_GPC['datelimit']['end']),
-            'counts' => (intval($_GPC['basic_counts'])==-1)?-1: intval($_GPC['add_counts'])+intval($_GPC['basic_counts']),
+//            'counts' => (intval($_GPC['basic_counts'])==-1)?-1: intval($_GPC['add_counts'])+intval($_GPC['basic_counts']),
+            'counts' => (intval($_GPC['counts'])==-1)?-1: intval($_GPC['counts']),
             'today_counts' => intval($_GPC['today_counts']),
 //            'today_counts' => 222,
             'sales' => intval($_GPC['sales']),
@@ -118,15 +119,15 @@ if ($operation == 'post') {
             'startcount' => intval($_GPC['startcount']),
             'send_way' => intval($_GPC['send_way']),
             //库存
-            'add_counts'=> intval($_GPC['add_counts']),
-            'basic_counts'=> intval($_GPC['basic_counts']),
+//            'add_counts'=> intval($_GPC['add_counts']),
+//            'basic_counts'=> intval($_GPC['basic_counts']),
         );
 //        p($_GPC['today_counts']);
 //        p($data);die;
 
-        if ($_GPC['basic_counts'] == "") {
-            message('每日库存不能为空！');
-        }
+//        if ($_GPC['basic_counts'] == "") {
+//            message('每日库存不能为空！');
+//        }
         if ($data['startcount'] < 1) {
             message('起售份数不能小于1!');
         }
