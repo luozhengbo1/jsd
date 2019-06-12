@@ -111,15 +111,20 @@ if (empty($from_user)) {
 }
 
 $sub = 0;
-if ($this->_accountlevel == 4) {
-    $userinfo = $this->getUserInfo($from_user);
-    if ($userinfo['subscribe'] == 1) {
-        $sub = 1;
-    }
-} else {
-    if ($_W['fans']['follow'] == 1) {
-        $sub = 1;
-    }
+
+//if ($this->_accountlevel == 4) {
+//    $userinfo = $this->getUserInfo($from_user);
+//    if ($userinfo['subscribe'] == 1) {
+//        $sub = 1;
+//    }
+//} else {
+//    if ($_W['fans']['follow'] == 1) {
+//        $sub = 1;
+//    }
+//}
+$userinfo = $this->getUserInfo($from_user);
+if ($userinfo['subscribe'] == 1) {
+    $sub = 1;
 }
 
 if ($sub == 0) {
@@ -304,6 +309,7 @@ $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']
 $share_url = $host . 'app/' . $this->createMobileUrl('waplist', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'agentid' => $fans['id']), true);
 
 $ispop = 0;
+
 if ($setting['tiptype'] == 1) { //关注后隐藏
     if ($sub == 0) {
         $ispop = 1;

@@ -61,15 +61,19 @@ if ($fans['status'] == 0) {
 }
 
 $sub = 0;
-if ($this->_accountlevel == 4) {
-    $userinfo = $this->getUserInfo($from_user);
-    if ($userinfo['subscribe'] == 1) {
-        $sub = 1;
-    }
-} else {
-    if ($_W['fans']['follow'] == 1) {
-        $sub = 1;
-    }
+//if ($this->_accountlevel == 4) {
+//    $userinfo = $this->getUserInfo($from_user);
+//    if ($userinfo['subscribe'] == 1) {
+//        $sub = 1;
+//    }
+//} else {
+//    if ($_W['fans']['follow'] == 1) {
+//        $sub = 1;
+//    }
+//}
+$userinfo = $this->getUserInfo($from_user);
+if ($userinfo['subscribe'] == 1) {
+    $sub = 1;
 }
 
 //门店类型

@@ -4069,7 +4069,6 @@ status<>3 AND status<>-1 ORDER BY id DESC LIMIT 1", array(':from_user' => $from_
 
 
         $ispop = 0;
-
         if ($setting['tiptype'] == 1) { //关注后隐藏
 
             if ($sub == 0) {

@@ -568,7 +568,7 @@ class WeiXinAccount extends WeAccount {
 		$record['expire'] = TIMESTAMP + $token['expires_in'] - 200;
 		$this->account['access_token'] = $record;
 		cache_write($cachekey, $record);
-		return $record['token'];
+        return $record['token'];
 	}
 
 	public function getVailableAccessToken() {

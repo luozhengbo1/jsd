@@ -474,7 +474,7 @@ ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
             $fansdata['lng'] = $lng;
         }
         if (empty($user)) {
-            p($fansdata);die;
+//            p($fansdata);die;
             pdo_insert($this->table_fans, $fansdata);
         } else {
             pdo_update($this->table_fans, $fansdata, array('id' => $user['id']));
@@ -6807,7 +6807,7 @@ EOF;
                     'agentid3' => 0,
                     'dateline' => TIMESTAMP
                 );
-                p($insert);die;
+//                p($insert);die;
                 pdo_insert($this->table_fans, $insert);
             }
         } else {
@@ -6820,7 +6820,7 @@ EOF;
                     'agentid3' => 0,
                     'dateline' => TIMESTAMP
                 );
-                p($insert);die;
+//                p($insert);die;
                 pdo_insert($this->table_fans, $insert);
             }
         }
@@ -7903,11 +7903,11 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
             }
             if($store['store_type']==1){
                 $bjRes = bccomp($totalprice, $store['sendingprice'],2);
-                p($bjRes);
-                p($store['is_delivery_distance']);
-                p($store['store_type']);
-                p($store['sendingprice']);
-                die;
+//                p($bjRes);
+//                p($store['is_delivery_distance']);
+//                p($store['store_type']);
+//                p($store['sendingprice']);
+//                die;
                 if($store['store_type']==1 && $store['is_delivery_distance']==1  &&  $store['sendingprice'] && $bjRes==-1  ){
                     message('退款后订单低于配送价格不支持退款！', '', 'error');
                     exit;

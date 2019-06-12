@@ -17,6 +17,7 @@ class Test{
         private $appsecret = "155b63989772784550b867c8a96d23a4";
 //        private $appsecret = "d27ce382ae9c288ada246dffb1c99680";
         public $table = "ims_weisrc_dish_sendmsg";
+        private  $cache;
         /**
          * 测试推送
          */
@@ -25,13 +26,33 @@ class Test{
               $this->config['host'],
               $this->config['user'],
               $this->config['password'],
-              $this->config['database'],$this->config['port']);
-              $this->setToken();
+              $this->config['database'],
+              $this->config['port']
+          );
+            $sqltoken = "select * from ims_core_cache where`key`='accesstoken:2'";
+            $res = $this->conn->query($sqltoken);
+
+            if($res->num_rows>0){
+                $row = $res->fetch_assoc();
+                $tokenArr = unserialize($row['value']);
+                if(isset($tokenArr['token']) && $tokenArr['token'] &&  $tokenArr['expire'] > time()  ){// 未过期
+                    $this->token = $tokenArr['token'];
+                }else{ //过期 更新
+                   $this->token =  $this->getToken();
+                   //将token 存入缓存
+                    $data = serialize(array('token'=>$this->token,'expire'=>time()+7200));
+                    $update = "update ims_core_cache set `value`= '{$data}' where `key` = 'accesstoken:2' ";
+                    $this->conn->query($update);
+                }
+            }
+
         }
         public function sendMsg(){
             $select = "select * from ".$this->table." where status=0 ";
             $result = $this->conn->query($select);
 //            $row['openid']="oW-VD01zhPdr764rS0AO8yFAAX9E";
+            $sqltoken = "select * from ims_core_cache where key='accesstoken:2'";
+            $this->conn->query($sqltoken);
             $updatesql = '';
             while ( $row= $result->fetch_assoc()){
                 if (!empty($row['openid'])) {
@@ -53,32 +74,13 @@ class Test{
 
 
         //获取token 并保存7200秒
-        public function setToken()
+        public function getToken()
         {
-            $sql = "select * from ims_wechat_token limit 1 ";
-            $res = $this->conn->query($sql);
-            if(!$res->num_rows){
-                $TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=". $this->appid."&secret=".$this->appsecret;
-                $json=file_get_contents($TOKEN_URL);
-                $result=json_decode($json);
-                $this->token=$result->access_token;
-                $insert = "insert into ims_wechat_token(`token`,`createtime`) VALUE('{$this->token}','".date('Y-m-d H:i:s')."')";
-                mysqli_query($this->conn,$insert);
-            }else {
-                if($row= $res->fetch_assoc() ){
-                    if(strtotime($row['createtime'])+7200 > time() &&  $row['token'] ){ //未过期
-                        $this->token = $row['token'];
-                    }else{
-                        $TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=". $this->appid."&secret=".$this->appsecret;
-                        $json=file_get_contents($TOKEN_URL);
-                        $result=json_decode($json);
-                        $this->token=$result->access_token;
-                        $update = "update  ims_wechat_token set `token`='{$result->access_token}',`createtime` ='".date('Y-m-d H:i:s')."'";
-                        mysqli_query($this->conn,$update);
-                    }
-                }
-            }
-
+            $TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=". $this->appid."&secret=".$this->appsecret;
+            $json=file_get_contents($TOKEN_URL);
+            $result=json_decode($json);
+            $this->token=$result->access_token;
+            return $this->token;
         }
         public  function reply_customer($touser,$content){
 
