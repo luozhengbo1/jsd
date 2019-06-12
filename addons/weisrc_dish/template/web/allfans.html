@@ -27,21 +27,21 @@
                 <input type="hidden" name="do" value="allfans" />
                 <input type="hidden" name="op" value="display" />
                 <div class="form-group">
-                    <select class="form-control" id="status" name="status" autocomplete="off">
+                    <select class="form-control" id="status"  style="width: 120px;" name="status" autocomplete="off">
                         <option value="">全部</option>
                         <option value="1">正常下单</option>
                         <option value="0">禁止下单</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control" id="types" name="types" autocomplete="off">
+                    <select class="form-control" id="types" style="width: 120px;" name="types" autocomplete="off">
                         <option value="nickname">昵称</option>
                         <option value="username">用户名称</option>
                         <option value="mobile">手机号码</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control" id="usertype" name="usertype" autocomplete="off">
+                    <select class="form-control" id="usertype"style="width: 140px;" name="usertype" autocomplete="off">
                         <option value="0">全部级别</option>
                         <option value="1" {if $usertype==1}selected{/if}>股东[顶级]</option>
                         <option value="2" {if $usertype==2}selected{/if}>代理商[一级]</option>
@@ -49,7 +49,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control" id="datapage" name="datapage" autocomplete="off">
+                    <select class="form-control" id="datapage" style="width: 120px;" name="datapage" autocomplete="off">
                         <option value="0">导出条数</option>
                         <option value="1" >1～100</option>
                         <option value="2" >101～200</option>
