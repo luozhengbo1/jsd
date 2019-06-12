@@ -9,7 +9,7 @@ $storeid = intval($_GPC['storeid']);
 $orderid = intval($_GPC['orderid']);
 $mode = intval($_GPC['mode']);
 $append = intval($_GPC['append']);
-$psnum = $_GPC['psnum'];
+$psnum = $_GPC['psnum']; // 1 外卖 2 邮寄 0 堂食
 if ($mode == 0) {
     message('请先选择下单模式', $this->createMobileUrl('detail', array('id' => $storeid)));
 }

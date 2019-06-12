@@ -9184,9 +9184,11 @@ print_usr=:print_usr) AND storeid = :storeid {$condition} ORDER BY id DESC limit
      */
     public function userTextDecode($str){
         $text = json_encode($str); //暴露出unicode
+//        p($text);
         $text = preg_replace_callback("/(\\\u[ed0-9][0-9a-f]{3})/i",function($str){
             return stripslashes($str[0]);
         },$text); //将两条斜杠变成一条，其他不动
+//        p($text);
         return json_decode($text);
     }
     /**

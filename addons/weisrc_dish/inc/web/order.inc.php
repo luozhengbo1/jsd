@@ -1085,5 +1085,5 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     }
     message('录入成功！', $url, 'success');
 }
-
+//p($store);
 include $this->template('web/order');

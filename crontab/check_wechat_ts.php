@@ -1,14 +1,21 @@
 <?php
 class Test{
         private $config=array(
-            'host'=>'localhost',
+            'host'=>'127.0.0.1',
             'user'=>'Jsdgogcuncom',
             'password'=>'NiNWHh58b8ZC3LdM',
             'database'=>'Jsdgogcuncom_test',//线下
-            //'database'=>'Jsdgogcuncom',//线上
+//            'user'=>'jsdgogcun',
+//            'password'=>'7XTkmbfrfe',
+//            'database'=>'jsdgogcun',//线上
             'port'=>'3306',
         );
+        private  $token;
         private $conn;
+        private $appid = "wx0fd57bd3a7fc8709";
+//        private $appid = "wx948178e3ae34071a";
+        private $appsecret = "155b63989772784550b867c8a96d23a4";
+//        private $appsecret = "d27ce382ae9c288ada246dffb1c99680";
         public $table = "ims_weisrc_dish_sendmsg";
         /**
          * 测试推送
@@ -19,44 +26,63 @@ class Test{
               $this->config['user'],
               $this->config['password'],
               $this->config['database'],$this->config['port']);
+              $this->setToken();
         }
         public function sendMsg(){
             $select = "select * from ".$this->table." where status=0 ";
             $result = $this->conn->query($select);
-//            echo "<pre>";
+//            $row['openid']="oW-VD01zhPdr764rS0AO8yFAAX9E";
             $updatesql = '';
             while ( $row= $result->fetch_assoc()){
                 if (!empty($row['openid'])) {
-                    // 立即返回
-                    ignore_user_abort(true);
-                    ob_start();
-                    //"oW-VD01zhPdr764rS0AO8yFAAX9E"
-//                    $data =  $this->reply_customer($row['openid'], $row['id']."时间:".date('Y-m-d H:i:s')."\n".$row['content']);
-                    $data =  $this->reply_customer($row['openid'],$row['content']);
-                    header('Connection: close');
-                    header('Content-Length: ' . ob_get_length());
-                    ob_end_flush();
-                    ob_flush();
-                    flush();
-//                    print_r($data);
-                    if($data->errcode==0 && $data->errmsg=="ok"){
-                        $updatesql .= " update ".$this->table." set status = 1,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; "  ;
+                    $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->token.'&openid='.$row['openid'];
+                    $result1 =file_get_contents($url);
+                    $result1 = json_decode($result1);
+                    if(isset($result1->subscribe) && $result1->subscribe==1  ){ //关注的用户才发送消息
+                        $data =  $this->reply_customer($row['openid'],$row['content']);
+                        if($data->errcode==0 && $data->errmsg=="ok"){
+                            $updatesql .= " update ".$this->table." set status = 1,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; "  ;
+                        }
+                    }else{
+                        $updatesql .=" update ".$this->table." set status = 2,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; ";
                     }
                 }
             }
             $this->conn->multi_query($updatesql);
         }
 
+
+        //获取token 并保存7200秒
+        public function setToken()
+        {
+            $sql = "select * from ims_wechat_token limit 1 ";
+            $res = $this->conn->query($sql);
+            if(!$res->num_rows){
+                $TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=". $this->appid."&secret=".$this->appsecret;
+                $json=file_get_contents($TOKEN_URL);
+                $result=json_decode($json);
+                $this->token=$result->access_token;
+                $insert = "insert into ims_wechat_token(`token`,`createtime`) VALUE('{$this->token}','".date('Y-m-d H:i:s')."')";
+                mysqli_query($this->conn,$insert);
+            }else {
+                if($row= $res->fetch_assoc() ){
+                    if(strtotime($row['createtime'])+7200 > time() &&  $row['token'] ){ //未过期
+                        $this->token = $row['token'];
+                    }else{
+                        $TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=". $this->appid."&secret=".$this->appsecret;
+                        $json=file_get_contents($TOKEN_URL);
+                        $result=json_decode($json);
+                        $this->token=$result->access_token;
+                        $update = "update  ims_wechat_token set `token`='{$result->access_token}',`createtime` ='".date('Y-m-d H:i:s')."'";
+                        mysqli_query($this->conn,$update);
+                    }
+                }
+            }
+
+        }
         public  function reply_customer($touser,$content){
-            //更换成自己的APPID和APPSECRET
-            $APPID="wx0fd57bd3a7fc8709";
-            $APPSECRET="155b63989772784550b867c8a96d23a4";
 
-            $TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
-
-            $json=file_get_contents($TOKEN_URL);
-            $result=json_decode($json);
-            $ACC_TOKEN=$result->access_token;
+            $ACC_TOKEN = $this->token;
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$ACC_TOKEN;
             $data = '{
                 "touser":"'.$touser.'",

@@ -37,4 +37,11 @@ alter table  `ims_weisrc_dish_order` add `order_ps_type` tinyint(1) default 2 CO
 	-- 将历史数据中没有原价的进行更新
 update ims_weisrc_dish_order set origin_totalprice=`totalprice` where id in (select * from (  select  id from ims_weisrc_dish_order where  paytime < 1560177000 ) as a)
 
+CREATE TABLE `ims_wechat_token` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `createtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
 

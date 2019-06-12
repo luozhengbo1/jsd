@@ -215,9 +215,9 @@
                     <div class="col-sm-7 col-lg-2 col-xs-12">
                         <select name="dining_mode" class="form-control">
                             <option value="">不限</option>
-                            <option value="1" {if $_GPC['dining_mode'] == 1} selected="selected" {/if}>堂点</option>
-                            <option value="2" {if $_GPC['dining_mode'] == 2} selected="selected" {/if}>外卖</option>
-                            <option value="3" {if $_GPC['dining_mode'] == 3} selected="selected" {/if}>预定</option>
+                            <option value="1" {if $_GPC['store_type'] == 1} selected="selected" {/if}>外卖</option>
+                            <option value="2" {if $_GPC['store_type'] == 2} selected="selected" {/if}>堂食</option>
+                            <option value="3" {if $_GPC['store_type'] == 3} selected="selected" {/if}>邮寄</option>
                             <option value="4" {if $_GPC['dining_mode'] == 4} selected="selected" {/if}>快餐</option>
                             <option value="5" {if $_GPC['dining_mode'] == 5} selected="selected" {/if}>收银</option>
                             <option value="6" {if $_GPC['dining_mode'] == 6} selected="selected" {/if}>充值</option>

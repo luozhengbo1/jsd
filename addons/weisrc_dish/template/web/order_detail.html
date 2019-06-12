@@ -126,12 +126,13 @@
                                 <div class="form-group clearfix">
                                     <label class="col-xs-3 col-sm-3 control-label">订单类型：</label>
                                     <div class="col-xs-9 col-sm-9 form-control-static">
-                                        <b><span class="text-currency big">{if $item['dining_mode']==1}堂点{/if}
+                                        <b><span class="text-currency big">
+                                                {if $item['dining_mode']==1}堂点{/if}
                                                 {if $item['dining_mode']==2}外卖{/if}
                                                 {if $item['dining_mode']==3}预订{/if}
                                                 {if $item['dining_mode']==4}快餐{/if}
-                                            {if $item['dining_mode']==5}收银{/if}
-                                            {if $item['dining_mode']==6}充值{/if}
+                                                {if $item['dining_mode']==5}收银{/if}
+                                                {if $item['dining_mode']==6}充值{/if}
                                             </span></b>
                                     </div>
                                 </div>

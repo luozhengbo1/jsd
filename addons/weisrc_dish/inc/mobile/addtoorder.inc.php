@@ -9,7 +9,7 @@ $setting = $this->getSetting();
 $zhekou = $_GPC['zhekou'];
 $psnum = $_GPC['psnum'];
 //var_dump($from_user);exit();
-
+//p($_GPC['ordertype']);die;
 $mode = intval($_GPC['ordertype']) == 0 ? 1 : intval($_GPC['ordertype']);
 $is_auto_address = intval($setting['is_auto_address']);
 if ($mode == 3) {
@@ -276,7 +276,7 @@ if ($isnewuser == 1) { //新用户
         }
     }
 }
-if($psnum == 2){
+if($psnum == 2){ // 邮寄
     $psf = 0;
     $dispatchprice = 0;
 }
