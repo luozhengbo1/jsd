@@ -89,5 +89,9 @@ if ($operation == 'display') {
     pdo_delete($this->table_account, array('id' => $id, 'weid' => $_W['uniacid']));
     message('删除成功！', $this->createWebUrl('coreuser', array('op' => 'display', 'storeid' => $storeid)), 'success');
 }
+//echo $fans['nickname'];
 
+$fans['nickname'] =$this->userTextDecode($fans['nickname']);
+//echo $fans['nickname'];
+//die;
 include $this->template('web/coreuser');

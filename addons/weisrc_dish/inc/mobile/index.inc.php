@@ -37,41 +37,19 @@ if (isset($_COOKIE[$this->_auth2_openid])) {
         }
     }
 }
-$nickname = userTextEncode($nickname);
-/**
- * 把用户输入的文本转义（主要针对特殊符号和emoji表情）
- */
-function userTextEncode($str){
-    if(!is_string($str))return $str;
-    if(!$str || $str=='undefined')return '';
+$nickname = $this->userTextEncode($nickname);
 
-
-    $text = json_encode($str); //暴露出unicode
-    $text = preg_replace_callback("/(\\\u[ed][0-9a-f]{3})/i",function($str){
-        return addslashes($str[0]);
-    },$text); //将emoji的unicode留下，其他不动，这里的正则比原答案增加了d，因为我发现我很多emoji实际上是\ud开头的，反而暂时没发现有\ue开头。
-    return json_decode($text);
-}
-/**
- * 解码上面的转义
- */
-function userTextDecode($str){
-    $text = json_encode($str); //暴露出unicode
-    $text = preg_replace_callback("/(\\\u[ed][0-9a-f]{3})/i",function($str){
-        return stripslashes($str[0]);
-    },$text); //将两条斜杠变成一条，其他不动
-    return json_decode($text);
-}
 $fans = $this->getFansByOpenid($from_user);
 if (empty($fans)) {
     $this->addFans($nickname, $headimgurl);
 } else {
     $this->updateFans($nickname, $headimgurl, $fans['id']);
 }
+//echo $nickname;die;
 
 $fans = $this->getFansByOpenid($from_user);
 //p($nickname);
-$fans['nickname'] = userTextDecode($fans['nickname']);
+$fans['nickname'] = $this->userTextDecode($fans['nickname']);
 //p($fans);die;
 $slide = $this->getSlidesByPos(2);
 $adlist = $this->getSlidesByPos(3);
