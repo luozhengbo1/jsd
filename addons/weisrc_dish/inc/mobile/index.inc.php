@@ -208,7 +208,7 @@ $share_title = !empty($setting['share_title']) ? str_replace("#username#", $nick
 $share_desc = !empty($setting['share_desc']) ? str_replace("#username#", $nickname, $setting['share_desc']) : "最新潮玩法，快来试试！";
 $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']) : tomedia("../addons/weisrc_dish/icon.jpg");
 $share_url = $host . 'app/' . $this->createMobileUrl('index', array('agentid' => $fans['id']), true);
-
+//p($share_url);die;
 
 //p($restlist);die;
 include $this->template($this->cur_tpl . '/index');

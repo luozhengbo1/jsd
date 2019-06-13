@@ -247,7 +247,7 @@
         <input type="hidden" id="curlat" name="curlat" value="0"/>
         <input type="hidden" id="curlng" name="curlng" value="0"/>
         <input type="hidden" id="isposition" name="isposition" value="{$isposition}" />
-        <input type="hidden" id="cururl" name="cururl" value="{php echo $this->createMobileurl('waprestlist', array('typeid' => $typeid,'areaid' => $areaid, 'sortid' => $sortid), true)}" />
+        <input type="hidden" id="cururl" name="cururl" value="{php echo $this->createMobileurl('waprestlist', array('typeid' => $typeid,'areaid' => $areaid, 'sortid' => $sortid,'agentid'=>$fans['id']), true)}" />
 <!--        <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=5PESLgvMcSbSUbPjmDKgvGZ3"></script>-->
 <!--        {if $isposition==0}-->
         <div id="container" style="display: none;"></div>

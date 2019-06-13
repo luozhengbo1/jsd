@@ -535,7 +535,7 @@
         <input type="hidden" id="curlat" name="curlat" value="0"/>
         <input type="hidden" id="curlng" name="curlng" value="0"/>
         <input type="hidden" id="isposition" name="isposition" value="{$isposition}" />
-        <input type="hidden" id="cururl" name="cururl" value="{php echo $this->createMobileurl('index', array(), true)}" />
+        <input type="hidden" id="cururl" name="cururl" value="{php echo $this->createMobileurl('index', array('agentid'=>$fans['id']), true)}" />
         {php include $this->template($this->cur_tpl.'/_pop');}
         <div class="top-btn" style="display: block;">
             <a class="react">

@@ -65,6 +65,8 @@ class Test{
                             $updatesql .= " update ".$this->table." set status = 1,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; "  ;
                         }
                     }else{
+                        file_put_contents('/www/wwwroot/ts.log', $rs = print_r( $result1->subscribe,true)."\n2222222",8);
+                        file_put_contents('/www/wwwroot/ts.log', $rs = print_r( $row['openid'],true),8);
                         $updatesql .=" update ".$this->table." set status = 2,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; ";
                     }
                 }

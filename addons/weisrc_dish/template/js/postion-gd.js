@@ -48,7 +48,6 @@ $(function() {
         // locLat = 26.61859;
         $(".morelist").each(function() {
             var ShopLngLat = $(this).find("#showlan").val();
-            console.log(1)
             console.log(ShopLngLat)
             var InputOF = ShopLngLat.indexOf(",");
             var InputOFLast = ShopLngLat.length;

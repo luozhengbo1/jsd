@@ -307,7 +307,6 @@ $share_title = !empty($setting['share_title']) ? str_replace("#username#", $nick
 $share_desc = !empty($setting['share_desc']) ? str_replace("#username#", $nickname, $setting['share_desc']) : "最新潮玩法，快来试试！";
 $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']) : tomedia("../addons/weisrc_dish/icon.jpg");
 $share_url = $host . 'app/' . $this->createMobileUrl('waplist', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'agentid' => $fans['id']), true);
-
 $ispop = 0;
 
 if ($setting['tiptype'] == 1) { //关注后隐藏
