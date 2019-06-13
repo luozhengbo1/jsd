@@ -116,7 +116,9 @@ if ($operation == 'display') {
     if ($is_permission == false) {
         $this->showTip('对不起，您没有该功能的操作权限!');
     }
-
+    if ($setting['is_open_price'] != 1) {
+        $this->showTip('对不起，该功能已关闭!');
+    }
     $order_totalprice = $this->getStoreOrderTotalPrice($storeid, $is_contain_delivery);
     //已申请
     $totalprice1 = $this->getStoreOutTotalPrice($storeid);

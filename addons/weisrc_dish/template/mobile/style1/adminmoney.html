@@ -83,9 +83,11 @@
     {if $totalprice<$getcash_price || $totalprice<1}
 
     {else}
+    {if  $setting['is_open_price'] == 1}
     <a href="#" class="button button-fill delivery-button-submit" id="btnselect">
         确认提现
     </a>
+    {/if}
     {/if}
 
 </nav>
