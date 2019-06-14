@@ -576,6 +576,7 @@ if ($operation == 'setting') {
             pdo_update($this->table_stores, $data, array('weid' => $weid));
             message('操作成功！', $this->createWebUrl('stores', array('op' => 'display')), 'success');
         }
+        message('操作成功！', $this->createWebUrl('stores', array('op' => 'display')), 'success');
     }
 } elseif ($operation == 'deletetrue') {
     if ($_W['role'] == 'manager' || $_W['isfounder']) {
