@@ -131,7 +131,7 @@ if ($do == 'upload') {
 		die(json_encode($result));
 	}
 	if($_FILES['file']['size']> $setting['limit'] * 1024 ){
-        $result['message'] = '上传失败,图片大小超过'.$setting['limit']/1000 ."M 限制";
+        $result['message'] = "上传失败,图片过大 ，请上传".$setting['limit']/1000 ."M以下的图片";
         die(json_encode($result));
     }
     $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
