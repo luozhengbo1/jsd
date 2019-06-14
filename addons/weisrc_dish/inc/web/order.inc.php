@@ -841,8 +841,8 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     if($order['status']!=-1) {
         $refund_price = floatval($_GPC['refund_price']);
         $after_total = ($order['totalprice'] * 100 - $refund_price * 100) / 100;
+        $bjRes = bccomp($after_total,$store['sendingprice'],2);
         if($store['store_type']==1){
-            $bjRes = bccomp($after_total,$store['sendingprice'],2);
 //            p($after_total);
 //            p($store['sendingprice']);
 //            p($store['sendingprice']);
