@@ -20,7 +20,7 @@ $table_label = pdo_fetchall("SELECT * FROM " . tablename($this->table_print_labe
 
 if (empty($tablezones)) {
     $url = $this->createWebUrl('tablezones', array('op' => 'display', 'storeid' => $storeid));
-    message('请先添加桌台类型', $url);
+    message('请先添加桌台类型', $url, 'error');
 }
 
 if ($operation == 'post') {
