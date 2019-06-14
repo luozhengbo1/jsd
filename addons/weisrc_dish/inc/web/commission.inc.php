@@ -62,7 +62,7 @@ if ($operation == 'display') {
 
         if ($agent) {
             pdo_query("UPDATE " . tablename($this->table_commission) . " SET status = :status WHERE id=:id AND weid=:weid", array(':status' => 1, ':id' => $id, ':weid' => $this->_weid));
-//            $this->setFansCoin($agent['from_user'], $item['price'], "单号{$item['ordersn']}佣金奖励");
+            $this->setFansCoin($agent['from_user'], $item['price'], "单号{$item['ordersn']}佣金奖励");
             if ($item['level']==1) {
                 $level = "一级";
             }

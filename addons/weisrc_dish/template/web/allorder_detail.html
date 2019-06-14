@@ -647,7 +647,7 @@
                             {/loop}
                         </td>
                         <td>
-                            {if $item['ispay']==0}
+                            {if $item['status']!=3 }
                             <a class="btn btn-warning btn-sm btn_goods_show" href="javascript:void(0);" title="退菜"
                                data-single_real_price="{$row['single_real_price']}"
                                data-real_price="{$row['real_price']}"
