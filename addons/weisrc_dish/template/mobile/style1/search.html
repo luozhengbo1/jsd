@@ -34,7 +34,7 @@
         <div class="ddb-nav-header search-header">
             <div class="search-input">
                 <span class="fa fa-search white voice-input ng-scope" ng-click="startRecord()" ng-if="!is_recording"></span>
-                <input type="text" placeholder="输入门店名称" name="word" id="word" class="query-word ng-pristine ng-untouched ng-valid">
+                <input type="text" placeholder="输入门店名称" name="word" id="word" class="query-word ng-pristine ng-untouched ng-valid"  value="{if isset($searchword)}{$searchword}{/if}" >
             </div>
             <div class="operation-button white search-cancel" onclick="search()">搜索</div>
         </div>
