@@ -106,7 +106,6 @@ if ($do == 'fetch') {
 		$result['message'] = '提取资源失败, 仅支持图片提取.';
 		die(json_encode($result));
 	}
-
 	if (intval($resp['headers']['Content-Length']) > $setting['limit'] * 1024) {
 		$result['message'] = '上传的媒体文件过大(' . sizecount($size) . ' > ' . sizecount($setting['limit'] * 1024);
 		die(json_encode($result));
@@ -131,7 +130,11 @@ if ($do == 'upload') {
 		$result['message'] = '上传失败, 请重试.';
 		die(json_encode($result));
 	}
-	$ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+	if($_FILES['file']['size']> $setting['limit'] * 1024 ){
+        $result['message'] = '上传失败,图片大小超过'.$setting['limit']/1000 ."M 限制";
+        die(json_encode($result));
+    }
+    $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 	$ext = strtolower($ext);
 	$size = intval($_FILES['file']['size']);
 	$originname = $_FILES['file']['name'];
