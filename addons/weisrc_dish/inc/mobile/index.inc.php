@@ -37,7 +37,6 @@ if (isset($_COOKIE[$this->_auth2_openid])) {
         }
     }
 }
-$nickname = $this->userTextEncode($nickname);
 
 $fans = $this->getFansByOpenid($from_user);
 if (empty($fans)) {
@@ -49,7 +48,6 @@ if (empty($fans)) {
 
 $fans = $this->getFansByOpenid($from_user);
 //p($nickname);
-$fans['nickname'] = $this->userTextDecode($fans['nickname']);
 //p($fans);die;
 $slide = $this->getSlidesByPos(2);
 $adlist = $this->getSlidesByPos(3);

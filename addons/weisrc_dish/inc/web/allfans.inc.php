@@ -65,7 +65,7 @@ if ($operation == 'display') {
     load()->func('compat.biz');
 
     foreach ($list as $key => $value) {
-        $list[$key]['nickname'] = $this->userTextEncode($value['nickname']);
+//        $list[$key]['nickname'] = $this->userTextDecode($value['nickname']);
         if ($value['agentid'] > 0) {
 
             $agent = pdo_fetch("SELECT * FROM " . tablename($this->table_fans) . " WHERE id = :id", array(':id' => $value['agentid']));
@@ -356,5 +356,4 @@ from_user=:from_user", array(':weid' => $weid, ':from_user' => $item['from_user'
     pdo_query("UPDATE " . tablename($this->table_fans) . " SET status = abs(:status - 1) WHERE id=:id", array(':status' => $status, ':id' => $id));
     message('操作成功！', $this->createWebUrl('allfans', array('op' => 'display', 'storeid' => $storeid)), 'success');
 }
-$fans['nickname'] = $this->userTextEncode($fans['nickname']);
 include $this->template('web/allfans');

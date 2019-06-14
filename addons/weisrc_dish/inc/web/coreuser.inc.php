@@ -91,7 +91,6 @@ if ($operation == 'display') {
 }
 //echo $fans['nickname'];
 
-$fans['nickname'] =$this->userTextDecode($fans['nickname']);
 //echo $fans['nickname'];
 //die;
 include $this->template('web/coreuser');
