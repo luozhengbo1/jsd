@@ -52,7 +52,9 @@ if ($operation == 'post') {
         if (empty($data['title'])) {
             message('请输入桌台！');
         }
-
+        if (intval($_GPC['user_count']) <= 0) {
+            message('可供就餐人数必须大于0！', '', 'error');
+        }
         if (empty($id)) {
             pdo_insert($this->table_tables, $data);
         } else {

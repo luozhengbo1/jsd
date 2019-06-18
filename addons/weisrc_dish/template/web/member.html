@@ -13,7 +13,7 @@
     <li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'post'))}">会员充值</a></li>
     <li {if $operation == 'show'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'show'))}">会员优惠管理
     </a></li>
-    <li {if $operation == 'seting'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'seting'))}">会员优惠编辑</a></li>
+    <li {if $operation == 'seting'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'seting'))}">会员优惠添加</a></li>
       
 </ul>
 {if $operation == 'post'}
@@ -124,7 +124,7 @@
         <input type="hidden" name="parentid" value="{$parent['id']}" />
         <div class="panel panel-default">
             <div class="panel-heading">
-                会员优惠编辑
+                会员优惠添加
             </div>
             <div class="panel-body">
                 {if !empty($parentid)}

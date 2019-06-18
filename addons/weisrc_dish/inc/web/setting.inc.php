@@ -130,7 +130,9 @@ if (checksubmit('submit')) {
     if ($data['commission_money_mode'] == 2) {
         $data['commission_level'] = 2;
     }
-
+    if ($data['fee_min']  > $data['fee_max']){
+        message('最低提现费用大于最高提现费用！');
+    }
     //manager//operator
     if ($_W['role'] == 'manager' || $_W['isfounder']) {
         $data['is_operator_pwd'] = intval($_GPC['is_operator_pwd']);
