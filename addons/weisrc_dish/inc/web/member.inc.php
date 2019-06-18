@@ -42,10 +42,16 @@ if ($operation == 'display') {
             'starttime' => $_GPC['datelimit']['start'],
             'endtime' => $_GPC['datelimit']['end'],
         );
-
+        if ($data["nickname"] == ''){
+            message('请输入昵称！', $this->createWebUrl('member', array('op' => 'display')), 'error');
+        }
+        if (!is_numeric($data["limit"])|| $data["limit"] == ''){
+            message('请输入正确充值额度！', $this->createWebUrl('member', array('op' => 'display')), 'error');
+        }
+        if (!is_numeric($data["limit_discount"]) || is_numeric($data["limit_discount"])  == ''){
+            message('请输入正确订单折扣！', $this->createWebUrl('member', array('op' => 'display')), 'error');
+        }
         if (!empty($id)) {
-            
-
             pdo_update($this->table_member, $data, array('id' => $id));
         } else {
             pdo_insert($this->table_member, $data);
