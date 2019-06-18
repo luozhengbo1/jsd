@@ -149,6 +149,9 @@ if ($operation == 'display') {
             message('优惠券总张数不能小于于0.', '', 'error');
         }
 
+        if($data['gmoney'] < $data['dmoney']){
+            message('立减金额不能大于满减金额', '', 'error');
+        }
         if (!empty($id)) {
             unset($data['dateline']);
             pdo_update($this->table_coupon, $data, array('id' => $id, 'weid' => $_W['uniacid']));
