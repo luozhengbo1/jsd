@@ -740,6 +740,7 @@ BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => 
         }
     }
 
+    //
     public function doWebUpdateDishNumOfCategory()
     {
         global $_W, $_GPC;
@@ -6417,14 +6418,17 @@ storeid=".$order['storeid'].") ";
         $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id  LIMIT 1", array(':id' => $orderid));
         $setting = $this->getSettingByWeid($order['weid']);
         $accounts = pdo_fetchall("SELECT * FROM " . tablename($this->table_account) . " WHERE weid = :weid AND storeid=:storeid AND status=2 AND is_notice_order=1 ORDER BY id DESC ", array(':weid' => $this->_weid, ':storeid' => $storeid));
-       // foreach ($accounts as $key => $value) {
-         //   if (!empty($value['from_user'])) {
+        // foreach ($accounts as $key => $value) {
+        //   if (!empty($value['from_user'])) {
 //                $this->sendText($value['from_user'], "测试推送");
-        $msgId = $this->addsendmsg("测试推送","oW-VD01zhPdr764rS0AO8yFAAX9E",$type=4);
+//        $msgId = $this->addsendmsg("测试推送","oW-VD01zhPdr764rS0AO8yFAAX9E",$type=4);
+//        $msgId = $this->addsendmsg("测试推送","o-MVA5rrE61kq36dwKrux8lv2CyI",$type=4);
 //        p($msgId);die;
-        $res = $this->sendText("oW-VD01zhPdr764rS0AO8yFAAX9E", "测试推送");
+        $res = $this->sendText("o-MVA5rrE61kq36dwKrux8lv2CyI", "测试推送");
         if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
-            pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+            // pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+
+        }else{
 
         }
         p($res);

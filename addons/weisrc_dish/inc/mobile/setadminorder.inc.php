@@ -88,7 +88,7 @@ if ($orderstatus[$status] == 2) { //支付
     $this->addOrderLog($id, $touser, 2, 1, 7, $order['totalprice'], $totalprice);
 
 } else if ($orderstatus[$status] == -1) { //取消
-
+//    p( $orderstatus[$status]);die;
     if ($order['ispay'] == 1) {
         $update_data['ispay'] = 2;//待退款
     }
@@ -150,6 +150,7 @@ if ($orderstatus[$status] == 2) { //支付
                 }
                 //  p($ordergoodsList); die;
                 //分摊结束
+                $update_data['ispay'] =3;
                 $order["refund_price1"] = $refund_price;
                 $order["ispay"] = 3;//为了初始化订单退款推送状态
                 $this->sendOrderNotice($order, $store, $setting);

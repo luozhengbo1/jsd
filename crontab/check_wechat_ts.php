@@ -62,8 +62,15 @@ class Test{
                     if(isset($result1->subscribe) && $result1->subscribe==1  ){ //关注的用户才发送消息
                         $data =  $this->reply_customer($row['openid'],$row['content']);
                         if($data->errcode==0 && $data->errmsg=="ok"){
-                            $updatesql .= " update ".$this->table." set status = 1,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; "  ;
+                            $updatesql .= " update ".$this->table." set status = 3,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; "  ;
+                        }else{//会话超时怎么处理。
+                            if($data->errcode==45015
+                                ||  preg_match_all("/(.*?)45015(.*?)/",$data->errmsg)){//超时处理。
+                                $updatesql .= " update ".$this->table." set status = 4,sendtime='".date('Y-m-d H:i:s')."' where id =". $row['id']."; "  ;
+                            }
+
                         }
+                        file_put_contents('/www/wwwroot/ts.log', $rs = print_r( $data,true)."\n推送",8);
                     }else{
                         file_put_contents('/www/wwwroot/ts.log', $rs = print_r( $result1->subscribe,true)."\n2222222",8);
                         file_put_contents('/www/wwwroot/ts.log', $rs = print_r( $row['openid'],true),8);

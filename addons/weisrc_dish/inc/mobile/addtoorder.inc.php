@@ -97,7 +97,7 @@ if ($is_auto_address == 0) { //多收餐地址
 }
 
 $sex = trim($_GPC['sex']); //性别
-$meal_time = trim($_GPC['meal_time']); //订餐时间
+//$meal_time = trim($_GPC['meal_time']); //订餐时间
 $counts = intval($_GPC['counts']); //预订人数
 $seat_type = intval($_GPC['seat_type']); //就餐形式
 $carports = intval($_GPC['carports']); //预订车位

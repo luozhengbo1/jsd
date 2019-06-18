@@ -130,9 +130,17 @@ if (checksubmit('submit')) {
     if ($data['commission_money_mode'] == 2) {
         $data['commission_level'] = 2;
     }
+<<<<<<< Updated upstream
     if ($data['fee_min']  > $data['fee_max']){
         message('最低提现费用大于最高提现费用！');
     }
+=======
+//    if( $data['fee_min']  && $data['fee_min'] >$data['fee_max'] ){//最低体现费率应低于最高体现费。
+//        message('最低体现费应小于最高体现费');
+//        exit;
+//    }
+
+>>>>>>> Stashed changes
     //manager//operator
     if ($_W['role'] == 'manager' || $_W['isfounder']) {
         $data['is_operator_pwd'] = intval($_GPC['is_operator_pwd']);

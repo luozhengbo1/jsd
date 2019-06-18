@@ -32,6 +32,7 @@ if ($id == 0) { //未选队列
         }
     }
     $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND from_user=:from_user AND status=0 ORDER BY id DESC LIMIT 1", array(':id' => $id, ':from_user' => $from_user));
+    $fansickanme = pdo_getcolumn($this->table_fans,array('from_user'=>$order['from_user']),array('nickname'));
     if (empty($order)) {
         $this->showMsg('订单已取消！');
     }
@@ -72,7 +73,7 @@ if ($id == 0) { //未选队列
 
     pdo_update($this->table_order, array('status' => -1), array('id' => $id));
     //添加用户取消订单记录
-    $this->addOrderLog($id, $_W['user']['username'], 1, 1, 5);
+    $this->addOrderLog($id, $fansickanme, 1, 1, 5);
     $this->feiyinSendFreeMessage($id);
     $this->_365SendFreeMessage($id);
     $this->feieSendFreeMessage($id);
