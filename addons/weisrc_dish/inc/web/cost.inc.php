@@ -25,6 +25,9 @@ if ($operation == 'display') {
             'weid' => $weid,
             'total_price'=>$_GPC['total_price'],
         );
+        if (!is_numeric($data["total_price"])|| $data["total_price"] == ''){
+            message('请输入正确运营费充值！', $this->createWebUrl('cost', array('op' => 'display')), 'error');
+        }
         if (!empty($item)) {  
           $b =   pdo_update($this->table_cost, $data, array('id' => $item['id']));
         } else {
