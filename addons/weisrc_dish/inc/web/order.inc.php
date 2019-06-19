@@ -803,7 +803,10 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             message('操作密码错误，请重新输入!');
         }
     }
-
+    $refund_price = floatval($_GPC['refund_price']);
+    if(!$refund_price){
+        message('退款金额不合法', '', 'error');
+    }
     $url = $this->createWebUrl('order', array('op' => 'display', 'storeid' => $storeid));
     $id = $_GPC['id'];
     $order = $this->getOrderById($id);
@@ -839,7 +842,6 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
     //分摊结束
     //不是取消的订单做个退款判断
     if($order['status']!=-1) {
-        $refund_price = floatval($_GPC['refund_price']);
         $after_total = ($order['totalprice'] * 100 - $refund_price * 100) / 100;
         $bjRes = bccomp($after_total,$store['sendingprice'],2);
         if($store['store_type']==1){

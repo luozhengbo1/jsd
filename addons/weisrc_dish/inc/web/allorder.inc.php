@@ -641,13 +641,15 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
     if (empty($order)) {
         message('订单不存在！', '', 'error');
     }
+    $refund_price = floatval($_GPC['refund_price']);
+    if(!$refund_price){
+        message('退款金额不合法', '', 'error');
+    }
     $store = $this->getStoreById($order['storeid']);
     //不是取消的订单做个退款判断
     if($order['status']!=-1) {
-        $refund_price = floatval($_GPC['refund_price']);
         $after_total = ($order['totalprice'] * 100 - $refund_price * 100) / 100;
         $bjRes = bccomp($after_total,$store['sendingprice'],2);
-
         if($store['store_type']==1){
 //            p($after_total);
 //            p($store['sendingprice']);

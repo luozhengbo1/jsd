@@ -55,7 +55,7 @@ $adlist = $this->getSlidesByPos(3);
 $styles = pdo_fetchall("SELECT * FROM " . tablename('weisrc_dish_style') . " WHERE weid = :weid AND status=1 ORDER BY `displayorder` DESC, id DESC", array(':weid' => $weid));
 
 if ($fans['status'] == 0) {
-    die('系统调试中！' . $from_user);
+    die('你被禁止下单，请联系客服人员!!!' );
 }
 
 $sub = 0;

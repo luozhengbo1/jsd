@@ -73,6 +73,9 @@ if ($operation == 'display') {
             'fee_min' => intval($_GPC['fee_min']),
             'fee_max' => intval($_GPC['fee_max']),
         );
+        if($data['fee_min'] && $data['fee_min']>$data['fee_max']){
+            message('最低提现费用不能大于最高体现费用!');
+        }
 
         if (!empty($id)) {
             pdo_update($this->table_stores, $data, array('id' => $id, 'weid' => $weid));
