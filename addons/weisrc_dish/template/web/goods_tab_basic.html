@@ -69,7 +69,7 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">价格</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" name="marketprice" class="form-control" value="{$item['marketprice']}" />
+                            <input type="number" name="marketprice" class="form-control" value="{$item['marketprice']}" />
                             <span class="input-group-addon">元</span>
                         </div>
                         <div class="help-block">必填</div>
@@ -79,7 +79,7 @@
                 <label class="col-xs-12 col-sm-3 col-md-2 control-label">起售份数</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input type="text" name="startcount" class="form-control" value="{$item['startcount']}" />
+                        <input type="number" name="startcount" class="form-control" value="{$item['startcount']}" />
                         <span class="input-group-addon">份</span>
                     </div>
                     <div class="help-block">必填</div>
@@ -91,7 +91,7 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员价格</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" name="memberprice" class="form-control" value="{$item['memberprice']}" />
+                            <input type="number" name="memberprice" class="form-control" value="{$item['memberprice']}" />
                             <span class="input-group-addon">元</span>
                         </div>
                         <div class="help-block"></div>
@@ -101,7 +101,7 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">原价</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" name="productprice" class="form-control" value="{$item['productprice']}" />
+                            <input type="number" name="productprice" class="form-control" value="{$item['productprice']}" />
                             <span class="input-group-addon">元</span>
                         </div>
                         <div class="help-block"></div>
@@ -112,7 +112,7 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">打包费</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" name="packvalue" class="form-control" value="{$item['packvalue']}" />
+                            <input type="number" name="packvalue" class="form-control" value="{$item['packvalue']}" />
                             <span class="input-group-addon">元</span>
                         </div>
                         <div class="help-block"></div>
@@ -121,7 +121,7 @@
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">每日库存</label>
                     <div class="col-sm-9">
-                        <input type="text" name="counts"  value="{if ($item['counts']==-1)}-1{elseif empty($item['counts'])}0 {else}{$item['counts']} {/if}" />
+                        <input type="number" name="counts"  value="{if ($item['counts']==-1)}-1{elseif empty($item['counts'])}0 {else}{$item['counts']} {/if}" />
                         <a href="javascript:;" onclick="addcount(0)"><i class="i-add-btn">-</i></a>
                         <input type="number" style="width: 50px;" id="add_counts" name="add_counts" value="0" />
                         <a href="javascript:;" onclick="addcount(1)"><i class="i-add-btn">+</i></a>
@@ -139,7 +139,7 @@
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">总销量</label>
                     <div class="col-sm-9">
-                        <input type="text" name="sales" class="form-control" value="{$item['sales']}" />
+                        <input type="number" name="sales" class="form-control" value="{$item['sales']}" />
                         <div class="help-block"></div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">购买积分</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" name="credit" class="form-control" value="{$item['credit']}" />
+                            <input type="number" name="credit" class="form-control" value="{$item['credit']}" />
                             <span class="input-group-addon">分</span>
                         </div>
                         <div class="help-block">购买一份赠送多少积分，不赠送积分请填0。<code>注：只有订单完成后才赠送</code></div>

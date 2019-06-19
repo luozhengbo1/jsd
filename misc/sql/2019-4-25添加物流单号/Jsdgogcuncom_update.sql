@@ -39,3 +39,7 @@ update ims_weisrc_dish_order set origin_totalprice=`totalprice` where id in (sel
 
 
 
+
+ALTER TABLE `ims_weisrc_dish_cart` ADD `status` tinyint(1) default 1 COMMENT '1 商品在，0商品不在,2商品已下架';
+
+

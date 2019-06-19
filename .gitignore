@@ -3,3 +3,4 @@ data/*
 .idea/*
 .well-known/*
 addons/weisrc_dish/cert/*
+crontab/Test.php

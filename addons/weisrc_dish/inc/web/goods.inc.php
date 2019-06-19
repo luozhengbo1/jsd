@@ -140,13 +140,39 @@ if ($operation == 'post') {
         if (empty($data['pcate'])) {
             message('请选择商品分类！');
         }
+        if(!empty($data['memberprice'])   ){
+            if($data['memberprice']<0){
+                message("会员价格格式不对");
+            }
+        }
+
+        if(!empty($data['productprice'])   ){
+            if($data['productprice']<0){
+                message("商品原价格式不对");
+            }
+        }
+        if(!empty($data['packvalue'])   ){
+            if($data['packvalue']<0){
+                message("打包费格式不对");
+            }
+        }
+        if($data['marketprice']<0 || empty($data['marketprice']) ){
+            message("价格格式不对");
+        }
         //今日库存小于今日销量判断
         if ($data['counts'] !=-1 ) {
+            if($data['counts']<0){
+                message("每日库存不合格");
+            }
             if($data['counts'] < $data['today_counts']){
                 message("每日库存不能小于今日已售");
             }
         }
-
+        if(!empty($data['credit'])   ){
+            if($data['credit']<0){
+                message("积分格式不对");
+            }
+        }
         if (!empty($_FILES['thumb']['tmp_name'])) {
             load()->func('file');
             file_delete($_GPC['thumb_old']);
@@ -161,6 +187,16 @@ if ($operation == 'post') {
             $id = pdo_insertid();
         } else {
             unset($data['dateline']);
+            //更新购物车打包费，配送类型等。
+            $updateCart['packvalue'] = $data['packvalue'];
+            //psnum 配送方式：1，外卖2，邮递  //send_way 0 堂食 1外卖 2 邮寄
+            $updateCart['psnum'] = $data['send_way'];
+            if(empty($data['isoptions'])){ //未启用规格
+                $updateCart['optionname'] ='';
+                $updateCart['optionid'] ='';
+                $updateCart['price'] =$data['price'];
+            }
+            pdo_update($this->table_cart,$updateCart,array('goodsid'=>$id));
             pdo_update($this->table_goods, $data, array('id' => $id));
 //            die;
         }
@@ -177,7 +213,6 @@ if ($operation == 'post') {
                 if (empty($optiontitle)) {
                     continue;
                 }
-
                 $data = array(
                     'goodsid' => $id,
                     'start' => $optionstart,
@@ -191,10 +226,25 @@ if ($operation == 'post') {
             }
         }
         //新增
+//        p($optionids);
         if($optionids){
+            $optionidsCart = $optionids;
             $optionids = implode(',', array_unique($optionids));
         }
-        if (!empty($optionids) ) {
+//        p($optionids);die;
+        if (!empty($optionids) ) {// 删除原有规格
+            $res = pdo_getall($this->table_cart,array('goodsid'=>$id));
+            foreach ($res as $k=>$v){
+               $optionidCart =   explode('_',$v['optionid']);
+                p($optionidCart);
+                foreach ($optionidCart as $k1=>$v1){
+                    p($v1);
+                    $resaaa[] = in_array($v1,$optionidsCart);
+                }
+            }
+
+            p($optionids);
+            p($resaaa);die;
             pdo_query('delete from ' . tablename('weisrc_dish_goods_option') . " where goodsid = :goodsid and id not in ({$optionids})", array(':goodsid' => $id));
         }
 
@@ -235,6 +285,8 @@ if ($operation == 'post') {
     if (empty($row)) {
         message('抱歉，商品 不存在或是已经被删除！');
     }
+    //更新购物车
+    pdo_update($this->table_cart,array('status'=>0),array('goodsid'=>$id));
     pdo_update($this->table_goods, array('deleted' => 1), array('id' => $id, 'weid' => $weid));
     message('删除成功！', referer(), 'success');
 }  elseif ($operation == 'restore') {
@@ -245,7 +297,7 @@ if ($operation == 'post') {
     }
     pdo_update($this->table_goods, array('deleted' => 0), array('id' => $id, 'weid' => $weid));
     message('操作成功！', referer(), 'success');
-} elseif ($operation == 'deleteall') {
+} elseif ($operation == 'deleteall') { //批量删除
     $rowcount = 0;
     $notrowcount = 0;
     foreach ($_GPC['idArr'] as $k => $id) {
@@ -257,6 +309,8 @@ if ($operation == 'post') {
                 continue;
             }
             pdo_update($this->table_goods, array('deleted' => 1), array('id' => $id, 'weid' => $weid));
+            //更新购物车
+            pdo_update($this->table_cart,array('status'=>0),array('goodsid'=>$id));
             $rowcount++;
         }
     }
@@ -272,6 +326,8 @@ if ($operation == 'post') {
                 $notrowcount++;
                 continue;
             }
+            //更新购物车
+            pdo_update($this->table_cart,array('status'=>1),array('goodsid'=>$id));
             pdo_update($this->table_goods, array('status' => 1), array('id' => $id, 'weid' => $weid));
             $rowcount++;
         }
@@ -289,6 +345,8 @@ if ($operation == 'post') {
                 $notrowcount++;
                 continue;
             }
+            //更新购物车
+            pdo_update($this->table_cart,array('status'=>2),array('goodsid'=>$id));
             pdo_update($this->table_goods, array('status' => 0), array('id' => $id, 'weid' => $weid));
             $rowcount++;
         }
@@ -296,9 +354,13 @@ if ($operation == 'post') {
     $this->message("操作成功！共操作{$rowcount}条数据,{$notrowcount}条数据操作失败!", '', 0);
 } elseif ($operation == 'opengoods') {
     pdo_update($this->table_goods, array('status' => 1), array('weid' => $weid, 'storeid' => $storeid));
+    //更新购物车
+    pdo_update($this->table_cart,array('status'=>1),array('goodsid'=>$id));
     message('商品上架成功！', $this->createWebUrl('goods', array('op' => 'display', 'storeid' => $storeid)), 'success');
 } elseif ($operation == 'closegoods') {
     pdo_update($this->table_goods, array('status' => 0), array('weid' => $weid, 'storeid' => $storeid));
+    //更新购物车
+    pdo_update($this->table_cart,array('status'=>2),array('goodsid'=>$id));
     message('商品下架成功！', $this->createWebUrl('goods', array('op' => 'display', 'storeid' => $storeid)), 'success');
 } elseif ($operation == 'deletetrue') {
     if ($_W['role'] == 'manager' || $_W['isfounder']) {
@@ -308,6 +370,8 @@ if ($operation == 'post') {
             message('抱歉，商品 不存在或是已经被删除！');
         }
         pdo_delete($this->table_goods, array('deleted' => 1), array('id' => $id, 'weid' => $weid));
+        //更新购物车
+        pdo_update($this->table_cart,array('status'=>0),array('goodsid'=>$id));
         message('删除成功！', referer(), 'success');
     } else {
         message('您没有删除权限！', $this->createWebUrl('goods', array('op' => 'display', 'storeid' => $storeid)), 'success');
