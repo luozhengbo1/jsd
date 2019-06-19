@@ -73,6 +73,17 @@ if ($operation == 'display') {
             'dateline' => TIMESTAMP,
         );
 
+        if ($data["username"] == ''){
+            message('请输入真实姓名！', '', 'error');
+        }
+        if ($data["from_user"] == ''){
+            message('请输入正确微信昵称！', '', 'error');
+        }
+        if ( $data["mobile"]  == ''){
+            if (!preg_match("/^\d{1,12}$/", $data["mobile"])){
+                message('请输入正确手机号码', '', 'error');
+            }
+        }
         if (empty($id)) {
             pdo_insert($this->table_account, $data);
         } else {
