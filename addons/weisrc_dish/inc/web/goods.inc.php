@@ -236,15 +236,19 @@ if ($operation == 'post') {
             $res = pdo_getall($this->table_cart,array('goodsid'=>$id));
             foreach ($res as $k=>$v){
                $optionidCart =   explode('_',$v['optionid']);
-                p($optionidCart);
+//                p($optionidCart);
+//                p($optionidsCart);
+                $res1 = array_intersect($optionidsCart,$optionidCart);
+                p($res1);
                 foreach ($optionidCart as $k1=>$v1){
-                    p($v1);
+//                    p($v1);
                     $resaaa[] = in_array($v1,$optionidsCart);
                 }
             }
 
-            p($optionids);
-            p($resaaa);die;
+            p($optionidsCart);
+//            p($resaaa);
+            die;
             pdo_query('delete from ' . tablename('weisrc_dish_goods_option') . " where goodsid = :goodsid and id not in ({$optionids})", array(':goodsid' => $id));
         }
 
