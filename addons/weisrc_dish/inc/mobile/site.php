@@ -1996,7 +1996,7 @@ BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => 
         // echo "<pre>";
         // print_r($mem);
         // echo "</pre>";exit();
-        $sql = "SELECT * FROM " . tablename($this->table_fans) . " WHERE `weid`=:weid AND `nickname` LIKE :nickname ORDER
+        $sql = "SELECT * FROM " . tablename($this->table_fans) . " WHERE `weid`=:weid AND `nickname` LIKE :nickname AND from_user <> '' GROUP BY nickname,from_user ORDER
 BY lasttime DESC,id DESC LIMIT 0,8";
         $params = array();
         $params[':weid'] = $_W['uniacid'];
@@ -2019,7 +2019,7 @@ BY lasttime DESC,id DESC LIMIT 0,8";
         global $_W, $_GPC;
 
         $kwd = $_GPC['keyword'];
-        $sql = "SELECT * FROM " . tablename($this->table_fans) . " WHERE `weid`=:weid AND `nickname` LIKE :nickname AND `nickname`<>'' ORDER
+        $sql = "SELECT * FROM " . tablename($this->table_fans) . " WHERE `weid`=:weid AND `nickname` LIKE :nickname AND `nickname`<>'' AND from_user <> '' GROUP BY nickname,from_user ORDER
 BY lasttime DESC,id DESC LIMIT 0,8";
         $params = array();
         $params[':weid'] = $_W['uniacid'];
