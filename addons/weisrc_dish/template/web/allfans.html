@@ -29,17 +29,11 @@
                 <div class="form-group">
                     <select class="form-control" id="status"  style="width: 120px;" name="status" autocomplete="off">
                         <option value="">全部</option>
-                        <option value="1">正常下单</option>
-                        <option value="0">禁止下单</option>
+                        <option value="1" {if $_GPC['status']==1}selected{/if}>正常下单</option>
+                        <option value="0"  {if $_GPC['status']==="0"}selected{/if}>禁止下单</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <select class="form-control" id="types" style="width: 120px;" name="types" autocomplete="off">
-                        <option value="nickname">昵称</option>
-                        <option value="username">用户名称</option>
-                        <option value="mobile">手机号码</option>
-                    </select>
-                </div>
+
                 <div class="form-group">
                     <select class="form-control" id="usertype"style="width: 140px;" name="usertype" autocomplete="off">
                         <option value="0">全部级别</option>
@@ -59,7 +53,13 @@
                         <option value="6" >501～600</option>
                     </select>
                 </div>
-
+                <div class="form-group">
+                    <select class="form-control" id="types" style="width: 120px;" name="types" autocomplete="off">
+                        <option value="nickname" {if $_GPC['types']=="nickname"}selected{/if}>昵称</option>
+                        <option value="username"  {if  $_GPC['types']=="username"}selected{/if}>用户名称</option>
+                        <option value="mobile"  {if  $_GPC['types']=="mobile"}selected{/if}>手机号码</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="请输入" name="keyword">
                 </div>
