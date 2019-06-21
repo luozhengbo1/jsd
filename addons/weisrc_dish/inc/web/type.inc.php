@@ -31,7 +31,7 @@ if ($operation == 'display') {
 
     if (checksubmit('submit')) {
         if (empty($_GPC['catename'])) {
-            message('抱歉，请输入区域名称！');
+            message('抱歉，请输入类型名称！');
         }
 
         $data = array(

@@ -60,13 +60,14 @@
                     <div class="col-sm-7">
                         <div class="input-group">
                             <span class="input-group-addon" style="color: #f00;">排序：</span>
+                            <input type="hidden" class="form-control" value="{$row['id']}" name="optionid[]">
                             <input type="text" class="form-control" value="{$row['displayorder']}" name="optiondisplayorder[]">
                             <span class="input-group-addon" style="color: #f00;">规格名：</span>
                             <input type="text" class="form-control" value="{$row['start']}" name="optionstart[]">
                             <span class="input-group-addon" style="color: #f00;">属性值：</span>
                             <input type="text" class="form-control" value="{$row['title']}" name="optiontitle[]">
                             <span class="input-group-addon no-b" style="color: #f00;">加价</span>
-                            <input type="text" class="form-control" value="{$row['price']}" name="optionprice[]">
+                            <input type="number" step="0.01" class="form-control" value="{$row['price']}" name="optionprice[]">
                             <span class="input-group-addon no-l-b" style="color: #f00;">元</span>
                         </div>
                     </div>

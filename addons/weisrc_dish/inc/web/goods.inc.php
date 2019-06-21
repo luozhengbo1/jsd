@@ -194,35 +194,41 @@ if ($operation == 'post') {
             if(empty($data['isoptions'])){ //未启用规格
                 $updateCart['optionname'] ='';
                 $updateCart['optionid'] ='';
-                $updateCart['price'] =$data['price'];
+                $updateCart['price'] =$data['marketprice'];
             }
             pdo_update($this->table_cart,$updateCart,array('goodsid'=>$id));
             pdo_update($this->table_goods, $data, array('id' => $id));
 //            die;
         }
-
         //增加
         $optionids= [];
+        //考虑增删改
         if (is_array($_GPC['optiontitle'])) {
             foreach ($_GPC['optiontitle'] as $nid => $val) {
                 $optiontitle = trim($_GPC['optiontitle'][$nid]);
                 $optionprice = floatval($_GPC['optionprice'][$nid]);
                 $optionstart = trim($_GPC['optionstart'][$nid]);
                 $optiondisplayorder = intval($_GPC['optiondisplayorder'][$nid]);
+                $op_id = $_GPC['optionid'][$nid];
 
                 if (empty($optiontitle)) {
                     continue;
                 }
-                $data = array(
+                $data1 = array(
                     'goodsid' => $id,
                     'start' => $optionstart,
                     'title' => $optiontitle,
                     'price' => $optionprice,
                     'displayorder' => $optiondisplayorder
                 );
-                pdo_insert('weisrc_dish_goods_option', $data);
-                $did = pdo_insertid();
-                $optionids[] = $did;
+                //改
+                if($op_id){
+                    pdo_update('weisrc_dish_goods_option', $data1,array('id'=>$op_id));
+                }else{//新增
+                    pdo_insert('weisrc_dish_goods_option', $data1);
+                    $op_id = pdo_insertid();
+                }
+                $optionids[] = $op_id;
             }
         }
         //新增
@@ -236,23 +242,27 @@ if ($operation == 'post') {
             $res = pdo_getall($this->table_cart,array('goodsid'=>$id));
             foreach ($res as $k=>$v){
                $optionidCart =   explode('_',$v['optionid']);
-//                p($optionidCart);
-//                p($optionidsCart);
+
+                $optionType = array_unique($_GPC['optionstart']); //几种规格
                 $res1 = array_intersect($optionidsCart,$optionidCart);
-                p($res1);
-                foreach ($optionidCart as $k1=>$v1){
-//                    p($v1);
-                    $resaaa[] = in_array($v1,$optionidsCart);
+                if(count($res1)!=count($optionType) ){
+                    // 将购物车状态修改，表示规格不存在
+                    pdo_update($this->table_cart,array('status'=>3),array('id'=>$v['id']));
+                }else{//对应商品规格存在，商品价格改变。  多规格修改价格
+                    $optionsPriceTotal =0;
+                    foreach ($res1 as $v2){
+                        $optionsPrice= pdo_get('weisrc_dish_goods_option',array('id'=>array($v2)),'price');
+                        $optionsPriceTotal += $optionsPrice['price'];
+                    }
+//                    p($optionsPriceTotal);
+                    pdo_update($this->table_cart,array('price'=>($data['marketprice']+$optionsPriceTotal)),array('id'=>$v['id']));
                 }
             }
-
-            p($optionidsCart);
-//            p($resaaa);
-            die;
+//            die;
             pdo_query('delete from ' . tablename('weisrc_dish_goods_option') . " where goodsid = :goodsid and id not in ({$optionids})", array(':goodsid' => $id));
         }
 
-        message('商品更新成功！', $this->createWebUrl('goods', array('op' => 'display', 'storeid' => $storeid)), 'success');
+        message('商品更新成功！', $this->createWebUrl('goods', array('op' => 'post', 'storeid' => $storeid,'id'=>$id)), 'success');
     }
 } elseif ($operation == 'display') {
     if (!empty($_GPC['displayorder'])) {
@@ -381,4 +391,5 @@ if ($operation == 'post') {
         message('您没有删除权限！', $this->createWebUrl('goods', array('op' => 'display', 'storeid' => $storeid)), 'success');
     }
 }
+//p($optionlist);die;
 include $this->template('web/goods');

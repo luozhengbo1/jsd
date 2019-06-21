@@ -41,5 +41,8 @@ update ims_weisrc_dish_order set origin_totalprice=`totalprice` where id in (sel
 
 
 ALTER TABLE `ims_weisrc_dish_cart` ADD `status` tinyint(1) default 1 COMMENT '1 商品在，0商品不在,2商品已下架';
+-- 删除from_user 为空的数据
+delete from ims_weisrc_dish_fans where id in (select * from ( select id  from ims_weisrc_dish_fans where from_user="") as  a )
+alter table `ims_weisrc_dish_fans` modify from_user varchar(80)  not null ;
 
 
