@@ -92,10 +92,28 @@ if ($operation == 'display') {
             'sort'=>$_GPC['sort'],  
              
         );
-
+        if ($data["nickname"] == ''){
+            message('请输入昵称！');
+        }
+        if (!is_numeric($data["limit"])|| $data["limit"] == ''){
+            message('请输入正确充值额度！');
+        }
+        if (!is_numeric($data["sill"])|| $data["sill"] == ''){
+            message('请输入正确无门槛劵数量！');
+        }
+        if (!is_numeric($data["sill_limit"])|| $data["sill_limit"] == ''){
+            message('请输入正确无门槛劵额度！');
+        }
+        if (!is_numeric($data["money_off"])|| $data["money_off"] == ''){
+            message('请输入正确满减劵数量！');
+        }
+        if (!is_numeric($data["money_limit"])|| $data["money_limit"] == ''){
+            message('请输入正确满减额！');
+        }
+        if (!is_numeric($data["minus"])|| $data["minus"] == ''){
+            message('请输入正确满减额！');
+        }
         if (!empty($id)) {
-            
-            
             pdo_update($this->table_members, $data, array('id' => $id));
         } else {
             pdo_insert($this->table_members, $data);
