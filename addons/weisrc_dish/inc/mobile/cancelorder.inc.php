@@ -32,7 +32,7 @@ if ($id == 0) { //未选队列
         }
     }
     $order = pdo_fetch("SELECT * FROM " . tablename($this->table_order) . " WHERE id=:id AND from_user=:from_user AND status=0 ORDER BY id DESC LIMIT 1", array(':id' => $id, ':from_user' => $from_user));
-    $fansickanme = pdo_getcolumn($this->table_fans,array('from_user'=>$order['from_user']),array('nickname'));
+    $fansickanme = pdo_getcolumn($this->table_fans,array('from_user'=>$order['from_user']),'nickname');
     if (empty($order)) {
         $this->showMsg('订单已取消！');
     }
@@ -91,9 +91,9 @@ if ($id == 0) { //未选队列
                 }
             }
         }
-
         $storeid = intval($order['storeid']);
         //门店提醒
+        error_reporting(0);
         $accounts = pdo_fetchall("SELECT * FROM " . tablename($this->table_account) . " WHERE weid = :weid AND storeid=:storeid AND status=2 ORDER BY id DESC ", array(':weid' => $weid, ':storeid' => $storeid));
         foreach ($accounts as $key => $value) {
             if (!empty($value['from_user'])) {
@@ -101,7 +101,6 @@ if ($id == 0) { //未选队列
             }
         }
     }
-
-    $this->showMsg('取消订单成功!', 1);
+    $this->showMsg('取消订单成功！');
 }
 $this->showMsg('操作成功!!!', 1);
