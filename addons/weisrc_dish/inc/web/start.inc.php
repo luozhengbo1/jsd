@@ -197,5 +197,4 @@ dining_mode=4 $condition ");
         message(error(0, $datasets), '', 'ajax');
     }
 }
-
 include $this->template('web/start');

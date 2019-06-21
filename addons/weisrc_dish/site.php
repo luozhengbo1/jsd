@@ -1669,17 +1669,17 @@ goodsid=:goodsid", array(':storeid' => $storeid, ':from_user' => $from_user, ':w
     public function out_fans($strwhere, $paras, $datapage)
     {
         global $_GPC, $_W;
-
+        $starttime = microtime(true);
         $pindex = max(1, intval($datapage));
         $start = ($pindex - 1) * 100;
         $limit = "";
         $limit .= " LIMIT {$start},100";
-
         $sql = "select * from " . tablename($this->table_fans)
-            . " WHERE $strwhere ORDER BY status DESC, dateline DESC" . $limit;
-
+            . " WHERE $strwhere ORDER BY status DESC, dateline DESC ";
+        if($datapage!="all"){
+            $sql .= $limit;
+        }
         $list = pdo_fetchall($sql, $paras);
-
         $i = 0;
         foreach ($list as $key => $value) {
             $shenfen = '消费者';

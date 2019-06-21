@@ -118,14 +118,17 @@
 	}
 </style>
 <script>
+	var getnoticeurl = {php echo $this->createWebUrl('GetNotice', array('storeid' => $storeid))}
 	$.getJSON("{php echo $this->createWebUrl('GetNotice', array('storeid' => $storeid))}", function (e) {
+		console.log(e)
 		if (0 == e.errno && e.total>0) {
 			var t = "";
-			t += '<a href="javascript:;" class="dropdown-toogle" data-toggle="dropdown"><span class="wi wi-bell"><span class="badge">' + e.total + "</span></span>消息</a>", t += '<div class="dropdown-menu"><div class="clearfix top">消息<a href="{php echo $this->createWebUrl('servicelog', array('storeid' => $storeid))}" class="pull-right">查看更多</a></div><div class="msg-list-container"><div class="msg-list">', $.each(e.lists, 			function (e, a) {
+			t += '<a href="javascript:;" class="dropdown-toogle" data-toggle="dropdown"><span class="wi wi-bell"><span class="badge">' + e.total + "</span></span>消息</a>", t += '<div class="dropdown-menu"><div class="clearfix top">消息' +
+					'<a href="{php echo $this->createWebUrl('servicelog', array('storeid' => $storeid))}" class="pull-right">查看更多</a></div><div class="msg-list-container"><div class="msg-list">', $.each(e.lists, 			function (e, a) {
 				t += '<div class="item"><div class="info2 clearifx"><div class="pull-right date">' + a.create_time + "</div>",
 				t += "来自 <span>消费者</span>",
 				t += '</div><div class="msg-content">',
-				t += "<a href=" + a.url + ">" + a.message + "</a>", t += "</div></div>"
+				t += "<a  href=" + a.url + ">" + a.message + "</a>", t += "</div></div>"
 			}),
 			t += "</div></div></div>", $(".header-notice").html(t)
 		}

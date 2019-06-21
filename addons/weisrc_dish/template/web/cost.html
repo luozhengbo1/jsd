@@ -87,43 +87,43 @@
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">邮箱服务器地址</label>
                     <div class="col-sm-9">
-                        <input type="text" name="mailhost" class="form-control" value="{$item['mailhost']}" placeholder="请输入域名邮箱的服务器地址" autocomplete="off" />
+                        <input type="text" required="required" name="mailhost" class="form-control" value="{$item['mailhost']}" placeholder="请输入域名邮箱的服务器地址" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">远程服务器端口号</label>
                     <div class="col-sm-9">
-                        <input type="text" name="mailport" class="form-control" value="{$item['mailport']}" placeholder="以前默认25,现在新的不可用,可选465或587" autocomplete="off" />
+                        <input type="number"  required="required" name="mailport" class="form-control" value="{$item['mailport']}" placeholder="以前默认25,现在新的不可用,可选465或587" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">发件人邮箱</label>
                     <div class="col-sm-9">
-                        <input type="text" name="mailsend" class="form-control" value="{$item['mailsend']}" placeholder="请输入发件人邮箱" autocomplete="off" />
+                        <input type="email"  required="required" name="mailsend" class="form-control" value="{$item['mailsend']}" placeholder="请输入发件人邮箱" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">发件人姓名(昵称)</label>
                     <div class="col-sm-9">
-                        <input type="text" name="mailformname" class="form-control" value="{$item['mailformname']}" placeholder="显示在收件人邮件的发件人邮箱地址前的发件人姓名" autocomplete="off" />
+                        <input type="text"  required="required" name="mailformname" class="form-control" value="{$item['mailformname']}" placeholder="显示在收件人邮件的发件人邮箱地址前的发件人姓名" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">smtp登录账号</label>
                     <div class="col-sm-9">
-                        <input type="text" name="mailusername" class="form-control" value="{$item['mailusername']}" placeholder="smtp登录的账号" autocomplete="off" />
+                        <input type="text"  required="required" name="mailusername" class="form-control" value="{$item['mailusername']}" placeholder="smtp登录的账号" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">smtp登录的密码</label>
                     <div class="col-sm-9">
-                        <input type="text" name="mailpassword" class="form-control" value="{$item['mailpassword']}" placeholder="smtp登录的密码" autocomplete="off" />
+                        <input type="text"  required="required" name="mailpassword" class="form-control" value="{$item['mailpassword']}" placeholder="smtp登录的密码" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">接收邮件的邮箱</label>
                     <div class="col-sm-9">
-                        <input type="text" name="mailhostname" class="form-control" value="{$item['mailhostname']}" placeholder="接收邮件的邮箱(多个邮箱用英文(,)逗号隔开)" autocomplete="off" />
+                        <input type="email"  required="required" name="mailhostname" class="form-control" value="{$item['mailhostname']}" placeholder="接收邮件的邮箱(多个邮箱用英文(,)逗号隔开)" autocomplete="off" />
                     </div>
                 </div>
                 

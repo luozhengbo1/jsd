@@ -41,7 +41,7 @@ if ($operation == 'email') {
     $item = pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_cost_email') . " WHERE weid = :weid", array(':weid' => $weid));
             // var_dump($item);
     if (checksubmit('submit')) {
-    $data = array(
+        $data = array(
             'weid' => $weid,
             'mailhost'=> $_GPC['mailhost'],
             'mailport'=> $_GPC['mailport'],
@@ -51,6 +51,27 @@ if ($operation == 'email') {
             'mailpassword'=>$_GPC['mailpassword'],
             'mailsend'  =>$_GPC['mailsend']
         );
+        if(!$data['mailhost']){
+            message('请输入域名邮箱的服务器地址');
+        }
+        if(!$data['mailport']){
+            message('请输入远程服务器端口号');
+        }
+        if(!$data['mailhostname']){
+            message('请输入接收邮件的邮箱');
+        }
+        if(!$data['mailformname']){
+            message('请输入发件人姓名(昵称)');
+        }
+        if(!$data['mailusername']){
+            message('请输入smtp登录账号');
+        }
+        if(!$data['mailpassword']){
+            message('请输入smtp登录的密码');
+        }
+        if(!$data['mailsend']){
+            message('请输入发件人邮箱');
+        }
         if (empty($item)) {
             pdo_insert('weisrc_dish_cost_email', $data);
         } else {

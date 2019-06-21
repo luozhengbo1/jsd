@@ -15,7 +15,6 @@ $config = $this->module['config']['weisrc_dish'];
 // $orderstatus = array('cancel' => -1, 'confirm' => 1, 'finish' => 3, 'pay' => 2, 'updateprice' => 4, 'print' => 5);
 
 $member = pdo_fetch("SELECT * FROM " . tablename($this->table_member) . " WHERE weid=:weid LIMIT 1", array(':weid' => $weid));
-
 if(empty($member)){
     
 }else{
@@ -24,7 +23,7 @@ if(empty($member)){
     $limit_discount = $member['limit_discount'];
     //查询判断是否充值过会员卡
     $time = time();//当前时间戳
-    p($time);exit;
+//    p($time);exit;
     $huiyuan_ka = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_member_ka')." WHERE weid ='{$weid}' and user ='{$from_user}' and endtime>'{$time}'  ");
     if(empty($huiyuan_ka)){
         $arrs = 1;
