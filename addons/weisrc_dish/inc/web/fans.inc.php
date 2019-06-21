@@ -29,21 +29,20 @@ if ($operation == 'display') {
         pdo_update($this->table_order, array('ischeckfans' => 1), array('id' => $value['id']));
     }        
 
-    // $condition = " weid = :weid AND from_user<>'' AND find_in_set('{$storeid}', storeids) ";
-    // if (!empty($_GPC['keyword'])) {
-    //     $types = trim($_GPC['types']);
-    //     $condition .= " AND {$types} LIKE '%{$_GPC['keyword']}%'";
-    // }
-    // if (isset($_GPC['status']) && $_GPC['status'] != '') {
-    //     $condition .= " AND status={$_GPC['status']} ";
-    // }
+     $condition = " weid = :weid AND from_user<>'' AND find_in_set('{$storeid}', storeids) ";
+     if (!empty($_GPC['keyword'])) {
+         $types = trim($_GPC['types']);
+         $condition .= " AND {$types} LIKE '%{$_GPC['keyword']}%'";
+     }
+     if (isset($_GPC['status']) && $_GPC['status'] != '') {
+         $condition .= " AND status={$_GPC['status']} ";
+     }
     $pindex = max(1, intval($_GPC['page']));
     $psize = 8;
-
     $start = ($pindex - 1) * $psize;
     $limit = "";
     $limit .= " LIMIT {$start},{$psize}";
-    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_fans) . " WHERE weid=:weid ORDER BY lasttime DESC,id DESC " . $limit, array(':weid' => $weid));
+    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_fans) . " WHERE {$condition} ORDER BY lasttime DESC,id DESC " . $limit, array(':weid' => $weid));
             if($operation == "display")
         {
             $keyword = $_GPC['keyword'];
