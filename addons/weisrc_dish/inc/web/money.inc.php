@@ -53,6 +53,10 @@ if ($operation == 'display') {
         if (!empty($id)) {
             pdo_update($this->table_money, $data, array('id' => $id));
         } else {
+            $isIn = pdo_get($this->table_money,array('from_user'=>$data['from_user']),'id');
+            if($isIn['id']){
+                message('该会员已经存在，请修改！');
+            }
             pdo_insert($this->table_money, $data);
         }
         message('会员更新成功 ', $this->createWebUrl('money', array('op' => 'display')), 'success');

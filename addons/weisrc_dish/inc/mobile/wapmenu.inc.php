@@ -76,15 +76,17 @@ foreach ($cart as $key => $value) {
         //1 商品在，0商品不在2商品已下架3对应商品规格不再
         if($value['status']==0){
            $goodsName = pdo_getcolumn($this->table_goods,array('id'=>$value['goodsid']),'title');
-            $msg = $goodsName."商品已下架，请请重新添加。";
+            $msg = $goodsName."商品已下架，请重新添加。";
+            pdo_delete($this->table_cart,array('id'=>$value['id']));
             message($msg);
         }elseif($value['status']==2){
             $goodsName = pdo_getcolumn($this->table_goods,array('id'=>$value['goodsid']),'title');
-            $msg = $goodsName."商品已下架，请请重新添加。";
+            $msg = $goodsName."商品已下架，请重新添加。";
             message($msg);
         }elseif($value['status']==3){
             $goodsName = pdo_getcolumn($this->table_goods,array('id'=>$value['goodsid']),'title');
-            $msg = $goodsName."商品规格已变，请请重新添加。";
+            $msg = $goodsName."商品规格已变，请重新添加。";
+            pdo_delete($this->table_cart,array('id'=>$value['id']));
             message($msg);
         }
 }
