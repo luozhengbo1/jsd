@@ -57,10 +57,9 @@ if ($op == 'acceptorder') { //收货
         a INNER JOIN " . tablename($this->table_sncode) . " b ON a.id=b.couponid
  WHERE a.weid = :weid AND b.id=:snid ORDER BY b.id
  DESC LIMIT 1", array(':weid' => $weid, ':snid' => $order['couponid']));
-
         if (!empty($coupon)) {
             if ($coupon['type'] == 2) {
-                $coupon_info = "代金券抵用金额" . $order['discount_money'];
+                $coupon_info = "代金券抵用金额" . $coupon['dmoney'];
             } else {
                 $coupon_info = $coupon['title'];
             }

@@ -517,7 +517,11 @@
             {/if}
             {if $order['dprice'] >0}
             <div class="item ng-scope">
+                {if $coupon['storeid'] !=0}
+                <span class="label ng-binding">优惠抵扣：</span>
+                {else}
                 <span class="label ng-binding">平台优惠抵扣：</span>
+                {/if}
                 <span class="value ng-binding"> <span class="red ng-binding">￥-{$order['dprice']}</span></span>
             </div>
             {/if}
