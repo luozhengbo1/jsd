@@ -35,6 +35,8 @@ if ($operation == 'display') {
             'weid' => $weid,
             'limit'=>$_GPC['limit'],
             'nickname' => $_GPC['nickname'],
+            //新增
+            'from_user' => $_GPC['nickname'],
             'limit_jifen'=>$_GPC['limit_jifen'],
             'limit_discount'=>$_GPC['limit_discount'],
             'limit_coupon'=>$_GPC['limit_coupon'],
@@ -42,10 +44,7 @@ if ($operation == 'display') {
             'money_limit'=>$_GPC['money_limit'],
             'minus'=>$_GPC['minus'],
         );
-
         if (!empty($id)) {
-            
-
             pdo_update($this->table_money, $data, array('id' => $id));
         } else {
             pdo_insert($this->table_money, $data);
