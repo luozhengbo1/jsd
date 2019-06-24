@@ -425,7 +425,7 @@ if ($append == 2) {
         'one_order_getprice' => floatval($setting['one_order_getprice']),
         'username' => $guest_name,
         'tel' => $tel,
-        'meal_time' => $meal_time,
+        'meal_time' => $_GPC["table_meal_time"] == "" ? $meal_time : $_GPC["table_meal_time"],
         'counts' => $counts,
         'seat_type' => $seat_type,
         'tables' => $tables,

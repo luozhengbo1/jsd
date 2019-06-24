@@ -43,9 +43,9 @@ meal_time=:meal_time AND dining_mode=3  AND status<>-1", array(':weid' => $this-
             $tables[$key]['title'] = $value['title'] . '(' . $value['user_count'] . '人桌)';
             foreach($order as $okey => $ovalue) {
                 if ($value['id'] == $ovalue['tables']) {
-                    break;
-                    $tables[$key]['title'] = $value['title'] . '(' . $value['user_count'] . '人桌)' . '(已预订)';
-//                    unset($tables[$key]);
+                   /* break;
+                    $tables[$key]['title'] = $value['title'] . '(' . $value['user_count'] . '人桌)' . '(已预订)';*/
+                  unset($tables[$key]);
                 } else {
                     $tables[$key]['title'] = $value['title'] . '(' . $value['user_count'] . '人桌)';
                 }
