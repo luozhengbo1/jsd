@@ -118,7 +118,6 @@
 	}
 </style>
 <script>
-	var getnoticeurl = {php echo $this->createWebUrl('GetNotice', array('storeid' => $storeid))}
 	$.getJSON("{php echo $this->createWebUrl('GetNotice', array('storeid' => $storeid))}", function (e) {
 		console.log(e)
 		if (0 == e.errno && e.total>0) {
@@ -170,6 +169,7 @@
 		</ul>
 		{/if}
 		<ul class="nav navbar-nav navbar-right">
+			{if $_GPC['storeid']}
 			<li class="dropdown msg header-notice">
 				<a href="javascript:;" class="dropdown-toogle" data-toggle="dropdown" aria-expanded="true">
 					<span class="wi wi-bell"></span>消息
@@ -183,6 +183,7 @@
 					</div>
 				</div>
 			</li>
+			{/if}
 
 			{if $_W['role'] != 'operator'}
 			<!--<li class="dropdown">-->

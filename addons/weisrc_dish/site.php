@@ -4845,7 +4845,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
 
             }
 //            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 ) && ($store["store_type"] == 1 || $store["store_type"]==3)  ){
-            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 )   ){
+            if ($order["ispay"] == 3 && ($order["status"] == "-1" || $order["status"]==0 || $order["status"] == 1 )   ){
                 //E.顾客已支付，且已经取消订单，申请退款；商家处理退款申请后，推送给顾客的信息
                 $date = date("Y-m-d H:i",  time());
                 $content = "您的订单{$order['ordersn']}";
@@ -4865,7 +4865,6 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                 $res = $this->sendText($order['from_user'], $content);
                 if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
                     pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
-
                 }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];

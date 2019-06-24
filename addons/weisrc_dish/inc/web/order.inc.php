@@ -911,10 +911,11 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
 //    die;
                 //分摊结束
                 //将订单总价减少 更新订单金额
+                $order["refund_price1"] = $refund_price;
                 $order_totalprice = ($order['totalprice'] - $refund_price)>=0?($order['totalprice'] - $refund_price):0;
                 pdo_update($this->table_order, array('totalprice' => $order_totalprice), array('weid' =>
                     $this->_weid, 'id' => $id));
-                $order["refund_price1"] = $refund_price;
+
                 $order["ispay"] = 3;//为了初始化订单退款推送状态
                 $this->sendOrderNotice($order, $store, $setting);
                 message('退款成功！', $url, 'success');

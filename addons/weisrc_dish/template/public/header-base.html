@@ -42,6 +42,7 @@
 		'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'},
 		'account' : {php echo json_encode($_W['account'])}
 	};
+	var getnoticeurl = "{php echo $this->createWebUrl('GetNotice', array('storeid' => $storeid))}"
 	</script>
 	<script>var require = { urlArgs: 'v=20170426' };</script>
 

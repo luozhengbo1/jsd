@@ -343,12 +343,17 @@ if ($operation == 'setting') {
             //更改店铺类型并修改商品配送类型。
             if($data['store_type']==1){// 外卖
                $updateGoods['send_way'] = 1;
+               $updateCart['psnum'] = 1;
             }else if($data['store_type']==2){//堂食
                 $updateGoods['send_way'] = 0;
+                $updateCart['psnum'] = 0;
             }else{//邮寄
                 $updateGoods['send_way'] = 2;
+                $updateCart['psnum'] = 2;
             }
             pdo_update($this->table_goods, $updateGoods, array( 'weid' => $weid,'storeid'=>$id));
+            //更新購物車
+            pdo_update($this->table_cart, $updateCart, array('storeid'=>$id));
             pdo_update($this->table_stores, $data, array('id' => $id, 'weid' => $weid));
         } else {
             $shoptotal = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename($this->table_stores) . " WHERE weid=:weid", array(':weid' => $this->_weid));

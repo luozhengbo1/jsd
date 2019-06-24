@@ -14,9 +14,9 @@ $areaid = intval($_GPC['areaid']);
 $typeid = intval($_GPC['typeid']);
 $sortid = intval($_GPC['sortid']);
 
-if ($sortid == 0) {
-    $sortid = 2;
-}
+//if ($sortid == 0) {
+//    $sortid = 2;
+//}
 
 $method = 'waprestlist'; //method
 $host = $this->getOAuthHost();
