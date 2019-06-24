@@ -340,7 +340,6 @@ if ($mode == 2) {
 //    $addressLatLng =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_useraddress') . " WHERE id = :id  limit 1", array(':id' => $_GPC['addressid']));
     //計算兩經緯度之間骑行距離
     $distance = $this->getDistanceByGaodeForRiding($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
-
     if($distance==0){
         $distance = $this->getDistance($addressLatLng['lat'], $addressLatLng['lng'], $store['lat'], $store['lng']);
     }
@@ -362,6 +361,7 @@ if ($is_auto_address == 0 && $useraddress) { //多收餐地址 算距离
 	{
     $distance = $this->getDistance($useraddress['lat'], $useraddress['lng'], $store['lat'], $store['lng']);
 	}
+
     $distance = floatval($distance);
 }
 

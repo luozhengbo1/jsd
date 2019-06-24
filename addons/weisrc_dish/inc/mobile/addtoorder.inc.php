@@ -327,7 +327,7 @@ if(!empty($zhekou)){
 //var_dump($totalprice);exit();
 
 //查询会员积分
-$jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid order by id desc LIMIT 1",array(':weid'=>$weid));
+$jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid and from_user=:from_user order by id desc LIMIT 1",array(':weid'=>$weid,':from_user'=>$from_user));
 if(!empty($jifen)){
     //查询会员积分
     $user = mc_fetch($from_user);//不能实时获取最新数据

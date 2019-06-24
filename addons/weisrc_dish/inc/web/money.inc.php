@@ -44,6 +44,12 @@ if ($operation == 'display') {
             'money_limit'=>$_GPC['money_limit'],
             'minus'=>$_GPC['minus'],
         );
+        if(!$data['nickname'] || !$data['from_user'] ){
+            message('昵称不能为空');
+        }
+        if( ! (($data['limit'] && $data['limit_jifen']) ||   $data['limit_discount']  || $data['limit_coupon'] ||  ( $data['money_limit']  && $data['minus'])  ) ){
+            message('请合理设置积分');
+        }
         if (!empty($id)) {
             pdo_update($this->table_money, $data, array('id' => $id));
         } else {
