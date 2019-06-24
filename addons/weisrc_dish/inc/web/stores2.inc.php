@@ -334,6 +334,8 @@ if ($operation == 'setting') {
             //不是外卖店关闭距离配送
             $data["is_delivery_distance"] = 0;
         }
+
+
         if (istrlen($data['address']) == 0) {
             //message('请输入地址。', '', 'error');
         }
