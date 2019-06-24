@@ -363,6 +363,13 @@ lasttime DESC,id DESC ", array(':weid' => $weid, ':storeid' => $storeid, ':time'
     $rowcount = 0;
     $notrowcount = 0;
     $couponid = intval($_GPC['couponid']);
+    if ($couponid == 0){
+        $this->message("请选择优惠劵", '', 0);
+    }
+    $coupon = pdo_fetch("SELECT * FROM " . tablename($this->table_coupons) . " WHERE id=:id LIMIT 1", array(':id' => $couponid));
+    $coupon_usercount = $coupon['usercount'];//每个用户能领取数量 0为不限制
+    $coupon_totalcount = $coupon['totalcount'];//发放总用户 0为不限制
+    pdo()->begin();
     foreach ($_GPC['idArr'] as $k => $id) {
         $id = intval($id);
         if (!empty($id)) {
@@ -383,11 +390,23 @@ lasttime DESC,id DESC ", array(':weid' => $weid, ':storeid' => $storeid, ':time'
                 'from_user' => $from_user,
                 'dateline' => TIMESTAMP
             );
-           
+            $user_count = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid and from_user=:from_user AND couponid=:couponid ORDER
+BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => $couponid));
+            $total_count = pdo_fetchcolumn("SELECT count(distinct from_user) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid AND couponid=:couponid ORDER BY id DESC", array(':weid' => $weid, ':couponid' => $couponid));
+            if ($user_count >= $coupon_usercount && $coupon_usercount!=0){
+                $this->message("编号{$id}用户已经领{$coupon_usercount}张", '', 0);
+            }
+            if ($total_count >= $coupon_totalcount && $coupon_totalcount!=0){
+                if ($user_count == 0){
+                    //未曾领过优惠劵的用户
+                    $this->message("参与名额数量已上限", '', 0);
+                }
+            }
             pdo_insert($this->table_sncode, $data);
             $rowcount++;
         }
     }
+    pdo_commit();
     $this->message("操作成功！共发放{$rowcount}张优惠券!", '', 0);
      message('没有相关用户！', referer(), 'error');
     print_r($_GPC);
