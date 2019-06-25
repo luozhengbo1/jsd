@@ -32,7 +32,7 @@ $data = array(
 pdo_insert($this->table_feedback, $data);
 pdo_update($this->table_order, array('isfeedback' => 1), array('id' => $orderid));
 //查询判断是否设置积分
-$jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid order by id desc LIMIT 1",array(':weid'=>$weid));
+$jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid and from_user=:from_user order by id desc LIMIT 1",array(':weid'=>$weid,':from_user'=>$order['from_user']));
 if(!empty($jifen)){
     //查询会员积分
     $user = mc_fetch($from_user);//不能实时获取最新数据

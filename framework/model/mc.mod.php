@@ -457,7 +457,7 @@ function mc_require($uid, $fields, $pre = '') {
 }
 
 
-function mc_credit_update($uid, $credittype, $creditval = 0, $log = array()) {
+function mc_credit_update($uid, $credittype, $creditval = 0, $log = array(),$type=1) {
 	global $_W;
 	$credittype = trim($credittype);
 	$credittypes = mc_credit_types();
@@ -526,10 +526,10 @@ function mc_credit_update($uid, $credittype, $creditval = 0, $log = array()) {
 		'clerk_id' => intval($log[3]),
 		'store_id' => intval($log[4]),
 		'clerk_type' => $clerk_type,
+		'type'=>$type,//1 增加 0 减少
 		'remark' => $log[1],
 	);
 	pdo_insert('mc_credits_record', $data);
-
 	return true;
 }
 

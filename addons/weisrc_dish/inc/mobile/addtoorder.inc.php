@@ -336,9 +336,15 @@ if(!empty($jifen)){
     if($credit1>=$jifen['money_limit']){
         $jifen_sl = $credit1/$jifen['money_limit'];
         $jifen_dk = round($jifen_sl*$jifen['minus'],2);
+        //如果积分抵扣大于订单金额将对应的积分抵扣
+        if($totalprice<$jifen_dk ){
+            $jifen_dk =  $totalprice;
+        }
+        $updatejifen_dk = $jifen_dk;
         $totalprice = $totalprice-$jifen_dk;
         //将用户积分减少啊
-        pdo_update(tablename('mc_members'),array('minus'=>$jifen['minus']-$jifen['minus']),array('from_user'=>$from_user));
+        pdo_update('mc_members',array('credit1'=>$member_jifen['credit1']-$updatejifen_dk),array('uid'=>$user['uid']));
+
         //var_dump($totalprice);exit();
     }
 }
@@ -461,9 +467,25 @@ if ($append == 2) {
         $data['quicknum'] = $quicknum;
     }
     $data['order_ps_type'] =$order_ps_type;
+    if($data['totalprice']==0){
+        $data['totalprice']=0.01;
+    }
     //保存订单
     pdo_insert($this->table_order, $data);
     $orderid = pdo_insertid();
+    load()->model('mc');
+    load()->func('compat.biz');
+    $uid = mc_openid2uid($from_user);
+    $fans = fans_search($uid, array("credit1"));
+    if (!empty($fans)) {
+        $uid = intval($fans['uid']);
+        $remark =  '点餐积分扣除 订单ID:' . $orderid;
+        $log = array();
+        $log[0] = $uid;
+        $log[1] = $remark;
+        $type =0;
+        mc_credit_update($uid, 'credit1', $updatejifen_dk, $log,$type);
+    }
     //$this->doEmail($title);
     //$this->doDada($weid,$orderid,$storeid);
     //修改优惠券状态
@@ -472,26 +494,26 @@ if ($append == 2) {
         pdo_update("weisrc_dish_sncode",array('status'=>1),array('id'=>$couponid));
     }
 
-    //清空积分
-    //查询会员积分
-    $user = mc_fetch($from_user);//不能实时获取最新数据
-    //根据id查询最新数据
-    $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
-    pdo_update("mc_members",array('credit1'=>0),array('uid'=>$user['uid']));//下单增加积分
-
-    //查询判断是否设置积分
-    $jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid order by id desc LIMIT 1",array(':weid'=>$weid));
-    if(!empty($jifen)){
-        //判断是否满足条件
-        if($totalprice>$jifen['limit']){
-            //查询会员积分
-            $user = mc_fetch($from_user);//不能实时获取最新数据
-            //根据id查询最新数据
-            $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
-            $credit1 = $member_jifen['credit1'];//积分
-            pdo_update("mc_members",array('credit1'=>$credit1+$jifen['limit_jifen']),array('uid'=>$user['uid']));//下单增加积分
-        }
-    }
+//    //清空积分
+//    //查询会员积分
+//    $user = mc_fetch($from_user);//不能实时获取最新数据
+//    //根据id查询最新数据
+//    $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
+//    pdo_update("mc_members",array('credit1'=>0),array('uid'=>$user['uid']));//下单增加积分
+//
+//    //查询判断是否设置积分
+//    $jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid and from_user=:from_user order by id desc LIMIT 1",array(':weid'=>$weid,':from_user'=>$from_user));
+//    if(!empty($jifen)){
+//        //判断是否满足条件
+//        if($totalprice>$jifen['limit']){
+//            //查询会员积分
+//            $user = mc_fetch($from_user);//不能实时获取最新数据
+//            //根据id查询最新数据
+//            $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
+//            $credit1 = $member_jifen['credit1'];//积分
+//            pdo_update("mc_members",array('credit1'=>$credit1+$jifen['limit_jifen']),array('uid'=>$user['uid']));//下单增加积分
+//        }
+//    }
 
     
     
@@ -536,16 +558,7 @@ if ($this->msg_status_success == 2) {
 }
 
 $this->addOrderLog($orderid, $touser, 1, 1, 1);
-//pdo_insert($this->table_service_log,
-//    array(
-//        'orderid' => $orderid,
-//        'storeid' => $storeid,
-//        'weid' => $weid,
-//        'from_user' => $from_user,
-//        'content' => '您有未处理的订单，请尽快处理123123',
-//        'dateline' => TIMESTAMP,
-//        'status' => 0)
-//);
+
 //if ($mode == 5) {
 //    $params['tid'] = $orderid;
 //    $params['user'] = $_W['fans']['from_user'];

@@ -8132,7 +8132,8 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
                 $log = array();
                 $log[0] = $uid;
                 $log[1] = $remark;
-                mc_credit_update($uid, 'credit1', $credit, $log);
+                $type = $add==true?1:0;
+                mc_credit_update($uid, 'credit1', $credit, $log,$type);
             }
         }
         pdo_update($this->table_order, array('credit' => $credit), array('id' => $orderid));
@@ -8646,7 +8647,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         }
         return $text;
     }
-    function doWebRefund2_test($id="85910")
+    function doWebRefund2_test($id="85800")
     {
         global $_W;
         include_once IA_ROOT . '/addons/weisrc_dish/cert/WxPay.Api.php';
@@ -8670,13 +8671,13 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
 //            }else{
 //                $fee = $refund_order['totalprice'] * 100;
 //            }
-            $refundfee = 1.89*100;
+            $refundfee = 6*100;
             $refundid = $refund_order['transid'];
             $input->SetAppid($appid);
             $input->SetMch_id($mchid);
             $input->SetOp_user_id($mchid);
-            $input->SetRefund_fee(1.89*100);
-            $input->SetTotal_fee(8*100);
+            $input->SetRefund_fee(6*100);
+            $input->SetTotal_fee(6*100);
             $input->SetTransaction_id($refundid);
 //            $input->SetOut_refund_no($refund_order['id']);
             $input->SetOut_refund_no($refund_order['id'].time());

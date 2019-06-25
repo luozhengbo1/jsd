@@ -298,7 +298,6 @@ if(!empty($jifen)){
     $jifen_dk = 0;
 }
 
-
 //var_dump($couponlist);
 //var_dump($_GPC['selectcoupon']);
 //$couponlist = pdo_fetchall("SELECT a.*,b.sncode,b.id AS couponid FROM " . tablename($this->table_coupon) . " a INNER JOIN" . tablename($this->table_sncode) . " b ON a.id= b.couponid {$strwhere1} ORDER BY b.id DESC LIMIT 30", $param);
@@ -427,7 +426,6 @@ if ($store['is_delivery_time'] == 1) { //特殊时段加价
 }
 
 if($psnum == 2){//邮递
-
     $dispatchprice = 0;
 }
 $goodsids = join(array_column($cart,'id'),',');
@@ -439,5 +437,7 @@ $share_title = !empty($setting['share_title']) ? str_replace("#username#", $nick
 $share_desc = !empty($setting['share_desc']) ? str_replace("#username#", $nickname, $setting['share_desc']) : "最新潮玩法，快来试试！";
 $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']) : tomedia("../addons/weisrc_dish/icon.jpg");
 $share_url = $host . 'app/' . $this->createMobileUrl('usercenter', array('agentid' => $fans['id']), true);
+//p($totalprice);
+//p($jifen_dk);die;
 
 include $this->template($this->cur_tpl . '/menu');

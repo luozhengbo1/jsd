@@ -45,4 +45,7 @@ ALTER TABLE `ims_weisrc_dish_cart` ADD `status` tinyint(1) default 1 COMMENT '1 
 delete from ims_weisrc_dish_fans where id in (select * from ( select id  from ims_weisrc_dish_fans where from_user="") as  a )
 alter table `ims_weisrc_dish_fans` modify from_user varchar(80)  not null ;
 
+--增加积分记录增加还是减少
+alter table `ims_mc_credits_record` add  `type` tinyint(1) default 1  COMMENT '1加0减少' ;
+
 

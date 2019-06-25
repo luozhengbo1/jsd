@@ -521,7 +521,7 @@
                             {/if}
                             {if $jifen_dk != 0}
                             <div>
-                                积分抵扣<em>￥-{$jifen_dk}</em>
+                                积分抵扣<em id="jifen_dk_show">￥0</em>
                             </div>
                             {/if}
                             <div class="curt" style="display:none">
@@ -992,6 +992,12 @@ $(document).ready(function(e) {
 
         //积分抵扣
         if(jifen_dk >0){
+            if(jifen_dk>endTotal){
+                jifen_dk = endTotal
+                $('#jifen_dk_show').text("￥-"+jifen_dk)
+            }else{
+                $('#jifen_dk_show').text("￥-"+jifen_dk)
+            }
             endTotal = endTotal - jifen_dk;
         }
         //新用户优惠
@@ -1029,7 +1035,10 @@ $(document).ready(function(e) {
         }
 
         endTotal = parseFloat(endTotal).toFixed(2) * 100/100;
-
+        if(endTotal==0){
+            endTotal==0.01 //至少支付0.01元
+        }
+        console.log(endTotal==0)
         if (endTotal > 0) {
             $("#btnstatus").val('1');
         }
@@ -1046,6 +1055,7 @@ $(document).ready(function(e) {
         }
 
 //        changeBtnSelect();
+        console.log(endTotal)
         return endTotal;
     }
     tototal();//初始化金额
