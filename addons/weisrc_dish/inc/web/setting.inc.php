@@ -132,7 +132,35 @@ if (checksubmit('submit')) {
     }
 
     if( $data['fee_min']  && $data['fee_min'] >$data['fee_max'] ){//最低体现费率应低于最高体现费。
-        message('最低体现费应小于最高体现费');
+        message('最低提现费应小于最高提现费');
+        exit;
+    }
+    if(!$data['tipqrcode'] ){
+        message('请选择二维码设置');
+        exit;
+    }
+    if(!$data['follow_logo'] ){
+        message('请选择图标设置');
+        exit;
+    }
+    if(!$data['kefuqrcode'] ){
+        message('请选择客服图标');
+        exit;
+    }
+    if(!$data['share_title'] ){
+        message('请填写分享标题');
+        exit;
+    }
+    if(!$data['share_image'] ){
+        message('请选择分享图片');
+        exit;
+    }
+    if(!$data['share_desc'] ){
+        message('请填写分享描述');
+        exit;
+    }
+    if(!$data['dada_secret'] || !$data['dada_key']  ){
+        message('请填写达达配置');
         exit;
     }
 

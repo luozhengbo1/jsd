@@ -220,7 +220,7 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 按钮文字</label>
                 <div class="col-sm-9 col-xs-12">
-                    <input type="text" id="follow_title" class="form-control" placeholder="" name="follow_title" value="{$setting['follow_title']}">
+                    <input type="text" id="follow_title" required class="form-control" placeholder="" name="follow_title" value="{$setting['follow_title']}">
                     <div class="help-block">
                     </div>
                 </div>
@@ -228,7 +228,7 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 关注描述</label>
                 <div class="col-sm-9 col-xs-12">
-                    <textarea style="height:60px;" name="follow_desc" class="form-control" cols="60">{$setting['follow_desc']}</textarea>
+                    <textarea style="height:60px;" name="follow_desc" required class="form-control" cols="60">{$setting['follow_desc']}</textarea>
                     <div class="help-block">
                     </div>
                 </div>

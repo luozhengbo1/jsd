@@ -30,6 +30,7 @@
     <li><a href="{php echo $this->createWebUrl('deliveryarea', array('op' => 'display'))}">管理配送点</a></li>
     <li><a href="{php echo $this->createWebUrl('deliveryarea', array('op' => 'post'))}">添加配送点</a></li>
     {if $_W['role'] == 'manager' || $_W['isfounder']}
+    <li {if $operation == 'record'}class="active"{/if}><a href="{php echo $this->createWebUrl('delivery', array('op' => 'record'))}">配送佣金审核</a></li>
     <li class="active"><a href="{php echo $this->createWebUrl('cashlog', array('op' => 'display', 'logtype' => 2))}">配送提现管理</a></li>
     {/if}
     {/if}
