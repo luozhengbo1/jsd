@@ -92,7 +92,8 @@ from_user=:from_user AND storeid=:storeid ", array(':weid' => $weid, ':from_user
             'lat' => trim($_GPC['baidumap']['lat']),
             'lng' => trim($_GPC['baidumap']['lng']),
             'sex' => intval($_GPC['sex']),
-            'dateline' => TIMESTAMP
+            'dateline' => TIMESTAMP,
+            'status'=> intval($_GPC['status'])
         );
         if (!empty($_GPC['headimgurl'])) {
             $data['headimgurl'] = $_GPC['headimgurl'];
@@ -116,8 +117,9 @@ from_user=:from_user AND storeid=:storeid ", array(':weid' => $weid, ':from_user
     message('删除成功！', $this->createWebUrl('fans', array('op' => 'display', 'storeid' => $storeid)), 'success');
 } else if ($operation == 'setstatus') {
     $id = intval($_GPC['id']);
-    $status = intval($_GPC['status']);
-    pdo_query("UPDATE " . tablename($this->table_fans) . " SET status = abs(:status - 1) WHERE id=:id", array(':status' => $status, ':id' => $id));
+    $status = intval($_GPC['status'])?intval($_GPC['status']):0;
+
+    pdo_query("UPDATE " . tablename($this->table_fans) . " SET status =:status WHERE id=:id", array(':status' => $status, ':id' => $id));
     message('操作成功！', $this->createWebUrl('fans', array('op' => 'display', 'storeid' => $storeid)), 'success');
 }
 include $this->template('web/fans');
