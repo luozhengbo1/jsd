@@ -1035,15 +1035,13 @@ $(document).ready(function(e) {
         }
 
         endTotal = parseFloat(endTotal).toFixed(2) * 100/100;
-        if(endTotal==0){
-            endTotal==0.01 //至少支付0.01元
+        if( endTotal==0 ){
+            endTotal=0.01 //至少支付0.01元
         }
-        console.log(endTotal==0)
+        $(".totalprice_show").text(endTotal+"(最少支付0.01元)");
         if (endTotal > 0) {
             $("#btnstatus").val('1');
         }
-
-        $(".totalprice_show").text(endTotal);
         $(".delivery-pay-total strong").text(endTotal);
 
         if (pricedetail == '') {
@@ -1053,9 +1051,7 @@ $(document).ready(function(e) {
             $("#youhui").html('优惠抵扣:<em>￥' + pricedetail + '</em>');
 
         }
-
 //        changeBtnSelect();
-        console.log(endTotal)
         return endTotal;
     }
     tototal();//初始化金额
