@@ -1422,7 +1422,31 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
         }
 
         $coupon = pdo_fetch("select * from " . tablename($this->table_coupon) . " {$strwhere} ORDER BY gmoney desc,id DESC LIMIT 1", array(':storeid' => $storeid, ':weid' => $this->_weid, ':price' => $price, ':time' => TIMESTAMP));
+        //todo 满减 待完善
+        /*$coupon = pdo_fetchall("select * from " . tablename($this->table_coupon) . " {$strwhere} ORDER BY gmoney desc,id DESC", array(':storeid' => $storeid, ':weid' => $this->_weid, ':price' => $price, ':time' => TIMESTAMP));
+        $coupon = $this->LimitPrice($storeid, $coupon);*/
         return $coupon;
+    }
+
+    public function LimitPrice($storeid, $coupon){
+        if (!empty($coupon)){
+            $cart2 = pdo_fetchall("SELECT * FROM " . tablename($this->table_cart) . " WHERE  storeid=:storeid AND from_user=:from_user AND weid=:weid AND
+total>0 ", array(':storeid' => $storeid, ':from_user' => $this->_fromuser, ':weid' => $this->_weid));
+            $cart2_goodsid = array_column($cart2,'goodsid');
+            foreach ($coupon as $key => $value){
+                $goodsids = explode(',', $value["goodsids"]);
+                if (in_array(0, $goodsids)){
+                    continue ;
+                }
+                $flag_arr = array_intersect($goodsids,$cart2_goodsid);
+                if (empty($flag_arr)){
+                    //todo 目前只要有交集就返回；没有细化到商品价格是不是满足
+                    unset($coupon[$key]);
+                }
+            }
+        }
+        //todo 返回第一条优惠劵；待完善
+        return $coupon[0];
     }
 
     public function isNewUser($storeid)
