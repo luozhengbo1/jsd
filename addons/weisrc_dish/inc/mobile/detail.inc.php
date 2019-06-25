@@ -169,8 +169,8 @@ $share_desc = $item['title'];
 $share_url = $host . 'app/' . $this->createMobileUrl('detail', array('id' => $id,'agentid' => $fans['id']), true);
 
 if ($item['is_list'] == 0) {
-    setcookie('global_sid_' . $_W['uniacid'], $id, time() + 3600 * 24);
-    $this->global_sid = $id;
+    /*setcookie('global_sid_' . $_W['uniacid'], $id, time() + 3600 * 24);
+    $this->global_sid = $id;*/
 }
 
 $is_online_pay = 0;
