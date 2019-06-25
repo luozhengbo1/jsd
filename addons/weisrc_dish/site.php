@@ -1759,11 +1759,11 @@ goodsid=:goodsid", array(':storeid' => $storeid, ':from_user' => $from_user, ':w
         foreach ($list as $key => $value) {
             $store = $this->getStoreById($value['storeid']);
             $arr[$i]['storetitle'] = $store['title'];
-            $arr[$i]['ordersn'] = "'" . $value['ordersn'];
-            $arr[$i]['transid'] = "'" . $value['transid'];
+            $arr[$i]['ordersn'] = "=\"".$value['ordersn']."\"";
+            $arr[$i]['transid'] = "=\"".$value['transid']."\"";
             $arr[$i]['paytype'] = $paytypes[$value['paytype']]['name'];
             $arr[$i]['status'] = $orderstatus[$value['status']]['name'];
-            $arr[$i]['totalnum'] = "'" . $value['totalnum'];
+            $arr[$i]['totalnum'] = "=\"".$value['totalnum']."\"";
             $arr[$i]['totalprice'] = $value['totalprice'];
             $arr[$i]['goodsprice'] = $value['goodsprice'];
             $arr[$i]['dispatchprice'] = $value['dispatchprice'];
@@ -1937,8 +1937,8 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
             foreach ($goods as $goodkey => $goodvalue) {
                 if ($j == 0) {
                     $arr[$i]['storetitle'] = $store['title'];
-                    $arr[$i]['ordersn'] = "'" . $value['ordersn'];
-                    $arr[$i]['transid'] = "'" . $value['transid'];
+                    $arr[$i]['ordersn'] = "=\"". $value['ordersn']."\"";
+                    $arr[$i]['transid'] = "=\"". $value['transid']."\"";
                     $arr[$i]['paytype'] = $paytypes[$value['paytype']]['name'];
                     $arr[$i]['status'] = $orderstatus[$value['status']]['name'];
                 } else {
@@ -1948,7 +1948,6 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
                     $arr[$i]['paytype'] = '';
                     $arr[$i]['status'] = '';
                 }
-
                 $arr[$i]['goodsname'] = $goodvalue['title'];
                 $arr[$i]['goodstotal'] = $goodvalue['total'];
                 $arr[$i]['goodsprice'] = $goodvalue['price'];
