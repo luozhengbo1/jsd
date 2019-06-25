@@ -207,6 +207,4 @@ $share_desc = !empty($setting['share_desc']) ? str_replace("#username#", $nickna
 $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']) : tomedia("../addons/weisrc_dish/icon.jpg");
 $share_url = $host . 'app/' . $this->createMobileUrl('index', array('agentid' => $fans['id']), true);
 //p($share_url);die;
-
-//p($restlist);die;
 include $this->template($this->cur_tpl . '/index');

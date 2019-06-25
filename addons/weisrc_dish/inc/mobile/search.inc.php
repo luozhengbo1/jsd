@@ -13,10 +13,10 @@ if ($word) {
 $searchword = trim($_GPC['searchword']);
 if ($searchword) {
     $strwhere = " AND title like '%" . $searchword . "%' ";
-    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " where weid = :weid AND is_show=1 AND deleted=0 {$strwhere} ORDER BY
+    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " where weid = :weid AND is_show=1 and is_list=1  AND deleted=0 {$strwhere} ORDER BY
 displayorder DESC,id DESC", array(':weid' => $weid));
 } else {
-    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " where weid = :weid AND is_hot=1 AND is_show=1 AND deleted=0 ORDER BY displayorder
+    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " where weid = :weid AND is_hot=1 AND is_show=1 and is_list=1  AND deleted=0 ORDER BY displayorder
 DESC,id DESC", array(':weid' => $weid));
 }
 //p($list);die;
