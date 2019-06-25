@@ -130,6 +130,10 @@ if (checksubmit('submit')) {
     if ($data['commission_money_mode'] == 2) {
         $data['commission_level'] = 2;
     }
+//    if( $data['fee_min']  && $data['fee_min'] >$data['fee_max'] ){//最低体现费率应低于最高体现费。
+//        message('最低体现费应小于最高体现费');
+//        exit;
+//    }
 
     if( $data['fee_min']  && $data['fee_min'] >$data['fee_max'] ){//最低体现费率应低于最高体现费。
         message('最低提现费应小于最高提现费');
