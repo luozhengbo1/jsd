@@ -82,6 +82,7 @@ foreach ($cart as $key => $value) {
         }elseif($value['status']==2){
             $goodsName = pdo_getcolumn($this->table_goods,array('id'=>$value['goodsid']),'title');
             $msg = $goodsName."商品已下架，请重新添加。";
+            pdo_delete($this->table_cart,array('id'=>$value['id']));
             message($msg);
         }elseif($value['status']==3){
             $goodsName = pdo_getcolumn($this->table_goods,array('id'=>$value['goodsid']),'title');
@@ -279,10 +280,11 @@ if(!empty($huiyuan_ka)){//会员打折
 }
 
 //查询会员积分
-$jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid order by id desc LIMIT 1",array(':weid'=>$weid));
+$jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where weid =:weid and from_user=:from_user order by id desc LIMIT 1",array(':weid'=>$weid,':from_user'=>$from_user));
 if(!empty($jifen)){
     //查询会员积分
     $user = mc_fetch($from_user);//不能实时获取最新数据
+//    p($user);die;
     //根据id查询最新数据
     $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
     $credit1 = $member_jifen['credit1'];//积分

@@ -281,7 +281,6 @@ if($psnum == 2){ // 邮寄
     $dispatchprice = 0;
 }
 $totalprice = $goodsprice + $dispatchprice + $packvalue + $teavalue - $dlimitprice;
-
 if ($mode == 1) { //店内
     $table = pdo_fetch("SELECT * FROM " . tablename($this->table_tables) . " where weid = :weid AND id=:id LIMIT 1", array(':weid' => $weid, ':id' => $tables));
     $tablezonesid = $table['tablezonesid'];
@@ -461,7 +460,6 @@ if ($append == 2) {
     }
     $data['order_ps_type'] =$order_ps_type;
     //保存订单
-//    p($data);die;
     pdo_insert($this->table_order, $data);
     $orderid = pdo_insertid();
     //$this->doEmail($title);

@@ -36,7 +36,7 @@ if ($operation == 'display') {
             'limit'=>$_GPC['limit'],
             'nickname' => $_GPC['nickname'],
             //新增
-            'from_user' => $_GPC['nickname'],
+            'from_user' => $_GPC['from_user'],
             'limit_jifen'=>$_GPC['limit_jifen'],
             'limit_discount'=>$_GPC['limit_discount'],
             'limit_coupon'=>$_GPC['limit_coupon'],
