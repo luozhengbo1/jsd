@@ -280,6 +280,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             }
             //计算积分
             $this->setOrderCredit($order['id']);
+            p(111);die;
             pdo_update($this->table_order, array('isfinish' => 1), array('id' => $id));
             pdo_update($this->table_service_log, array('status' => 1), array('orderid' => $id));
             pdo_update($this->table_fans, array('paytime' => TIMESTAMP), array('id' => $fans['id']));

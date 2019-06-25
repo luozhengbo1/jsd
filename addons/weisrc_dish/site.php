@@ -8081,32 +8081,45 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
                     $credit += $goodsCredit * floatval($goods['total']);
                 }
             }
-        } else {
-            //订单积分
+        } else {  //订单积分
             $storeid = intval($order['storeid']);
             $store = $this->getStoreById($storeid);
-
             if ($store['is_default_givecredit'] == 1) {
                 $payx_credit = intval($setting['payx_credit']);
             } else {
                 $payx_credit = intval($store['givecredit']);
             }
-
             //本次消费积分
             if ($payx_credit != 0) {
                 $credit = floatval($order['totalprice']) * $payx_credit;
                 $credit = intval($credit);
             }
         }
-
+        //设置的单独积分优先与平台设置的积分
+        $credit_d = 0;
+        $jifen = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_money')."where from_user=:from_user order by id desc LIMIT 1",array(':from_user'=>$order['from_user']));
+        if(!empty($jifen)){
+            //查询会员积分
+            $user = mc_fetch($order['from_user']);//不能实时获取最新数据
+            //根据id查询最新数据
+            $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
+            $credit1 = $member_jifen['credit1'];//积分
+            if( !empty($jifen['limit']) && !empty($jifen['limit_jifen'])   ){
+                if($order['totalprice']>$jifen['limit']){
+                    $credit_d = $jifen['limit_jifen'];
+                }
+            }
+            if(!empty($jifen['limit_discount'])){
+                $credit_d+=$jifen['limit_discount'];
+            }
+        }
         $debugdata = array(
-            'payx_score' => $payx_credit,
+            'payx_score' => ($credit_d!=0)?$credit_d:$payx_credit,
             'totalprice' => $order['totalprice'],
             'orderid' => $orderid
         );
-
+        $credit = ($credit_d!=0)?$credit_d:$credit;
         file_put_contents(IA_ROOT . "/addons/weisrc_dish/credit.log", var_export($debugdata, true) . PHP_EOL, FILE_APPEND);
-
         //增加积分
         if (!empty($credit)) {
             load()->model('mc');
