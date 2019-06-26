@@ -19,5 +19,7 @@ displayorder DESC,id DESC", array(':weid' => $weid));
     $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " where weid = :weid AND is_hot=1 AND is_show=1 and is_list=1  AND deleted=0 ORDER BY displayorder
 DESC,id DESC", array(':weid' => $weid));
 }
-//p($list);die;
+if (empty($list) && $searchword != ''){
+    message('没有你要查找的门店信息!', $this->createMobileUrl('search', array()), "warning");
+}
 include $this->template($this->cur_tpl . '/search');
