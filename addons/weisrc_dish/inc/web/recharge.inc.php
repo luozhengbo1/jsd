@@ -36,7 +36,7 @@ if ($operation == 'display') {
         $pager = pagination($total, $pindex, $psize);
     }
 
-} else if ($operation == 'posix_times()') {
+} else if ($operation == 'post') {
     $id = intval($_GPC['id']);
     $reply = pdo_fetch("select * from " . tablename($this->table_recharge) . " where id = :id AND weid=:weid
             LIMIT 1", array(':id' => $id, ':weid' => $weid));
