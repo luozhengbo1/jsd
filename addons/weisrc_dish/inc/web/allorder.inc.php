@@ -11,7 +11,7 @@ $returnid = $this->checkPermission($storeid);
 $GLOBALS['frames'] = $this->getMainMenu();
 
 if (!$this->exists()) {
-    $_GPC['idArr'] = '';
+    $_GPC['idArr'] = array();
 }
 
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
