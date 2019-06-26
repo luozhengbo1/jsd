@@ -2073,7 +2073,10 @@ BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => 
             $this->showMsg("每个用户只能领{$coupon_usercount}张", 1);
         }
         if ($total_count >= $coupon_totalcount && $coupon_totalcount!=0){
-            $this->showMsg("参与名额数量已上限", 1);
+            if ($user_count == 0){
+                //未曾领过优惠劵的用户
+                $this->showMsg("参与名额数量已上限", 1);
+            }
         }
         $sncode = 'SN' . random(11, 1);
         $sncode = $this->getNewSncode($weid, $sncode);
