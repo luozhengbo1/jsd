@@ -15,7 +15,7 @@ if (empty($cur_store)) {
 }
 
 if (!$this->exists()) {
-    $_GPC['idArr'] = '';
+    $_GPC['idArr'] = array();
 }
 
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
