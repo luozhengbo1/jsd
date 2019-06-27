@@ -2,20 +2,16 @@
 global $_GPC, $_W;
 $weid = $this->_weid;
 $GLOBALS['frames'] = $this->getMainMenu();
-
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
 if ($operation == 'display') {
     if (!empty($_GPC['displayorder'])) {
         foreach ($_GPC['displayorder'] as $id => $displayorder) {
-            pdo_update($this->table_money, array('displayorder' => $displayorder), array('id' => $id));
+            pdo_update($this->table_money, array('sort' => $displayorder), array('id' => $id));
         }
-        foreach ($_GPC['url'] as $id => $url) {
-            pdo_update($this->table_money, array('url' => $url), array('id' => $id));
-        }
-        message('门店类型排序更新成功！', $this->createWebUrl('type', array('op' => 'display')), 'success');
+        message('门店类型排序更新成功！', $this->createWebUrl('money', array('op' => 'display')), 'success');
     }
 
-    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_money) . " WHERE weid = :weid", array(':weid' => $weid));
+    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_money) . " WHERE weid = :weid  ORDER BY sort ASC", array(':weid' => $weid));
   
 } elseif ($operation == 'post') {
     load()->func('tpl');
