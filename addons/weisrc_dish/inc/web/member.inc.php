@@ -43,13 +43,13 @@ if ($operation == 'display') {
             'endtime' => $_GPC['datelimit']['end'],
         );
         if ($data["nickname"] == ''){
-            message('请输入昵称！', $this->createWebUrl('member', array('op' => 'post', 'id' => $id)), 'error');
+            message('请输入昵称！', '', 'error');
         }
         if (!is_numeric($data["limit"])|| $data["limit"] == ''){
-            message('请输入正确充值额度！', $this->createWebUrl('member', array('op' => 'post', 'id' => $id)), 'error');
+            message('请输入正确充值额度！', '', 'error');
         }
         if (!is_numeric($data["limit_discount"]) || is_numeric($data["limit_discount"])  == ''){
-            message('请输入正确订单折扣！', $this->createWebUrl('member', array('op' => 'post', 'id' => $id)), 'error');
+            message('请输入正确订单折扣！', '', 'error');
         }
         if (!empty($id)) {
             pdo_update($this->table_member, $data, array('id' => $id));
