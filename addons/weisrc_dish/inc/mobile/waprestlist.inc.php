@@ -106,18 +106,17 @@ if ($sortid == 1) {
     $cursort = "距离优先";
 }
 $this->resetHour();
-//p($sortid);die;
-//$lat = "26.651761";
-//$lng = "106.644928";
+
 if ($sortid == 1) { //正在营业
-    $timein = date('H:i');
-    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
+//    $timein = date('H:i');
+    $strwhere .=" and is_rest=1 ";
+//    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
 //    $sql = "SELECT *,(lat-{$lat}) * (lat-{$lat}) + (lng-{$lng}) * (lng-{$lng}) as dist FROM
 //    " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist,is_rest ASC,displayorder DESC, id DESC " . $limit ;
 //    echo $sql ;die;
     $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist,is_rest ASC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) { //距离
-    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, displayorder DESC,id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist  ASC, displayorder DESC,id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else {
     $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, is_rest DESC,displayorder DESC, id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 }

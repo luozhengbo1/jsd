@@ -134,15 +134,19 @@ if ($typeid != 0) {
     $strwhere .= " AND typeid={$typeid} ";
 }
 //给默认值
-$sortid=1;
+$this->resetHour();
+$sortid=3;
 if ($sortid == 1) {
-    $timein = date('H:i');
-    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
+//    $timein = date('H:i');
+//    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
+    $strwhere .=" and is_rest=1 ";
     $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY  dist,is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) {
-    $restlist = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+    $restlist = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else {
-    $restlist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC,displayorder DESC, id DESC"  . $limit, array(':weid' => $weid));
+    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY  dist,is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+
+//    $restlist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC,displayorder DESC, id DESC"  . $limit, array(':weid' => $weid));
 }
 //$strwhere = " where weid = {$weid} and is_show=1 AND is_list=1 AND deleted=0  and ('{$timein}'>=begintime  and '{$timein}'<= endtime)  ";
 //$sql = "SELECT *,(lat-{$lat}) * (lat-{$lat}) + (lng-{$lng}) * (lng-{$lng}) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist, is_rest DESC,displayorder DESC, id DESC " . $limit;
