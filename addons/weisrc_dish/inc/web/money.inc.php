@@ -8,7 +8,7 @@ if ($operation == 'display') {
         foreach ($_GPC['displayorder'] as $id => $displayorder) {
             pdo_update($this->table_money, array('sort' => $displayorder), array('id' => $id));
         }
-        message('门店类型排序更新成功！', $this->createWebUrl('money', array('op' => 'display')), 'success');
+        message('排序更新成功！', $this->createWebUrl('money', array('op' => 'display')), 'success');
     }
 
     $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_money) . " WHERE weid = :weid  ORDER BY sort ASC", array(':weid' => $weid));

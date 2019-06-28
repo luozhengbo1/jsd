@@ -27,25 +27,21 @@ if (empty($coupon)) {
         message('活动时间已经结束啦,不能领取...');
     }
 }
-
+//发放总数量有限制
 $coupon_usercount = $coupon['usercount'];//每个用户能领取数量 0为不限制
 $coupon_totalcount = $coupon['totalcount'];//发放总数量 0为不限制
 
-//用户已领取数量
 $user_count = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid and from_user=:from_user AND couponid=:couponid ORDER
 BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => $id));
-//已领取总数量
-$total_count = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid AND couponid=:couponid ORDER BY id DESC", array(':weid' => $weid, ':couponid' => $id));
+$total_count = pdo_fetchcolumn("SELECT count(distinct from_user) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid AND couponid=:couponid ORDER BY id DESC", array(':weid' => $weid, ':couponid' => $id));
 
-//发放总数量有限制
-if ($coupon_totalcount != 0) {
-    if ($total_count >= $coupon_totalcount) {
-        message('对不起，优惠券已经发放完了!');
-    }
+if ($user_count >= $coupon_usercount && $coupon_usercount!=0){
+    message("每个用户只能领{$coupon_usercount}张");
 }
-if ($coupon_usercount != 0) {
-    if ($user_count >= $coupon_usercount) {
-        message("每人最多只能兑换{$coupon_usercount}次!");
+if ($total_count >= $coupon_totalcount && $coupon_totalcount!=0){
+    if ($user_count == 0){
+        //未曾领过优惠劵的用户
+        message("参与名额数量已上限");
     }
 }
 

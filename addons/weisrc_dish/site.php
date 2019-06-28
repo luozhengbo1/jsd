@@ -608,11 +608,15 @@ ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
 
         $user_count = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid and from_user=:from_user AND couponid=:couponid ORDER
 BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => $id));
-        $total_count = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid AND couponid=:couponid ORDER BY id DESC", array(':weid' => $weid, ':couponid' => $id));
+        $total_count = pdo_fetchcolumn("SELECT count(distinct from_user) FROM " . tablename($this->table_sncode) . " WHERE weid = :weid AND couponid=:couponid ORDER BY id DESC", array(':weid' => $weid, ':couponid' => $id));
 
-        if ($coupon_totalcount != 0) {
-            if ($total_count >= $coupon_totalcount) {
-                $this->showMsg('对不起，优惠券已经发放完了!');
+        if ($user_count >= $coupon_usercount && $coupon_usercount!=0){
+            $this->showMsg("每个用户只能领{$coupon_usercount}张", 1);
+        }
+        if ($total_count >= $coupon_totalcount && $coupon_totalcount!=0){
+            if ($user_count == 0){
+                //未曾领过优惠劵的用户
+                $this->showMsg("参与名额数量已上限", 1);
             }
         }
 
@@ -626,12 +630,6 @@ BY id DESC", array(':weid' => $weid, ':from_user' => $from_user, ':couponid' => 
                 $this->showMsg('对不起，您的积分不足，本次兑换需要积分'.$dcredit.'!');
             } else {
                 $is_credit = 1;
-            }
-        }
-
-        if ($coupon_usercount != 0) {
-            if ($user_count >= $coupon_usercount) {
-                $this->showMsg("每人最多只能领取{$coupon_usercount}次!");
             }
         }
 
