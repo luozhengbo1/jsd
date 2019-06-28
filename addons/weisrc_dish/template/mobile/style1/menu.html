@@ -59,20 +59,20 @@
                         </div>
                     </li>
                     {/if}
-                    {if $store['delivery_within_days'] != 0}
-                    <li class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title label">配送日期:</div>
-                            <div class="item-input">
-                                <select name="meal_date" id="meal_date" onchange="changeMealDate(this)">
-                                    {$select_mealdate}
-                                </select>
-                            </div>
-                        </div>
-                    </li>
-                    {else}
-                    <input type="hidden" id="meal_date" value="" name="meal_date">
-                    {/if}
+<!--                    {if $store['delivery_within_days'] != 0}-->
+<!--                    <li class="item-content">-->
+<!--                        <div class="item-inner">-->
+<!--                            <div class="item-title label">配送日期:</div>-->
+<!--                            <div class="item-input">-->
+<!--                                <select name="meal_date" id="meal_date" onchange="changeMealDate(this)">-->
+<!--                                    {$select_mealdate}-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    {else}-->
+<!--                    <input type="hidden" id="meal_date" value="" name="meal_date">-->
+<!--                    {/if}-->
 <!--                    <li class="item-content">-->
 <!--                        <div class="item-inner">-->
 <!--                            <div class="item-title label">配送时间:</div>-->
@@ -994,6 +994,7 @@ $(document).ready(function(e) {
         if(jifen_dk >0){
             if(jifen_dk>endTotal){
                 jifen_dk = endTotal
+                console.log(jifen_dk)
                 $('#jifen_dk_show').text("￥-"+jifen_dk)
             }else{
                 $('#jifen_dk_show').text("￥-"+jifen_dk)

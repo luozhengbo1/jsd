@@ -735,7 +735,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
             $order = $this->getOrderById($id);
             if ($order) {
                 if ($order['isfinish'] == 0) {
-                    if ($order['status'] == -1 || $order['ispay'] == 3) {
+                    if ($order['status'] == -1 || $order['ispay'] == 3) {//已取消或者已退款完得单不会操作成功。
                         continue;
                     }
                     //计算积分

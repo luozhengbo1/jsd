@@ -339,6 +339,24 @@ if ($operation == 'setting') {
         if (istrlen($data['address']) == 0) {
             //message('请输入地址。', '', 'error');
         }
+        if($data['freeprice']<0 ){
+            message('消费满多少元免配送费不合法');
+        }
+        if($data['sendingprice']<0 ){
+            message('外卖起送价格不合法');
+        }
+        if($data['dispatchprice']<0 ){
+            message('外卖配送费用不合法');
+        }
+        if($data['delivery_within_days']<0 ){
+            message('允许提前几天点外卖不合法');
+        }
+        if($data['delivery_radius']<0 ){
+            message('配送半径不合法');
+        }
+        if($data['tea_money']<0 ){
+            message('茶位费不合法');
+        }
 
         if (!empty($id)) {
             unset($data['dateline']);
@@ -528,6 +546,7 @@ if ($operation == 'setting') {
 
         message('操作成功!', $url);
     }
+
 } elseif ($operation == 'delete') {
     $id = intval($_GPC['id']);
     $store = pdo_fetch("SELECT id FROM " . tablename($this->table_stores) . " WHERE id = {$id} AND weid={$weid} ");
