@@ -14,7 +14,8 @@ $orderstatus = array(
     'finish' => 3,
     'pay' => 2,
     'updateprice' => 4,
-    'print' => 5
+    'print' => 5,
+    'refundorder'=>6,
 );
 
 if (empty($orderstatus[$status])) {
@@ -238,7 +239,30 @@ if ($orderstatus[$status] == 2) { //支付
             pdo_insert("weisrc_dish_delivery_record", $data);
         }
     }
-}
+}else if ($orderstatus[$status] == 6) { //退款
+    $id = $_GPC['orderid'];
+    $order = $this->getOrderById($id);
+    $store = $this->getStoreById($order['storeid']);
+    if (empty($order)) {
+        message('订单不存在！', '', 'error');
+    }
+    $this->addOrderLog($id, $order['nickname'], 2, 2, 6);
+
+    if ( ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) && $order['status']==-1  ) {
+        $result = $this->refund2($id, $order['totalprice'],$order['origin_totalprice']);
+        if ($result == 1) {
+            $order["refund_price1"] = $order['totalprice'];
+            $order["ispay"] = 3;//为了初始化订单退款推送状态
+            $this->sendOrderNotice($order, $store, $setting);
+            message('退款成功！');
+        }else{
+            message('退款失败！,请到pc端退款');
+        }
+    }else{
+        message('订单状态不对,只有取消单才可以退款');
+    }
+
+    }
 if (!empty($paylog) && $orderstatus[$status] != -1) {
     pdo_update('core_paylog', array('fee' => $totalprice), array('plid' => $paylog['plid']));
 }

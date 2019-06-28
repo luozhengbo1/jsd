@@ -97,6 +97,9 @@
         {if $order['paytype']==0 || $order['paytype']==3}
         <span class="button border-green btnan" onclick="updatepriceorder()">改价</span>
         {/if}
+        {if $order['ispay']==2 && $order['status']==-1}
+        <span class="button border-green btnan" onclick="refundorder()">退款</span>
+        {/if}
         <br/>
         <span class="button border-orange btnan" onclick="print()">前台打印</span>
         <span class="button border-orange btnan" onclick="print2()">后厨打印</span>
@@ -430,8 +433,8 @@
         <div class="list-item ddb-form-control">
             <div class="ddb-form-label">总价格</div>
             <div class="input-field">
-                {if $order['status']==1 || $order['status']==3 || $order['ispay']==1 }{$order['totalprice']}{/if}
-                <input type="{if $order['status']==1 || $order['status']==3 || $order['ispay']==1 }hidden{else}text{/if}" class="ddb-form-input ng-pristine ng-untouched ng-valid"  style="border:1px solid #ffa39e;" placeholder="输入订单总价" value="{$order['totalprice']}" name="totalprice" id="totalprice">
+                {if $order['status']==1 || $order['status']==3 || $order['ispay']==1 || $order['ispay']==2 }{$order['totalprice']}{/if}
+                <input type="{if $order['status']==1 || $order['status']==3 || $order['ispay']==1 || $order['ispay']==2 }hidden{else}text{/if}" class="ddb-form-input ng-pristine ng-untouched ng-valid"  style="border:1px solid #ffa39e;" placeholder="输入订单总价" value="{$order['totalprice']}" name="totalprice" id="totalprice">
             </div>
         </div>
     </div>
@@ -501,11 +504,18 @@
         
         var t = $('#totalprice').offset().top;
         console.log(t);
-        console.log('aaaa');
         window.scrollTo(0,t);
 
         if (confirm(`确定修改总价为${totalprice}元？`)) {
             var url = "{php echo $this->createMobileUrl('setadminorder', array('orderid' => $order['id'], 'status' => 'updateprice'), true)}" + '&totalprice=' + totalprice + '&remark=' + remark;
+            window.location.href = url;
+        }
+    }
+
+    function refundorder() {
+        if (confirm("确认退款吗?")) {
+            var url =
+                "{php echo $this->createMobileUrl('setadminorder', array('orderid' => $order['id'], 'status' => 'refundorder'), true)}";
             window.location.href = url;
         }
     }
