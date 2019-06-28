@@ -161,13 +161,17 @@ if (empty($from_user)) {
 $this->resetHour();
 $store = $this->getStoreById($storeid);
 $collection = pdo_fetch("SELECT * FROM " . tablename($this->table_collection) . " where weid = :weid AND storeid=:storeid AND from_user=:from_user LIMIT 1", array(':weid' => $weid, ':storeid' => $storeid, ':from_user' => $from_user));
-
+//p($store['is_rest']);
 $isrest = 0;
 if ($mode != 3 && $mode != 5) {
     if ($store['is_rest'] == 0) {
-        $isrest = 1;
+        $timein = date('H:i');
+        if($timein<$store['begintime'] && $timein>$store['endtime']  ){
+            $isrest = 1;
+        }
     }
 }
+//p($isrest);die;
 if ($store['is_show'] != 1) {
     message('门店暂停营业中,暂不接单!');
 }
