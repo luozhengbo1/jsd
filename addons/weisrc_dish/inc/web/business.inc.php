@@ -76,6 +76,9 @@ if ($operation == 'display') {
         if($data['fee_min'] && $data['fee_min']>$data['fee_max']){
             message('最低提现费用不能大于最高体现费用!');
         }
+        if ($data['getcash_price']<1 && $data['getcash_price'] !=0){
+            message('最低提现金额不能低于1元!');
+        }
 
         if (!empty($id)) {
             pdo_update($this->table_stores, $data, array('id' => $id, 'weid' => $weid));

@@ -180,12 +180,8 @@
                     <div class="col-sm-9 col-xs-12">
                         <p class="form-control-static"><span class="money">{php echo sprintf('%.2f', $totalprice);} </span> 元</p>
                         <div class="help-block">
-                            {if $totalprice<$getcash_price}
+                            {if $totalprice<$getcash_price && $getcash_price !=0}
                             <strong class="text-danger">当前账户余额小于最低提现金额({$getcash_price}元)限制,不能提现</strong>
-                            {else}
-                            {if $totalprice<1}
-                            <strong class="text-danger">最低的提现金额为1元,不能提现</strong>
-                            {/if}
                             {/if}
                         </div>
                     </div>
