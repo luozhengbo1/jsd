@@ -139,7 +139,7 @@ if (checksubmit('submit')) {
         message('最低提现费应小于最高提现费');
         exit;
     }
-    if ($data['getcash_price']<1 && $data['getcash_price'] !=0){
+    if ($_GPC['getcash_price']<1 && $_GPC['getcash_price'] !=0){
         message('最低提现金额不能低于1元!');
         exit;
     }

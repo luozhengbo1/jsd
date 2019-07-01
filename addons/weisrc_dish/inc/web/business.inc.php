@@ -76,7 +76,7 @@ if ($operation == 'display') {
         if($data['fee_min'] && $data['fee_min']>$data['fee_max']){
             message('最低提现费用不能大于最高体现费用!');
         }
-        if ($data['getcash_price']<1 && $data['getcash_price'] !=0){
+        if ($_GPC['getcash_price']<1 && $_GPC['getcash_price'] !=0){
             message('最低提现金额不能低于1元!');
         }
 
