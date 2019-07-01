@@ -207,7 +207,8 @@ if ($orderstatus[$status] == 2) { //支付
     $update_data['status'] = $orderstatus[$status];
     pdo_update($this->table_order, $update_data, array('id' => $order['id']));
     $this->addOrderLog($id, $touser, 2, 1, 4);
-
+//计算积分
+    $this->setOrderCredit($order['id'],true);
     $this->updateFansData($order['from_user']);
     $this->updateFansFirstStore($order['from_user'], $order['storeid']);
     //修改为已配送
