@@ -18,7 +18,7 @@ class Test{
 //        private $appsecret = "d27ce382ae9c288ada246dffb1c99680";
         public $table = "ims_weisrc_dish_fans";
         /**
-         * 测试推送
+         * 数据库实例
          */
         public function __construct(){
           $this->conn =  mysqli_connect(
@@ -48,9 +48,22 @@ class Test{
                 }
             }
             $ids = implode(',',$fan_ids);
-            file_put_contents('/www/wwwroot/jsd.gogcun.com/ts.log', $ids."\n",8);
-            //   $updatesql = '';
-          //  $this->conn->multi_query($updatesql);
+            mysqli_autocommit($this->conn,false);//表示事务开始
+            $drop_sql = "ALTER TABLE `ims_weisrc_dish_fans` DROP COLUMN `wechat_status`";
+            $drop_wechat_status = $this->conn->query($drop_sql);
+            $alter_sql = "ALTER TABLE `ims_weisrc_dish_fans` ADD `wechat_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1，是该公众号下的openid；0，不是该公众号下的openid'";
+            $alter_wechat_status = $this->conn->query($alter_sql);
+            if (empty($fan_ids)){
+                mysqli_commit($this->conn); //成功即提交
+                return ;
+            }
+            $sql = "update `ims_weisrc_dish_fans` set `wechat_status`=0 where id in ({$ids})";
+            $result_sql = $this->conn->query($sql);
+            if ($result_sql=1){
+                mysqli_commit($this->conn); //成功即提交
+            }else{
+                mysqli_rollback($this->conn);//失败进行回滚到事务开始点
+            }
         }
 
 
