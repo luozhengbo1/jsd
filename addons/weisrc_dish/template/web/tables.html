@@ -601,7 +601,7 @@
     $(function () {
         $(".check_all").click(function () {
             var checked = $(this).get(0).checked;
-            $("input[type=checkbox]").attr("checked", checked);
+            $("input[type=checkbox]").prop("checked", checked);
         });
 
         $("input[name=btn_printall]").click(function () {
