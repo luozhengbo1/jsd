@@ -200,9 +200,9 @@ if ($mode == 2) { //外卖
 		}
         $distance = floatval($distance);
     }
-    $dispatchareas_pt =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_distance_pt') . " WHERE weid=:weid and begindistance<'{$distance}' and enddistance>'{$distance}' ORDER BY id ASC", array(':weid' => $weid));
+    $dispatchareas_pt =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_distance_pt') . " WHERE weid=:weid and begindistance<'{$distance}' and enddistance>='{$distance}' ORDER BY id ASC", array(':weid' => $weid));
     if(empty($dispatchareas_pt)){
-        $dispatchareas_pt = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_distance_pt'). "where weid =:weid and enddistance < '{$distance}' order by enddistance desc ",array(':weid'=>$weid));
+        $dispatchareas_pt = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_distance_pt'). "where weid =:weid and enddistance <= '{$distance}' order by enddistance desc ",array(':weid'=>$weid));
     }
    
     $psf = $dispatchareas_pt['dispatchprice'];

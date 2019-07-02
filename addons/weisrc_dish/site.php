@@ -1384,7 +1384,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
 
     public function getdistanceprice($storeid, $distance)
     {
-        $strwhere = "  where storeid = :storeid AND weid=:weid AND :distance>=begindistance AND :distance<enddistance ";
+        $strwhere = "  where storeid = :storeid AND weid=:weid AND :distance>begindistance AND :distance<=enddistance ";
         $data = pdo_fetch("select * from " . tablename("weisrc_dish_distance") . " {$strwhere} ORDER BY id DESC LIMIT 1", array(':storeid' => $storeid, ':weid' => $this->_weid, ':distance' => $distance));
         return $data;
     }

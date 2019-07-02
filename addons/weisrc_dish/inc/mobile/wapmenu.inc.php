@@ -373,13 +373,13 @@ if ($is_auto_address == 0 && $useraddress) { //多收餐地址 算距离
 
     $distance = floatval($distance);
 }
-
-$dispatchareas_pt =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_distance_pt') . " WHERE weid=:weid and begindistance<'{$distance}' and enddistance>'{$distance}' ORDER BY id ASC", array(':weid' => $weid));
+$dispatchareas_pt =  pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_distance_pt') . " WHERE weid=:weid and begindistance<'{$distance}' and enddistance>='{$distance}' ORDER BY id ASC", array(':weid' => $weid));
 if(empty($dispatchareas_pt)){
-    $dispatchareas_pt = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_distance_pt'). "where weid =:weid and enddistance < '{$distance}' order by enddistance desc ",array(':weid'=>$weid));
+    $dispatchareas_pt = pdo_fetch("SELECT * FROM".tablename('weisrc_dish_distance_pt'). "where weid =:weid and enddistance <='{$distance}' order by enddistance desc ",array(':weid'=>$weid));
+//    echo "SELECT * FROM".tablename('weisrc_dish_distance_pt'). "where  enddistance <='{$distance}' order by enddistance desc ";
 }
 $psf = $dispatchareas_pt['dispatchprice'];
-//var_dump($psf);exit();
+
 //delivery_radius
 if ($store['is_delivery_distance'] == 1) { //按距离收费
     if($psnum == 2){
@@ -390,7 +390,9 @@ if ($store['is_delivery_distance'] == 1) { //按距离收费
         }
         //阶梯距离价格
         $distanceprice = $this->getdistanceprice($storeid, $distance);
-		//$distanceprice11 = $distanceprice;
+//
+
+        //$distanceprice11 = $distanceprice;
 		//sjg 2018-09-09
 		if(empty($distanceprice) || $distanceprice['dispatchprice'] == 0) {
 			$dispatchprice = $psf;
@@ -402,6 +404,7 @@ if ($store['is_delivery_distance'] == 1) { //按距离收费
 //            $dispatchprice = ($dispatchprice<0)?0:$dispatchprice;
         }
     }
+
     if ($store['not_in_delivery_radius'] == 0) { //只能在距离范围内
         if ($distance > $delivery_radius) {
             $over_radius = 1;
@@ -425,7 +428,6 @@ if ($store['is_delivery_distance'] == 1) { //按距离收费
 		$dispatchprice = floatval($store['dispatchprice']);
 	}
 }
-
 if ($store['is_delivery_time'] == 1) { //特殊时段加价
     $tprice = $this->getPriceByTime($storeid);
     $dispatchprice = $dispatchprice + $tprice;
@@ -445,5 +447,9 @@ $share_image = !empty($setting['share_image']) ? tomedia($setting['share_image']
 $share_url = $host . 'app/' . $this->createMobileUrl('usercenter', array('agentid' => $fans['id']), true);
 //p($totalprice);
 //p($jifen_dk);die;
+//p($distanceprice);
+//p($dispatchareas_pt);
+//p($dispatchprice);
+//die;
 
 include $this->template($this->cur_tpl . '/menu');
