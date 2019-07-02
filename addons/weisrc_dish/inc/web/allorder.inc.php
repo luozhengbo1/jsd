@@ -425,7 +425,7 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
  DESC LIMIT 1", array(':weid' => $weid, ':couponid' => $item['couponid']));
         if (!empty($coupon)) {
             if ($coupon['type'] == 2) {
-                $coupon_info = "抵用金额" . $order['discount_money'];
+                $coupon_info = "抵用金额" . $coupon['dmoney'];
             } else {
                 $coupon_info = $coupon['title'];
             }

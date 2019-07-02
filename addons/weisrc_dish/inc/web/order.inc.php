@@ -543,7 +543,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
  DESC LIMIT 1", array(':weid' => $weid, ':couponid' => $item['couponid']));
         if (!empty($coupon)) {
             if ($coupon['type'] == 2) {
-                $coupon_info = "抵用金额" . $order['discount_money'];
+                $coupon_info = "抵用金额" . $coupon['dmoney'];
             } else {
                 $coupon_info = $coupon['title'];
             }
