@@ -26,12 +26,13 @@ if ($operation == 'display') {
     }
 
     if (checksubmit('submit')) {
-
+        $fans = $this->getFansByOpenid($_GPC['from_user']);
         $data = array(
             'weid' => $weid,
             'limit'=>$_GPC['limit'],
             'nickname' => $_GPC['nickname'],
             //新增
+            'headimgurl' => $fans['headimgurl'],
             'from_user' => $_GPC['from_user'],
             'limit_jifen'=>$_GPC['limit_jifen'],
             'limit_discount'=>$_GPC['limit_discount'],
