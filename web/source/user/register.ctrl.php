@@ -11,7 +11,6 @@ load()->classs('oauth2/oauth2client');
 
 $dos = array('display', 'valid_mobile', 'register');
 $do = in_array($do, $dos) ? $do : 'display';
-
 $_W['page']['title'] = '注册选项 - 用户设置 - 用户管理';
 if (empty($_W['setting']['register']['open'])) {
 	itoast('本站暂未开启注册功能，请联系管理员！', '', '');
@@ -39,7 +38,11 @@ if ($do == 'valid_mobile') {
 
 if ($do == 'register') {
 	if(checksubmit() || $_W['ispost'] && $_W['isajax']) {
-		$register_user = OAuth2Client::create($register_type)->register();
+        $register_user=[];
+	    if($_GPC['password']!==$_GPC['repassword']){
+            itoast($register_user['message']="两次密码不等");
+        }
+        $register_user = OAuth2Client::create($register_type)->register();
 		if ($register_type == 'system') {
 			if (is_error($register_user)) {
 				itoast($register_user['message']);
