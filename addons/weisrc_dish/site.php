@@ -8147,7 +8147,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
             'orderid' => $orderid
         );
         $credit = ($credit_d!=0)?$credit_d:$credit;
-        file_put_contents(IA_ROOT . "/addons/weisrc_dish/credit.log", var_export($debugdata, true) . PHP_EOL, FILE_APPEND);
+//        file_put_contents(IA_ROOT . "/addons/weisrc_dish/credit.log", var_export($debugdata, true) . PHP_EOL, FILE_APPEND);
         //增加积分
         if (!empty($credit)) {
             load()->model('mc');
