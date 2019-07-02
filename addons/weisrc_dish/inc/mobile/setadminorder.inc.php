@@ -254,7 +254,7 @@ if ($orderstatus[$status] == 2) { //支付
             $order["refund_price1"] = $order['totalprice'];
             $order["ispay"] = 3;//为了初始化订单退款推送状态
             $this->sendOrderNotice($order, $store, $setting);
-            message('退款成功！');
+            message('退款成功！！', $this->createMobileUrl('adminorderdetail', array('orderid' => $id), true), 'success');
         }else{
             message('退款失败！,请到pc端退款');
         }

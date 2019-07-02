@@ -293,6 +293,8 @@ if(!empty($jifen)){
         $jifen_dk = round($jifen_sl*$jifen['minus'],2);
         //$totalprice = $totalprice-$jifen_dk;
         //var_dump($totalprice);exit();
+    }else{
+        $jifen_dk=0;
     }
 }else{
     $jifen_dk = 0;
