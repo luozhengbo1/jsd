@@ -295,15 +295,12 @@ if(!empty($jifen)){
         }else{
             $jifen_dk=0;
         }
-        //$totalprice = $totalprice-$jifen_dk;
-        //var_dump($totalprice);exit();
     }else{
         $jifen_dk=0;
     }
 }else{
     $jifen_dk = 0;
 }
-//p($jifen_dk);die;
 
 //var_dump($couponlist);
 //var_dump($_GPC['selectcoupon']);
