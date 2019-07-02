@@ -835,6 +835,7 @@ $(document).ready(function(e) {
         <span class="modal-button m-close">我再看看</span>
     </div>
 </div>
+<input type="hidden" id="total_price" value=0 name="total_price">
 <script>
 $(document).ready(function(e) {
 	$('.modal .m-close').click(function(e) {
@@ -1057,6 +1058,7 @@ $(document).ready(function(e) {
     }
     tototal();//初始化金额
 
+    $("#total_price").val($("#totalprice").val())
 
     function checkMobile($mobileVal) {
         if (checkEmpty($mobileVal) == false) {
@@ -1113,10 +1115,12 @@ $(document).ready(function(e) {
     //选择优惠券
     function select_coupon(obj) {
         couponid = obj.value;
-        console.log(couponid);
         $("#coupon").val(couponid);
-        var totalM = $("#totalprice").val();
-        console.log(totalM);
+        if ( $("#total_price").val() != 0) {
+            var totalM = $("#total_price").val();
+        }else{
+            var totalM = $("#totalprice").val();
+        }
         if (couponid == 0) {
             $("#youhui").html('优惠抵扣:<em>￥0</em>');
             $('#dprice').val('');
