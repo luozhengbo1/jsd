@@ -288,7 +288,7 @@ if(!empty($jifen)){
     //根据id查询最新数据
     $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid  ",array(':uid'=>$user['uid']));
     $credit1 = $member_jifen['credit1'];//积分
-    if($credit1>=$jifen['money_limit']){
+    if($credit1>=$jifen['money_limit'] &&  $jifen['money_limit']){
         $jifen_sl = $credit1/$jifen['money_limit'];
         $jifen_dk = round($jifen_sl*$jifen['minus'],2);
         //$totalprice = $totalprice-$jifen_dk;
