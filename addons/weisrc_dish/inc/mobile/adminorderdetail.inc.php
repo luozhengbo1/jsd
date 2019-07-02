@@ -109,7 +109,7 @@ if ($order['couponid'] != 0) {
  DESC LIMIT 1", array(':weid' => $weid, ':couponid' => $order['couponid']));
     if (!empty($coupon)) {
         if ($coupon['type'] == 2) {
-            $coupon_info = "代金券抵用金额" . $order['discount_money'];
+            $coupon_info = "代金券抵用金额" . $coupon['dmoney'];
         } else {
             $coupon_info = $coupon['title'];
         }
