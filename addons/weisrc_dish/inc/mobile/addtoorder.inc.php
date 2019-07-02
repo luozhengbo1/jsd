@@ -345,10 +345,10 @@ if(!empty($jifen)){
             $jifen_dk=0;
         }
         $totalprice = $totalprice-$jifen_dk;
-        $updatejifen_dk = round($jifen_dk*$jifen['money_limit']/$jifen['minus'] ,2);
+        $updatejifen_dk = $member_jifen['credit1']-round($jifen_dk*$jifen['money_limit']/$jifen['minus'] ,2);
 
         //将用户积分减少啊
-        pdo_update('mc_members',array('credit1'=>$member_jifen['credit1']-$updatejifen_dk),array('uid'=>$user['uid']));
+        pdo_update('mc_members',array('credit1'=>$updatejifen_dk),array('uid'=>$user['uid']));
 
         //var_dump($totalprice);exit();
     }
