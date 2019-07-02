@@ -266,8 +266,8 @@ if ($orderstatus[$status] == 2) { //支付
 if (!empty($paylog) && $orderstatus[$status] != -1) {
     pdo_update('core_paylog', array('fee' => $totalprice), array('plid' => $paylog['plid']));
 }
-if ($this->_accountlevel == 4) {
-    $order = $this->getOrderById($id);
-    $this->sendOrderNotice($order, $store, $setting);
-}
+//if ($this->_accountlevel == 4) {
+//    $order = $this->getOrderById($id);
+//    $this->sendOrderNotice($order, $store, $setting);
+//}
 message('操作成功！！', $this->createMobileUrl('adminorderdetail', array('orderid' => $id), true), 'success');
