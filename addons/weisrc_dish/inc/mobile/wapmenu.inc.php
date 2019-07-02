@@ -286,7 +286,7 @@ if(!empty($jifen)){
     $user = mc_fetch($from_user);//不能实时获取最新数据
 //    p($user);die;
     //根据id查询最新数据
-    $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
+    $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid and from_user=:from_user ",array(':uid'=>$user['uid'],':from_user'=>$from_user));
     $credit1 = $member_jifen['credit1'];//积分
     if($credit1>=$jifen['money_limit']){
         $jifen_sl = $credit1/$jifen['money_limit'];
