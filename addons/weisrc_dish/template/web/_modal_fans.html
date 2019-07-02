@@ -19,6 +19,10 @@
 <script type="text/javascript">
     function search_entries() {
         var kwd = $.trim($('#search-kwd').val());
+        if (kwd == ''){
+            alert('请输入粉丝昵称!');
+            return false;
+        }
         $.post('{php echo $this->createWebUrl('queryfans');}', {keyword: kwd}, function(dat){
             $('#module-menus').html(dat);
         });

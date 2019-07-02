@@ -262,7 +262,7 @@ if ($operation == 'post') {
             pdo_query('delete from ' . tablename('weisrc_dish_goods_option') . " where goodsid = :goodsid and id not in ({$optionids})", array(':goodsid' => $id));
         }
 
-        message('商品更新成功！', $this->createWebUrl('goods', array('op' => 'post', 'storeid' => $storeid,'id'=>$id)), 'success');
+        message('商品更新成功！', $this->createWebUrl('goods', array('op' => 'display', 'storeid' => $storeid)), 'success');
     }
 } elseif ($operation == 'display') {
     if (!empty($_GPC['displayorder'])) {
