@@ -335,8 +335,8 @@ if(!empty($jifen)){
     $credit1 = $member_jifen['credit1'];//积分
     if($credit1>=$jifen['money_limit'] && $jifen['money_limit']  ){
         if($totalprice >=$jifen['minus'] && $jifen['minus'] ){
-            $jifen_sl = $credit1/$jifen['money_limit'];
-            $jifen_dk = round($jifen_sl*$jifen['minus'],2);
+            $jifen_sl = $credit1/$jifen['money_limit']; //30/2
+            $jifen_dk = round($jifen_sl*$jifen['minus'],2); //15*1 15
             //如果积分抵扣大于订单金额将对应的积分抵扣
             if($totalprice<$jifen_dk ){
                 $jifen_dk =  $totalprice;
@@ -344,10 +344,11 @@ if(!empty($jifen)){
         }else{
             $jifen_dk=0;
         }
-        $updatejifen_dk = $jifen_dk;
         $totalprice = $totalprice-$jifen_dk;
+        $updatejifen_dk = round($jifen_dk*$jifen['money_limit']/$jifen['minus'] ,2);
+
         //将用户积分减少啊
-        pdo_update('mc_members',array('credit1'=>$member_jifen['credit1']-$updatejifen_dk*$jifen_sl),array('uid'=>$user['uid']));
+        pdo_update('mc_members',array('credit1'=>$member_jifen['credit1']-$updatejifen_dk),array('uid'=>$user['uid']));
 
         //var_dump($totalprice);exit();
     }
