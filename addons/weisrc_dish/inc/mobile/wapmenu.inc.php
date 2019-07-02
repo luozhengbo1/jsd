@@ -293,16 +293,20 @@ if(!empty($jifen)){
             $jifen_sl = $credit1/$jifen['money_limit'];
             $jifen_dk = round($jifen_sl*$jifen['minus'],2);
         }else{
+            echo 3;
             $jifen_dk=0;
         }
         //$totalprice = $totalprice-$jifen_dk;
         //var_dump($totalprice);exit();
     }else{
+        echo 1;
         $jifen_dk=0;
     }
 }else{
+    echo 2;
     $jifen_dk = 0;
 }
+//p($jifen_dk);die;
 
 //var_dump($couponlist);
 //var_dump($_GPC['selectcoupon']);
