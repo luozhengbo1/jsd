@@ -334,11 +334,15 @@ if(!empty($jifen)){
     $member_jifen = pdo_fetch("SELECT * FROM".tablename('mc_members')." where uid =:uid",array(':uid'=>$user['uid']));
     $credit1 = $member_jifen['credit1'];//积分
     if($credit1>=$jifen['money_limit'] && $jifen['money_limit']  ){
-        $jifen_sl = $credit1/$jifen['money_limit'];
-        $jifen_dk = round($jifen_sl*$jifen['minus'],2);
-        //如果积分抵扣大于订单金额将对应的积分抵扣
-        if($totalprice<$jifen_dk ){
-            $jifen_dk =  $totalprice;
+        if($totalprice >=$jifen['minus'] && $jifen['minus'] ){
+            $jifen_sl = $credit1/$jifen['money_limit'];
+            $jifen_dk = round($jifen_sl*$jifen['minus'],2);
+            //如果积分抵扣大于订单金额将对应的积分抵扣
+            if($totalprice<$jifen_dk ){
+                $jifen_dk =  $totalprice;
+            }
+        }else{
+            $jifen_dk=0;
         }
         $updatejifen_dk = $jifen_dk;
         $totalprice = $totalprice-$jifen_dk;
