@@ -471,7 +471,7 @@
                             {/if}
                             {if $dispatchprice>0 && $mode==2 && $psnum != 2}
 								{if $store['freeprice']>0}
-									{if  bccomp($totalprice,$store['freeprice'],2)>=0}
+									{if  bccomp($totalprice,$store['freeprice'],2)<=0}
 										<div>
 										配送费用{if $store['freeprice']!=0.00}(<font color="#f00">满{$store['freeprice']}免配送费</font>){/if}
 											<em>￥{$dispatchprice}</em>
