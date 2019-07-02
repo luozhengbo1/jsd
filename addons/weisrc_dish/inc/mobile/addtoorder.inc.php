@@ -345,13 +345,9 @@ if(!empty($jifen)){
             $jifen_dk=0;
         }
         $totalprice = $totalprice-$jifen_dk;
-        $updatejifen_dk = $member_jifen['credit1']-round($jifen_dk*$jifen['money_limit']/$jifen['minus'] ,2);
-        p($member_jifen['credit1']);
-        p(round($jifen_dk*$jifen['money_limit']/$jifen['minus'] ,2));
-        p($updatejifen_dk);
+        $updatejifen_dk1 = $member_jifen['credit1']-round($jifen_dk*$jifen['money_limit']/$jifen['minus'] ,2);
         //将用户积分减少啊
-        pdo_update('mc_members',array('credit1'=>$updatejifen_dk),array('uid'=>$user['uid']));
-        die;
+        pdo_update('mc_members',array('credit1'=>$updatejifen_dk1),array('uid'=>$user['uid']));
         //var_dump($totalprice);exit();
     }
 }
@@ -600,7 +596,7 @@ $this->addOrderLog($orderid, $touser, 1, 1, 1);
     $result['orderid'] = $orderid;
     $result['code'] = $this->msg_status_success;
     $result['msg'] = '操作成功';
-    message($result, '', 'ajax');
+message($result, '', 'ajax');
 //}
 
 
