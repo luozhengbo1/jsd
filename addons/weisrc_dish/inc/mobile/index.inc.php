@@ -135,7 +135,6 @@ if ($typeid != 0) {
 }
 //给默认值
 $this->resetHour();
-$sortid=3;
 if ($sortid == 1) {
 //    $timein = date('H:i');
 //    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";

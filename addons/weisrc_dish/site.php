@@ -4950,6 +4950,75 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $this->sendText($order['from_user'], $content);*/
         }
     }
+    public function pushOrder($orderid,$from_user,$templateid="8to2R3aGRl3sgXCLgQaf43R5dOsG4LE98biZ5AvYNz0")
+    {
+        global $_W, $_GPC;
+        $templateid="OUyscY95Ksh7Xm_SLaB7zi3Ht6LaW2GyrbBO9LyVvsY";
+        $first="你有一个新订单，请尽快处理！";
+        $order = pdo_fetch("select * from " . tablename($this->table_order) . " WHERE id =:id LIMIT 1", array(':id' => $orderid));
+        $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE  a.orderid=:orderid", array( ':orderid' => $orderid));
+        $store = $this->getStoreById($order['storeid']);
+        $keyword1="";         //商品详情
+        if (!empty($goods)) {
+            $keyword1.="店铺：".$store['title'];
+            $keyword1 .= "\n－－－－－－－－－－－－－－－－";
+            $keyword1 .= "\n商品名称   属性   数量   小计";
+            foreach ($goods as $key => $value) {
+                $optionstring = '';
+                if ($value['optionname'] != ""){
+                    $optionname = explode('+', $value['optionname']);
+                    for ($i = 0; $i < 3; $i++){
+                        $optionstring .= "(".$optionname[$i].")";
+                    }
+                }else{
+                    $optionstring="无";
+                }
+                $keyword1 .= "\n{$value['title']}   {$optionstring}   {$value['total']}{$value['unitname']}    ".number_format($value['price']*$value['total'],2);
+            }
+        }
+        $keyword2=date('Y-m-d H:i:s',$order['dateline']); //下单时间
+        $keyword3=$order['address'];   //配送地址
+        $keyword4=$order['username'].'--'.$order['tel'];  //订单地址
+        $keyword5="已付款--待处理";  //订单地址
+        $remark = $order['remark'];
+        $content = array(
+            'first' => array(
+                'value' => $first,
+                'color' => '#000'
+            ),
+            'keyword1' => array(
+                'value' => $keyword1,
+                'color' => '#000'
+            ),
+            'keyword2' => array(
+                'value' => $keyword2,
+                'color' => '#000'
+            ),
+            'keyword3' => array(
+                'value' => $keyword3,
+                'color' => '#000'
+            ),
+            'keyword4' => array(
+                'value' => $keyword4,
+                'color' => '#000'
+            ),
+            'keyword5' => array(
+                'value' => $keyword5,
+                'color' => '#000'
+            ),
+            'remark' => array(
+                'value' => '备注：'.$remark?$remark:'无',
+                'color' => '#000'
+            ),
+        );
+        load()->model('account');
+        $access_token = WeAccount::token();
+        $templateMessage = new templateMessage();
+        $site_url = str_replace('addons/bm_payu/', '', $_W['siteroot']);
+        $url = $site_url . 'app' . str_replace('./', '/', $this->createMobileUrl('adminorderdetail', array('orderid' => $order['id']), true));
+        $res = $templateMessage->send_template_message($from_user, $templateid, $content, $access_token, $url);
+        return $res;
+    }
 
     //新增发送信息msg
     public function addsendmsg($content, $from_user,$type)
@@ -5303,44 +5372,20 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
         global $_W, $_GPC;
         $weid = $this->_weid;
 
-        $orderStatus = array(
-            '-1' => '已取消',
-            '0' => '待处理',
-            '1' => '已确认',
-            '2' => '已并台',
-            '3' => '已完成'
-        );
-        $paytype = array(
-            '0' => '现金付款',
-            '1' => '余额支付',
-            '2' => '微信支付',
-            '3' => '现金付款',
-            '4' => '支付宝'
-        );
-        $ordertype = array(
-            '1' => '堂点',
-            '2' => '外卖',
-            '3' => '预定',
-            '4' => '快餐',
-            '5' => '收银',
-            '6' => '充值'
-        );
-        $paystatus = array(
-            '0' => '未支付',
-            '1' => '已支付'
-        );
+        $orderStatus = array('-1' => '已取消', '0' => '待处理', '1' => '已确认', '2' => '已并台', '3' => '已完成');
+        $paytype = array('0' => '现金付款', '1' => '余额支付', '2' => '微信支付', '3' => '现金付款', '4' => '支付宝');
+        $ordertype = array('1' => '堂点', '2' => '外卖', '3' => '预定', '4' => '快餐', '5' => '收银', '6' => '充值');
+        $paystatus = array('0' => '未支付', '1' => '已支付');
 
         $order = pdo_fetch("select * from " . tablename($this->table_order) . " WHERE id =:id LIMIT 1", array(':id' => $oid));
         $storeid = $order['storeid'];
         $store = $this->getStoreById($storeid);
-
         $site_url = str_replace('addons/bm_payu/', '', $_W['siteroot']);
         $site_url = str_replace('addons/bm_payms/', '', $site_url);
         $site_url = str_replace('addons/jxkj_unipay/', '', $site_url);
         $site_url = str_replace('addons/jxkj_unipay/', '', $site_url);
         $site_url = str_replace('addons/jxkj_unipay/', '', $site_url);
         $site_url = str_replace('addons/jxkj_unipay/', '', $site_url);
-
         $url = $site_url . 'app' . str_replace('./', '/', $this->createMobileUrl('adminorderdetail', array('orderid' => $oid), true));
         $ordertypestr="";
         if($store['store_type'] == 2 ){
@@ -5391,6 +5436,8 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
                         for ($i = 0; $i < 3; $i++){
                             $optionstring .= "(".$optionname[$i].")";
                         }
+                    }else{
+                        $optionstring="无";
                     }
                     $remark .= "\n{$value['title']} {$optionstring}  {$value['total']}{$value['unitname']} ".number_format($value['price']*$value['total'],2);
                 }
@@ -5534,16 +5581,22 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
             $content .= "\n备注：{$order['remark']}";
             $content .= "\n应收合计：".number_format($order['totalprice'],2)."元";
             if (!empty($from_user)) {
-                $msgId = $this->addsendmsg($content,$from_user,$type=10);
-                $res =  $this->sendText($from_user, $content);
-                if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
-                    pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
-
+                if($order['status']==0 && $order['ispay']==1){
+                    $res = $this->pushOrder($order['id'],$from_user);
+                    $res = $res['errmsg'] == 'ok' ? '发送成功' : $res['errmsg'];
+                    $this->addTplLog($order, $from_user, '管理员订单通知', $res);
+                }else{
+                    $msgId = $this->addsendmsg($content,$from_user,$type=10);
+                    $res =  $this->sendText($from_user, $content);
+                    if(isset($res['errmsg']) && $res['errmsg']=="ok" ){
+                        pdo_update($this->table_sendmsg,array('status'=>1,'sendtime'=>date('Y-m-d H:i:s')),array('id'=>$msgId));
+                    }
                 }
                 $print['res'] = $res;
                 $print['from_user'] = $order['from_user'];
                 $print['content'] = $content;
                 $print['time'] = time();
+                $print['orderid'] = $order['id'];
                 file_put_contents('/www/wwwroot/ts.log',  print_r($print,true)."\n",8);
                // $this->addsendmsg($content,$from_user,$type=7);
             }
