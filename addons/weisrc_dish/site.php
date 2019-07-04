@@ -232,12 +232,24 @@ class weisrc_dishModuleSite extends Core
           $config['url'] = 'http://newopen.imdada.cn/api/order/addOrder';
           $obj2 = new DadaOpenapi($config);
           $reqStatus2 = $obj2->makeRequest($data2);
-            $reqStatus2['data'] = $data2;
-            $reqStatus2['date'] = date('Y-m-d H:i:s');
+          $reqStatus2['data'] = $data2;
+          $reqStatus2['date'] = date('Y-m-d H:i:s');
+          $reqStatus2['res'] = $obj2->getResult();
+          $reqStatus2['code'] = $obj2->getCode();
 //          p($reqStatus2);
 //            print_r($obj2->getResult());
 //            die;
-        file_put_contents('/www/wwwroot/dada.log', $res = print_r($reqStatus2,true)."\n2222222",8);
+        if( $data2['shop_no'] && $config['source_id'] ){ //传给达达的订单
+            $insertDadaOrder=[];
+            $insertDadaOrder['order_info'] = json_encode($order);
+            $insertDadaOrder['createtime'] =  $reqStatus2['date'];
+            $insertDadaOrder['dada_order_info'] =  json_encode($data2);
+            $insertDadaOrder['res'] =  json_encode($reqStatus2['res']);
+            $insertDadaOrder['odersn'] = $order['ordersn'];
+            $insertDadaOrder['status'] =  ($reqStatus2['code'] ==0)?1:0;
+            pdo_insert('weisrc_dish_dada_order',$insertDadaOrder);
+        }
+        file_put_contents('/www/wwwroot/dada.log', $res = print_r($reqStatus2,true)."\n",8);
         return 'success';
 //        if (!$reqStatus2) {
 //              //接口请求正常，判断接口返回的结果，自定义业务操作
