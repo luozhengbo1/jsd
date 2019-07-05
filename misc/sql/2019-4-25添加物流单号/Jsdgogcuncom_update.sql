@@ -49,17 +49,19 @@ alter table `ims_weisrc_dish_fans` modify from_user varchar(80)  not null ;
 alter table `ims_mc_credits_record` add  `type` tinyint(1) default 1  COMMENT '1加0减少' ;
 
 
----0702后
+---0702后  已更
 CREATE TABLE `ims_weisrc_dish_dada_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '达达订单表监控',
   `order_info` text COLLATE utf8mb4_unicode_ci COMMENT '订单数据',
   `createtime` datetime DEFAULT NULL COMMENT '创建时间',
   `updatetime` datetime DEFAULT NULL COMMENT '更新时间',
-  `status` tinyint(5) DEFAULT '0' COMMENT '订单状态',
+  `status` tinyint(5) DEFAULT '0' COMMENT '订单状态012--完成 ',
   `dada_order_info` text COLLATE utf8mb4_unicode_ci COMMENT '达达订单数据',
   `res` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '达达返回的数据',
-  `odersn` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方订单',
+  `ordersn` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方订单',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+alter table `ims_weisrc_dish_dada_order` add  `order_status` tinyint(5)   COMMENT '达达传送的订单状态' ;
 
 

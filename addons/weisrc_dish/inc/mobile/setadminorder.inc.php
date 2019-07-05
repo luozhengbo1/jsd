@@ -16,6 +16,7 @@ $orderstatus = array(
     'updateprice' => 4,
     'print' => 5,
     'refundorder'=>6,
+    'reAddorder'=>7,
 );
 
 if (empty($orderstatus[$status])) {
@@ -262,7 +263,9 @@ if ($orderstatus[$status] == 2) { //支付
         message('订单状态不对,只有取消单才可以退款');
     }
 
-    }
+}else if($orderstatus[$status] == 7){ //订单重新新发送达达
+    $this->doDada($weid,$id,$order['storeid']);
+}
 if (!empty($paylog) && $orderstatus[$status] != -1) {
     pdo_update('core_paylog', array('fee' => $totalprice), array('plid' => $paylog['plid']));
 }

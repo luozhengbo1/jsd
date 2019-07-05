@@ -10,8 +10,8 @@ class Test{
 //            'database'=>'jsdgogcun',//线上
             'port'=>'3306',
         );
-        private  $token;
-        private $conn;
+        public  $token;
+        public $conn;
         private $appid = "wx0fd57bd3a7fc8709";
 //        private $appid = "wx948178e3ae34071a";
         private $appsecret = "155b63989772784550b867c8a96d23a4";

@@ -119,6 +119,12 @@ if ($order['couponid'] != 0) {
 if ($order['dining_mode'] == 2) {
     $deliveryuser = pdo_fetch("SELECT * FROM " . tablename($this->table_account) . " where id=:id LIMIT 1", array(':id' => $order['delivery_id']));
 }
+if($_GPC['flag']==1){ //查询状态
+    $dadaOrder = pdo_fetch("SELECT * FROM " . tablename('weisrc_dish_dada_order')." where ordersn=:ordersn",array(':ordersn'=>$order['ordersn']) );
+    if($dadaOrder['status']!=2){
+        $dadaShow =  1;
+    }
+}
 
 //打印数量
 $printOrderCount = pdo_fetchcolumn('SELECT COUNT(1) FROM ' . tablename($this->table_print_order) . " WHERE

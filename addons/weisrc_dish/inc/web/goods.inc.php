@@ -156,7 +156,7 @@ if ($operation == 'post') {
                 message("打包费格式不对");
             }
         }
-        if($data['marketprice']<0 || empty($data['marketprice']) ){
+        if($data['marketprice']<0  ){
             message("价格格式不对");
         }
         //今日库存小于今日销量判断

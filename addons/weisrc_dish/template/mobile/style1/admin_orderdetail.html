@@ -100,6 +100,9 @@
         {if $order['ispay']==2 && $order['status']==-1}
         <span class="button border-green btnan" onclick="refundorder()">退款</span>
         {/if}
+        {if $dadaShow==1}
+        <span class="button border-green btnan" onclick="reAddOrder()">订单重发到达达</span>
+        {/if}
         <br/>
         <span class="button border-orange btnan" onclick="print()">前台打印</span>
         <span class="button border-orange btnan" onclick="print2()">后厨打印</span>
@@ -511,7 +514,6 @@
             window.location.href = url;
         }
     }
-
     function refundorder() {
         if (confirm("确认退款吗?")) {
             var url =
@@ -530,6 +532,14 @@
     function print2() {
         if (confirm("确认打印吗?")) {
             var url = "{php echo $this->createMobileUrl('setadminorder', array('orderid' => $order['id'], 'status' => 'print', 'position_type' => 2), true)}";
+            window.location.href = url;
+        }
+    }
+    //订单重新发送到达达
+    function reAddorder() {
+        if (confirm("确认重新配送吗?")) {
+            var url =
+                "{php echo $this->createMobileUrl('setadminorder', array('orderid' => $order['id'], 'status' => 'reAddorder'), true)}";
             window.location.href = url;
         }
     }

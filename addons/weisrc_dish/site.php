@@ -245,7 +245,7 @@ class weisrc_dishModuleSite extends Core
             $insertDadaOrder['createtime'] =  $reqStatus2['date'];
             $insertDadaOrder['dada_order_info'] =  json_encode($data2);
             $insertDadaOrder['res'] =  json_encode($reqStatus2['res']);
-            $insertDadaOrder['odersn'] = $order['ordersn'];
+            $insertDadaOrder['ordersn'] = $order['ordersn'];
             $insertDadaOrder['status'] =  ($reqStatus2['code'] ==0)?1:0;
             pdo_insert('weisrc_dish_dada_order',$insertDadaOrder);
         }
@@ -4965,7 +4965,7 @@ givetime<:givetime", array(':weid' => $weid, ':from_user' => $from_user, ':givet
     public function pushOrder($orderid,$from_user,$templateid="8to2R3aGRl3sgXCLgQaf43R5dOsG4LE98biZ5AvYNz0")
     {
         global $_W, $_GPC;
-        $templateid="OUyscY95Ksh7Xm_SLaB7zi3Ht6LaW2GyrbBO9LyVvsY"; //线下
+       // $templateid="OUyscY95Ksh7Xm_SLaB7zi3Ht6LaW2GyrbBO9LyVvsY"; //线下
         $first="你有一个新订单，请尽快处理！";
         $order = pdo_fetch("select * from " . tablename($this->table_order) . " WHERE id =:id LIMIT 1", array(':id' => $orderid));
         $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM " . tablename($this->table_order_goods) . " as a left join  " . tablename($this->table_goods) . " as b on a.goodsid=b.id WHERE  a.orderid=:orderid", array( ':orderid' => $orderid));

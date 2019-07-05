@@ -18,13 +18,17 @@ $pindex = max(1, intval($_GPC['page']));
 $psize = 15;
 $where = "WHERE a.weid = '{$weid}' and a.couponid = {$couponid}";
 
-$list = pdo_fetchall("SELECT a.*,b.nickname as nickname,b.headimgurl  FROM " . tablename($this->table_sncode) . " a INNER JOIN " .
+$list = pdo_fetchall("SELECT a.*,b.nickname as nickname,b.headimgurl  FROM " . tablename($this->table_sncode) . " a left JOIN " .
     tablename
     ($this->table_fans) . " b ON a.from_user=b.from_user {$where} order by a.id
  desc LIMIT " . ($pindex - 1) * $psize . ",{$psize}");
-
+//echo "SELECT a.*,b.nickname as nickname,b.headimgurl  FROM " . tablename($this->table_sncode) . " a INNER JOIN " .
+//    tablename
+//    ($this->table_fans) . " b ON a.from_user=b.from_user {$where} order by a.id
+// desc LIMIT " . ($pindex - 1) * $psize . ",{$psize}";die;
 if (!empty($list)) {
-    $total = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_sncode) . " a INNER JOIN " . tablename($this->table_fans) . " b ON a.from_user=b.from_user {$where} order by a.id desc");
+
+    $total = count($list);
     $pager = pagination($total, $pindex, $psize);
 }
 include $this->template('web/sncodelist');
