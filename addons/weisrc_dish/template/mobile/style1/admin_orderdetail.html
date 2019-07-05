@@ -537,7 +537,7 @@
     }
     //订单重新发送到达达
     function reAddOrder() {
-        if (confirm("确认重新配送吗?")) {
+        if (confirm("确认重新配送吗?") ) {
             var url =
                 "{php echo $this->createMobileUrl('setadminorder', array('orderid' => $order['id'], 'status' => 'reAddorder'), true)}";
             window.location.href = url;
