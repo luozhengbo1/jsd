@@ -8140,12 +8140,12 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
                 $title[$k] = iconv("UTF-8", "GB2312", $v);
             }
             $title = implode("\t", $title);
-            echo "$title\n";
+            echo "'{$title}'\n";
         }
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 foreach ($val as $ck => $cv) {
-                    $data[$key][$ck] = iconv("UTF-8", "GB2312", $cv);
+                    $data[$key][$ck] = iconv("UTF-8", "GBK", $cv);
                 }
                 $data[$key] = implode("\t", $data[$key]);
             }
