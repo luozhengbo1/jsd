@@ -72,7 +72,8 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">留言内容</label>
                     <div class="col-sm-9">
                         <p class="form-control-static">
-                            <textarea style="height:200px;" class="form-control richtext" name="content" cols="70" disabled="disabled">{$item['content']}</textarea>
+                            <input type="hidden" name="content" value="{$item['content']}" />
+                            <textarea style="height:200px;" class="form-control richtext" name="read_content" cols="70" disabled="disabled">{$item['content']}</textarea>
                         </p>
                     </div>
                 </div>
