@@ -30,13 +30,14 @@ if ($mode == 1) {
     $url = $host . 'app/' . $this->createMobileUrl($method, array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid, 'append' => $append, 'agentid' => $agentid), true);
 } else {
     $authurl = $host . 'app/' . $this->createMobileUrl($method, array('storeid' => $storeid, 'mode' => $mode, 'agentid' => $agentid), true) . '&authkey=1';
-    $url = $host . 'app/' . $this->createMobileUrl($method, array('storeid' => $storeid, 'mode' => $mode, 'agentid' => $agentid), true);
+    $url = $host . 'app/' . trim( $this->createMobileUrl($method, array('storeid' => $storeid, 'mode' => $mode, 'agentid' => $agentid), true),'./');
 }
-if (isset($_COOKIE[$this->_auth2_openid])) {
-    $from_user = $_COOKIE[$this->_auth2_openid];
-    $nickname = $_COOKIE[$this->_auth2_nickname];
-    $headimgurl = $_COOKIE[$this->_auth2_headimgurl];
-} else {
+//var_dump(isset($_COOKIE[$this->_auth2_openid]));die;
+//if (isset($_COOKIE[$this->_auth2_openid])) {
+//    $from_user = $_COOKIE[$this->_auth2_openid];
+//    $nickname = $_COOKIE[$this->_auth2_nickname];
+//    $headimgurl = $_COOKIE[$this->_auth2_headimgurl];
+//} else {
     if (isset($_GPC['code'])) {
         $userinfo = $this->oauth2($authurl);
         if (!empty($userinfo)) {
@@ -51,7 +52,7 @@ if (isset($_COOKIE[$this->_auth2_openid])) {
             $this->getCode($url);
         }
     }
-}
+//}
 
 $fans = $this->getFansByOpenid($from_user);
 if ($agentid != 0) {
@@ -72,7 +73,6 @@ if ($agentid != 0) {
         }
     }
 }
-
 if ($this->_accountlevel == 4) {
     if (empty($fans) && !empty($nickname)) {
         $insert = array(

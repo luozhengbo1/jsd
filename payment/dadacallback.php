@@ -124,7 +124,15 @@ class Dadacallback{
         if($data['order_status']==1000 ||$data['order_status']==7 || $data['order_status']==5 ){ //异常和过期进行从新下单处理。
             switch ($data['order_status']){
                 case 5:
-                    $msg = "您好，你的订单配送已被达达取消，是否重新发送订单到达达。";
+                    if($data['cancel_from']==1){
+                        $msg = "您好，你的订单配送已被:达达配送员取消，是否重新发送订单到达达。";
+                    }else if($data['cancel_from']==2){
+                        $msg = "您好，你的订单配送已被:商家主动取消，是否重新发送订单到达达。";
+                    }else if($data['cancel_from']==3){
+                        $msg = "您好，你的订单配送已被:系统或客服取消，是否重新发送订单到达达。";
+                    }else{
+                        $msg = "您好，你的订单配送已被达达取消，是否重新发送订单到达达。";
+                    }
                     break;
                 case 7:
                     $msg = "您好，你的订单30分钟未被骑士接单，系统会自动取消。请重新发单。";

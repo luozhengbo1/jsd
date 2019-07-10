@@ -7140,7 +7140,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
         if (empty($code)) {
             message('code获取失败.');
         }
-        $token = $this->getAuthorizationCode($code);
+        $token = $this->getAuthorizationCode($code,$url);
         $from_user = $token['openid'];
         $userinfo = $this->getUserInfo($from_user);
         $sub = 1;
@@ -7190,14 +7190,17 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
         return $userInfo;
     }
 
-    public function getAuthorizationCode($code)
+    public function getAuthorizationCode($code,$url="")
     {
         $oauth2_code = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->_appid}&secret={$this->_appsecret}&code={$code}&grant_type=authorization_code";
         $content = ihttp_get($oauth2_code);
         $token = @json_decode($content['content'], true);
         if (empty($token) || !is_array($token) || empty($token['access_token']) || empty($token['openid'])) {
             $oauth2_code = $this->createMobileUrl('waprestlist', array(), true);
-            header("location:$oauth2_code");
+            if($url){
+                $oauth2_code = $url;
+                header("location:$oauth2_code");
+            }
 //            echo '微信授权失败, 请稍后重试! 公众平台返回原始数据为: <br />' . $content['meta'] . '<h1>';
             exit;
         }
@@ -7222,6 +7225,7 @@ from_user=:from_user AND optionid=:optionid ", array(':goodsid' => $dishid, ':we
     public function getCode($url)
     {
         global $_W;
+//        p($url);
         $url = urlencode($url);
         $oauth2_code = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_appid}&redirect_uri={$url}&response_type=code&scope=snsapi_base&state=0#wechat_redirect";
 //        $oauth2_code = $url . "&code=1111";
@@ -8137,7 +8141,7 @@ DESC LIMIT 1", array(':tid' => $orderid, ':uniacid' => $this->_weid));
         //导出xls 开始
         if (!empty($title)) {
             foreach ($title as $k => $v) {
-                $title[$k] = iconv("UTF-8", "GB2312", $v);
+                $title[$k] = iconv("UTF-8", "GBK", $v);
             }
             $title = implode("\t", $title);
             echo "'{$title}'\n";
