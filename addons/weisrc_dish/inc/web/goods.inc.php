@@ -128,14 +128,12 @@ if ($operation == 'post') {
 //        if ($_GPC['basic_counts'] == "") {
 //            message('每日库存不能为空！');
 //        }
-        if ($data['startcount'] < 1) {
-            message('起售份数不能小于1!');
-        }
-        if ($_W['role'] == 'operator') {
-            unset($data['credit']);
-        }
         if (empty($data['title'])) {
             message('请输入商品名称！');
+        }
+
+        if ($_W['role'] == 'operator') {
+            unset($data['credit']);
         }
         if (empty($data['pcate'])) {
             message('请选择商品分类！');
@@ -145,19 +143,27 @@ if ($operation == 'post') {
                 message("会员价格格式不对");
             }
         }
-
         if(!empty($data['productprice'])   ){
             if($data['productprice']<0){
                 message("商品原价格式不对");
             }
         }
+        if ($data['startcount'] < 1) {
+            message('起售份数不能小于1!');
+        }
+
         if(!empty($data['packvalue'])   ){
             if($data['packvalue']<0){
                 message("打包费格式不对");
             }
         }
-        if($data['marketprice']<0  ){
+        if($data['marketprice']<0 || !isset($data['marketprice']) ){
             message("价格格式不对");
+        }
+        if(!empty($data['sales'])){
+            if($data['sales']<0){
+                message("总销量格式不对");
+            }
         }
         //今日库存小于今日销量判断
         if ($data['counts'] !=-1 ) {
@@ -171,6 +177,11 @@ if ($operation == 'post') {
         if(!empty($data['credit'])   ){
             if($data['credit']<0){
                 message("积分格式不对");
+            }
+        }
+        if(!empty($data['displayorder'])   ){
+            if($data['displayorder']<0){
+                message("排序格式不对");
             }
         }
         if (!empty($_FILES['thumb']['tmp_name'])) {

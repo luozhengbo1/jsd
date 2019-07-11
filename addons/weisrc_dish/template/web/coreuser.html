@@ -121,19 +121,19 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"><span class="require">*</span>真实姓名</label>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"><span class="require" style="color: red">*</span>真实姓名</label>
                     <div class="col-sm-10 col-lg-9">
                         <input type="text" name="username" class="form-control" value="{$account['username']}" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"><span class="require">*</span>手机号码</label>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"><span class="require"  style="color: red">*</span>手机号码</label>
                     <div class="col-sm-10 col-lg-9">
-                        <input type="text" name="mobile" class="form-control" value="{$account['mobile']}" />
+                        <input type="number" name="mobile" class="form-control" value="{$account['mobile']}" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span>微信昵称</label>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"  style="color: red">*</span>微信昵称</label>
                     <div class="col-sm-9 col-xs-12">
                         <div class="input-group">
                             <input type="text" name="nickname" value="{$fans['nickname']}" class="form-control" readonly="">
@@ -207,7 +207,7 @@
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
                     <div class="col-sm-9">
                         <div class="radio radio-info radio-inline">
-                            <input type="radio" id="status1" name="status" value="2" {if $account['status']==2||empty($account)}checked{/if}>
+                            <input type="radio" id="status1" name="status" value="2" {if $account['status']==2 || empty($account['status'])}checked{/if}>
                             <label for="status1">启用</label>
                         </div>
                         <div class="radio radio-info radio-inline">

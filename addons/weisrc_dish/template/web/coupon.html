@@ -335,16 +335,15 @@
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label">消费金额满</label>
                     <div class="col-sm-9">
-                        <input type="text" name="gmoney" value="{if empty($reply['gmoney'])}0.00{else}{$reply['gmoney']}{/if}" id="gmoney" class="form-control" />
+                        <input type="number" step="0.01" name="gmoney" value="{if empty($reply['gmoney'])}0.00{else}{$reply['gmoney']}{/if}" id="gmoney" class="form-control" />
                         <span class="help-block"><code>消费时使用条件,0表示没限制</code></span>
                     </div>
                 </div>
                 <div class="form-group type2" style="{if empty($reply) || $reply['type']!=2}display: none;{/if}">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label dmoneytip">抵用金额</label>
                     <div class="col-sm-9">
-                        <input type="text" name="dmoney" value="{if empty($reply['dmoney'])}0.00{else}{$reply['dmoney']}{/if}" id="dmoney" class="form-control" />
+                        <input type="number" step="0.01" name="dmoney" value="{if empty($reply['dmoney'])}0.00{else}{$reply['dmoney']}{/if}" id="dmoney" class="form-control" />
                         <span class="help-block"><code>比如下单减10元，则填写：10。</code></span>
-
                     </div>
                 </div>
                 <div class="form-group attr_type2" style="{if $reply['attr_type']==2}display: none;{/if}">

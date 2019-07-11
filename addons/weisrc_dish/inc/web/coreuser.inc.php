@@ -76,14 +76,13 @@ if ($operation == 'display') {
         if ($data["username"] == ''){
             message('请输入真实姓名！', '', 'error');
         }
+        if (!preg_match("/^[1][3,4,5,6,7,8,9][0-9]{9}$/", $data["mobile"])){
+            message('请输入正确手机号码', '', 'error');
+        }
         if ($data["from_user"] == ''){
             message('请输入正确微信昵称！', '', 'error');
         }
-        if ( $data["mobile"]  == ''){
-            if (!preg_match("/^\d{1,12}$/", $data["mobile"])){
-                message('请输入正确手机号码', '', 'error');
-            }
-        }
+
         if (empty($id)) {
             pdo_insert($this->table_account, $data);
         } else {

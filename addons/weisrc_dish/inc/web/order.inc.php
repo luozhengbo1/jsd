@@ -804,7 +804,7 @@ DESC LIMIT 1", array(':tid' => $id, ':uniacid' => $this->_weid));
         }
     }
     $refund_price = floatval($_GPC['refund_price']);
-    if(!$refund_price){
+    if(!$refund_price ||  $refund_price<0){
         message('退款金额不合法', '', 'error');
     }
     $url = $this->createWebUrl('order', array('op' => 'display', 'storeid' => $storeid));

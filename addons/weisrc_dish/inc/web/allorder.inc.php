@@ -642,7 +642,7 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
         message('订单不存在！', '', 'error');
     }
     $refund_price = floatval($_GPC['refund_price']);
-    if(!$refund_price){
+    if(!$refund_price || $refund_price<0 ){
         message('退款金额不合法', '', 'error');
     }
     $store = $this->getStoreById($order['storeid']);

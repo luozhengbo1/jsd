@@ -170,7 +170,7 @@ if ($operation == 'display') {
         }
 
         if($data['gmoney'] < $data['dmoney']){
-            message('立减金额不能大于满减金额', '', 'error');
+            message('抵用金额不能大于满减金额', '', 'error');
         }
         if (!empty($id)) {
             unset($data['dateline']);
