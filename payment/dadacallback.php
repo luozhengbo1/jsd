@@ -22,6 +22,16 @@ class Dadacallback{
     //    private $appsecret = "155b63989772784550b867c8a96d23a4";
     public $appsecret = "d27ce382ae9c288ada246dffb1c99680"; //线上
     public  $cache;
+    public $site_url ;
+    //模板id
+    public $templateArr=[
+        //发送给商户
+        'sendAccept'=>'0mY8g6iE_pRsp9cAifuntjV2BGccUE-Uib8O7zGcbxY',
+        //发给用户
+        'sendUser'=>'d8ZH3rVHaibdAJ8ze5QlGRrDxINdFir9Vp8FMC7zjrg',
+        //重发订单
+        'reAddOrder'=>'IfGmGtgTp28bxuyzGcob8imirDjtrfzLpr7Sd4aN060',
+    ];
     /**
      * 测试推送
      */
@@ -49,11 +59,11 @@ class Dadacallback{
                 $this->conn->query($update);
             }
         }
-
+        $this->site_url = "https://jsd.gogcun.cn/";
     }
 
     //发条推送---重发订单
-    public function reAddOrder($data,$msg,$templateid="IfGmGtgTp28bxuyzGcob8imirDjtrfzLpr7Sd4aN060")
+    public function reAddOrder($data,$msg)
     {
         global $_W;
         //线下
@@ -104,14 +114,11 @@ class Dadacallback{
             ),
 
         );
-        $token = $this->token;
         $templateMessage = new templateMessage();
-        $site_url =dirname($_W['siteroot']);
-        $url =$site_url."/app/index.php?i=2&c=entry&orderid={$order['id']}&do=adminorderdetail&m=weisrc_dish&flag=1";
-        //  https://jsd.gogcun.cn/app/index.php?i=2&c=entry&orderid=115506&do=adminorderdetail&m=weisrc_dish
+        $url =$this->site_url."/app/index.php?i=2&c=entry&orderid={$order['id']}&do=adminorderdetail&m=weisrc_dish&flag=1";
         $list = pdo_fetchall("SELECT id,from_user FROM ims_weisrc_dish_account  WHERE status=2 and  storeid=:storeid   ORDER BY id DESC ",array(":storeid"=>$order['storeid']));
         foreach ($list as $key => $value) {
-            $res = $templateMessage->send_template_message($value['from_user']="o-MVA5mSFt5yp_9GdUM97eaCiNYM", $templateid, $content, $token, $url);
+            $res = $templateMessage->send_template_message($value['from_user'], $this->templateArr['reAddOrder'], $content, $this->token, $url);
         }
     }
 
@@ -119,7 +126,7 @@ class Dadacallback{
     {
         $input = file_get_contents('php://input');
         file_put_contents('/www/wwwroot/dada_order.log',$input."\n",8);
-        //  $input='{"signature":"b619daafcd53b4fd5dcd39ef1a2d2abb","client_id":"283585475778052","order_id":"20190705009927280856","order_status":7,"cancel_reason":"","cancel_from":0,"dm_id":0,"update_time":1562314340}';
+        $input='{"signature":"c22fa8c549511b0ec374a478de15fe63","client_id":"283714882373282","order_id":"20190711077977485107","order_status":5,"cancel_reason":"","cancel_from":0,"dm_id":6184889,"dm_name":"黄昇","dm_mobile":"17785922429","update_time":1562808563}';
         $data = json_decode($input,true);
         if($data['order_status']==1000 ||$data['order_status']==7 || $data['order_status']==5 ){ //异常和过期进行从新下单处理。
             switch ($data['order_status']){
@@ -142,6 +149,10 @@ class Dadacallback{
                     break;
             }
             $this->reAddOrder($data,$msg);
+        }else if($data['order_status']==100){ //骑手到店取货
+            $this->sendUserForDada($data);
+        }else if($data['order_status']==2){
+            $this->sendMerchantForDada($data);
         }else{
             if($data['order_status']==4 ){ //status 1 ,0  发出 。2 完成 order_status=4 完成
                 pdo_update('weisrc_dish_dada_order',array('status'=>2,'order_status'=>4),array('ordersn'=>$data['order_id']));
@@ -171,6 +182,94 @@ class Dadacallback{
 
          4.状态1000：表示因为达达内部服务异常，导致下发订单失败。可以通过“新增订单”来下发订单。
         */
+    }
+
+    /**
+     * 骑手接单
+     */
+    public function sendMerchantForDada($data)
+    {
+
+        $order = pdo_fetch("select id,from_user from ims_weisrc_dish_order WHERE ordersn =:ordersn LIMIT 1", array(':ordersn' => $data['order_id']));
+        $first = "你好，外卖配送员正准备上门取商品";
+        $keyword1 = $data['dm_name'];
+        $keyword2 = $data['dm_mobile'];
+        $keyword3 = date('Y-m-d H:i:s',$data['update_time']);
+        $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM ims_weisrc_dish_order_goods as a left join  ims_weisrc_dish_goods as b on a.goodsid=b.id WHERE  a.orderid=:orderid", array( ':orderid' => $order['id']));
+        $remark="";   //商品详情
+        if (!empty($goods)) {
+            $remark .= "\n商品名称   属性   数量";
+            foreach ($goods as $key => $value) {
+                $optionstring = '';
+                if ($value['optionname'] != ""){
+                    $optionname = explode('+', $value['optionname']);
+                    for ($i = 0; $i < 3; $i++){
+                        $optionstring .= "(".$optionname[$i].")";
+                    }
+                }else{
+                    $optionstring="无";
+                }
+                $remark .= "\n{$value['title']}   {$optionstring}   {$value['total']}{$value['unitname']}";
+            }
+        }
+        $content = array(
+            'first' => array(
+                'value' => $first,
+                'color' => '#000'
+            ),
+            'keyword1' => array(
+                'value' => $keyword1,
+                'color' => '#000'
+            ),
+            'keyword2' => array(
+                'value' => $keyword2,
+                'color' => '#000'
+            ),
+            'keyword3' => array(
+                'value' => $keyword3,
+                'color' => '#000'
+            ),
+            'remark' => array(
+                'value' =>$remark,
+                'color' => '#000'
+            ),
+        );
+        $order = pdo_fetch("select id,from_user from ims_weisrc_dish_order WHERE ordersn =:ordersn LIMIT 1", array(':ordersn' => $data['order_id']));
+        $templateMessage = new templateMessage();
+        $url = $this->site_url."/app/index.php?i=2&c=entry&orderid={$order['id']}&do=adminorderdetail&m=weisrc_dish";
+        $res = $templateMessage->send_template_message($order['from_user'], $this->templateArr['sendAccept'], $content, $this->token, $url);
+    }
+
+    /**
+     * 通知用户骑手配送中
+     */
+    public function sendUserForDada($data)
+    {
+        $first = "您的订单".$data['order_id']."已于".date('Y-m-d H:i:s',$data['update_time'])."送出"; //您的订单123456已于2017-12-22 09:40:21送出
+        $keyword1 = $data['dm_name'];
+        $keyword2 = $data['dm_mobile'];
+        $content = array(
+            'first' => array(
+                'value' => $first,
+                'color' => '#000'
+            ),
+            'keyword1' => array(
+                'value' => $keyword1,
+                'color' => '#000'
+            ),
+            'keyword2' => array(
+                'value' => $keyword2,
+                'color' => '#000'
+            ),
+            'remark' => array(
+                'value' => '请耐心等待',
+                'color' => '#000'
+            ),
+        );
+        $order = pdo_fetch("select id,from_user from ims_weisrc_dish_order WHERE ordersn =:ordersn LIMIT 1", array(':ordersn' => $data['order_id']));
+        $templateMessage = new templateMessage();
+        $url = $this->site_url."/app/index.php?i=2&c=entry&orderid={$order['id']}&do=orderdetail&m=weisrc_dish";
+        $res = $templateMessage->send_template_message($order['from_user'], $this->templateArr['sendUser'], $content, $this->token, $url);
     }
 
 }
