@@ -126,7 +126,7 @@ class Dadacallback{
     {
         $input = file_get_contents('php://input');
         file_put_contents('/www/wwwroot/dada_order.log',$input."\n",8);
-        $input='{"signature":"c22fa8c549511b0ec374a478de15fe63","client_id":"283714882373282","order_id":"20190711077977485107","order_status":5,"cancel_reason":"","cancel_from":0,"dm_id":6184889,"dm_name":"黄昇","dm_mobile":"17785922429","update_time":1562808563}';
+        //$input='{"signature":"c22fa8c549511b0ec374a478de15fe63","client_id":"283714882373282","order_id":"20190711077977485107","order_status":5,"cancel_reason":"","cancel_from":0,"dm_id":6184889,"dm_name":"黄昇","dm_mobile":"17785922429","update_time":1562808563}';
         $data = json_decode($input,true);
         if($data['order_status']==1000 ||$data['order_status']==7 || $data['order_status']==5 ){ //异常和过期进行从新下单处理。
             switch ($data['order_status']){
@@ -195,23 +195,9 @@ class Dadacallback{
         $keyword1 = $data['dm_name'];
         $keyword2 = $data['dm_mobile'];
         $keyword3 = date('Y-m-d H:i:s',$data['update_time']);
-        $goods = pdo_fetchall("SELECT a.*,b.title,b.unitname FROM ims_weisrc_dish_order_goods as a left join  ims_weisrc_dish_goods as b on a.goodsid=b.id WHERE  a.orderid=:orderid", array( ':orderid' => $order['id']));
         $remark="";   //商品详情
-        if (!empty($goods)) {
-            $remark .= "\n商品名称   属性   数量";
-            foreach ($goods as $key => $value) {
-                $optionstring = '';
-                if ($value['optionname'] != ""){
-                    $optionname = explode('+', $value['optionname']);
-                    for ($i = 0; $i < 3; $i++){
-                        $optionstring .= "(".$optionname[$i].")";
-                    }
-                }else{
-                    $optionstring="无";
-                }
-                $remark .= "\n{$value['title']}   {$optionstring}   {$value['total']}{$value['unitname']}";
-            }
-        }
+        $remark .="达达运单号：".$data['client_id'];
+        $remark .="\n外卖订单号：".$data['order_id'];
         $content = array(
             'first' => array(
                 'value' => $first,
