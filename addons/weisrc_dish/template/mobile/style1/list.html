@@ -27,7 +27,19 @@
             z-index: 8998;
 
         }
-
+        .badge  {
+            padding: 3px 7px;
+            font-size: 8px;
+            float: right;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            background-color: #353535;
+            border-radius: 10px;
+        }
         .top-btn2 a {
             line-height: 30px;
             background: rgba(0, 0, 0, .63);
@@ -563,6 +575,9 @@
             {loop $category $item}
             <div class="j-tag tag {if $flag!=true}focus{/if}" {if $flag!=true}style=" margin-top:0px;"{/if}>
             <div class="tag-inner">
+                {if $item['rebate'] < 10}
+                <span class="badge">{$item['rebate']}折</span>
+                {/if}
                 <span class="tag-text"> {$item['name']}</span>
             </div>
         </div>
@@ -587,7 +602,7 @@
         {/if}
 
         {loop $category $item}
-        <h3 class="foodlist-label" style="border-left: 2px solid #ffcd65;">{$item['name']} </h3>
+        <h3 class="foodlist-label" style="border-left: 2px solid #ffcd65;">{$item['name']} <span style="font-size: 15px; color: red">{if $item['rebate'] < 10}{$item['rebate']}折优惠 {/if}</span></h3>
         <ul>
             {loop $goodslist[$item['id']]['goods'] $goods}
             <li class="j-fooditem fooditem">

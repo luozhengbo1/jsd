@@ -39,6 +39,7 @@ if ($operation == 'display') {
     } else {
         $category = array(
             'displayorder' => 0,
+            'rebate' => 10,
             'is_meal' => 1,
             'is_delivery' => 1,
             'is_snack' => 1,
@@ -57,7 +58,12 @@ if ($operation == 'display') {
         if (empty($_GPC['catename'])) {
             message('抱歉，请输入分类名称！');
         }
-
+        if ($_GPC['rebate'] < 0){
+            message('输入折扣比率不能小于0！');
+        }
+        if ($_GPC['rebate'] > 10){
+            message('输入折扣比率不能大于10！');
+        }
         $data = array(
             'weid' => $weid,
             'storeid' => $_GPC['storeid'],
@@ -88,6 +94,12 @@ if ($operation == 'display') {
 } elseif ($operation == 'delete') {
     $id = intval($_GPC['id']);
     $category = pdo_fetch("SELECT id, parentid FROM " . tablename($this->table_category) . " WHERE id = '$id'");
+    $goods = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid = '{$weid}' AND  storeid={$storeid} AND status = '1'
+AND deleted=0 AND pcate=:pcate ORDER BY displayorder DESC, subcount DESC, id DESC ", array(':pcate' => $category['id']));
+
+    if (!$goods) {
+        message('删除失败！'.$category['name']."存在商品！", $this->createWebUrl('category', array('op' => 'display', 'storeid' => $storeid)), 'warn');
+    }
     if (empty($category)) {
         message('抱歉，分类不存在或是已经被删除！', $this->createWebUrl('category', array('op' => 'display', 'storeid' => $storeid)), 'error');
     }
