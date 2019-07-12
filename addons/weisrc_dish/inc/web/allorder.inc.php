@@ -173,6 +173,9 @@ if ($operation == 'display') {
         pdo_update($this->table_order, array('counts' => $counts, 'tea_money' => $teavalue, 'totalprice' => $totalprice), array('id' => $id));
     }
     if (!empty($_GPC['confirmprice'])) { //改价格
+        if(!floatval($_GPC['updateprice'])){
+            message('价格不合法');
+        }
         pdo_update($this->table_order, array('totalprice' => $_GPC['updateprice']), array('id' => $id));
         $paylog = pdo_fetch("SELECT * FROM " . tablename('core_paylog') . " WHERE tid=:tid AND uniacid=:uniacid AND status=0 AND module='weisrc_dish'
 ORDER BY plid

@@ -319,28 +319,36 @@ if ($operation == 'setting') {
         if (istrlen($data['title']) > 30) {
             message('门店名称不能多于30个字。', '', 'error');
         }
-        if (istrlen($data['tel']) == 0) {
-//                    message('没有输入联系电话.', '', 'error');
+        if (!empty($data['tel']) ) {
+           if (!preg_match("/^\d{1,12}$/", $data['tel'])){
+                message('请输入有效的电话', '', 'error');
+            }
+        }
+        if (!empty($data['qq']) ) {
+            if (!preg_match("/^[1-9]\d{4,13}$/", $data['qq'])){
+                message('请输入有效的qq号码', '', 'error');
+            }
         }
        if($data['store_type'] == 1 ){
             if (istrlen($data['tel']) == 0){
-                message('请完善信息', '', 'error');
+                message('请完善信息电话', '', 'error');
             }
-            if (!preg_match("/^\d{1,12}$/", $data['tel'])){
-                message('请输入有效的号码', '', 'error');
-            }
+        }
+        if( !empty($data['consume']) && $data['consume']<0 ){
+            message('人均消费不合法');
         }
         if($data['store_type'] != 1 ){
             //不是外卖店关闭距离配送
             $data["is_delivery_distance"] = 0;
         }
 
-
         if (istrlen($data['address']) == 0) {
             //message('请输入地址。', '', 'error');
         }
-        if($data['freeprice']<0 ){
-            message('消费满多少元免配送费不合法');
+        if($data['freeprice']!="-1"){
+            if($data['freeprice']<0 ){
+                message('消费满多少元免配送费不合法');
+            }
         }
         if($data['sendingprice']<0 ){
             message('外卖起送价格不合法');

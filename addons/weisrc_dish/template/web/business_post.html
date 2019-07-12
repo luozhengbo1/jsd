@@ -10,7 +10,7 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">最低提现金额</label>
                 <div class="col-sm-6 col-md-8 col-xs-12">
                     <div class="input-group ">
-                        <input type="text" name="getcash_price" class="form-control" value="{if $store['is_default_rate']==1}{$setting['getcash_price']}{else}{$store['getcash_price']}{/if}">
+                        <input type="number" step="1" name="getcash_price" class="form-control" value="{if $store['is_default_rate']==1}{$setting['getcash_price']}{else}{$store['getcash_price']}{/if}">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">元</button>
 							</span>
@@ -22,7 +22,7 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">提现费率</label>
                 <div class="col-sm-6 col-md-8 col-xs-12">
                     <div class="input-group ">
-                        <input type="text" name="fee_rate" class="form-control" value="{if $store['is_default_rate']==1}{$setting['fee_rate']}{else}{$store['fee_rate']}{/if}">
+                        <input type="number" step="0.01" name="fee_rate" class="form-control" value="{if $store['is_default_rate']==1}{$setting['fee_rate']}{else}{$store['fee_rate']}{/if}">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">%</button>
 							</span>
@@ -39,7 +39,7 @@
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">最低</button>
 							</span>
-                        <input type="text" name="fee_min" class="form-control"  value="{if $store['is_default_rate']==1}{$setting['fee_min']}{else}{$store['fee_min']}{/if}">
+                        <input type="number" step="0.01" name="fee_min" class="form-control"  value="{if $store['is_default_rate']==1}{$setting['fee_min']}{else}{$store['fee_min']}{/if}">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">元</button>
 							</span>
@@ -48,7 +48,7 @@
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">最高</button>
 							</span>
-                        <input type="text" name="fee_max" class="form-control" value="{if $store['is_default_rate']==1}{$setting['fee_max']}{else}{$store['fee_max']}{/if}">
+                        <input type="number"  step="0.01" name="fee_max" class="form-control" value="{if $store['is_default_rate']==1}{$setting['fee_max']}{else}{$store['fee_max']}{/if}">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">元</button>
 							</span>
