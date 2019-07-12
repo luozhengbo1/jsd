@@ -492,19 +492,19 @@
                     <section class="line">
                         <div class="moneylimit">
                             {if $item['is_delivery']==1}
-                            {if !empty($item['sendingprice'])}
-                            <span>¥{$item['sendingprice']}起送</span>
-                            {/if}
-                            {if $item['dispatchprice']>0}
-                            <span>配送费约¥{$item['dispatchprice']}</span>
+                                {if !empty($item['sendingprice'])}
+                                <span>¥{$item['sendingprice']}起送</span>
+                                {/if}
+                                {if $item['dispatchprice']>0}
+                                    <span>配送费约¥{$item['dispatchprice']}</span>
+                                {else}
+                                    <span>免配送费</span>
+                                {/if}
+                                {if $item['freeprice']!=0.00}
+                                    <span>满{php echo intval($item['freeprice'])}免配送费</span>
+                                {/if}
                             {else}
-                            <span>免配送费</span>
-                            {/if}
-                            {if $item['freeprice']!=0.00}
-                            <span>满{php echo intval($item['freeprice'])}免配送费</span>
-                            {/if}
-                            {else}
-                            <span>{$item['address']}</span>
+                                <span>{$item['address']}</span>
                             {/if}
                         </div>
                         <div class="timedistance-wrap">

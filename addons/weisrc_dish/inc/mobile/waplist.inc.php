@@ -33,11 +33,11 @@ if ($mode == 1) {
     $url = $host . 'app/' . trim( $this->createMobileUrl($method, array('storeid' => $storeid, 'mode' => $mode, 'agentid' => $agentid), true),'./');
 }
 //var_dump(isset($_COOKIE[$this->_auth2_openid]));die;
-//if (isset($_COOKIE[$this->_auth2_openid])) {
-//    $from_user = $_COOKIE[$this->_auth2_openid];
-//    $nickname = $_COOKIE[$this->_auth2_nickname];
-//    $headimgurl = $_COOKIE[$this->_auth2_headimgurl];
-//} else {
+if (isset($_COOKIE[$this->_auth2_openid])) {
+    $from_user = $_COOKIE[$this->_auth2_openid];
+    $nickname = $_COOKIE[$this->_auth2_nickname];
+    $headimgurl = $_COOKIE[$this->_auth2_headimgurl];
+} else {
     if (isset($_GPC['code'])) {
         $userinfo = $this->oauth2($authurl);
         if (!empty($userinfo)) {
@@ -52,7 +52,7 @@ if ($mode == 1) {
             $this->getCode($url);
         }
     }
-//}
+}
 
 $fans = $this->getFansByOpenid($from_user);
 if ($agentid != 0) {
@@ -343,4 +343,5 @@ $follow_image = !empty($setting['follow_logo']) ? tomedia($setting['follow_logo'
 $tipqrcode = tomedia($setting['tipqrcode']);
 $tipbtn = intval($setting['tipbtn']);
 $follow_url = $setting['follow_url'];
+//include $this->template($this->cur_tpl . '/menu');
 include $this->template($this->cur_tpl . '/list');

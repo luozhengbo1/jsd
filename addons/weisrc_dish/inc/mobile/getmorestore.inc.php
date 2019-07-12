@@ -24,12 +24,12 @@ if ($typeid != 0) {
 $pindex = max(1, intval($_GPC['page']));
 $psize = $this->more_store_psize;
 $limit = " LIMIT " . ($pindex - 1) * $psize . ',' . $psize;
-
+$this->resetHour();
 if ($sortid == 1) {
-    $timein = date('H:i');
-    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
+//    $timein = date('H:i');
+//    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
     $list = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere
-} ORDER BY dist, is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+} ORDER BY   is_rest DESC, dist ASC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) {
     $list = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere
 } ORDER BY dist, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));

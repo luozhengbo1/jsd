@@ -970,7 +970,7 @@ a INNER JOIN " . tablename($this->table_goods) . " b ON a.goodsid=b.id WHERE a.o
     }
     $fansickanme = pdo_getcolumn($this->table_fans,array('from_user'=>$order['from_user']),'nickname');
     pdo_update($this->table_order, array('status' => 0,'ispay'=>1), array('id' => $id));
-    $this->addOrderLog($id, "管理员", 2, 1, 12);
+    $this->addOrderLog($id, "admin", 2, 1, 12);
     $this->message("撤销订单成功!", '', 1);
 }
 

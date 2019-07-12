@@ -93,17 +93,17 @@ foreach ($styles as $key => $val) {
 }
 
 if ($sortid == 0) {
-    $sortid = 2;
+    $sortid = 1;
 }
 
 $isposition = 0;
 
 if (!empty($lat) && !empty($lng)) {
     $isposition = 1;
-//    setcookie($this->_lat, $lat, TIMESTAMP + 900);
-//    setcookie($this->_lng, $lng, TIMESTAMP + 900);
-    setcookie($this->_lat, $lat, TIMESTAMP + 15);
-    setcookie($this->_lng, $lng, TIMESTAMP + 15);
+    setcookie($this->_lat, $lat, TIMESTAMP + 900);
+    setcookie($this->_lng, $lng, TIMESTAMP + 900);
+//    setcookie($this->_lat, $lat, TIMESTAMP + 15);
+//    setcookie($this->_lng, $lng, TIMESTAMP + 15);
 } else {
 //    if (isset($_COOKIE[$this->_lat])) {
 //        $isposition = 1;//0的时候才跳转
@@ -138,8 +138,8 @@ $this->resetHour();
 if ($sortid == 1) {
 //    $timein = date('H:i');
 //    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
-    $strwhere .=" and is_rest=1 ";
-    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY  dist,is_rest DESC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+//    $strwhere .=" and is_rest=1 ";
+    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC, dist ASC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) {
     $restlist = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else {
