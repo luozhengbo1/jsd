@@ -397,7 +397,18 @@
                         <div class="line-through" ng-hide="hide_right"></div>
                     </div>
                 </div>
-                <div class="order-state-body ng-binding">已取消</div>
+                {if $order['status']==-1 && $order['ispay']==3 }
+                    <div class="order-state-body ng-binding">已取消</div>
+                {else}
+                    <div class="order-state-body ng-binding">
+                        <button class="service-button red" style="font-size: 1.2em" onclick="reCancelorder()">撤销取消订单</button>
+                    </div>
+                {/if}
+<!--                <a class="list-item ng-scope" >-->
+<!--                    <div class="service-button">-->
+<!--                        <i class="red fa fa-bell"></i> 撤销取消订单-->
+<!--                    </div>-->
+<!--                </a>-->
             </div>
         </div>
         {/if}
@@ -722,7 +733,31 @@
             });
         }
     }
-
+    function reCancelorder() {
+        var url = "{php echo $this->createMobileUrl('reCancelorder', array('id' => $order['id']), true)}";
+        if (confirm("确认撤销取消吗?")) {
+            $.ajax({
+                url: url, type: "post", dataType: "json",
+                timeout: "30000",
+                data: {
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        alert("撤销成功");
+                        location.href="{php echo $this->createMobileUrl('order', array(), true)}";
+                    } else {
+                        alert(data.msg);
+                        location.href="{php echo $this->createMobileUrl('order', array(), true)}";
+                    }
+                },error: function (res,b,c) {
+                    // console.log(res)
+                    // console.log(b)
+                    // console.log(c)
+                    // alert("网络不稳定，请重新尝试!");
+                }
+            });
+        }
+    }
     function updateUrl(url,key){
         var key= (key || 't') +'=';  //默认key是"t",可以传入key自定义
         var reg=new RegExp(key+'\\d+');  //正则：t=1472286066028

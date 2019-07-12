@@ -133,8 +133,9 @@ class Core extends WeModuleSite
         return $module;
     }
 
-    /*
+    /* *
      * @param unknown $fromtype
+     * 走的是這裏
      */
     public function addOrderLog($orderid = 0 , $username, $usertype = 1, $fromtype = 1, $paytype = 1, $oldprice ='', $newprice ='')
     {
@@ -152,6 +153,7 @@ class Core extends WeModuleSite
             '9' => '扫码收货',//消费者
             '10' => '接单配送',//配送员
             '11' => '收款',//配送员
+            '12' => '撤销取消订单',
         );
         $userarr = array('1' => '用户', '2' => '管理员', '3' => '配送员');
             $content = $userarr[$usertype] . $username . $payarr[$paytype];

@@ -20,6 +20,6 @@ displayorder DESC,id DESC", array(':weid' => $weid));
 DESC,id DESC", array(':weid' => $weid));
 }
 if (empty($list) && $searchword != ''){
-    message('没有你要查找的门店信息!', $this->createMobileUrl('search', array()), "warning");
+    message('暂无搜索结果!', $this->createMobileUrl('search', array()), "warning");
 }
 include $this->template($this->cur_tpl . '/search');
