@@ -58,11 +58,16 @@ if ($operation == 'display') {
         if (empty($_GPC['catename'])) {
             message('抱歉，请输入分类名称！');
         }
-        if ($_GPC['rebate'] < 0){
-            message('输入折扣比率不能小于0！');
-        }
-        if ($_GPC['rebate'] > 10){
-            message('输入折扣比率不能大于10！');
+        if ($_GPC['rebate']){
+            if ($_GPC['rebate'] < 0){
+                message('输入折扣比率不能小于0！');
+            }
+            if ($_GPC['rebate'] >= 10){
+                message('输入折扣比率不能大于等于10！');
+            }
+            $rebate = $_GPC['rebate'];
+        }else{
+            $rebate = 10;
         }
         $data = array(
             'weid' => $weid,
@@ -73,7 +78,7 @@ if ($operation == 'display') {
             'is_delivery' => intval($_GPC['is_delivery']),
             'is_snack' => intval($_GPC['is_snack']),
             'is_reservation' => intval($_GPC['is_reservation']),
-            'rebate'=>$_GPC['rebate'],
+            'rebate'=>$rebate,
             'is_discount'=>$_GPC['is_discount'],
             'parentid' => intval($parentid),
         );
@@ -84,7 +89,22 @@ if ($operation == 'display') {
 
         if (!empty($id)) {
             unset($data['parentid']);
+            pdo()->begin();
+            //设置折扣，更新商品价格
+            if ($rebate < 10){
+                //更新商品现价
+                $rebate = $rebate/10;
+                $goods = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE pcate=:pcate", array(':pcate' => $id));
+                foreach($goods as $key => $value) {
+                    if ($value["productprice"] == '') {
+                        $value["productprice"] = $value["marketprice"];
+                    }
+                    $marketprice = $value["productprice"] * $rebate;
+                    pdo_query("UPDATE " . tablename($this->table_goods) . " SET `marketprice`= {$marketprice},`productprice` = {$value["productprice"]} WHERE `id`=:id", array(':id' => $value['id']));
+                }
+                }
             pdo_update($this->table_category, $data, array('id' => $id));
+            pdo()->commit();
         } else {
             pdo_insert($this->table_category, $data);
             $id = pdo_insertid();
@@ -96,9 +116,8 @@ if ($operation == 'display') {
     $category = pdo_fetch("SELECT id, parentid FROM " . tablename($this->table_category) . " WHERE id = '$id'");
     $goods = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid = '{$weid}' AND  storeid={$storeid} AND status = '1'
 AND deleted=0 AND pcate=:pcate ORDER BY displayorder DESC, subcount DESC, id DESC ", array(':pcate' => $category['id']));
-
-    if (!$goods) {
-        message('删除失败！'.$category['name']."存在商品！", $this->createWebUrl('category', array('op' => 'display', 'storeid' => $storeid)), 'warn');
+    if ($goods) {
+        message('删除失败！'.$category['name']."存在商品不能删除！", $this->createWebUrl('category', array('op' => 'display', 'storeid' => $storeid)), 'warning');
     }
     if (empty($category)) {
         message('抱歉，分类不存在或是已经被删除！', $this->createWebUrl('category', array('op' => 'display', 'storeid' => $storeid)), 'error');
@@ -108,6 +127,7 @@ AND deleted=0 AND pcate=:pcate ORDER BY displayorder DESC, subcount DESC, id DES
 } elseif ($operation == 'deleteall') {
     $rowcount = 0;
     $notrowcount = 0;
+    pdo()->begin();
     foreach ($_GPC['idArr'] as $k => $id) {
         $id = intval($id);
         if (!empty($id)) {
@@ -116,10 +136,17 @@ AND deleted=0 AND pcate=:pcate ORDER BY displayorder DESC, subcount DESC, id DES
                 $notrowcount++;
                 continue;
             }
+            $goods = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE weid = '{$weid}' AND  storeid={$storeid} AND status = '1'
+AND deleted=0 AND pcate=:pcate ORDER BY displayorder DESC, subcount DESC, id DESC ", array(':pcate' => $category['id']));
+            if ($goods) {
+                pdo()->rollback();
+                $this->message('删除失败！'.$category['name']."存在商品不能删除！",  '', 0);
+            }
             pdo_delete($this->table_category, array('id' => $id, 'weid' => $weid));
             $rowcount++;
         }
     }
+    pdo()->commit();
     $this->message("操作成功！共删除{$rowcount}条数据,{$notrowcount}条数据不能删除!!", '', 0);
 }
 include $this->template('web/category');
