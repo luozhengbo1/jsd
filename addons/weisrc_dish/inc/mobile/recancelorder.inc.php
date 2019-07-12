@@ -37,7 +37,7 @@ if ($id == 0) { //未选队列
         }
     }
     $fansickanme = pdo_getcolumn($this->table_fans,array('from_user'=>$order['from_user']),'nickname');
-    pdo_update($this->table_order, array('status' => 0), array('id' => $id));
+    pdo_update($this->table_order, array('status' => 0,'ispay'=>1), array('id' => $id));
     $this->addOrderLog($id, $fansickanme, 1, 1, 12);
     $this->showMsg('撤销订单成功！');
 }
