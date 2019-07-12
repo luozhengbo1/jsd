@@ -77,7 +77,7 @@ $row = pdo_fetch($sql, array(':acid' => $wechat['account']));
 $wechat['appid'] = $row['key'];
 $wechat['secret'] = $row['secret'];
 //$wechat['openid'] = $payopenid;
-$wechat['openid'] = $_W['openid'];
+$wechat['openid'] = $_W['openid']?$_W['openid']:$payopenid;
 $params = array(
 	'tid' => $log['tid'],
 	'fee' => $log['card_fee'],
