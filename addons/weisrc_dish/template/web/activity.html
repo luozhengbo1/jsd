@@ -18,23 +18,24 @@
                 <input type="hidden" name="op" value="display" />
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 80px;">商品名称</label>
-                    <select class="form-control" id="status"  style="width: 120px;" name="status" autocomplete="off">
-                        <option value="1" {if $_GPC['status']==1}selected{/if}>正常下单</option>
-                        <option value="0"  {if $_GPC['status']==="0"}selected{/if}>禁止下单</option>
+                    <select class="form-control" id="goods_name"  style="width: 200px;" name="goods_name" autocomplete="off">
+                        {loop $goods_name $row}
+                        <option value="{$row['goodsid']}" {if $select_goods == $row['goodsid']} selected="selected"{/if}>{$row['title']}</option>
+                        {/loop}
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="margin-left:100px;width: 80px;">活动状态</label>
-                    <select class="form-control" id="datapage" style="margin-left:10px;width: 120px;" name="datapage" autocomplete="off">
-                        <option value="1" >未开始</option>
-                        <option value="2" >活动中</option>
-                        <option value="3" >已过期</option>
+                    <select class="form-control" id="status" style="margin-left:10px;width: 120px;" name="status" autocomplete="off">
+                        <option value="1" {if $status == 1} selected="selected"{/if}>未开始</option>
+                        <option value="2" {if $status == 2} selected="selected"{/if}>活动中</option>
+                        <option value="3" {if $status == 3} selected="selected"{/if}>已过期</option>
                     </select>
                 </div>
                 <button class="btn btn-success"><i class="fa fa-search"></i> 搜索</button>
             </form>
         </div>
-        <button class="btn btn-success" name="add_activity" style="margin-left: 20px;margin-bottom: 20px" value=""><i class="fa fa-file"></i>新增限购活动</button>
+        <button class="btn btn-success" id="add_activity"  onclick="window.location.href='{php echo $this->createWebUrl("activity", array("op" => "post"))}'" style="margin-left: 20px;margin-bottom: 20px" value=""><i class="fa fa-file"></i>新增限购活动</button>
     </div>
 
     <form action="" method="post" class="form-horizontal form" >
@@ -64,7 +65,7 @@
                            {$item['title']}
                         </td>
                         <td>
-                            {$item['productprice']}
+                            {$item['marketprice']}
                         </td>
                         <td>
                             {$item['activityprice']}
@@ -115,21 +116,33 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>店铺名称</label>
+                        <div class="col-sm-5">
+                            <select style="margin-right:15px;" id = "stores" name="stores" class="form-control" onchange="goods_list(this.value)">
+                                <option value="0">请选择店铺</option>
+                                {loop $storeslist $row}
+                                <option value="{$row['id']}" {if $storeid == $row['id']} selected="selected"{/if}>{$row['title']}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商品名称</label>
                         <div class="col-sm-5">
-                            <input id="myGoods" list="goods" />
-                            <datalist id="goods">
-                                {loop $goodslist $item}
-                                <option id="{$item['id']}"  value="{$item['title']}">
-                                    {/loop}
-                            </datalist>
+                            <select style="margin-right:15px;" id = "goods" name="goods" class="form-control">
+                                <option value="0">请选择商品</option>
+                                {loop $goodslist $row}
+                                <option value="{$row['id']}" {if $row['id'] == $goodsid} selected="selected"{/if}>{$row['title']}</option>
+                                {/loop}
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商品原价</label>
                         <div class="col-sm-3">
-                            <input type="text" name="productprice" class="form-control" value="{if empty($productprice)}0{else}{$productprice}{/if}" />
+                            <input type="text" name="marketprice" disabled="true" class="form-control" value="{if empty($marketprice)}0{else}{$marketprice}{/if}" />
                         </div>
                     </div>
 
@@ -162,5 +175,30 @@
             </div>
         </form>
 </div>
+<script type="text/javascript">
+    function goods_list(storeid){
+        var url = "{php echo $this->createWebUrl('activity', array('op' => 'getgoods'))}";
+        $.post(
+            url,
+            {
+                storeid:storeid
+            },
+            function(data){
+                var data = data.data
+                $("#goods").html("");//清空下拉框
+                var option
+                option+="<option value=0>请选择商品</option>";
+                $.each(data.data,function(index,value){
+                    if (value.selected == 1){
+                        option+="<option value="+value.id+" selected=\"selected\">"+value.title+"</option>";
+                    }else {
+                        option+="<option value="+value.id+">"+value.title+"</option>";
+                    }
+                })
+                $("#goods").append(option)
+            },'json'
+        );
+    }
+</script>
 {/if}
 {template 'public/footer'}

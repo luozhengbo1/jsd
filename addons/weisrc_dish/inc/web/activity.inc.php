@@ -13,39 +13,63 @@ $GLOBALS['frames'] = $this->getMainMenu();
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
 if ($operation == 'display') {
     $condition = " a.weid=:weid";
-    if (!empty($_GPC['keyword'])) {
-        $types = trim($_GPC['types']);
-        $condition .= " AND {$types} LIKE '%{$_GPC['keyword']}%'";
+    $time =TIMESTAMP;
+    if ($_GPC['status'] == 1){
+        $condition .= " AND a.startdate >{$time}";
+    }elseif ($_GPC['status'] == 2){
+        $condition .= " AND (a.startdate <={$time} AND {$time} < a.enddate )";
+    }elseif ($_GPC['status'] == 3){
+        $condition .= " AND a.enddate < {$time}";
+    }
+    if ($_GPC['status']){
+        $status = $_GPC['status'];
+    }
+    if ($_GPC['goods_name']){
+        $select_goods = $_GPC['goods_name'];
+    }
+    if ($_GPC['goods_name']){
+        $condition .= " AND a.goodsid = {$_GPC['goods_name']}";
     }
     $condition .= " AND a.deleted = 0";
     $pindex = max(1, intval($_GPC['page']));
     $psize = 8;
 
+    $goods_name_sql = "select distinct a.goodsid,b.title from
+            ".tablename($this->table_goods_activity)."as a left join
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where  a.weid=:weid ORDER BY updatetime DESC,a.id DESC ";
+    $goods_name = pdo_fetchall($goods_name_sql,  array(':weid' => $weid));
+
+
     $start = ($pindex - 1) * $psize;
     $limit = "";
     $limit .= " LIMIT {$start},{$psize}";
-    $sql = "select a.id,a.activityprice,a.counts,a.startdate,a.enddate,b.title,b.productprice from
+    $sql = "select a.id,a.activityprice,a.counts,a.startdate,a.enddate,b.title,b.productprice,b.marketprice from
             ".tablename($this->table_goods_activity)."as a left join
             " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where  {$condition} ORDER BY updatetime DESC,id DESC " . $limit;
     $list = pdo_fetchall($sql,  array(':weid' => $weid));
 
-    //$total = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_goods_activity) . " WHERE {$condition} ", array(':weid' => $weid));
+    $total = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_goods_activity) . "as a WHERE {$condition} ", array(':weid' => $weid));
 
     $pager = pagination($total, $pindex, $psize);
 }elseif ($operation == 'post'){
     $id = intval($_GPC['id']);
-    $sql = "select a.id,a.activityprice,a.counts,a.startdate,a.enddate,b.title,a.goodsid,b.productprice from
+    if ($id){
+        $sql = "select a.id,a.activityprice,a.counts,a.startdate,a.enddate,b.title,a.goodsid,b.productprice,b.storeid,b.marketprice from
             ".tablename($this->table_goods_activity)."as a left join
             " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where  a.id = {$id}";
-    $goods = pdo_fetch($sql);
-    $productprice = $goods['productprice'];
-    $activityprice = $goods['activityprice'];
-    $counts = $goods['counts'];
-    $goodslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE deleted=0 AND status=1 ORDER BY
-    displayorder DESC,id DESC");
+        $goods = pdo_fetch($sql);
+        $goodsid = $goods["goodsid"];
+        $storeid = $goods["storeid"];
+        $marketprice = $goods['marketprice'];
+        $activityprice = $goods['activityprice'];
+        $counts = $goods['counts'];
+        $goodslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE deleted=0 AND status=1 AND storeid={$storeid}");
+    }
+    $where_store = "WHERE weid = {$weid} AND deleted=0";
+    $storeslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$where_store} order by displayorder desc,id desc");
     if (checksubmit('submit')) {
         $data = array(
-            'goodsid' => 12,
+            'goodsid' => intval($_GPC['goods']),
             'weid' => intval($_W['uniacid']),
             'storeid' => 0,
             'counts' => intval($_W['counts']),
@@ -69,5 +93,18 @@ if ($operation == 'display') {
     }
     pdo_query("UPDATE " . tablename($this->table_goods_activity) . " SET deleted = 1 WHERE id=:id", array( ':id' => $id));
     message('删除成功！', $this->createWebUrl('activity', array('op' => 'display')), 'success');
+}elseif($operation == "getgoods"){
+    global $_W, $_GPC;
+    $storeid = $_GPC["storeid"];
+    $weid = $this->_weid;
+    if ($storeid !=''){
+        $where = "AND storeid  = {$storeid} AND deleted=0 AND status=1";
+        $goodslist = pdo_fetchall("SELECT title,id FROM " . tablename($this->table_goods) . " WHERE weid=:weid {$where} ORDER BY displayorder DESC,id DESC", array(':weid' => $weid), 'id');
+    }
+    $data["msg"] = "提示";
+    $data["data"] = $goodslist;
+    $result = array('data' =>$data, 'status' => 1);
+    echo json_encode($result);
+    exit();
 }
 include $this->template('web/activity');
