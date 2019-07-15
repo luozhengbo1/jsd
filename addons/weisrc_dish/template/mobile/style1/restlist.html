@@ -359,7 +359,7 @@
 //            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
                 if(stop_track == false && loading==false) {
                     loading = true;
-                    var loadurl ="{php echo $this->createMobileurl('getmorestore', array('areaid' => $areaid, 'typeid' => $typeid), true)}";
+                    var loadurl ="{php echo $this->createMobileurl('getmorestore', array('areaid' => $areaid, 'typeid' => $typeid,'sortid'=>$sortid), true)}";
                     $.ajax({
                         type: 'POST',
                         url: loadurl,

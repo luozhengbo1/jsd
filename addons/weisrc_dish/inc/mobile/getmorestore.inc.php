@@ -8,7 +8,7 @@ $areaid = intval($_GPC['areaid']);
 $typeid = intval($_GPC['typeid']);
 $sortid = intval($_GPC['sortid']);
 if ($sortid == 0) {
-    $sortid = 1;
+//    $sortid = 1;
 }
 
 $strwhere = " where weid = :weid and is_show=1 AND is_list=1 AND deleted=0 ";
@@ -25,16 +25,19 @@ $pindex = max(1, intval($_GPC['page']));
 $psize = $this->more_store_psize;
 $limit = " LIMIT " . ($pindex - 1) * $psize . ',' . $psize;
 $this->resetHour();
-if ($sortid == 1) {
+//p($sortid);
+if ($sortid == 1) { //正在营业
+//    echo 1;
 //    $timein = date('H:i');
 //    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
-    $list = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere
-} ORDER BY   is_rest DESC, dist ASC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
-} else if ($sortid == 2 && !empty($lat)) {
-    $list = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere
-} ORDER BY dist, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+    $strwhere .=" and is_rest=1 ";
+    $list = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, is_rest DESC,displayorder DESC, id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+} else if ($sortid == 2 ) {
+//    echo 2;
+    $list = pdo_fetchall("SELECT *,(lat-:lat)*(lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, displayorder DESC,id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else {
-    $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC,displayorder DESC, id DESC" . $limit, array(':weid' => $weid));
+//    echo 3;
+    $list = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY is_rest DESC, dist ASC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 }
 
 if (!empty($list)) {

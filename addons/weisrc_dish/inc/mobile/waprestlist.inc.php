@@ -14,9 +14,9 @@ $areaid = intval($_GPC['areaid']);
 $typeid = intval($_GPC['typeid']);
 $sortid = intval($_GPC['sortid']);
 
-if ($sortid == 0) {
-    $sortid = 1;
-}
+//if ($sortid == 0) {
+////    $sortid = 1;
+//}
 
 $method = 'waprestlist'; //method
 $host = $this->getOAuthHost();
@@ -109,16 +109,16 @@ $this->resetHour();
 
 if ($sortid == 1) { //正在营业
 //    $timein = date('H:i');
-//    $strwhere .=" and is_rest=1 ";
+    $strwhere .=" and is_rest=1 ";
 //    $strwhere .=" and ('{$timein}'>=begintime  and '{$timein}'<= endtime) ";
 //    $sql = "SELECT *,(lat-{$lat}) * (lat-{$lat}) + (lng-{$lng}) * (lng-{$lng}) as dist FROM
 //    " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist,is_rest ASC,displayorder DESC, id DESC " . $limit ;
 //    echo $sql ;die;
-    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY   is_rest DESC, dist ASC,displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, is_rest DESC,displayorder DESC, id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else if ($sortid == 2 && !empty($lat)) { //距离
     $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist  ASC, displayorder DESC,id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 } else {
-    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY dist ASC, is_rest DESC,displayorder DESC, id DESC" . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
+    $restlist = pdo_fetchall("SELECT *,(lat-:lat) * (lat-:lat) + (lng-:lng) * (lng-:lng) as dist FROM " . tablename($this->table_stores) . " {$strwhere} ORDER BY   is_rest DESC, dist ASC, displayorder DESC, id DESC " . $limit, array(':weid' => $weid, ':lat' => $lat, ':lng' => $lng));
 }
 
 if (!empty($restlist)) {
