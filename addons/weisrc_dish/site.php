@@ -331,7 +331,7 @@ ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
 //        $strwhere = " weid = $weid AND storeid=$storeid AND ispay=1 AND
 //ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
         $time = strtotime('2017-07-17 00:00:00');
-        $fields ="totalprice,dispatchprice,one_order_getprice,refund_price,pt_yf,dprice,zhekou,jifen_dk,order_ps_type,dateline";
+        $fields ="origin_totalprice,dispatchprice,one_order_getprice,refund_price,pt_yf,dprice,zhekou,jifen_dk,order_ps_type,dateline";
         //7-17之前
         $list = pdo_fetchall("select {$fields} from ".tablename($this->table_order)." where    {$strwhere} ",
             array(':weid' => $weid, ':storeid' => $storeid)
@@ -343,15 +343,15 @@ ismerge=0 AND status=3 AND (paytype=1 OR paytype=2 OR paytype=4) ";
             foreach ($list as $k=>$v){
                 //分为补贴单
                 if($v['order_ps_type'] == 1){
-                    $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+                    $total1 +=$v['origin_totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
                 //非补贴单
                 }else{
                     //在17-07-17后
                     if($v['dateline'] <= $time){
-                        $total1+=$v['totalprice']-$v['dispatchprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+                        $total1+=$v['origin_totalprice']-$v['dispatchprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
                     }else{
 //                        $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['pt_yf']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
-                          $total1 +=$v['totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
+                          $total1 +=$v['origin_totalprice']-$v['one_order_getprice']-$v['refund_price']+$v['dprice']+$v['zhekou']+$v['jifen_dk'];
                     }
 
                 }
