@@ -42,6 +42,7 @@ class Core extends WeModuleSite
     public $table_category = 'weisrc_dish_category';
     public $table_email_setting = 'weisrc_dish_email_setting';
     public $table_goods = 'weisrc_dish_goods';
+    public $table_goods_activity = 'weisrc_dish_goods_activity';
     public $table_intelligent = 'weisrc_dish_intelligent';
     public $table_nave = 'weisrc_dish_nave';
     public $table_order = 'weisrc_dish_order';

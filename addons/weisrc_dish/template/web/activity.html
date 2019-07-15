@@ -1,0 +1,166 @@
+{template 'public/header'}
+{template 'public/comhead'}
+
+<ul class="nav nav-tabs">
+    <li{if $operation=='display'} class="active"{/if}><a
+        href="{php echo $this->createWebUrl('activity', array('op' => 'display'))}">限购优惠设置</a></li>
+</ul>
+{if $operation == 'display'}
+<div class="main">
+    <div class="panel panel-default" style="margin-top: 15px;">
+        <div class="panel-heading">筛选</div>
+        <div class="table-responsive panel-body">
+            <form action="./index.php" method="get" class="navbar-form navbar-left" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="weisrc_dish" />
+                <input type="hidden" name="do" value="activity" />
+                <input type="hidden" name="op" value="display" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 80px;">商品名称</label>
+                    <select class="form-control" id="status"  style="width: 120px;" name="status" autocomplete="off">
+                        <option value="1" {if $_GPC['status']==1}selected{/if}>正常下单</option>
+                        <option value="0"  {if $_GPC['status']==="0"}selected{/if}>禁止下单</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="margin-left:100px;width: 80px;">活动状态</label>
+                    <select class="form-control" id="datapage" style="margin-left:10px;width: 120px;" name="datapage" autocomplete="off">
+                        <option value="1" >未开始</option>
+                        <option value="2" >活动中</option>
+                        <option value="3" >已过期</option>
+                    </select>
+                </div>
+                <button class="btn btn-success"><i class="fa fa-search"></i> 搜索</button>
+            </form>
+        </div>
+        <button class="btn btn-success" name="add_activity" style="margin-left: 20px;margin-bottom: 20px" value=""><i class="fa fa-file"></i>新增限购活动</button>
+    </div>
+
+    <form action="" method="post" class="form-horizontal form" >
+        <div class="panel panel-default">
+            <div class="table-responsive panel-body">
+                <table class="table table-hover">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th style="width:10%;">序号</th>
+                        <th style="width:10%;">商品名称</th>
+                        <th style="width:10%;">商品原价</th>
+                        <th style="width:10%;">限购价</th>
+                        <th style="width:10%;">限购数量</th>
+                        <th style="width:10%;">活动时间</th>
+                        <th style="width:12%;">活动状态</th>
+
+                        <th style="width:8%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $item}
+                    <tr>
+                        <td>
+                            {$item['id']}
+                        </td>
+                        <td>
+                           {$item['title']}
+                        </td>
+                        <td>
+                            {$item['productprice']}
+                        </td>
+                        <td>
+                            {$item['activityprice']}
+                        </td>
+                        <td>
+                            {$item['counts']}
+                        </td>
+                        <td>
+                            开始时间：{php echo date('Y-m-d H:i:s', $item[startdate]);}<br/>
+                            结束时间：{php echo date('Y-m-d H:i:s', $item[enddate]);}
+                        </td>
+                        <td>
+                            {if TIMESTAMP<$item['startdate']}
+                            <span class="label label-danger">未开始</span>
+                            {elseif TIMESTAMP>$item['startdate'] && TIMESTAMP<$item['enddate']}
+                            <span class="label label-success">活动中</span>
+                            {else}
+                            <span class="label label-danger">已过期</span>
+                            {/if}
+                        </td>
+                        <td style="max-width:70px;text-align: left;">
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('activity', array('id' => $item['id'], 'op' => 'post'))}" title="修改">改</a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('确认删除吗？');return false;"
+                               href="{php echo $this->createWebUrl('activity', array('id' => $item['id'], 'op' => 'delete'))}" title="删除">删</a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+    {$pager}
+</div>
+{elseif $operation == 'post'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-warning" href="{php echo $this->createWebUrl('activity', array('op' => 'display'))}">返回限购活动
+            </a>
+        </div>
+    </div>
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$id}" />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                   限购活动设置
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商品名称</label>
+                        <div class="col-sm-5">
+                            <input id="myGoods" list="goods" />
+                            <datalist id="goods">
+                                {loop $goodslist $item}
+                                <option id="{$item['id']}"  value="{$item['title']}">
+                                    {/loop}
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商品原价</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="productprice" class="form-control" value="{if empty($productprice)}0{else}{$productprice}{/if}" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>限购价</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="activityprice" class="form-control" value="{if empty($activityprice)}0{else}{$activityprice}{/if}" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>限购数量</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="counts" class="form-control" value="{if empty(counts)}0{else}{$counts}{/if}" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 活动时间设置</label>
+                        <div class="col-sm-9 col-xs-12">
+                            {php echo tpl_form_field_daterange('datelimit', array('starttime'=>date('Y-m-d H:i',$item['startdate']),'endtime'=>date('Y-m-d H:i',$item['enddate'])), true)}
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-12">
+                <input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-3" />
+                <input type="hidden" name="token" value="{$_W['token']}" />
+            </div>
+        </form>
+</div>
+{/if}
+{template 'public/footer'}
