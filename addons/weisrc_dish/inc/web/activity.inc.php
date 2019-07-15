@@ -9,7 +9,6 @@ $title = $this->actions_titles[$action];
 $storeid = intval($_GPC['storeid']);
 $returnid = $this->checkPermission($storeid);
 $GLOBALS['frames'] = $this->getMainMenu();
-
 $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
 if ($operation == 'display') {
     $condition = " a.weid=:weid";
@@ -77,11 +76,17 @@ if ($operation == 'display') {
             'startdate' => strtotime($_GPC['datelimit']['start']),
             'enddate' => strtotime($_GPC['datelimit']['end']),
         );
+
+        //控制一个商品只能在一个时间段参加活动，不能重叠
+        $sql_activity = "select * from " . tablename($this->table_goods_activity) . "as c where c.deleted = 0 and c.weid=:weid and  not (c.`startdate`>{$data["enddate"]} or c.`enddate`<{$data["startdate"]})";
+        $activity  = pdo_fetchall($sql_activity,  array(':weid' => $weid));
+        if (count($activity) > 1){
+            message('该商品在该时间段内已经设置', '', 'error');
+        }
         if (!empty($id)) {
             pdo_update($this->table_goods_activity, $data, array('id' => $id, 'weid' => $_W['uniacid']));
         } else {
             pdo_insert($this->table_goods_activity, $data);
-
         }
         message('操作成功!', $this->createWebUrl('activity', array('op' => 'display')));
     }
@@ -103,6 +108,19 @@ if ($operation == 'display') {
     }
     $data["msg"] = "提示";
     $data["data"] = $goodslist;
+    $result = array('data' =>$data, 'status' => 1);
+    echo json_encode($result);
+    exit();
+}elseif($operation == "getgoodsprice"){
+    global $_W, $_GPC;
+    $goodsid = $_GPC["goodsid"];
+    $weid = $this->_weid;
+    $where = "AND id  = {$goodsid} AND deleted=0 AND status=1";
+    $goodslist = pdo_fetchall("SELECT title,id,marketprice FROM " . tablename($this->table_goods) . " WHERE weid=:weid {$where} ORDER BY displayorder DESC,id DESC", array(':weid' => $weid), 'id');
+    $data["msg"] = "提示";
+    $data["data"] = array(
+        "marketprice" =>  $goodslist[0]["marketprice"]
+    );
     $result = array('data' =>$data, 'status' => 1);
     echo json_encode($result);
     exit();

@@ -1,8 +1,13 @@
 {template 'public/header'}
 {template 'public/comhead'}
-
 <ul class="nav nav-tabs">
-    <li{if $operation=='display'} class="active"{/if}><a
+    <li><a href="{php echo $this->createWebUrl('integral', array('op' => 'display'))}">平台优惠管理</a></li>
+    <li><a href="{php echo $this->createWebUrl('integral', array('op' => 'post', 'storeid' => $storeid))}">添加优惠</a></li>
+    <li><a href="{php echo $this->createWebUrl('integral', array('op' => 'send'))}">平台发放优惠券</a></li>
+    <li><a href="{php echo $this->createWebUrl('member', array('op' => 'display', 'storeid' => $storeid))}">平台会员管理
+    </a></li>
+    <li><a href="{php echo $this->createWebUrl('outside', array('op' => 'display'))}">平台外送设置</a></li>
+    <li{if $action =='activity'} class="active"{/if}><a
         href="{php echo $this->createWebUrl('activity', array('op' => 'display'))}">限购优惠设置</a></li>
 </ul>
 {if $operation == 'display'}
@@ -79,7 +84,7 @@
                         </td>
                         <td>
                             {if TIMESTAMP<$item['startdate']}
-                            <span class="label label-danger">未开始</span>
+                            <span class="label label-info">未开始</span>
                             {elseif TIMESTAMP>$item['startdate'] && TIMESTAMP<$item['enddate']}
                             <span class="label label-success">活动中</span>
                             {else}
@@ -130,7 +135,7 @@
                     <div class="form-group">
                         <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商品名称</label>
                         <div class="col-sm-5">
-                            <select style="margin-right:15px;" id = "goods" name="goods" class="form-control">
+                            <select style="margin-right:15px;" id = "goods" name="goods" onchange="get_goods_price(this.value)" class="form-control">
                                 <option value="0">请选择商品</option>
                                 {loop $goodslist $row}
                                 <option value="{$row['id']}" {if $row['id'] == $goodsid} selected="selected"{/if}>{$row['title']}</option>
@@ -163,7 +168,7 @@
                     <div class="form-group">
                         <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 活动时间设置</label>
                         <div class="col-sm-9 col-xs-12">
-                            {php echo tpl_form_field_daterange('datelimit', array('starttime'=>date('Y-m-d H:i',$item['startdate']),'endtime'=>date('Y-m-d H:i',$item['enddate'])), true)}
+                            {php echo tpl_form_field_daterange('datelimit', array('starttime'=>date('Y-m-d H:i',$goods['startdate']),'endtime'=>date('Y-m-d H:i',$goods['enddate'])), true)}
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -196,6 +201,19 @@
                     }
                 })
                 $("#goods").append(option)
+            },'json'
+        );
+    }
+    function get_goods_price(goodsid) {
+        var url = "{php echo $this->createWebUrl('activity', array('op' => 'getgoodsprice'))}";
+        $.post(
+            url,
+            {
+                goodsid:goodsid
+            },
+            function(data){
+                var data = data.data
+               console.log(data)
             },'json'
         );
     }
