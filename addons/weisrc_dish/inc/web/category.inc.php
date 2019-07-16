@@ -89,22 +89,7 @@ if ($operation == 'display') {
 
         if (!empty($id)) {
             unset($data['parentid']);
-            pdo()->begin();
-            //设置折扣，更新商品价格
-            if ($rebate < 10){
-                //更新商品现价
-                $rebate = $rebate/10;
-                $goods = pdo_fetchall("SELECT * FROM " . tablename($this->table_goods) . " WHERE pcate=:pcate", array(':pcate' => $id));
-                foreach($goods as $key => $value) {
-                    if ($value["productprice"] == '') {
-                        $value["productprice"] = $value["marketprice"];
-                    }
-                    $marketprice = $value["productprice"] * $rebate;
-                    pdo_query("UPDATE " . tablename($this->table_goods) . " SET `marketprice`= {$marketprice},`productprice` = {$value["productprice"]} WHERE `id`=:id", array(':id' => $value['id']));
-                }
-                }
             pdo_update($this->table_category, $data, array('id' => $id));
-            pdo()->commit();
         } else {
             pdo_insert($this->table_category, $data);
             $id = pdo_insertid();

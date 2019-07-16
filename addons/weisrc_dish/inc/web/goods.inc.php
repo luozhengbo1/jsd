@@ -197,6 +197,20 @@ if ($operation == 'post') {
             pdo_insert($this->table_goods, $data);
             $id = pdo_insertid();
         } else {
+
+            //商品已经参与限购活动不能加入折扣商品
+            $pcate_sql = "select a.id,a.rebate from
+            ".tablename($this->table_category)."as a  where  a.id = {$data['pcate']}";
+            $pcate = pdo_fetch($pcate_sql);
+            if ($pcate['rebate']<10 && $pcate){
+                $time =TIMESTAMP;
+                $activity_sql = "select a.goodsid from
+            ".tablename($this->table_goods_activity)."as a  where  {$time} < a.enddate and a.goodsid = {$id}";
+                $activity = pdo_fetch($activity_sql);
+                if (!empty($activity)){
+                    message('该商品已经参加限购活动不能设置折扣分类！');
+                }
+            }
             unset($data['dateline']);
             //更新购物车打包费，配送类型等。
             $updateCart['packvalue'] = $data['packvalue'];

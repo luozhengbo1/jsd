@@ -102,6 +102,9 @@ if ($operation == 'display') {
             if (count($activity) > 1){
                 message('该商品在该时间段内已有限购活动', '', 'error');
             }
+            if($activity[0]['id'] != $id) {
+                message('该商品在该时间段内已有限购活动', '', 'error');
+            }
             pdo_update($this->table_goods_activity, $data, array('id' => $id, 'weid' => $_W['uniacid']));
         } else {
             if (count($activity) > 0){

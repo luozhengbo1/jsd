@@ -94,7 +94,7 @@ if ($operation == 'display') {
             " .tablename($this->table_category)." as  b on  b.id=a.pcate  where  a.id = {$data['goodsid']}";
         $pcate = pdo_fetch($pcate_sql);
         if ($pcate['rebate']<10 && $pcate){
-            message('该商品属于折扣商品不能参加限购活动', '', 'error');
+            message('该商品属于折扣商品不能参加限购活动');
         }
         if ($data['activityprice'] > $pcate['marketprice']){
             message("限购价只能小于等于商品原价!");
@@ -104,12 +104,15 @@ if ($operation == 'display') {
         $businessactivity  = pdo_fetchall($sql_businessactivity,  array(':weid' => $weid));
         if (!empty($id)) {
             if (count($businessactivity) > 1){
-                message('该商品在该时间段内已有限购活动', '', 'error');
+                message('该商品在该时间段内已有限购活动');
+            }
+            if($activity[0]['id'] != $id) {
+                message('该商品在该时间段内已有限购活动');
             }
             pdo_update($this->table_goods_activity, $data, array('id' => $id, 'weid' => $_W['uniacid']));
         } else {
             if (count($businessactivity) > 0){
-                message('该商品在该时间段内已有限购活动', '', 'error');
+                message('该商品在该时间段内已有限购活动');
             }
             pdo_insert($this->table_goods_activity, $data);
         }
