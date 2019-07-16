@@ -112,7 +112,7 @@ foreach($restlist as $key => $value) {
     //未申请
     $totalprice2 = $this->getStoreGetTotalPrice($storeid);
     $totalprice = $order_totalprice - $totalprice1 - $totalprice2;
-    $restlist[$key]['totalprice'] = $totalprice;
+    $restlist[$key]['totalprice'] = number_format($totalprice,2);
 }
 //p($restlist);die;
 
