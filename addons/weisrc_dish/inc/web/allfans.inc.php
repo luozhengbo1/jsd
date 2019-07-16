@@ -352,10 +352,10 @@ from_user=:from_user", array(':weid' => $weid, ':from_user' => $item['from_user'
     message('删除成功！', $this->createWebUrl('allfans', array('op' => 'display', 'storeid' => $storeid)), 'success');
 } else if ($operation == 'setstatus') {
     $id = intval($_GPC['id']);
-    $status = intval($_GPC['status'])==1?0:1    ;
+    $status = !intval($_GPC['status']) ;
 //    p($status);die;
 //    pdo_query("UPDATE " . tablename($this->table_fans) . " SET status = abs(:status - 1) WHERE id=:id", array(':status' => $status, ':id' => $id));
-    pdo_query("UPDATE " . tablename($this->table_fans) . " SET status = :status WHERE id=:id", array(':status' => $status, ':id' => $id));
+    pdo_query("UPDATE " . tablename($this->table_fans) . " SET status = :status,stop_storeids=0 WHERE id=:id  ", array(':status' => $status, ':id' => $id));
     message('操作成功！', $this->createWebUrl('allfans', array('op' => 'display', 'storeid' => $storeid)), 'success');
 }
 //p($item);die;

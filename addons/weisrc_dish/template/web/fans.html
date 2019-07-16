@@ -14,7 +14,7 @@
                 <input type="hidden" name="op" value="display" />
                 <input type="hidden" name="storeid" value="{$storeid}" />
                 <div class="form-group">
-                    <select class="form-control" id="status" name="status" autocomplete="off">
+                    <select class="form-control" id="status" name="store_status" autocomplete="off">
                         <option value="">全部</option>
                         <option value="1">正常下单</option>
                         <option value="0">禁止下单</option>
@@ -50,6 +50,13 @@
                     </thead>
                     <tbody id="level-list">
                     {loop $list $item}
+                    <?php $item['stop_storeids'] = explode(',',$item['stop_storeids']);
+                         if( in_array($storeid,$item['stop_storeids']) ) {
+                            $item['store_status'] =0;
+                            }else{
+                                $item['store_status'] =1;
+                            }
+                    ?>
                     <tr>
                         <td style="white-space:normal;">
                             <img src="{php echo tomedia($item['headimgurl']);}" style="width:30px;height:30px;padding1px;border:1px solid #ccc"/>
@@ -64,7 +71,7 @@
                             {else}0{/if}
                         </td>
                         <td>
-                            {if $item['status'] == 0}
+                            {if $item['store_status'] == 0}
                             <span class="label label-danger">禁止下单</span>
                             {else}
                             <span class="label label-success">正常</span>
@@ -73,11 +80,11 @@
                         <td>
                             <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('fans', array('id' => $item['id'], 'op' => 'post', 'storeid' => $storeid))}"><i class="fa fa-search"></i>详情</a>
                             {if $_W['isfounder'] || $_W['role'] == 'manager'}
-                            {if $item['status'] == 1}
-                            <a class="btn btn-default btn-sm" onclick="return confirm('您确定要禁止下单吗？');return false;" href="{php echo $this->createWebUrl('fans', array('id' => $item['id'], 'status' => $item['status'], 'op' => 'setstatus', 'storeid' => $storeid))}"
+                            {if $item['store_status'] == 1}
+                            <a class="btn btn-default btn-sm" onclick="return confirm('您确定要禁止下单吗？');return false;" href="{php echo $this->createWebUrl('fans', array('id' => $item['id'], 'store_status' => $item['store_status'], 'op' => 'setstatus', 'storeid' => $storeid))}"
  title="冻结"><i class="fa fa-lock"></i>禁止</a>
                             {else}
-                            <a class="btn btn-default btn-sm" onclick="return confirm('您确定要解除禁止状态吗？');return false;" href="{php echo $this->createWebUrl('fans', array('id' => $item['id'], 'status' => $item['status'], 'op' => 'setstatus', 'storeid' => $storeid))}"
+                            <a class="btn btn-default btn-sm" onclick="return confirm('您确定要解除禁止状态吗？');return false;" href="{php echo $this->createWebUrl('fans', array('id' => $item['id'], 'store_status' => $item['store_status'], 'op' => 'setstatus', 'storeid' => $storeid))}"
                                 title="解冻"><i class="fa fa-unlock"></i>解除</a>
                             {/if}
                             {/if}
@@ -194,14 +201,21 @@
                         </p>
                     </div>
                 </div>
+                <?php $item['stop_storeids'] = explode(',',$item['stop_storeids']);
+                         if( in_array($storeid,$item['stop_storeids']) ) {
+                            $item['store_status'] =0;
+                            }else{
+                                $item['store_status'] =1;
+                            }
+                    ?>
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="color:#f00;">禁止下单</label>
                     <div class="col-sm-9">
                         <label class="radio-inline">
-                            <input type="radio" name="status" value="1" {if $item['status']==1 || empty($item)}checked{/if}>正常
+                            <input type="radio" name="store_status" value="1" {if $item['store_status']==1 || empty($item)}checked{/if}>正常
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="status" value="0" {if isset($item['status']) && empty($item['status'])}checked{/if}>禁止</label>
+                            <input type="radio" name="store_status" value="0" {if isset($item['store_status']) && empty($item['store_status'])}checked{/if}>禁止</label>
                     </div>
                 </div>
             </div>

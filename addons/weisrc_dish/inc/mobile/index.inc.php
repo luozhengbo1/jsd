@@ -47,6 +47,9 @@ if (empty($fans)) {
 //echo $nickname;die;
 
 $fans = $this->getFansByOpenid($from_user);
+if ($fans['status'] == 0 ) {
+    die('你被禁止下单，请联系客服人员!!!' );
+}
 //p($nickname);
 //p($fans);die;
 $slide = $this->getSlidesByPos(2);
@@ -54,9 +57,7 @@ $adlist = $this->getSlidesByPos(3);
 
 $styles = pdo_fetchall("SELECT * FROM " . tablename('weisrc_dish_style') . " WHERE weid = :weid AND status=1 ORDER BY `displayorder` DESC, id DESC", array(':weid' => $weid));
 
-if ($fans['status'] == 0) {
-    die('你被禁止下单，请联系客服人员!!!' );
-}
+
 
 $sub = 0;
 //if ($this->_accountlevel == 4) {

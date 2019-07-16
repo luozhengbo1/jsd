@@ -55,6 +55,14 @@ if (isset($_COOKIE[$this->_auth2_openid])) {
 }
 
 $fans = $this->getFansByOpenid($from_user);
+if($fans){
+    $fans['stop_storeids'] = explode(',',$fans['stop_storeids']);
+    if ( in_array($storeid, $fans['stop_storeids']) ) {
+        die('你被禁止下单，请联系客服人员!!!' );
+    }
+}
+
+
 if ($agentid != 0) {
     $agent = pdo_fetch("SELECT * FROM " . tablename($this->table_fans) . " WHERE id=:id AND weid=:weid LIMIT 1", array(':id' => $agentid, ':weid' => $weid));
     $agent = $this->getFansById($agentid);

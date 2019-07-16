@@ -64,4 +64,7 @@ CREATE TABLE `ims_weisrc_dish_dada_order` (
 
 alter table `ims_weisrc_dish_dada_order` add  `order_status` tinyint(5)   COMMENT '达达传送的订单状态' ;
 
+alter table `ims_weisrc_dish_fans` add  `stop_storeids` varchar(255)  COMMENT '0表示所有。' ;
+alter table `ims_weisrc_dish_fans` add  `store_status` tinyint(1) default 1 COMMENT '1开启0禁止。' ;
+
 

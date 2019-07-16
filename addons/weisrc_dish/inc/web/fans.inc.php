@@ -16,6 +16,7 @@ if ($operation == 'display') {
     $orderlist = pdo_fetchall("SELECT * FROM " . tablename($this->table_order) . " WHERE weid=:weid AND ischeckfans=0 ORDER BY id desc, dateline DESC ", array(':weid' => $weid));
     foreach($orderlist as $key => $value) {
         $fans = $this->getFansByOpenid($value['from_user']);
+
         if (empty($fans['storeids'])) {
             pdo_update($this->table_fans, array('storeids' => $value['storeid']), array('id' => $fans['id']));
         } else {
@@ -27,44 +28,44 @@ if ($operation == 'display') {
             pdo_update($this->table_fans, array('storeids' => $str), array('id' => $fans['id']));
         }
         pdo_update($this->table_order, array('ischeckfans' => 1), array('id' => $value['id']));
-    }        
+    }
 
-     $condition = " weid = :weid AND from_user<>'' AND find_in_set('{$storeid}', storeids) ";
-     if (!empty($_GPC['keyword'])) {
-         $types = trim($_GPC['types']);
-         $condition .= " AND {$types} LIKE '%{$_GPC['keyword']}%'";
-     }
-     if (isset($_GPC['status']) && $_GPC['status'] != '') {
-         $condition .= " AND status={$_GPC['status']} ";
-     }
+    $condition = " weid = :weid AND from_user<>'' AND find_in_set('{$storeid}', storeids) ";
+    if (!empty($_GPC['keyword'])) {
+        $types = trim($_GPC['types']);
+        $condition .= " AND {$types} LIKE '%{$_GPC['keyword']}%'";
+    }
+    if (isset($_GPC['status']) && $_GPC['status'] != '') {
+        $condition .= " AND status={$_GPC['status']} ";
+    }
     $pindex = max(1, intval($_GPC['page']));
     $psize = 8;
     $start = ($pindex - 1) * $psize;
     $limit = "";
     $limit .= " LIMIT {$start},{$psize}";
     $list = pdo_fetchall("SELECT * FROM " . tablename($this->table_fans) . " WHERE {$condition} ORDER BY lasttime DESC,id DESC " . $limit, array(':weid' => $weid));
-            if($operation == "display")
-        {
-            $keyword = $_GPC['keyword'];
-            if (empty($keyword)) {
+    if($operation == "display")
+    {
+        $keyword = $_GPC['keyword'];
+        if (empty($keyword)) {
 
-                $pindex = max(1, intval($_GPC['page']));
-                $psize = 10;
-                $products = pdo_fetchall("SELECT * FROM ".tablename($this->table_fans)." where weid=:weid limit ". (($pindex - 1) * $psize) . ',' . $psize,array(":weid"=>$weid));
-                $count = pdo_fetchcolumn("SELECT count(*) FROM ".tablename($this->table_fans)." where weid=:weid",array(":weid"=>$weid));
-                $pager = pagination($count, $pindex, $psize);
-            }
-            else
-            {
-                $types = trim($_GPC['types']);
-                $pindex = max(1, intval($_GPC['page']));
-                $psize = 10;
-                $products = pdo_fetchall("SELECT * FROM ".tablename($this->table_fans)." where weid=:weid  and {$types} like '%{$keyword}%' limit ". (($pindex - 1) * $psize) . ',' . $psize,array(":weid"=>$weid));
-                $count = pdo_fetchcolumn("SELECT count(*) FROM ".tablename($this->table_fans)." where weid=:weid and {$types} like '%{$keyword}%' ",array(":weid"=>$weid));
-                $pager = pagination($count, $pindex, $psize);
-            }
-            
+            $pindex = max(1, intval($_GPC['page']));
+            $psize = 10;
+            $products = pdo_fetchall("SELECT * FROM ".tablename($this->table_fans)." where weid=:weid limit ". (($pindex - 1) * $psize) . ',' . $psize,array(":weid"=>$weid));
+            $count = pdo_fetchcolumn("SELECT count(*) FROM ".tablename($this->table_fans)." where weid=:weid",array(":weid"=>$weid));
+            $pager = pagination($count, $pindex, $psize);
         }
+        else
+        {
+            $types = trim($_GPC['types']);
+            $pindex = max(1, intval($_GPC['page']));
+            $psize = 10;
+            $products = pdo_fetchall("SELECT * FROM ".tablename($this->table_fans)." where weid=:weid  and {$types} like '%{$keyword}%' limit ". (($pindex - 1) * $psize) . ',' . $psize,array(":weid"=>$weid));
+            $count = pdo_fetchcolumn("SELECT count(*) FROM ".tablename($this->table_fans)." where weid=:weid and {$types} like '%{$keyword}%' ",array(":weid"=>$weid));
+            $pager = pagination($count, $pindex, $psize);
+        }
+
+    }
 
     // $total = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_fans) . " WHERE {$condition} ", array(':weid' => $weid));
 
@@ -93,16 +94,25 @@ from_user=:from_user AND storeid=:storeid ", array(':weid' => $weid, ':from_user
             'lng' => trim($_GPC['baidumap']['lng']),
             'sex' => intval($_GPC['sex']),
             'dateline' => TIMESTAMP,
-            'status'=> intval($_GPC['status'])
+            'store_status'=> intval($_GPC['store_status'])
         );
         if (!empty($_GPC['headimgurl'])) {
             $data['headimgurl'] = $_GPC['headimgurl'];
         }
-
+        $item['stop_storeids'] =  explode(',',$item['stop_storeids']);
+        if(  $data['store_status'] ){//启用
+            $key =  array_search($storeid, $item['stop_storeids']) ;
+            unset($item['stop_storeids'][$key]);
+        }else{
+            $item['stop_storeids'][]=$storeid;
+        }
+        $item['stop_storeids']= array_unique($item['stop_storeids']);
+        $data['stop_storeids'] =  trim(join(',',$item['stop_storeids']),',');
         if (empty($item)) {
             pdo_insert($this->table_fans, $data);
         } else {
             unset($data['dateline']);
+
             pdo_update($this->table_fans, $data, array('id' => $id, 'weid' => $weid));
         }
         message('操作成功！', $this->createWebUrl('fans', array('op' => 'display', 'storeid' => $storeid)), 'success');
@@ -117,8 +127,19 @@ from_user=:from_user AND storeid=:storeid ", array(':weid' => $weid, ':from_user
     message('删除成功！', $this->createWebUrl('fans', array('op' => 'display', 'storeid' => $storeid)), 'success');
 } else if ($operation == 'setstatus') {
     $id = intval($_GPC['id']);
-    $status = !intval($_GPC['status']);
-    pdo_query("UPDATE " . tablename($this->table_fans) . " SET status =:status WHERE id=:id", array(':status' => $status, ':id' => $id));
+    $status = !intval($_GPC['store_status']);
+    $fansData =  pdo_get($this->table_fans,array('id'=>$id),'*');
+    $stopStoreids = explode(',',$fansData['stop_storeids']);
+    if($status==1 ){//启用
+        $key =  array_search($storeid, $stopStoreids) ;
+        unset($stopStoreids[$key]);
+    }else{
+        echo 4;
+        $stopStoreids[]=$storeid;
+    }
+    $stopStoreids = array_unique($stopStoreids);
+    $stopStoreids =  trim(join(',',$stopStoreids),',');
+    pdo_query("UPDATE " . tablename($this->table_fans) . " SET stop_storeids=:stop_storeids,store_status=:store_status WHERE id=:id", array(':stop_storeids' => $stopStoreids, ':id' => $id,':store_status'=>$status));
     message('操作成功！', $this->createWebUrl('fans', array('op' => 'display', 'storeid' => $storeid)), 'success');
 }
 include $this->template('web/fans');
