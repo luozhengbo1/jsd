@@ -205,7 +205,7 @@ if ($operation == 'post') {
             if ($pcate['rebate']<10 && $pcate){
                 $time =TIMESTAMP;
                 $activity_sql = "select a.goodsid from
-            ".tablename($this->table_goods_activity)."as a  where  {$time} < a.enddate and a.goodsid = {$id}";
+            ".tablename($this->table_goods_activity)."as a  where  {$time} < a.enddate and a.deleted=0 and a.goodsid = {$id}";
                 $activity = pdo_fetch($activity_sql);
                 if (!empty($activity)){
                     message('该商品已经参加限购活动不能设置折扣分类！');

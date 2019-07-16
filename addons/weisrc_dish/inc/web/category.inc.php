@@ -62,8 +62,8 @@ if ($operation == 'display') {
             if ($_GPC['rebate'] < 0){
                 message('输入折扣比率不能小于0！');
             }
-            if ($_GPC['rebate'] >= 10){
-                message('输入折扣比率不能大于等于10！');
+            if ($_GPC['rebate'] > 10){
+                message('输入折扣比率不能大于10！');
             }
             $rebate = $_GPC['rebate'];
         }else{
@@ -89,6 +89,15 @@ if ($operation == 'display') {
 
         if (!empty($id)) {
             unset($data['parentid']);
+            //商品活动限购；不能修改分类
+            $time =TIMESTAMP;
+            $activity_sql = "select a.goodsid from
+            ".tablename($this->table_goods_activity)."as a left join
+            " .tablename($this->table_goods)." as  b on a.goodsid=b.id  where  {$time} < a.enddate and a.deleted=0 and b.pcate = {$id}";
+            $activity = pdo_fetch($activity_sql);
+            if (!empty($activity)){
+                message('有商品正在参加限购活动不能修改分类！');
+            }
             pdo_update($this->table_category, $data, array('id' => $id));
         } else {
             pdo_insert($this->table_category, $data);
