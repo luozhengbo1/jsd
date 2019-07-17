@@ -193,7 +193,7 @@
                                 <span class="label {if !empty($row['is_delivery'])}label-success{else}label-default{/if}" >外卖</span>
                                 <span class="label {if !empty($row['is_snack'])}label-success{else}label-default{/if}" >快餐</span>
                                 <span class="label {if !empty($row['is_reservation'])}label-success{else}label-default{/if}">预定</span>
-                                {if !empty($row['is_discount'])}
+                                {if $row['rebate']>=0 && $row['rebate']<10 && $row['rebate'] != null}
                                 <span class="label label-success">{$row['rebate']}折</span>
                                 {/if}
                             </td>

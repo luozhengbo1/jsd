@@ -82,6 +82,9 @@ $price = floatval($goods['marketprice']);
 if ($iscard == 1 && !empty($goods['memberprice'])) {
     $price = floatval($goods['memberprice']);
 }
+//todo 添加折扣价
+
+//todo 限购商品价
 
 $optionid  = trim($_GPC['optionid']);
 $optionids = explode('_',$optionid);

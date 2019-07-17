@@ -58,16 +58,20 @@ if ($operation == 'display') {
         if (empty($_GPC['catename'])) {
             message('抱歉，请输入分类名称！');
         }
-        if ($_GPC['rebate']){
+        if (is_numeric($_GPC['rebate'])){
             if ($_GPC['rebate'] < 0){
                 message('输入折扣比率不能小于0！');
             }
-            if ($_GPC['rebate'] > 10){
-                message('输入折扣比率不能大于10！');
+            if ($_GPC['rebate'] >= 10){
+                message('输入折扣比率不能大于等于10！');
             }
             $rebate = $_GPC['rebate'];
         }else{
-            $rebate = 10;
+            if (strlen($_GPC['rebate'])==0){
+                $rebate = null;
+            }else{
+                message('请你输入正确折扣比率！');
+            }
         }
         $data = array(
             'weid' => $weid,
@@ -79,14 +83,12 @@ if ($operation == 'display') {
             'is_snack' => intval($_GPC['is_snack']),
             'is_reservation' => intval($_GPC['is_reservation']),
             'rebate'=>$rebate,
-            'is_discount'=>$_GPC['is_discount'],
+           // 'is_discount'=>$_GPC['is_discount'],
             'parentid' => intval($parentid),
         );
-
         if (empty($data['storeid'])) {
             message('非法参数');
         }
-
         if (!empty($id)) {
             unset($data['parentid']);
             //商品活动限购；不能修改分类
@@ -99,9 +101,16 @@ if ($operation == 'display') {
                 message('有商品正在参加限购活动不能修改分类！');
             }
             pdo_update($this->table_category, $data, array('id' => $id));
+            if ($rebate == null){
+                pdo_query("UPDATE " . tablename($this->table_category) . " SET rebate=null  WHERE id=:id", array(':id' => $id));
+            }
+            //todo 折扣变化更新购物车商品
         } else {
             pdo_insert($this->table_category, $data);
             $id = pdo_insertid();
+            if ($rebate == null){
+                pdo_query("UPDATE " . tablename($this->table_category) . " SET rebate=null  WHERE id=:id", array(':id' => $id));
+            }
         }
         message('更新分类成功！', $this->createWebUrl('category', array('op' => 'display', 'storeid' => $storeid)), 'success');
     }

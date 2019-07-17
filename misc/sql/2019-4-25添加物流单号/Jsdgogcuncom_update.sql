@@ -68,3 +68,6 @@ alter table `ims_weisrc_dish_fans` add  `stop_storeids` varchar(255)  COMMENT '0
 alter table `ims_weisrc_dish_fans` add  `store_status` tinyint(1) default 1 COMMENT '1开启0禁止。' ;
 
 
+ALTER TABLE `ims_weisrc_dish_category`
+MODIFY COLUMN `rebate` decimal(5, 2) NULL DEFAULT 10.00 COMMENT '打折费率' AFTER `parentid`;
+
