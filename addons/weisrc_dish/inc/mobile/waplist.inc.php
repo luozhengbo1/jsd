@@ -173,10 +173,7 @@ $collection = pdo_fetch("SELECT * FROM " . tablename($this->table_collection) . 
 $isrest = 0;
 if ($mode != 3 && $mode != 5) {
     if ($store['is_rest'] == 0) {
-        $timein = date('H:i');
-        if($timein<$store['begintime'] && $timein>$store['endtime']  ){
-            $isrest = 1;
-        }
+        $isrest = 1;
     }
 }
 //p($isrest);die;
