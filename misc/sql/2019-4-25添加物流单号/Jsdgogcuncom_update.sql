@@ -70,4 +70,5 @@ alter table `ims_weisrc_dish_fans` add  `store_status` tinyint(1) default 1 COMM
 
 ALTER TABLE `ims_weisrc_dish_category`
 MODIFY COLUMN `rebate` decimal(5, 2) NULL DEFAULT 10.00 COMMENT '打折费率' AFTER `parentid`;
+UPDATE ims_weisrc_dish_category SET rebate = null;/*设置分类折扣为空，不打折*/
 

@@ -39,12 +39,12 @@ if ($operation == 'display') {
     } else {
         $category = array(
             'displayorder' => 0,
-            'rebate' => 10,
+            'rebate' => null,
             'is_meal' => 1,
             'is_delivery' => 1,
             'is_snack' => 1,
             'is_reservation' => 1,
-            'is_discount'=>0
+          //  'is_discount'=>0
         );
     }
 
@@ -97,8 +97,8 @@ if ($operation == 'display') {
             ".tablename($this->table_goods_activity)."as a left join
             " .tablename($this->table_goods)." as  b on a.goodsid=b.id  where  {$time} < a.enddate and a.deleted=0 and b.pcate = {$id}";
             $activity = pdo_fetch($activity_sql);
-            if (!empty($activity)){
-                message('有商品正在参加限购活动不能修改分类！');
+            if (!empty($activity) && $rebate != $category["rebate"]){
+                message('有商品正在参加限购活动不能修改分类折扣！');
             }
             pdo_update($this->table_category, $data, array('id' => $id));
             if ($rebate == null){
