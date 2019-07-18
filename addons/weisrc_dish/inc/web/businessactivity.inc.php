@@ -41,7 +41,7 @@ if ($operation == 'display') {
 
     $goods_name_sql = "select distinct a.goodsid,b.title from
             ".tablename($this->table_goods_activity)."as a left join
-            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where  a.weid=:weid and a.storeid=:storeid ORDER BY updatetime DESC,a.id DESC ";
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where  a.weid=:weid and a.storeid=:storeid ORDER BY  a.id DESC ";
     $goods_name = pdo_fetchall($goods_name_sql,  array(':weid' => $weid, ':storeid' => $storeid));
 
 
@@ -50,7 +50,7 @@ if ($operation == 'display') {
     $limit .= " LIMIT {$start},{$psize}";
     $sql = "select a.id,a.activityprice,a.counts,a.startdate,a.enddate,b.title,b.productprice,b.marketprice from
             ".tablename($this->table_goods_activity)."as a left join
-            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where  {$condition} ORDER BY updatetime DESC,id DESC " . $limit;
+            " .tablename('weisrc_dish_goods')." as  b on  b.id=a.goodsid  where  {$condition} ORDER BY id DESC " . $limit;
     $list = pdo_fetchall($sql,  array(':weid' => $weid));
 
     $total = pdo_fetchcolumn("SELECT count(1) FROM " . tablename($this->table_goods_activity) . "as a WHERE {$condition} ", array(':weid' => $weid));
