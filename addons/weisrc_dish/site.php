@@ -7968,8 +7968,11 @@ DESC LIMIT 1", array(':weid' => $this->_weid, ':goodsid' => $goodsid, ':orderid'
         $goodsprice = $price * $goodsnum;
         $total = intval($item['total']);
 
-        if ($goodsnum > $total) {
+        if ($goodsprice > $total) {
             message('退货数量大于商品数量!');
+        }
+        if($goodsprice >$order['totalprice'] ){
+            message('菜品单价已大于订单总价不可退菜!');
         }
         $refund_price =0 ;
         if ($order['ispay'] == 1 || $order['ispay'] == 2 || $order['ispay'] == 4) { //已支付和待退款的可以退款

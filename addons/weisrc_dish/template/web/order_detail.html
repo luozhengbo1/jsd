@@ -867,7 +867,10 @@
             if(refund_money>0){
                 refund_money =  parseFloat(refund_money).toFixed(2)
             }
-            return false
+            if(goods_price > "{$item['totalprice']}" ){
+                alert('菜品单价已大于订单总价不可退菜');
+                return false;
+            }
             if (confirm("确认要提交吗?若是当日订单会恢复对应商品库存,是否确认？退菜金额："+refund_money+"元，以实际退款金额为准")) {
                 var url =
                     "{php echo $this->createWebUrl('retreat', array('orderid' => $id,'storeid' => $_GPC['storeid']))}" + '&goodsid=' + goodsid + '&goodsnum=' + goodsnum;
